@@ -1,8 +1,8 @@
 language: java
 
-gradle --daemon
-./gradlew check
-./gradlew assemble
+script:
+  ./gradlew check
+  ./gradlew assemble
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
