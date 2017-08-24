@@ -27,6 +27,11 @@ repositories {
     mavenCentral()
 }
 
+node {
+    version = '7.9.0'
+    npmVersion = '4.2.0'
+    download = true
+}
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
