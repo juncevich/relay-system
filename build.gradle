@@ -70,6 +70,6 @@ task buildClientWatch(type: NpmTask, dependsOn: 'npmInstall') {
     args = ['run', 'buildWatch']
 }
 
-bootRun.dependsOn(buildClientWatch)
+//bootRun.dependsOn(buildClientWatch)
 
-jar.dependsOn(buildClient)
+//jar.dependsOn(buildClient)
