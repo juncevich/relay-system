@@ -1,0 +1,5 @@
+rootProject.name = 'relay-system'
+
+include 'frontend'
+include 'backend'
+
