@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
         SpringApplication.run(RelaySystemApplication.class, args);
     }
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET) public String getHello() {
+    @RequestMapping(value = "/hello", method = RequestMethod.GET) 
+    public String getHello() {
 
         return "Hello!";
     }

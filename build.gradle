@@ -31,7 +31,8 @@ node {
     version = '7.9.0'
     npmVersion = '4.2.0'
     download = true
-    nodeModulesDir = file("frontend")
+    workDir = file("${project.projectDir}/frontend/node")
+    nodeModulesDir = file("${project.projectDir}/frontend")
 }
 
 dependencies {
@@ -51,25 +52,27 @@ jacocoTestReport {
 
 check.dependsOn jacocoTestReport
 
-
+bootRun.dependsOn(buildClientDev)
 task buildClientDev(type: NpmTask, dependsOn: 'npmInstall') {
     group = 'build'
     description = 'Compile client side folder for development'
     args = ['run', 'buildDev']
 }
 
-task buildClient(type: NpmTask, dependsOn: 'npmInstall') {
-    group = 'build'
-    description = "Compile client side folder for production"
-    args = ['run', 'build']
-}
-
-task buildClientWatch(type: NpmTask, dependsOn: 'npmInstall') {
-    group = 'application'
-    description = "Build and watches the client side assets for rebuilding"
-    args = ['run', 'buildWatch']
-}
-
-//bootRun.dependsOn(buildClientWatch)
-
+bootRun.dependsOn(buildClientDev)
+//
+//task buildClient(type: NpmTask, dependsOn: 'npmInstall') {
+//    group = 'build'
+//    description = "Compile client side folder for production"
+//    args = ['run', 'build']
+//}
+//
+//task buildClientWatch(type: NpmTask, dependsOn: 'npmInstall') {
+//    group = 'application'
+//    description = "Build and watches the client side assets for rebuilding"
+//    args = ['run', 'buildWatch']
+//}
+//
+//bootRun.dependsOn(buildClientDev)
+//
 //jar.dependsOn(buildClient)

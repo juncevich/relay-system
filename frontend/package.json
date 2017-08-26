@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "buildDev": "ng build",
-    "buildWatch": "ng serve",
+    "buildWatch": "ng build --watch=true",
     "buildProd": "ng build --prod"
   },
   "private": true,
