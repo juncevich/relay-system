@@ -6,14 +6,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication @RestController public class RelaySystemApplication {
+@SpringBootApplication
+@RestController
+public class RelaySystemApplication {
 
     public static void main(String[] args) {
 
         SpringApplication.run(RelaySystemApplication.class, args);
     }
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET) 
+    @RequestMapping(value = "/hello",
+            method = RequestMethod.GET)
     public String getHello() {
 
         return "Hello!";
