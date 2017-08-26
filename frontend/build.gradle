@@ -52,3 +52,5 @@ task serve(type: NpmTask, dependsOn: 'npmInstall') {
 //bootRun.dependsOn(buildClientDev)
 
 //jar.dependsOn(buildClient)
+
+
