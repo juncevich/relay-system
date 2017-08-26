@@ -46,3 +46,4 @@ Thumbs.db
 /.gradle
 /build
 /e2e
+node/node-v7.9.0-linux-x64
