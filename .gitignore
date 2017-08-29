@@ -27,3 +27,7 @@ nbdist/
 .nb-gradle/
 /out
 /build
+src/app/breadcumb/
+src/app/left-menu/
+src/app/relay-list/
+src/app/stativ/
