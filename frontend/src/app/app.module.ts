@@ -7,6 +7,8 @@ import { RelaysComponent } from './relays/relays.component';
 import { HeaderComponent } from './header/header.component';
 import { StativComponent } from './stativ/stativ.component';
 import { LeftMenuComponent } from './left-menu/left-menu.component';
+import { BreadcumbComponent } from './breadcumb/breadcumb.component';
+import { RelayListComponent } from './relay-list/relay-list.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { LeftMenuComponent } from './left-menu/left-menu.component';
     RelaysComponent,
     HeaderComponent,
     StativComponent,
-    LeftMenuComponent
+    LeftMenuComponent,
+    BreadcumbComponent,
+    RelayListComponent
   ],
   imports: [
     BrowserModule

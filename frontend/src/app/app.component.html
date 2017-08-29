@@ -1,15 +1,24 @@
-<!DOCTYPE html>
-<html >
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <app-header></app-header>
-<app-left-menu></app-left-menu>
-<div class="container">
+<div class="container col-md-2">
   <div class="row">
-    <div class="col-md-12">
-      <h2>It`s working</h2>
-    </div>
+    <app-left-menu></app-left-menu>
   </div>
 </div>
-<app-relay-item></app-relay-item>
+<div class="container col-md-9">
+  <div class="row">
+    <nav class="breadcrumb">
+      <a class="breadcrumb-item" href="#">Home</a>
+      <a class="breadcrumb-item" href="#">Library</a>
+      <a class="breadcrumb-item" href="#">Data</a>
+      <span class="breadcrumb-item active">Bootstrap</span>
+    </nav>
+  </div>
+  <div class="row">
 
-</html>
+    <app-relay-list></app-relay-list>
+
+  </div>
+
+
+</div>
+
