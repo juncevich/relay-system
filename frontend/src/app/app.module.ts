@@ -5,13 +5,17 @@ import { AppComponent } from './app.component';
 import { RelayItemComponent } from './relay-item/relay-item.component';
 import { RelaysComponent } from './relays/relays.component';
 import { HeaderComponent } from './header/header.component';
+import { StativComponent } from './stativ/stativ.component';
+import { LeftMenuComponent } from './left-menu/left-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RelayItemComponent,
     RelaysComponent,
-    HeaderComponent
+    HeaderComponent,
+    StativComponent,
+    LeftMenuComponent
   ],
   imports: [
     BrowserModule
