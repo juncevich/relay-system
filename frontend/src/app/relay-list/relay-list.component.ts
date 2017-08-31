@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {RelayItemComponent} from './relay-item/relay-item.component';
 
 @Component({
   selector: 'app-relay-list',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RelayListComponent implements OnInit {
 
-  constructor() { }
+  relay_list: Array<RelayItemComponent>[];
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
