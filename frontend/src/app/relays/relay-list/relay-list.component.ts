@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RelayItemComponent} from './relay-item/relay-item.component';
+import {RelayItemComponent} from '../relay-item/relay-item.component';
 
 @Component({
   selector: 'app-relay-list',
