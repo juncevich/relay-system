@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { RelayItemComponent } from './relays/relay-item/relay-item.component';
-import { RelaysComponent } from './relays/relay-detail/relays.component';
+import { RelaysComponent } from './relays/relay-detail/relay-detail.component';
 import { HeaderComponent } from './header/header.component';
 import { StativComponent } from './stativ/stativ.component';
 import { LeftMenuComponent } from './left-menu/left-menu.component';
