@@ -5,8 +5,9 @@ import {AppComponent} from './app.component';
 import {HeaderComponent} from './core/header/header.component';
 import {StativComponent} from './stativ/stativ.component';
 import {LeftMenuComponent} from './core/left-menu/left-menu.component';
-import {BreadcumbComponent} from './breadcumb/breadcumb.component';
+import {BreadcumbComponent} from './core/breadcumb/breadcumb.component';
 import {RelaysModule} from './relays/relays.module';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {RelaysModule} from './relays/relays.module';
     BreadcumbComponent],
   imports: [
     BrowserModule,
-    RelaysModule
+    RelaysModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

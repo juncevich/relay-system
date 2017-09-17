@@ -8,6 +8,7 @@ import {RelaysComponent} from './relays.component';
 import {RelayStartComponent} from './relay-start/relay-start.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RelaysRoutingModule} from './relays-routing.module';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {RelaysRoutingModule} from './relays-routing.module';
   , imports: [
     CommonModule,
     ReactiveFormsModule,
-    RelaysRoutingModule]
+    RelaysRoutingModule,
+    SharedModule]
 })
 export class RelaysModule {
 }
