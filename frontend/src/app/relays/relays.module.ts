@@ -4,8 +4,10 @@ import {RelayDetailComponent} from './relay-detail/relay-detail.component';
 import {RelayItemComponent} from './relay-item/relay-item.component';
 import {RelayListComponent} from './relay-list/relay-list.component';
 import {CommonModule} from '@angular/common';
-import { RelaysComponent } from './relays.component';
-import { RelayStartComponent } from './relay-start/relay-start.component';
+import {RelaysComponent} from './relays.component';
+import {RelayStartComponent} from './relay-start/relay-start.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RelaysRoutingModule} from './relays-routing.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,10 @@ import { RelayStartComponent } from './relay-start/relay-start.component';
     RelayListComponent,
     RelaysComponent,
     RelayStartComponent]
-  , imports: [CommonModule]
+  , imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RelaysRoutingModule]
 })
 export class RelaysModule {
 }

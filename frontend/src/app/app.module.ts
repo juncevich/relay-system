@@ -14,10 +14,10 @@ import {RelaysModule} from './relays/relays.module';
     HeaderComponent,
     StativComponent,
     LeftMenuComponent,
-    BreadcumbComponent,
-    RelaysModule],
+    BreadcumbComponent],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RelaysModule
   ],
   providers: [],
   bootstrap: [AppComponent]
