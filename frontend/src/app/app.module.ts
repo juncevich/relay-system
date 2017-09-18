@@ -3,11 +3,12 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './core/header/header.component';
-import {StativComponent} from './stativ/stativ.component';
+import {StativComponent} from './domain/stativ/stativ.component';
 import {LeftMenuComponent} from './core/left-menu/left-menu.component';
 import {BreadcumbComponent} from './core/breadcumb/breadcumb.component';
-import {RelaysModule} from './relays/relays.module';
+import {RelaysModule} from './domain/relays/relays.module';
 import {SharedModule} from './shared/shared.module';
+import { StationComponent } from './domain/station/station.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {SharedModule} from './shared/shared.module';
     HeaderComponent,
     StativComponent,
     LeftMenuComponent,
-    BreadcumbComponent],
+    BreadcumbComponent,
+    StationComponent],
   imports: [
     BrowserModule,
     RelaysModule,
