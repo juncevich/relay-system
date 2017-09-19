@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {RelayItemComponent} from '../relays/relay-item/relay-item.component';
 
 @Component({
@@ -8,7 +8,7 @@ import {RelayItemComponent} from '../relays/relay-item/relay-item.component';
 })
 export class StativComponent implements OnInit {
 
-  @Input() relayArray: RelayItemComponent[];
+  relayArray: RelayItemComponent[];
 
   constructor() {
   }

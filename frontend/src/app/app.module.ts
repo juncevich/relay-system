@@ -9,19 +9,20 @@ import {BreadcumbComponent} from './core/breadcumb/breadcumb.component';
 import {RelaysModule} from './domain/relays/relays.module';
 import {SharedModule} from './shared/shared.module';
 import { StationComponent } from './domain/station/station.component';
+import {StativModule} from './domain/stativ/stativ.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    StativComponent,
     LeftMenuComponent,
     BreadcumbComponent,
     StationComponent],
   imports: [
     BrowserModule,
     RelaysModule,
-    SharedModule
+    SharedModule,
+    StativModule
   ],
   providers: [],
   bootstrap: [AppComponent]
