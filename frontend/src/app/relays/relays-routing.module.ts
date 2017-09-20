@@ -4,6 +4,7 @@ import {RelayStartComponent} from './relay-start/relay-start.component';
 import {RelayEditComponent} from './relay-edit/relay-edit.component';
 import {RelayDetailComponent} from './relay-detail/relay-detail.component';
 import {RouterModule} from '@angular/router';
+import {CommonModule} from '@angular/common';
 
 const relaysRoutes = [
   {
@@ -17,6 +18,7 @@ const relaysRoutes = [
 
 @NgModule({
   imports: [
+    CommonModule,
     RouterModule.forChild(relaysRoutes)
   ], exports: [RouterModule]
 })
