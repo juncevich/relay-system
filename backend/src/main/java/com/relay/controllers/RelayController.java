@@ -11,8 +11,12 @@ import java.util.List;
 @RestController
 public class RelayController {
 
+    private final RelayService relayService;
+
     @Autowired
-    private RelayService relayService;
+    public RelayController(RelayService relayService) {
+        this.relayService = relayService;
+    }
 
     @GetMapping("/relays")
     public List<Relay> retrieveAllRelays() {
