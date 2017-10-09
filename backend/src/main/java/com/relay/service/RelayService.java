@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class RelayService {
@@ -32,8 +31,8 @@ public class RelayService {
         return relay;
     }
 
-    public Optional<Relay> findOne(long id) {
-        return relays.stream().filter(relay -> relay.getId() == id).findFirst();
+    public Relay findOne(long id) {
+        return relays.stream().filter(relay -> relay.getId() == id).findFirst().orElse(new Relay(99L, "99"));
     }
 
 }
