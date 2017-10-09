@@ -1,5 +1,6 @@
 package com.relay;
 
+import com.relay.model.Relay;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,8 @@ public class RelaySystemApplication {
     }
 
     @GetMapping(value = "/hello")
-    public String getHello() {
+    public Relay getHello() {
 
-        return "Hello!";
+        return new Relay();
     }
 }
