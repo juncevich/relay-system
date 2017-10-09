@@ -1,18 +1,16 @@
-
 buildscript {
-    ext {
-        springBootVersion = '1.5.6.RELEASE'
-    }
     repositories {
-        mavenCentral()
+        jcenter()
+        maven { url 'http://repo.spring.io/snapshot' }
+        maven { url 'http://repo.spring.io/milestone' }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.BUILD-SNAPSHOT'
     }
 }
-apply plugin: 'war'
 
-sourceCompatibility = 1.8
+
+
 
 repositories {
     mavenCentral()
@@ -21,15 +19,25 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'jacoco'
 apply plugin: 'java'
 apply plugin: 'eclipse'
-
+apply plugin: 'io.spring.dependency-management'
+jar {
+    version =  '0.0.1-SNAPSHOT'
+    sourceCompatibility = 1.8
+}
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
+    compile("org.springframework.boot:spring-boot-starter-web")
     runtime('org.postgresql:postgresql')
-    compileOnly('org.projectlombok:lombok')
+    compileOnly('org.projectlombok:lombok:1.16.18')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+
 }
 
+repositories {
+    jcenter()
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/milestone" }
+}
 
 jacocoTestReport {
     reports {
