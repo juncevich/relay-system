@@ -1,4 +1,4 @@
-package com.relay.web;
+package com.relay.controllers;
 
 public class SomeController {
 }
