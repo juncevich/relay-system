@@ -32,7 +32,7 @@ public class RelayService {
     }
 
     public Relay findOne(long id) {
-        return relays.stream().filter(relay -> relay.getId() == id).findFirst().orElse(new Relay(99L, "99"));
+        return relays.stream().filter(relay -> relay.getId() == id).findFirst().orElse(null);
     }
 
 }

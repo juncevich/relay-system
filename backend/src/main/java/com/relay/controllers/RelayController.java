@@ -1,5 +1,6 @@
 package com.relay.controllers;
 
+import com.relay.exeptions.RelayNotFoundException;
 import com.relay.model.Relay;
 import com.relay.service.RelayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,10 @@ public class RelayController {
 
     @GetMapping("/relays/{id}")
     public Relay retrieveRelay(@PathVariable int id) {
-        return relayService.findOne(id);
+        Relay relay = relayService.findOne(id);
+        if (relay == null)
+            throw new RelayNotFoundException("id - " + id);
+        return relay;
     }
 
     @PostMapping("/relays")
