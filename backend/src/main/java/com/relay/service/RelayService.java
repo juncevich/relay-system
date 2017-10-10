@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public class RelayService {
 
-    private static List<Relay> relays = new ArrayList<>();
+    private static final List<Relay> relays = new ArrayList<>();
 
     private static long relayCount = 4;
 
