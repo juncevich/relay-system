@@ -40,4 +40,12 @@ public class RelayController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedRelay.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+    @DeleteMapping("/relays/{id}")
+    public Relay deleteRelay(@PathVariable int id) {
+        Relay relay = relayService.deleteById(id);
+        if (relay == null)
+            throw new RelayNotFoundException("id - " + id);
+        return relay;
+    }
 }

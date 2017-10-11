@@ -4,6 +4,7 @@ import com.relay.model.Relay;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -34,5 +35,19 @@ public class RelayService {
     public Relay findOne(long id) {
         return relays.stream().filter(relay -> relay.getId() == id).findFirst().orElse(null);
     }
+
+    public Relay deleteById(long id) {
+        Iterator<Relay> it = relays.iterator();
+        while (it.hasNext()) {
+            Relay relay = it.next();
+            if (relay.getId() == id) {
+                it.remove();
+                return relay;
+            }
+
+        }
+        return null;
+    }
+
 
 }
