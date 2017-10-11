@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class RelayController {
     }
 
     @PostMapping("/relays")
-    public ResponseEntity<Object> createRelay(@RequestBody Relay relay) {
+    public ResponseEntity<Object> createRelay(@Valid @RequestBody Relay relay) {
         Relay savedRelay = relayService.save(relay);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedRelay.getId()).toUri();
         return ResponseEntity.created(uri).build();
