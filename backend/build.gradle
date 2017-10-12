@@ -26,6 +26,7 @@ jar {
 }
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.hateoas:spring-hateoas:0.23.0.RELEASE")
     runtime('org.postgresql:postgresql')
     compileOnly('org.projectlombok:lombok:1.16.18')
     testCompile('org.springframework.boot:spring-boot-starter-test')

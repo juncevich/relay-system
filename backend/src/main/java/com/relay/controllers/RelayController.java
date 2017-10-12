@@ -4,6 +4,8 @@ import com.relay.exeptions.RelayNotFoundException;
 import com.relay.model.Relay;
 import com.relay.service.RelayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,11 +30,16 @@ public class RelayController {
     }
 
     @GetMapping("/relays/{id}")
-    public Relay retrieveRelay(@PathVariable int id) {
+    public Resource<Relay> retrieveRelay(@PathVariable int id) {
         Relay relay = relayService.findOne(id);
         if (relay == null)
             throw new RelayNotFoundException("id - " + id);
-        return relay;
+
+        Resource<Relay> resource = new Resource<>(relay);
+
+        ControllerLinkBuilder linkTo = ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(this.getClass()).retrieveAllRelays());
+        resource.add(linkTo.withRel("all-relays"));
+        return resource;
     }
 
     @PostMapping("/relays")
