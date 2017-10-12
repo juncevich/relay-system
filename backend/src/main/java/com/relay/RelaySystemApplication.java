@@ -12,4 +12,5 @@ public class RelaySystemApplication {
 
         SpringApplication.run(RelaySystemApplication.class, args);
     }
+
 }
