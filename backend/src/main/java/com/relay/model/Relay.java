@@ -20,7 +20,9 @@ public class Relay {
 
     @Id
     @GeneratedValue
+    @NonNull
     private Long id;
+
     @NonNull
     @Size(min = 2, message = "Text should contain at least to characters")
     @ApiModelProperty(notes = "Text should contain at least to characters")

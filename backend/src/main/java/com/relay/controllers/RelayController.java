@@ -2,6 +2,9 @@ package com.relay.controllers;
 
 import com.relay.exeptions.RelayNotFoundException;
 import com.relay.model.Relay;
+import com.relay.model.Station;
+import com.relay.repository.RelayRepository;
+import com.relay.repository.StationRepository;
 import com.relay.service.RelayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
@@ -13,15 +16,20 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RelayController {
 
     private final RelayService relayService;
 
+    private final StationRepository stationRepository;
+    private RelayRepository relayRepository;
+
     @Autowired
-    public RelayController(RelayService relayService) {
+    public RelayController(RelayService relayService, StationRepository stationRepository) {
         this.relayService = relayService;
+        this.stationRepository = stationRepository;
     }
 
     @GetMapping("/relays")
@@ -42,10 +50,19 @@ public class RelayController {
         return resource;
     }
 
-    @PostMapping("/relays")
-    public ResponseEntity<Object> createRelay(@Valid @RequestBody Relay relay) {
-        Relay savedRelay = relayService.save(relay);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedRelay.getId()).toUri();
+    @PostMapping("/stations/{id}/relay")
+    public ResponseEntity<Object> createRelay(@PathVariable Long id, @Valid @RequestBody Relay relay) {
+        Optional<Station> stationOptional = stationRepository.findById(id);
+
+        if (!stationOptional.isPresent()) {
+            throw new RelayNotFoundException("id - " + id);
+        }
+
+        Station station = stationOptional.get();
+
+        relay.setStation(station);
+        relayRepository.save(relay);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(relay.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
