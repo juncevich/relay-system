@@ -1,5 +1,6 @@
 package com.relay.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -26,5 +27,6 @@ public class Relay {
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Station station;
 }
