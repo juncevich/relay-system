@@ -24,7 +24,7 @@ public class RelayServiceTest {
 
     @Test
     public void save() throws Exception {
-        relayService.save(new Relay("fifth"));
+        relayService.save(new Relay(6l, "fifth"));
         assertEquals(5, relayService.findAll().size());
     }
 
