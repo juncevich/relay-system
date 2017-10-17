@@ -56,10 +56,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
-    public Relay deleteRelay(@PathVariable int id) {
-        Relay relay = relayService.deleteById(id);
-        if (relay == null)
-            throw new RelayNotFoundException("id - " + id);
-        return relay;
+    public void deleteUser(@PathVariable int id) {
+        userRepository.deleteById(id);
     }
 }
