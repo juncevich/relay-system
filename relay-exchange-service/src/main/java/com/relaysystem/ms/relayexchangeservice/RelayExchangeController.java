@@ -12,10 +12,13 @@ public class RelayExchangeController {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    private RelayExchangeRepository relayExchangeRepository;
+
     @GetMapping("/relay-exchange/from/{from}/to/{to}")
     public ExchangeValue retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
 
-        ExchangeValue exchangeValue = new ExchangeValue(1000L, from, to, from + to);
+        ExchangeValue exchangeValue = relayExchangeRepository.findByFromAndTo(from, to);
         exchangeValue.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
         return exchangeValue;
     }
