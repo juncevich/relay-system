@@ -1,4 +1,4 @@
-package com.relaysystem.ms.relaychangeservice;
+package com.relaysystem.ms.relayexchangeservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RelayChangeServiceApplicationTests {
+public class RelayExchangeServiceApplicationTests {
 
 	@Test
 	public void contextLoads() {
