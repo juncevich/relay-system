@@ -11,7 +11,7 @@ public class RelayConvertController {
     @Autowired
     private RelayExchangeServiceProxy exchangeServiceProxy;
 
-    @GetMapping("/relay-convert-feign/from/{from}/to/{to}")
+    @GetMapping("/relay-convert/from/{from}/to/{to}")
     public RelayConversionBean convertRelay(@PathVariable String from, @PathVariable String to) {
 
         RelayConversionBean response = exchangeServiceProxy.retrieveExchangeValue(from, to);
