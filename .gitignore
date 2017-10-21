@@ -27,15 +27,9 @@ nbdist/
 .nb-gradle/
 /out
 /build
-src/app/breadcumb/
-src/app/left-menu/
-src/app/relay-list/
-src/app/stativ/
-src/main/resources/static/
-src/main/resources/templates/
 .gitignore
-build.gradle
 gradle/
 gradlew
 gradlew.bat
-src/
+/src
+
