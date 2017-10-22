@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RelayConvertController {
 
+    private final RelayExchangeServiceProxy exchangeServiceProxy;
+
     @Autowired
-    private RelayExchangeServiceProxy exchangeServiceProxy;
+    public RelayConvertController(RelayExchangeServiceProxy exchangeServiceProxy) {
+        this.exchangeServiceProxy = exchangeServiceProxy;
+    }
 
     @GetMapping("/relay-convert/from/{from}/to/{to}")
     public RelayConversionBean convertRelay(@PathVariable String from, @PathVariable String to) {
