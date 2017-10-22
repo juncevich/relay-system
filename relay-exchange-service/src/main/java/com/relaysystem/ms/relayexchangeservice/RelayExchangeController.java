@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RelayExchangeController {
 
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
+
+    private final RelayExchangeRepository relayExchangeRepository;
 
     @Autowired
-    private RelayExchangeRepository relayExchangeRepository;
+    public RelayExchangeController(Environment environment, RelayExchangeRepository relayExchangeRepository) {
+        this.environment = environment;
+        this.relayExchangeRepository = relayExchangeRepository;
+    }
 
     @GetMapping("/relay-exchange/from/{from}/to/{to}")
     public ExchangeValue retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
