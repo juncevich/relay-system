@@ -11,14 +11,18 @@ import lombok.NonNull;
 public class RelayConversionBean {
 
     private Long id;
+
     @NonNull
     private String from;
+
     @NonNull
     private String to;
+
     @NonNull
     private int port;
 
     public RelayConversionBean(Long id, String from, String to) {
+
         this.id = id;
         this.from = from;
         this.to = to;

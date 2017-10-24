@@ -1,11 +1,12 @@
 package com.relay.service;
 
-import com.relay.model.Relay;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.relay.model.Relay;
 
 @Component
 public class RelayService {
@@ -22,10 +23,12 @@ public class RelayService {
     }
 
     public List<Relay> findAll() {
+
         return relays;
     }
 
     public Relay save(Relay relay) {
+
         if (relay.getId() == null)
             relay.setId(++relayCount);
         relays.add(relay);
@@ -33,10 +36,12 @@ public class RelayService {
     }
 
     public Relay findOne(long id) {
+
         return relays.stream().filter(relay -> relay.getId() == id).findFirst().orElse(null);
     }
 
     public Relay deleteById(long id) {
+
         Iterator<Relay> it = relays.iterator();
         while (it.hasNext()) {
             Relay relay = it.next();
@@ -48,6 +53,5 @@ public class RelayService {
         }
         return null;
     }
-
 
 }

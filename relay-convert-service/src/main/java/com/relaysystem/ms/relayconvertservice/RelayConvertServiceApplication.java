@@ -13,11 +13,13 @@ import org.springframework.context.annotation.Bean;
 public class RelayConvertServiceApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(RelayConvertServiceApplication.class, args);
     }
 
     @Bean
     public AlwaysSampler defaultSampler() {
+
         return new AlwaysSampler();
     }
 }

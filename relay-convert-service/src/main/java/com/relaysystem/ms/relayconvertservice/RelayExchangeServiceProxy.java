@@ -10,5 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface RelayExchangeServiceProxy {
 
     @GetMapping("/relay-exchange-service/relay-exchange/from/{from}/to/{to}")
-    RelayConversionBean retrieveExchangeValue(@PathVariable("from") String from, @PathVariable("to") String to);
+    RelayConversionBean retrieveExchangeValue(@PathVariable("from") String from,
+            @PathVariable("to") String to);
 }

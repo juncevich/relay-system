@@ -1,15 +1,20 @@
 package com.relay.model;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 @Entity
 @Data
@@ -24,7 +29,8 @@ public class Relay {
     private Long id;
 
     @NonNull
-    @Size(min = 2, message = "Text should contain at least to characters")
+    @Size(min = 2,
+            message = "Text should contain at least to characters")
     @ApiModelProperty(notes = "Text should contain at least to characters")
     private String text;
 

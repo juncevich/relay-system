@@ -10,12 +10,14 @@ import org.springframework.context.annotation.Bean;
 @EnableDiscoveryClient
 public class RelayExchangeServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RelayExchangeServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
 
-	@Bean
-	public AlwaysSampler defaultSampler() {
-		return new AlwaysSampler();
-	}
+        SpringApplication.run(RelayExchangeServiceApplication.class, args);
+    }
+
+    @Bean
+    public AlwaysSampler defaultSampler() {
+
+        return new AlwaysSampler();
+    }
 }
