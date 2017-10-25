@@ -1,9 +1,9 @@
 package com.relay.model;
 
+import java.time.ZonedDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
@@ -21,12 +21,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @ApiModel(description = "Relay details.")
-public class Relay {
-
-    @Id
-    @GeneratedValue
-    @NonNull
-    private Long id;
+public class Relay extends AbstractEntity {
 
     @NonNull
     @Size(min = 2,
@@ -37,4 +32,6 @@ public class Relay {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Station station;
+
+    private ZonedDateTime time;
 }

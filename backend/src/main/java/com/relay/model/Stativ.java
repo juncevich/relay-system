@@ -1,4 +1,4 @@
 package com.relay.model;
 
-public class Stativ {
+public class Stativ extends AbstractEntity {
 }

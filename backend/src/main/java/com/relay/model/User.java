@@ -12,7 +12,7 @@ import lombok.Data;
 @ApiModel(description = "All details about the user")
 @Entity()
 @Data
-public class User {
+public class User extends AbstractEntity {
 
     @Id
     @GeneratedValue
