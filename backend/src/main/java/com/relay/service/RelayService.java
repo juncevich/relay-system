@@ -16,10 +16,10 @@ public class RelayService {
     private static long relayCount = 4;
 
     static {
-        relays.add(new Relay(1L, "first"));
-        relays.add(new Relay(2L, "second"));
-        relays.add(new Relay(3L, "third"));
-        relays.add(new Relay(4L, "fourth"));
+        relays.add(new Relay("first"));
+        relays.add(new Relay("second"));
+        relays.add(new Relay("third"));
+        relays.add(new Relay("fourth"));
     }
 
     public List<Relay> findAll() {
