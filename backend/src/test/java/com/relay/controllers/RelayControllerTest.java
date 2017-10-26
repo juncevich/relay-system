@@ -1,9 +1,14 @@
 package com.relay.controllers;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
@@ -15,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -56,9 +62,40 @@ public class RelayControllerTest {
     }
 
     @Test
-    public void relayNotFound() throws Exception {
+    public void should200Status() throws Exception {
 
         mockMvc.perform(get("/relays")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void testContent() throws Exception {
+
+        mockMvc.perform(get("/relays")).andExpect(status().isOk())
+                .andExpect(content().contentType(contentType));
+    }
+
+    @Test
+    public void testAmount() throws Exception {
+
+        mockMvc.perform(get("/relays")).andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$", hasSize(4)));
+    }
+
+    @Test
+    public void testFirstRecord() throws Exception {
+
+        mockMvc.perform(get("/relays")).andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$[0].text", is("first")));
+    }
+
+    protected String json(Object o) throws IOException {
+
+        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
+        this.mappingJackson2HttpMessageConverter.write(o, MediaType.APPLICATION_JSON,
+                mockHttpOutputMessage);
+        return mockHttpOutputMessage.getBodyAsString();
     }
 
     @Autowired
