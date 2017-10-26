@@ -34,4 +34,11 @@ public class Relay extends AbstractEntity {
     private Station station;
 
     private ZonedDateTime time;
+
+    public Relay(long id, String text) {
+
+        this.setId(id);
+        this.setText(text);
+    }
+
 }
