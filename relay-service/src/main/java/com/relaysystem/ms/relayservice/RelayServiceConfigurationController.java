@@ -21,7 +21,8 @@ public class RelayServiceConfigurationController {
     @HystrixCommand(fallbackMethod = "fallbackMethod")
     public RelayServiceConfiguration retrieveInfoFromConfiguration() {
 
-        return new RelayServiceConfiguration(configuration.getRegion());
+        return new RelayServiceConfiguration(new String());
+        // return new RelayServiceConfiguration(configuration.getRegion());
     }
 
     public String fallbackMethod() {
