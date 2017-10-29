@@ -28,12 +28,34 @@ import com.relay.service.RelayService;
 @RestController
 public class RelayController {
 
+    /**
+     * id exception message
+     */
+    private static final String ID_EXCEPTION_MESSAGE = "id - ";
+
+    /**
+     * Relay service
+     */
     private final RelayService relayService;
 
+    /**
+     * Station repository
+     */
     private final StationRepository stationRepository;
 
+    /**
+     * Relay repository
+     */
     private RelayRepository relayRepository;
 
+    /**
+     * Init beans
+     * 
+     * @param relayService
+     *            relay service
+     * @param stationRepository
+     *            station repository
+     */
     @Autowired
     public RelayController(RelayService relayService, StationRepository stationRepository) {
 
@@ -41,12 +63,19 @@ public class RelayController {
         this.stationRepository = stationRepository;
     }
 
+    /**
+     * Retrieve relay by id
+     * 
+     * @param id
+     *            relay id
+     * @return relay
+     */
     @GetMapping("/relays/{id}")
     public Resource<Relay> retrieveRelay(@PathVariable int id) {
 
         Relay relay = relayService.findOne(id);
         if (relay == null)
-            throw new RelayNotFoundException("id - " + id);
+            throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
 
         Resource<Relay> resource = new Resource<>(relay);
 
@@ -78,7 +107,7 @@ public class RelayController {
         Optional<Station> stationOptional = stationRepository.findById(id);
 
         if (!stationOptional.isPresent()) {
-            throw new RelayNotFoundException("id - " + id);
+            throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
         }
 
         Station station = stationOptional.get();
@@ -95,7 +124,7 @@ public class RelayController {
 
         Relay relay = relayService.deleteById(id);
         if (relay == null)
-            throw new RelayNotFoundException("id - " + id);
+            throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
         return relay;
     }
 }
