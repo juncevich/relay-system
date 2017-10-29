@@ -13,7 +13,7 @@ public class ExceptionResponse {
 
     private Date timestamp;
 
-    private String Message;
+    private String message;
 
     private String detail;
 }

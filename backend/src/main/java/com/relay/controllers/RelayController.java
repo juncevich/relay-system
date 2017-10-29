@@ -62,6 +62,15 @@ public class RelayController {
         return relayService.findAll();
     }
 
+    /**
+     * Create ralay
+     * 
+     * @param id
+     *            relay id
+     * @param relay
+     *            relay
+     * @return response status
+     */
     @PostMapping("/stations/{id}/relay")
     public ResponseEntity<Object> createRelay(@PathVariable Long id,
             @Valid @RequestBody Relay relay) {
