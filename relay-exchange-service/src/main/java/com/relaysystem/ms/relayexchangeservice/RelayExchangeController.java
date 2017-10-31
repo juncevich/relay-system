@@ -34,4 +34,10 @@ public class RelayExchangeController {
         log.info("{}", exchangeValue);
         return exchangeValue;
     }
+
+    @GetMapping("/")
+    public String getRoot() {
+
+        return "hello";
+    }
 }
