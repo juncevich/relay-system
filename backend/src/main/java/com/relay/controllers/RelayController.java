@@ -20,7 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.relay.exeptions.RelayNotFoundException;
 import com.relay.model.Relay;
-import com.relay.model.Station;
+import com.relay.model.places.Station;
 import com.relay.repository.RelayRepository;
 import com.relay.repository.StationRepository;
 import com.relay.service.RelayService;

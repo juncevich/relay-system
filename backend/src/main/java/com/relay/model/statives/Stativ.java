@@ -1,8 +1,11 @@
-package com.relay.model;
+package com.relay.model.statives;
 
 import java.util.List;
 
 import javax.persistence.Entity;
+
+import com.relay.model.AbstractEntity;
+import com.relay.model.shelves.Shelve;
 
 import lombok.Data;
 

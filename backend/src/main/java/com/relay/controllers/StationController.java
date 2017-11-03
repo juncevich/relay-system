@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.relay.exeptions.RelayNotFoundException;
 import com.relay.model.Relay;
-import com.relay.model.Station;
+import com.relay.model.places.Station;
 import com.relay.repository.StationRepository;
 
 @RestController

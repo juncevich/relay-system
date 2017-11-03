@@ -1,6 +1,8 @@
-package com.relay.model;
+package com.relay.model.shelves;
 
 import javax.persistence.Entity;
+
+import com.relay.model.Relay;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

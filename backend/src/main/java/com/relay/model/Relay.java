@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.relay.model.places.Station;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -34,6 +35,7 @@ public class Relay extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Station station;
+
 
     private ZonedDateTime time;
 
