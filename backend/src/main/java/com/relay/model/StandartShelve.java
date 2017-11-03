@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Shelve extends AbstractEntity {
+public class StandartShelve extends Shelve {
 
+    private Relay[] relays = new Relay[8];
 }
