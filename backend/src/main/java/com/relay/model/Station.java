@@ -17,4 +17,6 @@ public class Station extends AbstractEntity {
 
     @OneToMany(mappedBy = "station")
     private List<Relay> relay;
+
+    private List<Stativ> statives;
 }
