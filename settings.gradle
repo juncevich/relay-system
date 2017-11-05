@@ -2,4 +2,11 @@ rootProject.name = 'relay-system'
 
 include 'frontend'
 include 'backend'
+include 'netflix-eureka-naming-server'
+include 'netflix-zuul-api-gateway'
+include 'spring-cloud-config-server'
+include 'zipkin-distributed-tracing-server'
+include 'relay-convert-service'
+include 'relay-exchange-service'
+include 'relay-service'
 

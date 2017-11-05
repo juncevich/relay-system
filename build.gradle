@@ -1,20 +1,17 @@
 version = '0.0.1-SNAPSHOT'
 
-
-repositories {
-    mavenCentral()
-}
-apply plugin: 'java'
-jar {
-    baseName = "app"
-    version = "0.0.1-SNAPSHOT"
-}
+//jar {
+//    baseName = "app"
+//    version = "0.0.1-SNAPSHOT"
+//}
 
 allprojects {
     apply plugin: 'idea'
+    apply plugin: 'java'
     repositories {
         mavenCentral()
     }
+
 }
 
 subprojects {
