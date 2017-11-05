@@ -9,6 +9,7 @@ buildscript {
         maven { url "http://repo.spring.io/milestone" }
     }
     dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
@@ -38,7 +39,7 @@ dependencies {
     compile("io.springfox:springfox-swagger-ui:2.7.0")
     compile("org.springframework.hateoas:spring-hateoas:0.23.0.RELEASE")
     compile('org.springframework.data:spring-data-rest-webmvc:3.0.1.RELEASE')
-    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+//    compile(':spring-cloud-starter-eureka')
     compileOnly('org.projectlombok:lombok:1.16.18')
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime("com.h2database:h2:1.3.148")
@@ -55,13 +56,15 @@ repositories {
     maven { url "http://repo.spring.io/milestone" }
     maven { url 'https://repo.spring.io/libs-snapshot' }
     maven { url 'https://repo.spring.io/libs-release' }
+    maven { url 'https://repo.spring.io/libs-milestone' }
 }
 
 //dependencyManagement {
 //    imports {
-//        mavenBom 'org.springframework.cloud:spring-cloud-netflix:1.3.5.RELEASE'
+//        mavenBom ':spring-cloud-dependencies:Finchley.M2'
 //    }
 //}
+
 jacocoTestReport {
     reports {
         xml.enabled true
