@@ -15,6 +15,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Store extends Place {
 
-    @OneToMany(mappedBy = "station")
+    @OneToMany(targetEntity = Relay.class)
     private List<Relay> relay;
 }

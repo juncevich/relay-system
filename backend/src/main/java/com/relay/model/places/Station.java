@@ -18,9 +18,9 @@ public class Station extends Place {
 
     private String name;
 
-    @OneToMany(mappedBy = "station")
+    @OneToMany(targetEntity = Relay.class)
     private List<Relay> relay;
 
-    @OneToMany(mappedBy = "station")
-    private Stativ[] statives;
+    @OneToMany(targetEntity = Stativ.class)
+    private List<Stativ> statives;
 }

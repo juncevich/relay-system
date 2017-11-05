@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @ApiModel(description = "All details about the user")
-@Entity()
+@Entity
 @Data
 public class User {
 
@@ -22,8 +22,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ApiModelProperty(notes = "Name should be at keast 2 characters")
     @Size(min = 2,
             message = "Name should be at keast 2 characters")
-    @ApiModelProperty(notes = "Name should be at keast 2 characters")
     private String name;
 }

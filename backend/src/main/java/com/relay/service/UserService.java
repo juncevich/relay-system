@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.relay.model.Relay;
 
-@Component
-public class UserService {
+@Component public class UserService {
 
     private static final List<Relay> relays = new ArrayList<>();
 
