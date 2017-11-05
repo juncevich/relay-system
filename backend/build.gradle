@@ -4,6 +4,7 @@ buildscript {
     }
     repositories {
         jcenter()
+        mavenCentral()
         maven { url "http://repo.spring.io/snapshot" }
         maven { url "http://repo.spring.io/milestone" }
     }
@@ -13,7 +14,7 @@ buildscript {
 }
 
 apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+apply plugin: "io.spring.dependency-management"
 apply plugin: 'jacoco'
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -22,40 +23,45 @@ jar {
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = 1.8
 }
+
+
+
+
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:2.0.0.M5")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa:2.0.0.M5")
-    runtime('org.springframework.boot:spring-boot-devtools:2.0.0.M5')
-    runtime("com.h2database:h2:1.3.148")
-    testCompile('org.springframework.boot:spring-boot-starter-test:2.0.0.M5')
-    compileOnly('org.projectlombok:lombok:1.16.18')
-    compile("org.springframework.hateoas:spring-hateoas:0.23.0.RELEASE")
-    compile("org.springframework.boot:spring-boot-starter-security:2.0.0.M5")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-data-rest")
-    compile(':spring-cloud-starter-config')
-    compile(':spring-cloud-starter-eureka')
+    compile("org.springframework.boot:spring-boot-starter-security")
+    compile('org.springframework.data:spring-data-rest-hal-browser')
+    compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("io.springfox:springfox-swagger2:2.7.0")
     compile("io.springfox:springfox-swagger-ui:2.7.0")
-    compile('org.springframework.data:spring-data-rest-hal-browser')
+    compile("org.springframework.hateoas:spring-hateoas:0.23.0.RELEASE")
     compile('org.springframework.data:spring-data-rest-webmvc:3.0.1.RELEASE')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compileOnly('org.projectlombok:lombok:1.16.18')
+    runtime('org.springframework.boot:spring-boot-devtools')
+    runtime("com.h2database:h2:1.3.148")
+    testCompile('org.springframework.boot:spring-boot-starter-test:2.0.0.M5')
+//    compile('org.springframework.cloud:spring-cloud-starter-config')
 //    runtime('org.postgresql:postgresql')
-    testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 
 }
 
 repositories {
     jcenter()
+    mavenCentral()
     maven { url "http://repo.spring.io/snapshot" }
     maven { url "http://repo.spring.io/milestone" }
+    maven { url 'https://repo.spring.io/libs-snapshot' }
+    maven { url 'https://repo.spring.io/libs-release' }
 }
 
-dependencyManagement {
-    imports {
-        mavenBom ':spring-cloud-dependencies:Finchley.M2'
-    }
-}
-
+//dependencyManagement {
+//    imports {
+//        mavenBom 'org.springframework.cloud:spring-cloud-netflix:1.3.5.RELEASE'
+//    }
+//}
 jacocoTestReport {
     reports {
         xml.enabled true

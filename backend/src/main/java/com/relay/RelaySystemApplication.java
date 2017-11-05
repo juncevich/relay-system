@@ -3,9 +3,9 @@ package com.relay;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-// @EnableDiscoveryClient
 
 // @EntityScan(basePackageClasses = { RelaySystemApplication.class, Jsr310Converters.class })
+//@EnableDiscoveryClient
 
 @SpringBootApplication
 public class RelaySystemApplication {
