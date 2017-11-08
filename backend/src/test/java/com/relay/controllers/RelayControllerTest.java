@@ -35,7 +35,6 @@ import com.relay.repository.StationRepository;
 
 
 @SpringBootTest(classes = RelaySystemApplication.class)
-@WebAppConfiguration
 public class RelayControllerTest extends AbstractTest {
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
