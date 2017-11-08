@@ -11,7 +11,6 @@ public class RelayServiceConfigurationController {
 
     private final Configuration configuration;
 
-    @Autowired
     public RelayServiceConfigurationController(Configuration configuration) {
 
         this.configuration = configuration;
@@ -21,7 +20,7 @@ public class RelayServiceConfigurationController {
     @HystrixCommand(fallbackMethod = "fallbackMethod")
     public RelayServiceConfiguration retrieveInfoFromConfiguration() {
 
-        return new RelayServiceConfiguration(new String());
+        return new RelayServiceConfiguration("");
         // return new RelayServiceConfiguration(configuration.getRegion());
     }
 

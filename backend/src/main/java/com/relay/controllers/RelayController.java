@@ -56,7 +56,6 @@ public class RelayController {
      * @param stationRepository
      *            station repository
      */
-    @Autowired
     public RelayController(RelayService relayService, StationRepository stationRepository) {
 
         this.relayService = relayService;

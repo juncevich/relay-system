@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+import com.relay.AbstractTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,10 +33,10 @@ import com.relay.model.Relay;
 import com.relay.repository.RelayRepository;
 import com.relay.repository.StationRepository;
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest(classes = RelaySystemApplication.class)
 @WebAppConfiguration
-public class RelayControllerTest {
+public class RelayControllerTest extends AbstractTest {
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
