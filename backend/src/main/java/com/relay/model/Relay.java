@@ -25,9 +25,6 @@ import lombok.Setter;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-@RequiredArgsConstructor
-@Getter
-@Setter
 public class Relay extends AbstractEntity {
 
     @ApiModelProperty(notes = "Text should contain at least to characters")
@@ -48,4 +45,8 @@ public class Relay extends AbstractEntity {
         this.setText(text);
     }
 
+    public Relay(@Size(min = 2,
+            message = "Text should contain at least to characters") String text) {
+        this.text = text;
+    }
 }
