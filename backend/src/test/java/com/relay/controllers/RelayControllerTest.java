@@ -35,10 +35,7 @@ import com.relay.repository.StationRepository;
 
 
 @SpringBootTest(classes = RelaySystemApplication.class)
-public class RelayControllerTest extends AbstractTest {
-
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+public class RelayControllerTest extends AbstractControllerTest {
 
     @Autowired
     private RelayRepository relayRepository;
@@ -46,17 +43,10 @@ public class RelayControllerTest extends AbstractTest {
     @Autowired
     private StationRepository stationRepository;
 
-    @Autowired
-    private WebApplicationContext applicationContext;
-
-    private MockMvc mockMvc;
-
-    private HttpMessageConverter mappingJackson2HttpMessageConverter;
-
+    @Override
     @Before
     public void setUp() throws Exception {
-
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
+        super.setUp();
         relayRepository.deleteAllInBatch();
         relayRepository.save(new Relay("some text"));
     }
