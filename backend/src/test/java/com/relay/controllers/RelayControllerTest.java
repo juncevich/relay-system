@@ -34,14 +34,11 @@ import com.relay.repository.RelayRepository;
 import com.relay.repository.StationRepository;
 
 
-@SpringBootTest(classes = RelaySystemApplication.class)
+
 public class RelayControllerTest extends AbstractControllerTest {
 
     @Autowired
     private RelayRepository relayRepository;
-
-    @Autowired
-    private StationRepository stationRepository;
 
     @Override
     @Before
@@ -80,22 +77,7 @@ public class RelayControllerTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$[0].text", is("first")));
     }
 
-    protected String json(Object o) throws IOException {
 
-        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
-        this.mappingJackson2HttpMessageConverter.write(o, MediaType.APPLICATION_JSON,
-                mockHttpOutputMessage);
-        return mockHttpOutputMessage.getBodyAsString();
-    }
 
-    @Autowired
-    void setConverters(HttpMessageConverter<?>[] converters) {
 
-        this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream()
-                .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter).findAny()
-                .orElse(null);
-
-        assertNotNull("the JSON message converter must not be null",
-                this.mappingJackson2HttpMessageConverter);
-    }
 }

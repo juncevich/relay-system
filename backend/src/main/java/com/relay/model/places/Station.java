@@ -10,12 +10,14 @@ import com.relay.model.statives.Stativ;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Station extends Place {
 
+    @NonNull
     private String name;
 
     @OneToMany(targetEntity = Relay.class)
