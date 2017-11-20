@@ -26,7 +26,8 @@ public class StationControllerTest extends AbstractControllerTest {
     public void setUp() throws Exception {
         super.setUp();
         stationRepository.deleteAllInBatch();
-        stationRepository.save(new Station("testName"));
+        stationRepository.save(new Station("testName1"));
+        stationRepository.save(new Station("testName2"));
     }
 
     @Test

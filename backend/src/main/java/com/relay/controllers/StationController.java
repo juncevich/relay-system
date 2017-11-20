@@ -36,4 +36,9 @@ public class StationController {
         return stationOptional.get().getRelay();
     }
 
+    @GetMapping("/stations")
+    public List<Station> retrieveAllStation() {
+        return stationRepository.findAll();
+    }
+
 }
