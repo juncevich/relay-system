@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertNotNull;
 
-public class AbstractControllerTest extends AbstractTest {
+public abstract class AbstractControllerTest extends AbstractTest {
 
     @Autowired
     private WebApplicationContext applicationContext;
