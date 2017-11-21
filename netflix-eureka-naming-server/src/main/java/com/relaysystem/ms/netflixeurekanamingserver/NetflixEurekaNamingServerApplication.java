@@ -13,3 +13,4 @@ public class NetflixEurekaNamingServerApplication {
         SpringApplication.run(NetflixEurekaNamingServerApplication.class, args);
     }
 }
+
