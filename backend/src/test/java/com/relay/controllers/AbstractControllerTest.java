@@ -1,7 +1,6 @@
 package com.relay.controllers;
 
 import com.relay.AbstractTest;
-import com.relay.model.Relay;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
