@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.0.M5'
+        springBootVersion = '2.0.0.M6'
     }
     repositories {
         mavenCentral()
@@ -11,6 +11,7 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
+
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -29,8 +30,9 @@ repositories {
 
 
 ext {
-    springCloudVersion = 'Finchley.M2'
+    springCloudVersion = 'Finchley.M4'
 }
+
 
 dependencies {
     compile('org.springframework.cloud:spring-cloud-sleuth-zipkin-stream')
