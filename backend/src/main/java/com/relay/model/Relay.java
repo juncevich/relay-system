@@ -1,30 +1,23 @@
 package com.relay.model;
 
-import java.time.ZonedDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.relay.model.places.Station;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.relay.model.places.Station;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import java.time.ZonedDateTime;
 
 @ApiModel(description = "Relay details.")
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
+@NoArgsConstructor
 public class Relay extends AbstractEntity {
 
     @ApiModelProperty(notes = "Text should contain at least to characters")
@@ -49,4 +42,6 @@ public class Relay extends AbstractEntity {
             message = "Text should contain at least to characters") String text) {
         this.text = text;
     }
+
+
 }
