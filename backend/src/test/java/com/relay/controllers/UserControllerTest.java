@@ -1,11 +1,9 @@
 package com.relay.controllers;
 
-import com.relay.AbstractTest;
+import com.relay.AbstractTestWithSpringContext;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class UserControllerTest extends AbstractTest{
+public class UserControllerTest extends AbstractTestWithSpringContext {
 
     @Test
     public void name() throws Exception {

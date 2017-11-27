@@ -1,17 +1,11 @@
 package com.relay.controllers;
 
-import com.relay.AbstractTest;
 import com.relay.model.places.Station;
 import com.relay.repository.StationRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.mock.http.MockHttpOutputMessage;
 
-import java.io.IOException;
-
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

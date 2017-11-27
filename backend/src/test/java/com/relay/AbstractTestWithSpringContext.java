@@ -8,5 +8,5 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = RelaySystemApplication.class)
-public abstract class AbstractTest {
+public abstract class AbstractTestWithSpringContext {
 }
