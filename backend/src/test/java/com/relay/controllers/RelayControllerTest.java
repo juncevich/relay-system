@@ -7,28 +7,35 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 public class RelayControllerTest {
 //public class RelayControllerTest extends AbstractControllerTest {
 
-    MockMvc mockMvc;
-    RelayController relayController;
+    private MockMvc mockMvc;
+    private RelayController relayController;
 
     @Mock
     private RelayService relayService;
 
     @Mock
     private StationService stationService;
+    private List<Relay> relays;
+    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
 
     @Before
@@ -37,40 +44,45 @@ public class RelayControllerTest {
         relayController = new RelayController(relayService, stationService);
 //        relayRepository.deleteAllInBatch();
 //        relayRepository.save(new Relay("some text"));
+
+        mockMvc = MockMvcBuilders.standaloneSetup(relayController).build();
+        relays = new ArrayList<>();
+        relays.add(new Relay("First"));
+
+        when(relayService.findAll()).thenReturn(relays);
     }
 
     @Test
     public void should200Status() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(relayController).build();
-        List<Relay> relays = new ArrayList<>();
-        relays.add(new Relay("Test relay"));
+
 
         when(relayService.findAll()).thenReturn(relays);
         mockMvc.perform(get("/relays")).andExpect(status().isOk());
     }
 
-//    @Test
-//    public void testContent() throws Exception {
-//
-//        mockMvc.perform(get("/relays")).andExpect(status().isOk())
-//                .andExpect(content().contentType(contentType));
-//    }
-//
-//    @Test
-//    public void testAmount() throws Exception {
-//
-//        mockMvc.perform(get("/relays")).andExpect(status().isOk())
-//                .andExpect(content().contentType(contentType))
-//                .andExpect(jsonPath("$", hasSize(4)));
-//    }
-//
-//    @Test
-//    public void testFirstRecord() throws Exception {
-//
-//        mockMvc.perform(get("/relays")).andExpect(status().isOk())
-//                .andExpect(content().contentType(contentType))
-//                .andExpect(jsonPath("$[0].text", is("first")));
-//    }
+    @Test
+    public void testContent() throws Exception {
+
+
+        mockMvc.perform(get("/relays")).andExpect(status().isOk())
+                .andExpect(content().contentType(contentType));
+    }
+
+    @Test
+    public void testAmount() throws Exception {
+
+        mockMvc.perform(get("/relays")).andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @Test
+    public void testFirstRecord() throws Exception {
+
+        mockMvc.perform(get("/relays")).andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$[0].text", is("First")));
+    }
 
 
 
