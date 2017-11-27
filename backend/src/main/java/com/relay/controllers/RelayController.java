@@ -1,29 +1,19 @@
 package com.relay.controllers;
 
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.mvc.ControllerLinkBuilder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.relay.exeptions.RelayNotFoundException;
 import com.relay.model.Relay;
 import com.relay.model.places.Station;
-import com.relay.repository.RelayRepository;
-import com.relay.repository.StationRepository;
 import com.relay.service.RelayService;
+import com.relay.service.StationService;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
 
 @RestController
 public class RelayController {
@@ -41,25 +31,19 @@ public class RelayController {
     /**
      * Station repository
      */
-    private final StationRepository stationRepository;
+    private final StationService stationService;
 
-    /**
-     * Relay repository
-     */
-    private RelayRepository relayRepository;
 
     /**
      * Init beans
-     * 
-     * @param relayService
+     *  @param relayService
      *            relay service
-     * @param stationRepository
-     *            station repository
+     * @param stationService
      */
-    public RelayController(RelayService relayService, StationRepository stationRepository) {
+    public RelayController(RelayService relayService, StationService stationService) {
 
         this.relayService = relayService;
-        this.stationRepository = stationRepository;
+        this.stationService = stationService;
     }
 
     /**
@@ -103,16 +87,10 @@ public class RelayController {
     public ResponseEntity<Object> createRelay(@PathVariable Long id,
             @Valid @RequestBody Relay relay) {
 
-        Optional<Station> stationOptional = stationRepository.findById(id);
-
-        if (!stationOptional.isPresent()) {
-            throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
-        }
-
-        Station station = stationOptional.get();
+        Station station = stationService.findOne(id);
 
         relay.setStation(station);
-        relayRepository.save(relay);
+        relayService.save(relay);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(relay.getId()).toUri();
         return ResponseEntity.created(uri).build();
