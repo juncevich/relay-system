@@ -1,44 +1,41 @@
 package com.relay.controllers;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.relay.model.Relay;
+import com.relay.model.places.Station;
+import com.relay.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.relay.exeptions.RelayNotFoundException;
-import com.relay.model.Relay;
-import com.relay.model.places.Station;
-import com.relay.repository.StationRepository;
+import java.util.List;
 
 @RestController
 public class StationController {
 
-    private final StationRepository stationRepository;
+    private final StationService stationService;
 
     @Autowired
-    public StationController(StationRepository stationRepository) {
+    public StationController(StationService stationService) {
 
-        this.stationRepository = stationRepository;
+        this.stationService = stationService;
     }
 
     @GetMapping("/stations/{id}/relays")
     public List<Relay> retrieveAllRelaysOnStation(@PathVariable Long id) {
 
-        Optional<Station> stationOptional = stationRepository.findById(id);
+        Station stationOptional = stationService.findOne(id);
 
-        if (!stationOptional.isPresent()) {
-            throw new RelayNotFoundException("id- " + id);
-        }
+//        if (!stationOptional.isPresent()) {
+//            throw new RelayNotFoundException("id- " + id);
+//        }
 
-        return stationOptional.get().getRelay();
+        return stationOptional.getRelay();
     }
 
     @GetMapping("/stations")
     public List<Station> retrieveAllStation() {
-        return stationRepository.findAll();
+        return stationService.findAll();
     }
 
 }

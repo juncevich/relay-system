@@ -1,38 +1,47 @@
 package com.relay.controllers;
 
-import com.relay.model.places.Station;
-import com.relay.repository.StationRepository;
+import com.relay.service.StationService;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.nio.charset.Charset;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class StationControllerTest extends AbstractControllerTest {
+public class StationControllerTest {
 
+    private StationController stationController;
 
-    @Autowired
-    private StationRepository stationRepository;
+    @Mock
+    private StationService stationService;
+
+    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+    private MockMvc mockMvc;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        stationRepository.deleteAllInBatch();
-        stationRepository.save(new Station("testName1"));
-        stationRepository.save(new Station("testName2"));
+        MockitoAnnotations.initMocks(this);
+        stationController = new StationController(stationService);
     }
 
     @Test
     public void should200Status() throws Exception {
 
+        mockMvc = MockMvcBuilders.standaloneSetup(stationController).build();
         mockMvc.perform(get("/stations")).andExpect(status().isOk());
     }
 
     @Test
     public void testContent() throws Exception {
-
+        mockMvc = MockMvcBuilders.standaloneSetup(stationController).build();
         mockMvc.perform(get("/stations")).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType));
     }
