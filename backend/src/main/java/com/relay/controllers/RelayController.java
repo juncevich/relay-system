@@ -36,9 +36,9 @@ public class RelayController {
 
     /**
      * Init beans
-     *  @param relayService
-     *            relay service
-     * @param stationService
+     *
+     * @param relayService   relay service
+     * @param stationService station service
      */
     public RelayController(RelayService relayService, StationService stationService) {
 
@@ -48,9 +48,8 @@ public class RelayController {
 
     /**
      * Retrieve relay by id
-     * 
-     * @param id
-     *            relay id
+     *
+     * @param id relay id
      * @return relay
      */
     @GetMapping("/relays/{id}")
@@ -76,16 +75,14 @@ public class RelayController {
 
     /**
      * Create ralay
-     * 
-     * @param id
-     *            relay id
-     * @param relay
-     *            relay
+     *
+     * @param id    relay id
+     * @param relay relay
      * @return response status
      */
     @PostMapping("/stations/{id}/relay")
     public ResponseEntity<Object> createRelay(@PathVariable Long id,
-            @Valid @RequestBody Relay relay) {
+                                              @Valid @RequestBody Relay relay) {
 
         Station station = stationService.findOne(id);
 
@@ -104,4 +101,28 @@ public class RelayController {
             throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
         return relay;
     }
+
+    @PostMapping("/relays")
+    public ResponseEntity<Object> createRelay(@Valid @RequestBody Relay relay) {
+
+        Relay savedRelay = relayService.save(relay);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(savedRelay.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+//    @GetMapping("/users/{id}")
+//    public Resource<User> retrieveRelay(@PathVariable int id) {
+//
+//        Optional<User> user = userRepository.findById(id);
+//        if (!user.isPresent())
+//            throw new RelayNotFoundException("id - " + id);
+//
+//        Resource<User> resource = new Resource<>(user.get());
+//
+//        ControllerLinkBuilder linkTo = ControllerLinkBuilder
+//                .linkTo(ControllerLinkBuilder.methodOn(this.getClass()).retrieveAllRelays());
+//        resource.add(linkTo.withRel("all-users"));
+//        return resource;
+//    }
 }

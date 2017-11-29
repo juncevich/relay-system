@@ -1,56 +1,37 @@
 package com.relay.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import com.relay.model.User;
+import com.relay.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.relay.model.Relay;
+import java.util.List;
 
-@Component public class UserService {
+@Component
+public class UserService {
 
-    private static final List<Relay> relays = new ArrayList<>();
+    private final UserRepository userRepository;
 
-    private static long relayCount = 4;
-
-    static {
-        relays.add(new Relay("first"));
-        relays.add(new Relay("second"));
-        relays.add(new Relay("third"));
-        relays.add(new Relay("fourth"));
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public List<Relay> findAll() {
+    public List<User> findAll() {
 
-        return relays;
+        return userRepository.findAll();
     }
 
-    public Relay save(Relay relay) {
-
-        if (relay.getId() == null)
-            relay.setId(++relayCount);
-        relays.add(relay);
-        return relay;
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
-    public Relay findOne(long id) {
-
-        return relays.stream().filter(relay -> relay.getId() == id).findFirst().orElse(null);
+    public User findOne(long id) {
+        return userRepository.findById(id);
     }
 
-    public Relay deleteById(long id) {
-
-        Iterator<Relay> it = relays.iterator();
-        while (it.hasNext()) {
-            Relay relay = it.next();
-            if (relay.getId() == id) {
-                it.remove();
-                return relay;
-            }
-
-        }
-        return null;
+    public User deleteById(long id) {
+        return userRepository.deleteById(id);
     }
 
 }

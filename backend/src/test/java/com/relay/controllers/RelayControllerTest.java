@@ -26,14 +26,12 @@ public class RelayControllerTest {
 //public class RelayControllerTest extends AbstractControllerTest {
 
     private MockMvc mockMvc;
-    private RelayController relayController;
 
     @Mock
     private RelayService relayService;
 
     @Mock
     private StationService stationService;
-    private List<Relay> relays;
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
@@ -41,12 +39,10 @@ public class RelayControllerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        relayController = new RelayController(relayService, stationService);
-//        relayRepository.deleteAllInBatch();
-//        relayRepository.save(new Relay("some text"));
+        RelayController relayController = new RelayController(relayService, stationService);
 
         mockMvc = MockMvcBuilders.standaloneSetup(relayController).build();
-        relays = new ArrayList<>();
+        List<Relay> relays = new ArrayList<>();
         relays.add(new Relay("First"));
 
         when(relayService.findAll()).thenReturn(relays);
@@ -56,7 +52,6 @@ public class RelayControllerTest {
     public void should200Status() throws Exception {
 
 
-        when(relayService.findAll()).thenReturn(relays);
         mockMvc.perform(get("/relays")).andExpect(status().isOk());
     }
 
