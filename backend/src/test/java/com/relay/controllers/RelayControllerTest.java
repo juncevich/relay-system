@@ -32,6 +32,7 @@ public class RelayControllerTest {
 
     @Mock
     private StationService stationService;
+
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 

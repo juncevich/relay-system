@@ -1,5 +1,6 @@
 package com.relay.controllers;
 
+import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -20,6 +21,10 @@ public abstract class AbstractControllerTest {
     MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
+    @Before
+    public void setUp() throws Exception {
+
+    }
 
     @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
