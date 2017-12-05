@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.0.M6'
+        springBootVersion = '2.0.0.M3'
     }
     repositories {
         mavenCentral()
@@ -30,15 +30,15 @@ repositories {
 
 
 ext {
-    springCloudVersion = 'Finchley.M4'
+    springCloudVersion = 'Finchley.M2'
 }
 
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
+    compile("org.springframework.boot:spring-boot-starter-web")
     compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
-    compile('org.springframework.cloud:spring-cloud-sleuth-zipkin-stream')
-    compile('io.zipkin.java:zipkin-server')
+    compile('org.springframework.cloud:spring-cloud-starter-sleuth')
+//    compile('io.zipkin.java:zipkin-server')
     runtime('io.zipkin.java:zipkin-autoconfigure-ui')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
