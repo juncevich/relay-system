@@ -5,7 +5,6 @@ import com.relay.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -16,7 +15,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class UserControllerTest {
+public class UserControllerTest extends AbstractControllerTest {
 
     private MockMvc mockMvc;
 
@@ -25,7 +24,7 @@ public class UserControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        super.setUp();
         UserController userController = new UserController(userService);
 
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();

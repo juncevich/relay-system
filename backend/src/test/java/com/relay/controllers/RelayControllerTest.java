@@ -6,7 +6,6 @@ import com.relay.service.StationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -22,8 +21,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-public class RelayControllerTest {
-//public class RelayControllerTest extends AbstractControllerTest {
+//public class RelayControllerTest {
+public class RelayControllerTest extends AbstractControllerTest {
 
     private MockMvc mockMvc;
 
@@ -39,7 +38,7 @@ public class RelayControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        super.setUp();
         RelayController relayController = new RelayController(relayService, stationService);
 
         mockMvc = MockMvcBuilders.standaloneSetup(relayController).build();

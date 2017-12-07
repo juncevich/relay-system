@@ -1,6 +1,7 @@
 package com.relay.controllers;
 
 import org.junit.Before;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -23,7 +24,7 @@ public abstract class AbstractControllerTest {
 
     @Before
     public void setUp() throws Exception {
-
+        MockitoAnnotations.initMocks(this);
     }
 
     @Autowired
