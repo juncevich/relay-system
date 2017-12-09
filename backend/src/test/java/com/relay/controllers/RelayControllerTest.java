@@ -5,6 +5,7 @@ import com.relay.service.RelayService;
 import com.relay.service.StationService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,6 +33,9 @@ public class RelayControllerTest extends AbstractControllerTest {
     @Mock
     private StationService stationService;
 
+    @InjectMocks
+    private RelayController relayController;
+
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
@@ -39,7 +43,6 @@ public class RelayControllerTest extends AbstractControllerTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        RelayController relayController = new RelayController(relayService, stationService);
 
         mockMvc = MockMvcBuilders.standaloneSetup(relayController).build();
         List<Relay> relays = new ArrayList<>();

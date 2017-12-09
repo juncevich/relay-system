@@ -3,6 +3,7 @@ package com.relay.controllers;
 import com.relay.service.StationService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,10 +17,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class StationControllerTest extends AbstractControllerTest {
 
-    private StationController stationController;
 
     @Mock
     private StationService stationService;
+
+    @InjectMocks
+    private StationController stationController;
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
@@ -28,7 +31,6 @@ public class StationControllerTest extends AbstractControllerTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        stationController = new StationController(stationService);
     }
 
     @Test
