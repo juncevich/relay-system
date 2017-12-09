@@ -1,16 +1,22 @@
 package com.relay.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.relay.model.places.Station;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
-import java.time.ZonedDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.relay.model.places.Station;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @ApiModel(description = "Relay details.")
 @Entity
@@ -40,8 +46,8 @@ public class Relay extends AbstractEntity {
 
     public Relay(@Size(min = 2,
             message = "Text should contain at least to characters") String text) {
+
         this.text = text;
     }
-
 
 }

@@ -13,6 +13,7 @@ public class ZipkinDistributedTracingServerApplicationTests {
 
     @Test
     public void contextLoads() {
+
     }
 
 }

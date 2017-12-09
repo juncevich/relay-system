@@ -1,14 +1,15 @@
 package com.relay.controllers;
 
-import com.relay.model.Relay;
-import com.relay.model.places.Station;
-import com.relay.service.StationService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.relay.model.Relay;
+import com.relay.model.places.Station;
+import com.relay.service.StationService;
 
 @RestController
 public class StationController {
@@ -26,15 +27,16 @@ public class StationController {
 
         Station stationOptional = stationService.findOne(id);
 
-//        if (!stationOptional.isPresent()) {
-//            throw new RelayNotFoundException("id- " + id);
-//        }
+        // if (!stationOptional.isPresent()) {
+        // throw new RelayNotFoundException("id- " + id);
+        // }
 
         return stationOptional.getRelay();
     }
 
     @GetMapping("/stations")
     public List<Station> retrieveAllStation() {
+
         return stationService.findAll();
     }
 

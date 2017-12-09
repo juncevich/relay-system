@@ -12,5 +12,4 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Place extends AbstractEntity {
 
-
 }

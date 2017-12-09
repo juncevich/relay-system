@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RelayStartComponent } from './relay-start.component';
+import {RelayStartComponent} from './relay-start.component';
 
 describe('RelayStartComponent', () => {
   let component: RelayStartComponent;
@@ -8,9 +8,9 @@ describe('RelayStartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RelayStartComponent ]
+      declarations: [RelayStartComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

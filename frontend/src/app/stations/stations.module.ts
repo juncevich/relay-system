@@ -4,7 +4,6 @@ import {StationComponent} from './station.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from '../shared/shared.module';
 import {CommonModule} from '@angular/common';
-import {RelaysModule} from '../relays/relays.module';
 
 @NgModule({
   declarations: [StationComponent],

@@ -4,12 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
-
 @SpringBootApplication
 @EnableHystrix
 public class RelayServiceApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(RelayServiceApplication.class, args);
     }
 }

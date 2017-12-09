@@ -1,11 +1,12 @@
 package com.relay.service;
 
-import com.relay.model.User;
-import com.relay.repository.UserRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.relay.model.User;
+import com.relay.repository.UserRepository;
 
 @Component
 public class UserService {
@@ -14,6 +15,7 @@ public class UserService {
 
     @Autowired
     public UserService(UserRepository userRepository) {
+
         this.userRepository = userRepository;
     }
 
@@ -23,14 +25,17 @@ public class UserService {
     }
 
     public User save(User user) {
+
         return userRepository.save(user);
     }
 
     public User findOne(long id) {
+
         return userRepository.findById(id);
     }
 
     public User deleteById(long id) {
+
         return userRepository.deleteById(id);
     }
 

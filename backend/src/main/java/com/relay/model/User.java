@@ -1,12 +1,16 @@
 package com.relay.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Size;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NonNull;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 @ApiModel(description = "All details about the user")
 @Entity

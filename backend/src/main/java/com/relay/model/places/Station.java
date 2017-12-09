@@ -29,6 +29,7 @@ public class Station extends Place {
     private List<Stativ> statives;
 
     public Station(String name) {
+
         this.name = name;
     }
 }

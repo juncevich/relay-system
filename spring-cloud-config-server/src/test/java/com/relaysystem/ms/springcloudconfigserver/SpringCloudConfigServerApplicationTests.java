@@ -11,6 +11,7 @@ public class SpringCloudConfigServerApplicationTests {
 
     @Test
     public void contextLoads() {
+
     }
 
 }

@@ -1,12 +1,12 @@
 package com.relay.service;
 
-import com.relay.model.Relay;
-import com.relay.model.places.Station;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.relay.model.places.Station;
 
 @Component
 public class StationService {
@@ -53,6 +53,5 @@ public class StationService {
         }
         return null;
     }
-
 
 }

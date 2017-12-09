@@ -1,6 +1,6 @@
 package com.relay.exeptions;
 
-import java.util.Date;
+import java.time.Instant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ExceptionResponse {
 
-    private Date timestamp;
+    private Instant timestamp;
 
     private String message;
 

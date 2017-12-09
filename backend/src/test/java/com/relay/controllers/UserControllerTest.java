@@ -1,7 +1,12 @@
 package com.relay.controllers;
 
-import com.relay.model.User;
-import com.relay.service.UserService;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -9,12 +14,8 @@ import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.relay.model.User;
+import com.relay.service.UserService;
 
 public class UserControllerTest extends AbstractControllerTest {
 
@@ -28,6 +29,7 @@ public class UserControllerTest extends AbstractControllerTest {
 
     @Before
     public void setUp() throws Exception {
+
         super.setUp();
 
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();

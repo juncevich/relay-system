@@ -5,11 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.convert.Jsr310Converters;
 
-
-//@EnableDiscoveryClient
+// @EnableDiscoveryClient
 
 @SpringBootApplication
-@EntityScan(basePackageClasses = {RelaySystemApplication.class, Jsr310Converters.class})
+@EntityScan(basePackageClasses = { RelaySystemApplication.class, Jsr310Converters.class })
 public class RelaySystemApplication {
 
     public static void main(String[] args) {

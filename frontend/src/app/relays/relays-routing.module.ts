@@ -9,11 +9,11 @@ import {CommonModule} from '@angular/common';
 const relaysRoutes = [
   {
     path: 'relays', component: RelaysComponent, children: [
-    {path: '', component: RelayStartComponent},
-    {path: 'new', component: RelayEditComponent},
-    {path: ':id', component: RelayDetailComponent},
-    {path: ':id/edit', component: RelayEditComponent}
-  ]
+      {path: '', component: RelayStartComponent},
+      {path: 'new', component: RelayEditComponent},
+      {path: ':id', component: RelayDetailComponent},
+      {path: ':id/edit', component: RelayEditComponent}
+    ]
   }];
 
 @NgModule({

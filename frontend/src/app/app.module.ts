@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './core/header/header.component';
-import {StativComponent} from './statives/stativ.component';
 import {LeftMenuComponent} from './core/left-menu/left-menu.component';
 import {BreadcumbComponent} from './core/breadcumb/breadcumb.component';
 import {RelaysModule} from './relays/relays.module';
