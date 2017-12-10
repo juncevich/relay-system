@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.relay.exeptions.RelayNotFoundException;
 import com.relay.model.Relay;
 import com.relay.service.RelayService;
 import com.relay.service.StationService;
@@ -80,6 +81,18 @@ public class RelayControllerTest extends AbstractControllerTest {
         mockMvc.perform(get("/relays")).andExpect(status().isOk())
                 .andExpect(content().contentType(contentType))
                 .andExpect(jsonPath("$[0].text", is("First")));
+    }
+
+    @Test
+    public void testNotFoundStatusByFindNotExistRelay() throws Exception {
+
+        mockMvc.perform(get("/relays/5")).andExpect(status().isNotFound());
+    }
+
+    @Test(expected = RelayNotFoundException.class)
+    public void testExceptionByFindNotExistRelay() throws Exception {
+
+        relayController.retrieveRelay(5);
     }
 
 }
