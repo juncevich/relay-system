@@ -1,6 +1,6 @@
 package com.relay.exeptions;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler(Exception.class)
     protected ResponseEntity handleAllExceptions(Exception ex, WebRequest request) {
 
-        ExceptionResponse exceptionResponse =
-                new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        ExceptionResponse exceptionResponse = new ExceptionResponse(Instant.now(), ex.getMessage(),
+                request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -29,8 +29,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     protected ResponseEntity handleRelayNotFoundExceptions(RelayNotFoundException ex,
             WebRequest request) {
 
-        ExceptionResponse exceptionResponse =
-                new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        ExceptionResponse exceptionResponse = new ExceptionResponse(Instant.now(), ex.getMessage(),
+                request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
@@ -40,7 +40,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status,
             WebRequest request) {
 
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),
+        ExceptionResponse exceptionResponse = new ExceptionResponse(Instant.now(),
                 "Validation failed", ex.getBindingResult().toString());
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
