@@ -15,7 +15,6 @@ import lombok.NonNull;
 @ApiModel(description = "All details about the user")
 @Entity
 @Data
-
 public class User {
 
     @Id

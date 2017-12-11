@@ -38,14 +38,14 @@ public class Relay extends AbstractEntity {
 
     private ZonedDateTime time;
 
-    public Relay(long id, String text) {
+    public Relay(final long id, final String someText) {
 
         this.setId(id);
-        this.setText(text);
+        this.setText(someText);
     }
 
     public Relay(@Size(min = 2,
-            message = "Text should contain at least to characters") String text) {
+            message = "Text should contain at least to characters") final String text) {
 
         this.text = text;
     }
