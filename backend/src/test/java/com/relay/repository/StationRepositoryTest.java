@@ -1,5 +1,9 @@
 package com.relay.repository;
 
-public class StationRepositoryTest {
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class StationRepositoryTest extends AbsrtactRepositoryTest {
+
+    @Autowired
+    StationRepository stationRepository;
 }
