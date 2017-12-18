@@ -1,21 +1,56 @@
-version = '0.0.1-SNAPSHOT'
-
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.M5'
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url 'https://repo.spring.io/libs-snapshot' }
+        maven { url 'https://repo.spring.io/libs-release' }
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+    dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
 //jar {
 //    baseName = "app"
 //    version = "0.0.1-SNAPSHOT"
 //}
 
 allprojects {
-    apply plugin: 'idea'
-    apply plugin: 'java'
-    repositories {
-        mavenCentral()
-    }
-
+    version = '0.0.1-SNAPSHOT'
 }
 
 subprojects {
-    version = '0.0.1-SNAPSHOT'
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url 'https://repo.spring.io/libs-snapshot' }
+        maven { url 'https://repo.spring.io/libs-release' }
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    ext {
+        LOMBOK_VERSION = '1.16.18'
+        SPRING_VERSION = '2.0.0.M5'
+    }
+    dependencies {
+        
+        runtime('org.springframework.boot:spring-boot-devtools')
+        compileOnly("org.projectlombok:lombok:${LOMBOK_VERSION}")
+        testCompile("org.springframework.boot:spring-boot-starter-test:${SPRING_VERSION}")
+    }
 }
 task wrapper(type: Wrapper) {
     gradleVersion = '4.1'
