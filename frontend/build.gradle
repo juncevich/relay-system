@@ -9,7 +9,7 @@ buildscript {
   }
 }
 apply plugin: 'com.moowork.node'
-apply plugin: 'idea'
+//apply plugin: 'idea'
 apply plugin: 'java'
 
 repositories {
