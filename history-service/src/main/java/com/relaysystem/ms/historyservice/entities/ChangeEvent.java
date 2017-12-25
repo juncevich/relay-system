@@ -5,7 +5,7 @@ import java.time.Instant;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.relaysystem.ms.historyservice.enums.ChangeType;
+import com.relaysystem.ms.historyservice.enums.ChangeEventType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,12 +15,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Document
-public class Change {
+public class ChangeEvent {
 
     @Id
     private String id;
 
-    private ChangeType changeType;
+    private ChangeEventType changeEventType;
 
     private Instant created;
 }
