@@ -3,6 +3,7 @@ package com.relaysystem.ms.historyservice.repositories;
 import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,11 +32,14 @@ public class ChangesReactiveReposiroryTest {
     @Test
     public void testAddToRepository() {
 
-        Change change = new Change("test", ChangeType.CREATE, Instant.now());
+        Long total = changesReactiveReposirory.count().block();
+        assertEquals(Long.valueOf(1L), total);
+
+        Change change = new Change(UUID.randomUUID().toString(), ChangeType.CREATE, Instant.now());
         changesReactiveReposirory.save(change).block();
 
-        final Long total = changesReactiveReposirory.count().block();
-        assertEquals(Long.valueOf(2), total);
+        total = changesReactiveReposirory.count().block();
+        assertEquals(Long.valueOf(2L), total);
     }
 
     @Test
