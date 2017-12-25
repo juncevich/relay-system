@@ -1,5 +1,9 @@
 package com.relaysystem.ms.historyservice.repositories;
 
-public interface ChangesReactiveReposirory {
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+
+import com.relaysystem.ms.historyservice.entities.Change;
+
+public interface ChangesReactiveReposirory extends ReactiveMongoRepository<Change, String> {
 
 }
