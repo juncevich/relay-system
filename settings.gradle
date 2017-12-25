@@ -9,4 +9,5 @@ include 'zipkin-distributed-tracing-server'
 include 'relay-convert-service'
 include 'relay-exchange-service'
 include 'relay-service'
+include 'history-service'
 
