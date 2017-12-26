@@ -1,6 +1,6 @@
 
 ext {
-    springCloudVersion = 'Finchley.M3'
+    springCloudVersion = 'Finchley.M5'
 }
 
 dependencies {
