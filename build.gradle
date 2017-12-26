@@ -1,25 +1,22 @@
-//buildscript {
-//    ext {
-//        springBootVersion = '2.0.0.M7'
-//    }
-//    repositories {
-//        jcenter()
-//        mavenCentral()
-//        maven { url "http://repo.spring.io/snapshot" }
-//        maven { url "http://repo.spring.io/milestone" }
-//        maven { url 'https://repo.spring.io/libs-snapshot' }
-//        maven { url 'https://repo.spring.io/libs-release' }
-//        maven { url 'https://repo.spring.io/libs-milestone' }
-//    }
-//    dependencies {
-//        classpath("io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE")
-//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-//    }
-//}
-allprojects {
-    apply plugin: 'idea'
-    apply plugin: 'java'
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.M7'
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url 'https://repo.spring.io/libs-snapshot' }
+        maven { url 'https://repo.spring.io/libs-release' }
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+    dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
+
 //jar {
 //    baseName = "app"
 //    version = "0.0.1-SNAPSHOT"
@@ -107,11 +104,60 @@ version = "0.0.1-SNAPSHOT"
 //        testCompile("org.springframework.boot:spring-boot-starter-test:${SPRING_VERSION}")
 //    }
 //}
+
+ext {
+    springProjects = [project(':backend'),
+                      project(':netflix-eureka-naming-server'),
+                      project(':netflix-zuul-api-gateway'),
+                      project(':spring-cloud-config-server'),
+                      project(':zipkin-distributed-tracing-server'),
+                      project(':relay-convert-service'),
+                      project(':relay-exchange-service'),
+                      project(':relay-service'),
+                      project(':history-service')
+    ]
+}
+apply plugin: 'java'
+allprojects {
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
+    repositories {
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url 'https://repo.spring.io/libs-milestone' }
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencyManagement {
+        dependencies {
+            dependency 'org.projectlombok:lombok:1.16.16'
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    group = 'com.relay-system.ms'
+    version = "0.0.1-SNAPSHOT"
+    sourceCompatibility = 1.8
+
+    dependencies {
+        compileOnly('org.projectlombok:lombok')
+    }
+}
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4'
 }
-dependencies {
-//    compile project(':backend')
-//    compile project(':frontend')
+configure(springProjects) {
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+
+    dependencies {
+        runtime('org.springframework.boot:spring-boot-devtools')
+//        compile('org.springframework.boot:spring-boot-starter-web')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+    }
 }
 
