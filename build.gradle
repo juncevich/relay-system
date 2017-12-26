@@ -106,8 +106,7 @@ version = "0.0.1-SNAPSHOT"
 //}
 
 ext {
-    springProjects = [project(':frontend'),
-                      project(':backend'),
+    springProjects = [project(':backend'),
                       project(':netflix-eureka-naming-server'),
                       project(':netflix-zuul-api-gateway'),
                       project(':spring-cloud-config-server'),
