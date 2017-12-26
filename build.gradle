@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.0.M5'
+        springBootVersion = '2.0.0.M7'
     }
     repositories {
         jcenter()
@@ -117,10 +117,10 @@ ext {
                       project(':history-service')
     ]
 }
-
+apply plugin: 'java'
 allprojects {
     apply plugin: 'io.spring.dependency-management'
-
+    apply plugin: 'java'
     repositories {
         maven { url "https://repo.spring.io/snapshot" }
         maven { url "https://repo.spring.io/milestone" }
@@ -151,6 +151,7 @@ task wrapper(type: Wrapper) {
     gradleVersion = '4.4'
 }
 configure(springProjects) {
+    apply plugin: 'idea'
     apply plugin: 'org.springframework.boot'
 
     dependencies {
