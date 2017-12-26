@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.0.M7'
+        springBootVersion = '2.0.0.M5'
     }
     repositories {
         jcenter()
@@ -154,7 +154,8 @@ configure(springProjects) {
     apply plugin: 'org.springframework.boot'
 
     dependencies {
-        compile 'org.springframework.boot:spring-boot-starter-web'
+        runtime('org.springframework.boot:spring-boot-devtools')
+//        compile('org.springframework.boot:spring-boot-starter-web')
         testCompile('org.springframework.boot:spring-boot-starter-test')
     }
 }
