@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  build:
+    
+    working_directory: ~/relay-system-directory
+
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+
+    steps:
+
+      - checkout
+
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "build.gradle" }}
+      
+      - run: ./gradlew buildDependents
+      
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "build.gradle" }}
+      
+      - run: ./gradlew jar
+      
+      - store_test_results:
+          path: target/surefire-reports
+      
+      - store_artifacts:
+          path: target/relay-system-0.0.1-SNAPSHOT.jar
