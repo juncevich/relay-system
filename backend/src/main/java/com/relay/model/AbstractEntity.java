@@ -13,6 +13,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Data;
 
+/**
+ * Some test comment
+ */
 @Data
 @MappedSuperclass
 public class AbstractEntity {
