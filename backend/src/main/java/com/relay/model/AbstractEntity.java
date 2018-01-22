@@ -14,7 +14,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Data;
 
 /**
- * Some test comment
+ * Some test comment1
  */
 @Data
 @MappedSuperclass
