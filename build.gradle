@@ -65,6 +65,7 @@ subprojects {
     version = "0.0.1-SNAPSHOT"
 
     dependencies {
+        compile('javax.xml.bind:jaxb-api:2.3.0')
         compileOnly('org.projectlombok:lombok')
     }
 }
