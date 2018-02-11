@@ -20,6 +20,7 @@ addons:
     branches:
           - master
 script:
+  - ./gradlew wrapper
   - ./gradlew check
   - ./gradlew jacocoTestReport
   - ./gradlew sonarqube
