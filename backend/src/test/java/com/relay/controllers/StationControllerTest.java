@@ -24,7 +24,7 @@ public class StationControllerTest extends AbstractControllerTest {
     @InjectMocks
     private StationController stationController;
 
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+    private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
     private MockMvc mockMvc;

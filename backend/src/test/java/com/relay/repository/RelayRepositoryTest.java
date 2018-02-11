@@ -16,12 +16,12 @@ public class RelayRepositoryTest extends AbsrtactRepositoryTest {
     RelayRepository relayRepository;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
     }
 
     @Test
-    public void findByTextSucsessFindTest() throws Exception {
+    public void findByTextSucsessFindTest() {
 
         List<Relay> test_relay = relayRepository.findByText("Test relay");
         assertEquals(1, test_relay.size());

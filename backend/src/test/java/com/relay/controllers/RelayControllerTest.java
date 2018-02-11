@@ -39,7 +39,7 @@ public class RelayControllerTest extends AbstractControllerTest {
     @InjectMocks
     private RelayController relayController;
 
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+    private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
     @Before
@@ -90,7 +90,7 @@ public class RelayControllerTest extends AbstractControllerTest {
     }
 
     @Test(expected = RelayNotFoundException.class)
-    public void testExceptionByFindNotExistRelay() throws Exception {
+    public void testExceptionByFindNotExistRelay() {
 
         relayController.retrieveRelay(5);
     }

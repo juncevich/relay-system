@@ -20,21 +20,21 @@ public class RelayServiceTest {
     private RelayService relayService;
 
     @Test
-    public void findAll() throws Exception {
+    public void findAll() {
 
         assertEquals(4, relayService.findAll().size());
 
     }
 
     @Test
-    public void save() throws Exception {
+    public void save() {
 
         relayService.save(new Relay("fifth"));
         assertEquals(5, relayService.findAll().size());
     }
 
     @Test
-    public void findExistingOne() throws Exception {
+    public void findExistingOne() {
 
         Relay relay = relayService.findOne(1);
         assertNotNull(relay);
@@ -43,7 +43,7 @@ public class RelayServiceTest {
     }
 
     @Test
-    public void findNotExistingOne() throws Exception {
+    public void findNotExistingOne() {
 
         Relay relay = relayService.findOne(77);
         assertNull(relay);
