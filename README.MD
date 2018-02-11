@@ -7,3 +7,6 @@
 *install nodejs
 *install npm
 *install Angular cli
+
+Design prototype:
+https://ninjamock.com/s/HMR47Wx
