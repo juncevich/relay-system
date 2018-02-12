@@ -27,7 +27,7 @@ nbdist/
 .nb-gradle/
 /out
 /build
-.gitignore
+!.gitignore
 gradle/
 gradlew
 gradlew.bat

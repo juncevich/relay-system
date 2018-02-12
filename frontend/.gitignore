@@ -46,3 +46,4 @@ Thumbs.db
 /.gradle
 /build
 /e2e
+!.gitignore
