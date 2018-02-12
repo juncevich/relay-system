@@ -1,7 +1,7 @@
 version: '3.3'
 services:
-  mongo:
-    image: 'bitnami/mongodb:latest'
+  mongo-relay-service:
+    image: 'mongo'
     ports:
       - '27017:27017'
     environment:
@@ -9,7 +9,7 @@ services:
       - MONGODB_PASSWORD=test
       - MONGODB_DATABASE=test
       
-  backend:
+  relay-service:
     build:
       context: backend/
       dockerfile: Dockerfile
@@ -18,7 +18,7 @@ services:
       - 8080:8080
     container_name: backend
     links:
-      - mongo
+      - mongo-relay-service
     environment:
       - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
       - MONGODB_HOST=mongo
@@ -28,7 +28,7 @@ services:
       - MONGODB_DATABASE=test
 
     depends_on:
-      - mongo
+      - mongo-relay-service
     ports:
       - "5005:5005"
       - "8080:8080"  
