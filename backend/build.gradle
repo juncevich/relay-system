@@ -25,10 +25,9 @@ apply plugin: 'jacoco'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'com.palantir.docker'
-apply plugin: 'com.palantir.docker-run'
 
-version = '0.0.1-SNAPSHOT'
 jar {
+    archivesBaseName = 'relay-service'
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = 1.9
 }
