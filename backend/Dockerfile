@@ -1,7 +1,6 @@
 FROM openjdk:9.0.1-jdk
 MAINTAINER a.juncevich@gmail.com
 VOLUME /tmp
-ARG JAR_FILE
-ADD ${JAR_FILE} app.jar
+ADD build/libs/backend-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
