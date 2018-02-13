@@ -13,6 +13,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import static springfox.documentation.spi.DocumentationType.*;
 
+/**
+ * Swagger configuration file
+ */
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig {
