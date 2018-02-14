@@ -17,9 +17,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @ApiModel(description = "Relay details.")
-@Entity
+@Document
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor

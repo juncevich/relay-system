@@ -1,25 +1,40 @@
 package com.relay.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.relay.model.Relay;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-public class RelayRepositoryTest extends AbsrtactRepositoryTest {
+@RunWith(SpringRunner.class)
+@DataMongoTest
+public class RelayRepositoryTest {
 
     @Autowired
-    RelayRepository relayRepository;
+    private RelayRepository relayRepository;
 
     @Before
     public void setUp() {
 
     }
 
+    @Test
+    public void assertEmptyRelayList() {
+        List<Relay> all = relayRepository.findAll();
+        assertEquals(0, all.size());
+    }
+
+    @Ignore
     @Test
     public void findByTextSucsessFindTest() {
 
