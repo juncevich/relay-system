@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.relay.model.Relay;
 
+/**
+ * {@link Relay} service
+ */
 @Component
 public class RelayService {
 
