@@ -12,15 +12,16 @@ import com.relay.model.shelves.Shelve;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Stativ extends AbstractEntity {
 
-    @OneToMany(targetEntity = Shelve.class)
+//    @OneToMany(targetEntity = Shelve.class)
     private List<Shelve> shelves;
 
-    @ManyToOne
+//    @ManyToOne
     private Station station;
 }
