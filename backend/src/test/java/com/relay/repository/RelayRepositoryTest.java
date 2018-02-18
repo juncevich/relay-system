@@ -16,9 +16,8 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@DataMongoTest
-public class RelayRepositoryTest {
+
+public class RelayRepositoryTest extends AbsrtactRepositoryTest{
 
     @Autowired
     private RelayRepository relayRepository;
