@@ -1,12 +1,17 @@
 package com.relay.repository;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-public class StationRepositoryTest extends AbsrtactRepositoryTest {
+@RunWith(SpringRunner.class)
+@DataMongoTest
+public class StationRepositoryTest {
 
     @Autowired
-    StationRepository stationRepository;
+    private StationRepository stationRepository;
 
     @Test
     public void test() {
