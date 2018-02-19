@@ -17,12 +17,18 @@ import lombok.NonNull;
 @Data
 public class User {
 
+    /**
+     * id
+     */
     @Id
     @Column(nullable = false,
             updatable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /**
+     * User name
+     */
     @ApiModelProperty(notes = "Name should be at keast 2 characters")
     @Size(min = 2,
             message = "Name should be at keast 2 characters")
