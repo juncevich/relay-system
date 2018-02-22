@@ -27,13 +27,11 @@ public class Station extends Place {
     /**
      * Relay on the station
      */
-    // @OneToMany(targetEntity = Relay.class)
     private List<Relay> relay;
 
     /**
      * List of statives on the station
      */
-    // @OneToMany(targetEntity = Stativ.class)
     private List<Stativ> statives;
 
     /**

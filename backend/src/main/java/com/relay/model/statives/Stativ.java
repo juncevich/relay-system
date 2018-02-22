@@ -19,12 +19,10 @@ public class Stativ extends AbstractEntity {
     /**
      * List of shelves
      */
-    // @OneToMany(targetEntity = Shelve.class)
     private List<Shelve> shelves;
 
     /**
      * Station on that stativ located
      */
-    // @ManyToOne
     private Station station;
 }

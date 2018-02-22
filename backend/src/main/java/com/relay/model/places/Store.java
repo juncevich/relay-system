@@ -17,6 +17,5 @@ public class Store extends Place {
     /**
      * Relay list
      */
-    // @OneToMany(targetEntity = Relay.class)
     private List<Relay> relay;
 }
