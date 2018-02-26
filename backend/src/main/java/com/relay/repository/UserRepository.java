@@ -1,13 +1,13 @@
 package com.relay.repository;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.relay.model.User;
 
 @Repository
-public interface UserRepository extends MongoRepository<User, Integer> {
+public interface UserRepository extends ReactiveCrudRepository<User, Integer> {
 
     /**
      * Find user by id
