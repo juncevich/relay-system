@@ -65,8 +65,9 @@ public class RelayController {
     public Resource<Relay> retrieveRelay(@PathVariable int id) {
 
         Relay relay = relayService.findOne(id);
-        if (relay == null)
+        if (relay == null) {
             throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
+        }
 
         Resource<Relay> resource = new Resource<>(relay);
 
@@ -76,6 +77,11 @@ public class RelayController {
         return resource;
     }
 
+    /**
+     * Retrieve all relays
+     * 
+     * @return list with all relays
+     */
     @GetMapping("/relays")
     public List<Relay> retrieveAllRelays() {
 
@@ -104,15 +110,30 @@ public class RelayController {
         return ResponseEntity.created(uri).build();
     }
 
+    /**
+     * Delete current relay
+     * 
+     * @param id
+     *            id relay to delete
+     * @return deleted relay
+     */
     @DeleteMapping("/relays/{id}")
     public Relay deleteRelay(@PathVariable int id) {
 
         Relay relay = relayService.deleteById(id);
-        if (relay == null)
+        if (relay == null) {
             throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
+        }
         return relay;
     }
 
+    /**
+     * Create relay
+     * 
+     * @param relay
+     *            relay to create
+     * @return created relay
+     */
     @PostMapping("/relays")
     public ResponseEntity<Object> createRelay(@Valid @RequestBody Relay relay) {
 
