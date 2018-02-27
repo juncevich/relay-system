@@ -1,12 +1,12 @@
 package com.relay.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import com.relay.model.Relay;
+import com.relay.repository.RelayRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * {@link Relay} service
@@ -14,47 +14,31 @@ import com.relay.model.Relay;
 @Component
 public class RelayService {
 
-    private static final List<Relay> relays = new ArrayList<>();
+    private RelayRepository relayRepository;
 
-    private static long relayCount = 4;
+    public RelayService(final RelayRepository relayRepository) {
 
-    static {
-        relays.add(new Relay(1L, "first"));
-        relays.add(new Relay(2L, "second"));
-        relays.add(new Relay(3L, "third"));
-        relays.add(new Relay(4L, "fourth"));
+        this.relayRepository = relayRepository;
     }
 
-    public List<Relay> findAll() {
+    public Flux<Relay> findAll() {
 
-        return relays;
+        return relayRepository.findAll();
     }
 
-    public Relay save(Relay relay) {
+    public Mono<Relay> save(Relay relay) {
 
-        if (relay.getId() == null)
-            relay.setId(++relayCount);
-        relays.add(relay);
-        return relay;
+        return relayRepository.save(relay);
     }
 
-    public Relay findOne(long id) {
+    public Mono<Relay> findOne(String id) {
 
-        return relays.stream().filter(relay -> relay.getId() == id).findFirst().orElse(null);
+        return relayRepository.findById(id);
     }
 
-    public Relay deleteById(long id) {
+    public Mono<Void> deleteById(String id) {
 
-        Iterator<Relay> it = relays.iterator();
-        while (it.hasNext()) {
-            Relay relay = it.next();
-            if (relay.getId() == id) {
-                it.remove();
-                return relay;
-            }
-
-        }
-        return null;
+        return relayRepository.deleteById(id);
     }
 
 }

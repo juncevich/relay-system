@@ -1,12 +1,9 @@
 package com.relay.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +18,9 @@ import com.relay.model.Relay;
 import com.relay.model.places.Station;
 import com.relay.service.RelayService;
 import com.relay.service.StationService;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class RelayController {
@@ -62,19 +62,13 @@ public class RelayController {
      * @return relay
      */
     @GetMapping("/relays/{id}")
-    public Resource<Relay> retrieveRelay(@PathVariable int id) {
+    public Mono<Relay> retrieveRelay(@PathVariable String id) {
 
-        Relay relay = relayService.findOne(id);
+        Mono<Relay> relay = relayService.findOne(id);
         if (relay == null) {
             throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
         }
-
-        Resource<Relay> resource = new Resource<>(relay);
-
-        ControllerLinkBuilder linkTo = ControllerLinkBuilder
-                .linkTo(ControllerLinkBuilder.methodOn(this.getClass()).retrieveAllRelays());
-        resource.add(linkTo.withRel("all-relays"));
-        return resource;
+        return relay;
     }
 
     /**
@@ -83,7 +77,7 @@ public class RelayController {
      * @return list with all relays
      */
     @GetMapping("/relays")
-    public List<Relay> retrieveAllRelays() {
+    public Flux<Relay> retrieveAllRelays() {
 
         return relayService.findAll();
     }
@@ -118,9 +112,9 @@ public class RelayController {
      * @return deleted relay
      */
     @DeleteMapping("/relays/{id}")
-    public Relay deleteRelay(@PathVariable int id) {
+    public Mono<Void> deleteRelay(@PathVariable String id) {
 
-        Relay relay = relayService.deleteById(id);
+        Mono<Void> relay = relayService.deleteById(id);
         if (relay == null) {
             throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
         }
@@ -135,12 +129,13 @@ public class RelayController {
      * @return created relay
      */
     @PostMapping("/relays")
-    public ResponseEntity<Object> createRelay(@Valid @RequestBody Relay relay) {
+    public Mono<Relay> createRelay(@Valid @RequestBody Relay relay) {
 
-        Relay savedRelay = relayService.save(relay);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(savedRelay.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+        Mono<Relay> savedRelay = relayService.save(relay);
+        // URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        // .buildAndExpand(savedRelay.getId()).toUri();
+        // return ResponseEntity.created(uri).build();
+        return savedRelay;
     }
 
     // @GetMapping("/users/{id}")

@@ -4,12 +4,10 @@ import java.util.List;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
-import org.springframework.stereotype.Repository;
 
 import com.relay.model.Relay;
 
-@Repository
-public interface RelayRepository extends ReactiveCrudRepository<Relay, Long> {
+public interface RelayRepository extends ReactiveCrudRepository<Relay, String> {
 
     /**
      * Find Relay by text

@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,17 +16,35 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @ApiModel(description = "Relay details.")
 @Document
 @Data
-@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Relay extends AbstractEntity {
+public class Relay {
+
+    /**
+     * id
+     */
+    @Id
+    private String id;
+
+    // /**
+    // * Create entity date
+    // */
+    // @CreationTimestamp
+    // @Column(updatable = false)
+    // private Instant created;
+    //
+    // /**
+    // * Update entity date
+    // */
+    // @UpdateTimestamp
+    // @Column()
+    // private Instant updated;
 
     /**
      * Relay text
@@ -56,7 +75,7 @@ public class Relay extends AbstractEntity {
      * @param someText
      *            relay text
      */
-    public Relay(final long id, final String someText) {
+    public Relay(final String id, final String someText) {
 
         this.setId(id);
         this.setText(someText);

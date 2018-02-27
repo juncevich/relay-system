@@ -2,12 +2,12 @@ package com.relay.repository;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.relay.model.places.Station;
+
+import reactor.core.publisher.Flux;
 
 public class StationRepositoryTest extends AbsrtactRepositoryTest {
 
@@ -17,7 +17,7 @@ public class StationRepositoryTest extends AbsrtactRepositoryTest {
     @Test
     public void assertEmptyStationList() {
 
-        List<Station> all = stationRepository.findAll();
-        assertEquals(0, all.size());
+        Flux<Station> all = stationRepository.findAll();
+        assertEquals(0, all.count());
     }
 }

@@ -1,12 +1,13 @@
 package com.relay.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.relay.model.User;
 import com.relay.repository.UserRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Component
 public class UserService {
@@ -19,17 +20,17 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> findAll() {
+    public Flux<User> findAll() {
 
         return userRepository.findAll();
     }
 
-    public User save(User user) {
+    public Mono<User> save(User user) {
 
         return userRepository.save(user);
     }
 
-    public User findOne(long id) {
+    public Mono<User> findOne(long id) {
 
         return userRepository.findById(id);
     }
