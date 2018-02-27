@@ -1,6 +1,6 @@
 package com.relay.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.relay.model.Relay;
 import com.relay.repository.RelayRepository;
@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 /**
  * {@link Relay} service
  */
-@Component
+@Service
 public class RelayService {
 
     private RelayRepository relayRepository;

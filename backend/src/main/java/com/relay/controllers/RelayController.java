@@ -1,7 +1,5 @@
 package com.relay.controllers;
 
-import java.net.URI;
-
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -11,11 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.relay.exeptions.RelayNotFoundException;
 import com.relay.model.Relay;
-import com.relay.model.places.Station;
 import com.relay.service.RelayService;
 import com.relay.service.StationService;
 
@@ -95,13 +91,14 @@ public class RelayController {
     public ResponseEntity<Object> createRelay(@PathVariable Long id,
             @Valid @RequestBody Relay relay) {
 
-        Station station = stationService.findOne(id);
-
-        relay.setStation(station);
-        relayService.save(relay);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(relay.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+        // Station station = stationService.findOne(id);
+        //
+        // relay.setStation(station);
+        // relayService.save(relay);
+        // URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        // .buildAndExpand(relay.getId()).toUri();
+        // return ResponseEntity.created(uri).build();
+        return null;
     }
 
     /**

@@ -2,8 +2,6 @@ package com.relay.model;
 
 import java.time.ZonedDateTime;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
@@ -59,7 +57,7 @@ public class Relay {
      * Station
      */
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    // @ManyToOne(fetch = FetchType.LAZY)
     private Station station;
 
     /**

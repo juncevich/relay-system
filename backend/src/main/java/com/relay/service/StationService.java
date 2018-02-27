@@ -29,28 +29,30 @@ public class StationService {
 
     public Station save(Station station) {
 
-        if (station.getId() == null)
-            station.setId(++stationCount);
+        // if (station.getId() == null)
+        // station.setId(++stationCount);
         STATIONS.add(station);
         return station;
     }
 
     public Station findOne(long id) {
 
-        return STATIONS.stream().filter(station -> station.getId() == id).findFirst().orElse(null);
+        // return STATIONS.stream().filter(station -> station.getId() ==
+        // id).findFirst().orElse(null);
+        return null;
     }
 
     public Station deleteById(long id) {
 
         Iterator<Station> it = STATIONS.iterator();
-        while (it.hasNext()) {
-            Station station = it.next();
-            if (station.getId() == id) {
-                it.remove();
-                return station;
-            }
-
-        }
+        // while (it.hasNext()) {
+        // Station station = it.next();
+        // if (station.getId() == id) {
+        // it.remove();
+        // return station;
+        // }
+        //
+        // }
         return null;
     }
 

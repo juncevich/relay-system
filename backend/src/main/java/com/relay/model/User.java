@@ -1,10 +1,5 @@
 package com.relay.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
@@ -13,17 +8,17 @@ import lombok.Data;
 import lombok.NonNull;
 
 @ApiModel(description = "All details about the user")
-@Entity
+// @Entity
 @Data
 public class User {
 
     /**
      * id
      */
-    @Id
-    @Column(nullable = false,
-            updatable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @Id
+    // @Column(nullable = false,
+    // updatable = false)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /**
