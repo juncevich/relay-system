@@ -3,6 +3,7 @@ package com.relay.repository;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -27,7 +28,7 @@ public class RelayRepositoryTest extends AbsrtactRepositoryTest {
     public void assertEmptyRelayList() {
 
         Flux<Relay> all = relayRepository.findAll();
-        assertEquals(0, all.count());
+        assertEquals(0, Objects.requireNonNull(all.count().block()).intValue());
     }
 
     @Ignore
