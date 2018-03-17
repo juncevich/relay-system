@@ -6,7 +6,6 @@ import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,13 +37,13 @@ public class Relay {
      * Create entity date
      */
     @CreatedDate
-    private Long created;
-
-    /**
-     * Update entity date
-     */
-    @LastModifiedDate
-    private Long updated;
+    private java.time.LocalDateTime created;
+    //
+    // /**
+    // * Update entity date
+    // */
+    // @LastModifiedDate
+    // private DateTime updated;
 
     /**
      * Relay text
@@ -64,6 +63,7 @@ public class Relay {
     /**
      * Zone date time
      */
+    @JsonIgnore
     private ZonedDateTime time;
 
     /**

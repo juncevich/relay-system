@@ -2,21 +2,16 @@ package com.relay.controllers;
 
 import javax.validation.Valid;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.relay.exeptions.RelayNotFoundException;
 import com.relay.model.Relay;
 import com.relay.service.RelayService;
 import com.relay.service.StationService;
 
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RestController
 public class RelayController {
@@ -50,22 +45,22 @@ public class RelayController {
         this.stationService = stationService;
     }
 
-    /**
-     * Retrieve relay by id
-     *
-     * @param id
-     *            relay id
-     * @return relay
-     */
-    @GetMapping("/relays/{id}")
-    public Mono<Relay> retrieveRelay(@PathVariable String id) {
-
-        Mono<Relay> relay = relayService.findOne(id);
-        if (relay == null) {
-            throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
-        }
-        return relay;
-    }
+    // /**
+    // * Retrieve relay by id
+    // *
+    // * @param id
+    // * relay id
+    // * @return relay
+    // */
+    // @GetMapping("/relays/{id}")
+    // public Mono<Relay> retrieveRelay(@PathVariable String id) {
+    //
+    // Mono<Relay> relay = relayService.findOne(id);
+    // if (relay == null) {
+    // throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
+    // }
+    // return relay;
+    // }
 
     /**
      * Retrieve all relays
@@ -78,45 +73,45 @@ public class RelayController {
         return relayService.findAll();
     }
 
-    /**
-     * Create ralay
-     *
-     * @param id
-     *            relay id
-     * @param relay
-     *            relay
-     * @return response status
-     */
-    @PostMapping("/stations/{id}/relay")
-    public ResponseEntity<Object> createRelay(@PathVariable Long id,
-            @Valid @RequestBody Relay relay) {
+    // /**
+    // * Create ralay
+    // *
+    // * @param id
+    // * relay id
+    // * @param relay
+    // * relay
+    // * @return response status
+    // */
+    // @PostMapping("/stations/{id}/relay")
+    // public ResponseEntity<Object> createRelay(@PathVariable Long id,
+    // @Valid @RequestBody Relay relay) {
+    //
+    // // Station station = stationService.findOne(id);
+    // //
+    // // relay.setStation(station);
+    // // relayService.save(relay);
+    // // URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+    // // .buildAndExpand(relay.getId()).toUri();
+    // // return ResponseEntity.created(uri).build();
+    // return null;
+    // }
 
-        // Station station = stationService.findOne(id);
-        //
-        // relay.setStation(station);
-        // relayService.save(relay);
-        // URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-        // .buildAndExpand(relay.getId()).toUri();
-        // return ResponseEntity.created(uri).build();
-        return null;
-    }
-
-    /**
-     * Delete current relay
-     * 
-     * @param id
-     *            id relay to delete
-     * @return deleted relay
-     */
-    @DeleteMapping("/relays/{id}")
-    public Mono<Void> deleteRelay(@PathVariable String id) {
-
-        Mono<Void> relay = relayService.deleteById(id);
-        if (relay == null) {
-            throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
-        }
-        return relay;
-    }
+    // /**
+    // * Delete current relay
+    // *
+    // * @param id
+    // * id relay to delete
+    // * @return deleted relay
+    // */
+    // @DeleteMapping("/relays/{id}")
+    // public Mono<Void> deleteRelay(@PathVariable String id) {
+    //
+    // Mono<Void> relay = relayService.deleteById(id);
+    // if (relay == null) {
+    // throw new RelayNotFoundException(ID_EXCEPTION_MESSAGE + id);
+    // }
+    // return relay;
+    // }
 
     /**
      * Create relay
@@ -126,12 +121,12 @@ public class RelayController {
      * @return created relay
      */
     @PostMapping("/relays")
-    public Mono<Relay> createRelay(@Valid @RequestBody Relay relay) {
+    public Relay createRelay(@Valid @RequestBody Relay relay) {
 
         // URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         // .buildAndExpand(savedRelay.getId()).toUri();
         // return ResponseEntity.created(uri).build();
-        return relayService.save(relay);
+        return relayService.save(relay).block();
     }
 
     // @GetMapping("/users/{id}")

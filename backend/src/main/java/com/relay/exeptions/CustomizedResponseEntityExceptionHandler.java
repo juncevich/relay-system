@@ -15,14 +15,14 @@ public class CustomizedResponseEntityExceptionHandler
 // extends ResponseEntityExceptionHandler
 {
 
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity handleAllExceptions(Exception ex, WebRequest request) {
-
-        ExceptionResponse exceptionResponse = new ExceptionResponse(Instant.now(), ex.getMessage(),
-                request.getDescription(false));
-
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    // @ExceptionHandler(Exception.class)
+    // protected ResponseEntity handleAllExceptions(Exception ex, WebRequest request) {
+    //
+    // ExceptionResponse exceptionResponse = new ExceptionResponse(Instant.now(), ex.getMessage(),
+    // request.getDescription(false));
+    //
+    // return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    // }
 
     @ExceptionHandler(RelayNotFoundException.class)
     protected ResponseEntity handleRelayNotFoundExceptions(RelayNotFoundException ex,

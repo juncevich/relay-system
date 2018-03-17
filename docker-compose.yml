@@ -9,26 +9,26 @@ services:
       - MONGODB_PASSWORD=test
       - MONGODB_DATABASE=test
       
-  relay-service:
-    build:
-      context: backend/
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - 8080:8080
-    container_name: backend
-    links:
-      - mongo-relay-service
-    environment:
-      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
-      - MONGODB_HOST=mongo
-      - MONGODB_PORT=27017
-      - MONGODB_USERNAME=test
-      - MONGODB_PASSWORD=test
-      - MONGODB_DATABASE=test
-
-    depends_on:
-      - mongo-relay-service
-    ports:
-      - "5005:5005"
-      - "8080:8080"  
+#  relay-service:
+#    build:
+#      context: backend/
+#      dockerfile: Dockerfile
+#    restart: always
+#    ports:
+#      - 8080:8080
+#    container_name: backend
+#    links:
+#      - mongo-relay-service
+#    environment:
+#      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+#      - MONGODB_HOST=mongo
+#      - MONGODB_PORT=27017
+#      - MONGODB_USERNAME=test
+#      - MONGODB_PASSWORD=test
+#      - MONGODB_DATABASE=test
+#
+#    depends_on:
+#      - mongo-relay-service
+#    ports:
+#      - "5005:5005"
+#      - "8080:8080"  
