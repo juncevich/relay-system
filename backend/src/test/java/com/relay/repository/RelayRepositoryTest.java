@@ -1,6 +1,8 @@
 package com.relay.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,11 +12,14 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 
 import com.relay.model.Relay;
 
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+@Rollback()
 public class RelayRepositoryTest extends AbsrtactRepositoryTest {
 
     @Autowired
@@ -30,6 +35,18 @@ public class RelayRepositoryTest extends AbsrtactRepositoryTest {
 
         Flux<Relay> all = relayRepository.findAll();
         assertEquals(0, Objects.requireNonNull(all.count().block()).intValue());
+    }
+
+    @Test
+    public void testCreationRelay() {
+
+        relayRepository.deleteAll().subscribe();
+        Relay relay = Relay.builder().text("Test text").build();
+        Mono<Relay> savedRelayMono = relayRepository.save(relay);
+        assertTrue(savedRelayMono.hasElement().block());
+        Relay savedRelay = savedRelayMono.block();
+        System.out.println(savedRelay);
+        assertNotNull(savedRelay);
     }
 
     @Ignore

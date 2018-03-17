@@ -1,11 +1,9 @@
 package com.relay.model;
 
-import java.time.Instant;
 import java.time.ZonedDateTime;
 
 import javax.validation.constraints.Size;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -17,6 +15,7 @@ import com.relay.model.places.Station;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -24,6 +23,7 @@ import lombok.NonNull;
 @ApiModel(description = "Relay details.")
 @Document
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Relay {
@@ -38,13 +38,13 @@ public class Relay {
      * Create entity date
      */
     @CreatedDate
-    private Instant created;
+    private Long created;
 
     /**
      * Update entity date
      */
     @LastModifiedDate
-    private Instant updated;
+    private Long updated;
 
     /**
      * Relay text

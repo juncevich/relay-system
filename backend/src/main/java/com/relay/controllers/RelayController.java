@@ -128,11 +128,10 @@ public class RelayController {
     @PostMapping("/relays")
     public Mono<Relay> createRelay(@Valid @RequestBody Relay relay) {
 
-        Mono<Relay> savedRelay = relayService.save(relay);
         // URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         // .buildAndExpand(savedRelay.getId()).toUri();
         // return ResponseEntity.created(uri).build();
-        return savedRelay;
+        return relayService.save(relay);
     }
 
     // @GetMapping("/users/{id}")

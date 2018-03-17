@@ -1,9 +1,12 @@
 package com.relay.config;
 
-// @EnableWebSecurity
-public class WebSecurityConfig
-// extends WebSecurityConfigurerAdapter
-{
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+
+@EnableWebFluxSecurity
+public class WebSecurityConfig {
 
     // @Bean
     // public UserDetailsService userDetailsService() {
@@ -14,7 +17,7 @@ public class WebSecurityConfig
     // User.withUsername("admin").password("password").roles("USER", "ADMIN").build());
     // return manager;
     // }
-    //
+
     // @Autowired
     // public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     //
@@ -22,11 +25,12 @@ public class WebSecurityConfig
     // .password("password").roles("USER").and().withUser("admin") // #2
     // .password("password").roles("ADMIN", "USER");
     // }
-    //
-    // @Override
-    // protected void configure(HttpSecurity http) throws Exception {
-    //
-    // http.authorizeRequests().anyRequest().permitAll().and().formLogin().loginPage("/login")
-    // .failureUrl("/login-error").and().csrf().disable();
-    // }
+
+    @Bean
+    protected SecurityWebFilterChain configure(ServerHttpSecurity http) {
+
+        http.authorizeExchange().anyExchange().permitAll().and().formLogin().loginPage("/login")
+                .and().csrf().disable();
+        return http.build();
+    }
 }
