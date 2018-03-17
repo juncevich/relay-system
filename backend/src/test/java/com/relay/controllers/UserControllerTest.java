@@ -1,5 +1,6 @@
 package com.relay.controllers;
 
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,4 +35,5 @@ public class UserControllerTest extends AbstractControllerTest {
     // mockMvc.perform(get("/users")).andExpect(status().isOk());
     //
     // }
+
 }

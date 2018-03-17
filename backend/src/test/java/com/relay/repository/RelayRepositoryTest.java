@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -35,7 +36,8 @@ public class RelayRepositoryTest extends AbsrtactRepositoryTest {
     @Test
     public void findByTextSucsessFindTest() {
 
-        List<Relay> test_relay = relayRepository.findByText("Test relay");
+        List<Relay> test_relay =
+                relayRepository.findByText("Test relay").toStream().collect(Collectors.toList());
         assertEquals(1, test_relay.size());
         assertEquals("Test relay", test_relay.get(0).getText());
     }

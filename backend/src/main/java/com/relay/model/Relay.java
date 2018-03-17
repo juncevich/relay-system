@@ -1,10 +1,13 @@
 package com.relay.model;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 
 import javax.validation.constraints.Size;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,19 +33,17 @@ public class Relay {
     @Id
     private String id;
 
-    // /**
-    // * Create entity date
-    // */
-    // @CreationTimestamp
-    // @Column(updatable = false)
-    // private Instant created;
-    //
-    // /**
-    // * Update entity date
-    // */
-    // @UpdateTimestamp
-    // @Column()
-    // private Instant updated;
+    /**
+     * Create entity date
+     */
+    @CreatedBy
+    private Instant created;
+
+    /**
+     * Update entity date
+     */
+    @LastModifiedDate
+    private Instant updated;
 
     /**
      * Relay text
