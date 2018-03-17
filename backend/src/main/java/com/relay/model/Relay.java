@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -36,7 +37,7 @@ public class Relay {
     /**
      * Create entity date
      */
-    @CreatedBy
+    @CreatedDate
     private Instant created;
 
     /**
@@ -58,7 +59,6 @@ public class Relay {
      * Station
      */
     @JsonIgnore
-    // @ManyToOne(fetch = FetchType.LAZY)
     private Station station;
 
     /**
