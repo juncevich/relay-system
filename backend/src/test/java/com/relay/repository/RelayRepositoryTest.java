@@ -11,16 +11,23 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.relay.model.Relay;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Rollback()
-public class RelayRepositoryTest extends AbsrtactRepositoryTest {
+@RunWith(SpringRunner.class)
+@DataMongoTest
+@WebAppConfiguration
+public class RelayRepositoryTest
+// extends AbsrtactRepositoryTest
+{
 
     @Autowired
     private RelayRepository relayRepository;

@@ -15,20 +15,15 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.relay.model.Relay;
 import com.relay.service.RelayService;
-import com.relay.service.StationService;
 
 import reactor.core.publisher.Flux;
 
-// public class RelayControllerTest {
 public class RelayControllerTest extends AbstractControllerTest {
 
     private WebTestClient webTestClient;
 
     @Mock
     private RelayService relayService;
-
-    @Mock
-    private StationService stationService;
 
     @InjectMocks
     private RelayController relayController;

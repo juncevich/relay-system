@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.relay.model.places.Station;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -53,12 +52,6 @@ public class Relay {
     @Size(min = 2,
             message = "Text should contain at least to characters")
     private String text;
-
-    /**
-     * Station
-     */
-    @JsonIgnore
-    private Station station;
 
     /**
      * Zone date time
