@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 
 import javax.validation.constraints.Size;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -30,7 +31,7 @@ public class Relay {
      * id
      */
     @Id
-    private String id;
+    private ObjectId id;
 
     /**
      * Create entity date

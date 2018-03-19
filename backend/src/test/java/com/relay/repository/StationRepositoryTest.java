@@ -18,6 +18,6 @@ public class StationRepositoryTest extends AbsrtactRepositoryTest {
     public void assertEmptyStationList() {
 
         Flux<Station> all = stationRepository.findAll();
-        assertEquals(0, all.count());
+        assertEquals(0, all.count().block().intValue());
     }
 }
