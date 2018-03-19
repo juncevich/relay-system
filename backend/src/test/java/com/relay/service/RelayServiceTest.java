@@ -1,5 +1,10 @@
 package com.relay.service;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Objects;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,12 +17,12 @@ public class RelayServiceTest {
     @Autowired
     private RelayService relayService;
 
-    // @Test
-    // public void findAll() {
-    //
-    // assertEquals(4, relayService.findAll().size());
-    //
-    // }
+    @Test
+    public void findAll() {
+
+        assertEquals(4, Objects.requireNonNull(relayService.findAll().count().block()).intValue());
+
+    }
     //
     // @Test
     // public void save() {
