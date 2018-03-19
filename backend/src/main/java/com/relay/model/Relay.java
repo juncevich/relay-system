@@ -69,7 +69,7 @@ public class Relay {
      */
     public Relay(final String id, final String someText) {
 
-        this.setId(id);
+        // this.setId(id);
         this.setText(someText);
     }
 
