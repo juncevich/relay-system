@@ -11,6 +11,8 @@ import com.relay.model.Relay;
 import com.relay.model.places.Station;
 import com.relay.service.StationService;
 
+import lombok.val;
+
 @RestController
 public class StationController {
 
@@ -25,7 +27,7 @@ public class StationController {
     @GetMapping("/stations/{id}/relays")
     public List<Relay> retrieveAllRelaysOnStation(@PathVariable Long id) {
 
-        Station stationOptional = stationService.findOne(id);
+        val stationOptional = stationService.findOne(id);
 
         // if (!stationOptional.isPresent()) {
         // throw new RelayNotFoundException("id- " + id);
