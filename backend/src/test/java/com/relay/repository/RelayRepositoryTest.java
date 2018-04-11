@@ -18,7 +18,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
-public class RelayRepositoryTest extends AbsrtactRepositoryTest
+public class RelayRepositoryTest extends AbstractRepositoryTest
 {
 
     @Autowired

@@ -7,9 +7,9 @@ import java.util.Objects;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.relay.repository.AbsrtactRepositoryTest;
+import com.relay.repository.AbstractRepositoryTest;
 
-public class RelayServiceTest extends AbsrtactRepositoryTest {
+public class RelayServiceTest extends AbstractRepositoryTest {
 
     @Autowired
     private RelayService relayService;
@@ -17,7 +17,7 @@ public class RelayServiceTest extends AbsrtactRepositoryTest {
     @Test
     public void findAll() {
 
-        assertEquals(1, Objects.requireNonNull(relayService.findAll().count().block()).intValue());
+        assertEquals(3, Objects.requireNonNull(relayService.findAll().count().block()).intValue());
 
     }
     //
