@@ -2,8 +2,6 @@ package com.relay.service;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Objects;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +15,8 @@ public class RelayServiceTest extends AbstractRepositoryTest {
     @Test
     public void findAll() {
 
-        assertEquals(3, Objects.requireNonNull(relayService.findAll().count().block()).intValue());
+        long actualRelayCountInDB = relayService.findAll().toStream().count();
+        assertEquals(4, actualRelayCountInDB);
 
     }
     //

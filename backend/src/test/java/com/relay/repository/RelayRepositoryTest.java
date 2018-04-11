@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.junit.Before;
@@ -14,12 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.relay.model.Relay;
 
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
-public class RelayRepositoryTest extends AbstractRepositoryTest
-{
+public class RelayRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
     private RelayRepository relayRepository;
@@ -27,13 +23,24 @@ public class RelayRepositoryTest extends AbstractRepositoryTest
     @Before
     public void setUp() {
 
+        // if (relayRepository.count().block() == 0L) {
+        // Relay relay1 = new Relay("Text1");
+        // Relay relay2 = new Relay("Text2");
+        // Relay relay3 = new Relay("Text3");
+        // Relay relay4 = new Relay("Text4");
+        //
+        // List<Relay> relayToSave = List.of(relay1, relay2, relay3, relay4);
+        // relayRepository.saveAll(relayToSave).subscribe();
+        // } else {
+        // relayRepository.deleteAll().subscribe();
+        // }
     }
 
     @Test
     public void assertEmptyRelayList() {
 
-        Flux<Relay> all = relayRepository.findAll();
-        assertEquals(4, Objects.requireNonNull(all.count().block()).intValue());
+        long all = (relayRepository.findAll().toStream().count());
+        assertEquals(4, all);
     }
 
     @Test

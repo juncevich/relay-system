@@ -21,6 +21,11 @@ public class RelayService {
         this.relayRepository = relayRepository;
     }
 
+    /**
+     * Find all relays
+     * 
+     * @return list with all relays
+     */
     public Flux<Relay> findAll() {
 
         return relayRepository.findAll();

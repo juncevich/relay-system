@@ -5,8 +5,10 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.relay.config.ReactiveMongoConfig;
+
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = RelaySystemApplication.class)
+@SpringBootTest(classes = { RelaySystemApplication.class, ReactiveMongoConfig.class })
 public class RelaySystemApplicationTests {
 
     @Test
