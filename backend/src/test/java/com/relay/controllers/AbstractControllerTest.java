@@ -14,6 +14,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.mock.http.MockHttpOutputMessage;
 
 public abstract class AbstractControllerTest {
+
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     // MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),

@@ -6,6 +6,7 @@ jobs:
 
     docker:
       - image: circleci/openjdk:9-jdk-browsers
+      - image: circleci/mongo:latest
 
     steps:
 
