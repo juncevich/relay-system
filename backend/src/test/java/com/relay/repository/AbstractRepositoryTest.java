@@ -5,14 +5,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.relay.model.Relay;
 
 @RunWith(SpringRunner.class)
-@DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
+// @DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
+@DataMongoTest()
 public abstract class AbstractRepositoryTest {
 
     @Autowired
@@ -21,7 +21,8 @@ public abstract class AbstractRepositoryTest {
     @Before
     public void setUp() {
 
-        if (relayRepository.count().block() == 0L) {
+        Long result = relayRepository.count().block();
+        if (result == 0L) {
             Relay relay1 = new Relay("Text1");
             Relay relay2 = new Relay("Text2");
             Relay relay3 = new Relay("Text3");
