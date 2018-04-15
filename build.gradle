@@ -53,7 +53,7 @@ allprojects {
 
     dependencyManagement {
         dependencies {
-            dependency 'org.projectlombok:lombok:1.16.16'
+            dependency 'org.projectlombok:lombok:1.16.20'
         }
     }
 }

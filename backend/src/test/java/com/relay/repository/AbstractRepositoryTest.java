@@ -1,5 +1,6 @@
 package com.relay.repository;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public abstract class AbstractRepositoryTest {
             Relay relay4 = new Relay("Text4");
 
             List<Relay> relayToSave = Arrays.asList(relay1, relay2, relay3, relay4);
-            relayRepository.saveAll(relayToSave).subscribe();
+            relayRepository.saveAll(relayToSave).blockLast(Duration.ofSeconds(2));
         } else {
             relayRepository.deleteAll().subscribe();
         }
