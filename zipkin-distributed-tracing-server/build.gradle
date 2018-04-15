@@ -3,14 +3,13 @@ ext {
     springCloudVersion = 'Finchley.M5'
 }
 
-
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile("org.springframework.boot:spring-boot-starter-web")
     compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
     compile('org.springframework.cloud:spring-cloud-starter-sleuth')
-    compile('io.zipkin.java:zipkin-server')
-    runtime('io.zipkin.java:zipkin-autoconfigure-ui')
+    compile('io.zipkin.java:zipkin-server:2.7.1')
+    runtime('io.zipkin.java:zipkin-autoconfigure-ui:2.7.1')
 }
 
 dependencyManagement {

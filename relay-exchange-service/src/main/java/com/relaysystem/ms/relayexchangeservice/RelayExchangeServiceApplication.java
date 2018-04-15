@@ -3,8 +3,9 @@ package com.relaysystem.ms.relayexchangeservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
+
+import brave.sampler.Sampler;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -16,8 +17,8 @@ public class RelayExchangeServiceApplication {
     }
 
     @Bean
-    public AlwaysSampler defaultSampler() {
+    public Sampler defaultSampler() {
 
-        return new AlwaysSampler();
+        return Sampler.ALWAYS_SAMPLE;
     }
 }

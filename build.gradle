@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.0.M7'
+        springBootVersion = '2.0.0.RELEASE'
     }
 
     repositories {
@@ -16,7 +16,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE")
+        classpath("io.spring.gradle:dependency-management-plugin:1.0.2.RELEASE")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.1"
     }
@@ -44,7 +44,7 @@ allprojects {
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'java'
     repositories {
-        maven { url "https://repo.spring.io/snapshot" }
+//        maven { url "https://repo.spring.io/snapshot" }
         maven { url "https://repo.spring.io/milestone" }
         maven { url 'https://repo.spring.io/libs-milestone' }
         mavenCentral()
@@ -70,7 +70,7 @@ subprojects {
     }
 }
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.5'
+    gradleVersion = '4.6'
 }
 configure(springProjects) {
     apply plugin: 'idea'

@@ -1,5 +1,6 @@
 package com.relay.repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -28,7 +29,7 @@ public abstract class AbstractRepositoryTest {
             Relay relay3 = new Relay("Text3");
             Relay relay4 = new Relay("Text4");
 
-            List<Relay> relayToSave = List.of(relay1, relay2, relay3, relay4);
+            List<Relay> relayToSave = Arrays.asList(relay1, relay2, relay3, relay4);
             relayRepository.saveAll(relayToSave).subscribe();
         } else {
             relayRepository.deleteAll().subscribe();
