@@ -9,21 +9,4 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 @EnableReactiveMongoRepositories("com.relay.repository")
 public class ReactiveMongoConfig {
 
-    // @Override
-    // public MongoClient mongoClient() {
-    //
-    // return new MongoClient("localhost");
-    // }
-    //
-    // @Override
-    // protected String getDatabaseName() {
-    //
-    // return "jsa_mongodb";
-    // }
-    //
-    // @Override
-    // protected Collection<String> getMappingBasePackages() {
-    //
-    // return List.of("com.relay.model");
-    // }
 }

@@ -1,4 +1,4 @@
-import { FrontendPage } from './app.po';
+import {FrontendPage} from './app.po';
 
 describe('frontend App', () => {
   let page: FrontendPage;
