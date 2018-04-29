@@ -40,7 +40,7 @@ public class RelayRepositoryTest extends AbstractRepositoryTest {
     public void assertEmptyRelayList() {
 
         List<Relay> block = relayRepository.findAll().collect(Collectors.toList()).block();
-        assertEquals(5, block.size());
+        assertEquals(4, block.size());
     }
 
     @Test

@@ -3,9 +3,10 @@ package com.relaysystem.ms.relayconvertservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+
+import brave.sampler.Sampler;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -18,8 +19,8 @@ public class RelayConvertServiceApplication {
     }
 
     @Bean
-    public AlwaysSampler defaultSampler() {
+    public Sampler defaultSampler() {
 
-        return new AlwaysSampler();
+        return Sampler.ALWAYS_SAMPLE;
     }
 }

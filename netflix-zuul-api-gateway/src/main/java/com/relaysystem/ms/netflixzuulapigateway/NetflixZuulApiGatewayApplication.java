@@ -4,8 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
+
+import brave.sampler.Sampler;
 
 @SpringBootApplication
 @EnableZuulProxy
@@ -18,8 +19,8 @@ public class NetflixZuulApiGatewayApplication {
     }
 
     @Bean
-    public AlwaysSampler defaultSampler() {
+    public Sampler defaultSampler() {
 
-        return new AlwaysSampler();
+        return Sampler.ALWAYS_SAMPLE;
     }
 }

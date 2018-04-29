@@ -20,7 +20,7 @@ public class RelayServiceTest extends AbstractRepositoryTest {
     public void findAll() {
 
         List<Relay> block = relayService.findAll().collect(Collectors.toList()).block();
-        assertEquals(5, block.size());
+        assertEquals(4, block.size());
 
     }
     //
