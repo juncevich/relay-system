@@ -24,6 +24,9 @@ public class RelayDataLoader implements CommandLineRunner {
 
         if (relayRepository.count().block() == 0L) {
             populate();
+        } else {
+            relayRepository.deleteAll().subscribe();
+            populate();
         }
 
     }
