@@ -28,7 +28,7 @@ apply plugin: 'com.palantir.docker'
 jar {
     archivesBaseName = 'relay-service'
     version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = 1.9
+    sourceCompatibility = 1.8
 }
 
 docker {
