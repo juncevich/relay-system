@@ -16,7 +16,6 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "build.gradle" }}
           
-      - run: docker run --rm -p27017:27017 mongo:latest
       - run: ./gradlew buildDependents
       
       - save_cache:
