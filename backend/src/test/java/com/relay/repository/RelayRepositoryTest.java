@@ -12,19 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.relay.model.Relay;
 
-import reactor.core.publisher.Mono;
-
 public class RelayRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
     private RelayRepository relayRepository;
 
     @Test
-    public void assertFindAllReturn5Relays() {
+    public void assertFindAllReturn4Relays() {
 
         List<Relay> block = relayRepository.findAll().collect(Collectors.toList()).block();
         assertNotNull(block);
-        assertEquals(5, block.size());
+        assertEquals(4, block.size());
     }
 
     @Test
@@ -32,8 +30,7 @@ public class RelayRepositoryTest extends AbstractRepositoryTest {
 
         relayRepository.deleteAll().subscribe();
         Relay relay = Relay.builder().text("Test text").build();
-        Mono<Relay> savedRelayMono = relayRepository.save(relay);
-        Relay savedRelay = savedRelayMono.block();
+        Relay savedRelay = relayRepository.save(relay).block();
         System.out.println(savedRelay);
         assertNotNull(savedRelay);
     }
