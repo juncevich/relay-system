@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,12 +39,12 @@ public class Relay {
      */
     @CreatedDate
     private java.time.LocalDateTime created;
-    //
-    // /**
-    // * Update entity date
-    // */
-    // @LastModifiedDate
-    // private DateTime updated;
+
+    /**
+     * Update entity date
+     */
+    @LastModifiedDate
+    private java.time.LocalDateTime updated;
 
     /**
      * Relay text
