@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,27 +19,12 @@ public class RelayRepositoryTest extends AbstractRepositoryTest {
     @Autowired
     private RelayRepository relayRepository;
 
-    @Before
-    public void setUp() {
-
-        // if (relayRepository.count().block() == 0L) {
-        // Relay relay1 = new Relay("Text1");
-        // Relay relay2 = new Relay("Text2");
-        // Relay relay3 = new Relay("Text3");
-        // Relay relay4 = new Relay("Text4");
-        //
-        // List<Relay> relayToSave = List.of(relay1, relay2, relay3, relay4);
-        // relayRepository.saveAll(relayToSave).subscribe();
-        // } else {
-        // relayRepository.deleteAll().subscribe();
-        // }
-    }
-
     @Test
-    public void assertEmptyRelayList() {
+    public void assertFindAllReturn5Relays() {
 
         List<Relay> block = relayRepository.findAll().collect(Collectors.toList()).block();
-        assertEquals(4, block.size());
+        assertNotNull(block);
+        assertEquals(5, block.size());
     }
 
     @Test
@@ -56,7 +40,7 @@ public class RelayRepositoryTest extends AbstractRepositoryTest {
 
     @Ignore
     @Test
-    public void findByTextSucsessFindTest() {
+    public void findByTextSuccessFindTest() {
 
         List<Relay> test_relay =
                 relayRepository.findByText("Test relay").toStream().collect(Collectors.toList());
