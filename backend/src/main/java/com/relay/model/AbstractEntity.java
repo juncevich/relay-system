@@ -1,5 +1,10 @@
 package com.relay.model;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import lombok.Data;
 
 /**
@@ -9,26 +14,22 @@ import lombok.Data;
 // @MappedSuperclass
 public class AbstractEntity {
 
-    // /**
-    // * id
-    // */
-    // @Id
-    // @Column(nullable = false,
-    // updatable = false)
-    // @GeneratedValue(strategy = GenerationType.AUTO)
-    // private Long id;
-    //
-    // /**
-    // * Create entity date
-    // */
-    // @CreationTimestamp
-    // @Column(updatable = false)
-    // private Instant created;
-    //
-    // /**
-    // * Update entity date
-    // */
-    // @UpdateTimestamp
-    // @Column()
-    // private Instant updated;
+    /**
+     * id
+     */
+    @Id
+    private ObjectId id;
+
+    /**
+     * Create entity date
+     */
+    @CreatedDate
+    private java.time.LocalDateTime created;
+
+    /**
+     * Update entity date
+     */
+    @LastModifiedDate
+    private java.time.LocalDateTime updated;
+
 }

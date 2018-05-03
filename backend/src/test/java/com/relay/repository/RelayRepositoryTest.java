@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,13 +34,12 @@ public class RelayRepositoryTest extends AbstractRepositoryTest {
         assertNotNull(savedRelay);
     }
 
-    @Ignore
     @Test
     public void findByTextSuccessFindTest() {
 
         List<Relay> test_relay =
-                relayRepository.findByText("Test relay").toStream().collect(Collectors.toList());
+                relayRepository.findByText("Text1").toStream().collect(Collectors.toList());
         assertEquals(1, test_relay.size());
-        assertEquals("Test relay", test_relay.get(0).getText());
+        assertEquals("Text1", test_relay.get(0).getText());
     }
 }

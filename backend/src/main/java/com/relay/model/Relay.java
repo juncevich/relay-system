@@ -4,10 +4,6 @@ import java.time.ZonedDateTime;
 
 import javax.validation.constraints.Size;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,34 +13,18 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "Relay details.")
 @Document
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Relay {
-
-    /**
-     * id
-     */
-    @Id
-    private ObjectId id;
-
-    /**
-     * Create entity date
-     */
-    @CreatedDate
-    private java.time.LocalDateTime created;
-
-    /**
-     * Update entity date
-     */
-    @LastModifiedDate
-    private java.time.LocalDateTime updated;
+public class Relay extends AbstractEntity {
 
     /**
      * Relay text
