@@ -11,7 +11,7 @@ import com.relay.model.places.Station;
 
 import reactor.core.publisher.Flux;
 
-public class StationRepositoryTest extends AbstractRepositoryTest {
+public class StationRepositoryTest extends AbstractMongoDBTest {
 
     @Autowired
     private StationRepository stationRepository;

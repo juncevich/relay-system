@@ -5,13 +5,14 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.relay.repository.AbstractMongoDBTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.relay.model.Relay;
 import com.relay.repository.AbstractRepositoryTest;
 
-public class RelayServiceTest extends AbstractRepositoryTest {
+public class RelayServiceTest extends AbstractMongoDBTest {
 
     @Autowired
     private RelayService relayService;
@@ -20,7 +21,7 @@ public class RelayServiceTest extends AbstractRepositoryTest {
     public void findAll() {
 
         List<Relay> block = relayService.findAll().collect(Collectors.toList()).block();
-        assertEquals(4, block.size());
+        assertEquals(5, block.size());
 
     }
     //

@@ -12,7 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
+import org.springframework.test.annotation.DirtiesContext;
 
+@DirtiesContext
 public abstract class AbstractControllerTest {
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;

@@ -1,17 +1,14 @@
 package com.relay.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.relay.model.Relay;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.relay.model.Relay;
-
-public class RelayRepositoryTest extends AbstractRepositoryTest {
+public class RelayRepositoryTest extends AbstractMongoDBTest {
 
     @Autowired
     private RelayRepository relayRepository;
@@ -21,7 +18,7 @@ public class RelayRepositoryTest extends AbstractRepositoryTest {
 
         List<Relay> block = relayRepository.findAll().collect(Collectors.toList()).block();
         assertNotNull(block);
-        assertEquals(4, block.size());
+        assertEquals(5, block.size());
     }
 
     @Test

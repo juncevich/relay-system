@@ -5,6 +5,7 @@ import static junit.framework.Assert.assertEquals;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.relay.repository.AbstractMongoDBTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import com.relay.model.Distantion;
 import com.relay.repository.AbstractRepositoryTest;
 import com.relay.repository.DistantionRepository;
 
-public class DistantionServiceTest extends AbstractRepositoryTest {
+public class DistantionServiceTest extends AbstractMongoDBTest {
 
     @Autowired
     private DistantionService distantionService;
