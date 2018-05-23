@@ -1,12 +1,12 @@
 package com.relay.repository;
 
-import com.relay.model.Relay;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.relay.model.Relay;
 
 public class RelayRepositoryTest extends AbstractMongoDBTest {
 

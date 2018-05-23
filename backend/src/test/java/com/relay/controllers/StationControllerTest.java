@@ -1,6 +1,7 @@
 package com.relay.controllers;
 
-import com.relay.service.StationService;
+import java.nio.charset.Charset;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -8,16 +9,19 @@ import org.mockito.Mock;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import java.nio.charset.Charset;
+import com.relay.service.StationService;
 
 public class StationControllerTest extends AbstractControllerTest {
 
     private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+
     @Mock
     private StationService stationService;
+
     @InjectMocks
     private StationController stationController;
+
     private WebTestClient webTestClient;
 
     @Before
