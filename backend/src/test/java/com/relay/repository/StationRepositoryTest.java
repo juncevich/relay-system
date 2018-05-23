@@ -1,15 +1,11 @@
 package com.relay.repository;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Objects;
-
+import com.relay.model.places.Station;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.relay.model.places.Station;
-
 import reactor.core.publisher.Flux;
+
+import java.util.Objects;
 
 public class StationRepositoryTest extends AbstractMongoDBTest {
 

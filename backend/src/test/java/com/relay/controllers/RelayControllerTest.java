@@ -1,35 +1,30 @@
 package com.relay.controllers;
 
-import static org.mockito.Mockito.when;
-
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.relay.model.Relay;
+import com.relay.service.RelayService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
-import com.relay.model.Relay;
-import com.relay.service.RelayService;
-
 import reactor.core.publisher.Flux;
+
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
 
 public class RelayControllerTest extends AbstractControllerTest {
 
-    private WebTestClient webTestClient;
-
-    @Mock
-    private RelayService relayService;
-
-    @InjectMocks
-    private RelayController relayController;
-
     private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+    private WebTestClient webTestClient;
+    @Mock
+    private RelayService relayService;
+    @InjectMocks
+    private RelayController relayController;
 
     @Before
     public void setUp() throws Exception {

@@ -24,7 +24,7 @@ public abstract class AbstractMongoDBTest extends TestCase {
      * please store Starter or RuntimeConfig in a static final field
      * if you want to use artifact store caching (or else disable caching)
      */
-    private  MongodStarter starter = MongodStarter.getDefaultInstance();
+    private MongodStarter starter = MongodStarter.getDefaultInstance();
 
     private MongodExecutable _mongodExe;
     private MongodProcess _mongod;
@@ -32,17 +32,22 @@ public abstract class AbstractMongoDBTest extends TestCase {
     private MongoClient _mongo;
 
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
 
-        _mongodExe = starter.prepare(new MongodConfigBuilder()
-                .version(Version.Main.PRODUCTION)
-                .net(new Net("localhost", 12345, Network.localhostIsIPv6()))
-                .build());
-        _mongod = _mongodExe.start();
+        try {
+            _mongodExe = starter.prepare(new MongodConfigBuilder()
+                    .version(Version.Main.PRODUCTION)
+                    .net(new Net("localhost", 12345, Network.localhostIsIPv6()))
+                    .build());
+            _mongod = _mongodExe.start();
 
-        super.setUp();
+            super.setUp();
 
-        _mongo = new MongoClient("localhost", 12345);
+            _mongo = new MongoClient("localhost", 12345);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

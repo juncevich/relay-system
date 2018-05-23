@@ -1,18 +1,14 @@
 package com.relay.service;
 
-import static junit.framework.Assert.assertEquals;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.relay.model.Distantion;
 import com.relay.repository.AbstractMongoDBTest;
+import com.relay.repository.DistantionRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.relay.model.Distantion;
-import com.relay.repository.AbstractRepositoryTest;
-import com.relay.repository.DistantionRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DistantionServiceTest extends AbstractMongoDBTest {
 
@@ -25,6 +21,7 @@ public class DistantionServiceTest extends AbstractMongoDBTest {
     @Override
     @Before
     public void setUp() {
+        super.setUp();
 
         distantionRepository.deleteAll().subscribe();
     }

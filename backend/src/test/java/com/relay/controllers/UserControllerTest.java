@@ -1,11 +1,9 @@
 package com.relay.controllers;
 
-import org.junit.Test;
+import com.relay.service.UserService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;
-
-import com.relay.service.UserService;
 
 public class UserControllerTest extends AbstractControllerTest {
 

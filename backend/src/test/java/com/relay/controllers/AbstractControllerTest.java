@@ -1,10 +1,5 @@
 package com.relay.controllers;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.io.IOException;
-import java.util.Arrays;
-
 import org.junit.Before;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +7,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
-import org.springframework.test.annotation.DirtiesContext;
+
+import java.io.IOException;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertNotNull;
 
 public abstract class AbstractControllerTest {
 
