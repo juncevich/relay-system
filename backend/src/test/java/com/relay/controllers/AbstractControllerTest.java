@@ -14,7 +14,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.annotation.DirtiesContext;
 
-@DirtiesContext
 public abstract class AbstractControllerTest {
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;

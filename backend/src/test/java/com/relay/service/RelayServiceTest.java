@@ -1,16 +1,12 @@
 package com.relay.service;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.relay.model.Relay;
 import com.relay.repository.AbstractMongoDBTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.relay.model.Relay;
-import com.relay.repository.AbstractRepositoryTest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RelayServiceTest extends AbstractMongoDBTest {
 
