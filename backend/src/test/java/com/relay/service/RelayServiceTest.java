@@ -21,28 +21,29 @@ public class RelayServiceTest extends AbstractMongoDBTest {
         assertEquals(5, block.size());
 
     }
-    //
-    // @Test
-    // public void save() {
-    //
-    // relayService.save(new Relay("fifth"));
-    // assertEquals(5, relayService.findAll().size());
-    // }
-    //
-    // @Test
-    // public void findExistingOne() {
-    //
-    // Relay relay = relayService.findOne(1);
-    // assertNotNull(relay);
-    // assertEquals(1, relay.getId().intValue());
-    // assertEquals("first", relay.getText());
-    // }
-    //
-    // @Test
-    // public void findNotExistingOne() {
-    //
-    // Relay relay = relayService.findOne(77);
-    // assertNull(relay);
-    //
-    // }
+
+    @Test
+    public void save() {
+
+        relayService.save(new Relay("fifth")).subscribe();
+        assertEquals(6, relayService.findAll().collect(Collectors.toList()).block().size());
+    }
+
+    @Test
+    public void findExistingOne() {
+
+        List<Relay> relayList =
+                relayService.findByText("Text1").collect(Collectors.toList()).block();
+        Relay relay = relayList.get(0);
+        assertNotNull(relay);
+        assertEquals("Text1", relay.getText());
+    }
+
+    @Test
+    public void findNotExistingOne() {
+
+        Relay relay = relayService.findOne("77").block();
+        assertNull(relay);
+
+    }
 }

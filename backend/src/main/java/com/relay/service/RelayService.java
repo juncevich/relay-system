@@ -46,4 +46,8 @@ public class RelayService {
         return relayRepository.deleteById(id);
     }
 
+    public Flux<Relay> findByText(String text) {
+
+        return relayRepository.findByText(text);
+    }
 }
