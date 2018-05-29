@@ -40,8 +40,15 @@ public class WebSecurityConfig {
     @Bean
     protected SecurityWebFilterChain configure(ServerHttpSecurity http) {
 
-        http.authorizeExchange().anyExchange().permitAll().and().formLogin().loginPage("/login")
-                .and().csrf().disable();
-        return http.build();
+        http.httpBasic().disable();
+        http.formLogin().disable();
+        http.csrf().disable();
+        http.logout().disable();
+        // http.authorizeExchange().anyExchange().permitAll()
+        // // .and().formLogin().loginPage("/login")
+        // .and().csrf().disable();
+        // return http.build();
+        return http.authorizeExchange().anyExchange().permitAll().and().build();
     }
+
 }

@@ -5,7 +5,10 @@ import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 import java.util.ArrayList;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -15,6 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * Swagger configuration file
  */
 @EnableSwagger2
+@Configuration
 public class SwaggerConfig {
 
     /**
@@ -38,6 +42,7 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
 
-        return new Docket(SWAGGER_2).apiInfo(DEFAULT_API_INFO);
+        return new Docket(SWAGGER_2).apiInfo(DEFAULT_API_INFO).select()
+                .apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
     }
 }
