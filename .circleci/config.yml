@@ -1,7 +1,12 @@
 version: 2
 jobs:
   build:
-    
+    branches:
+      only:
+        - master
+        - reactive
+        - non-reactive
+            
     working_directory: ~/relay-system-directory
 
     docker:
