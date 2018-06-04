@@ -1,5 +1,6 @@
 package com.relay.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -26,7 +27,8 @@ public class RelayServiceTest extends AbstractDBTest {
     public void save() {
 
         relayService.save(new Relay("fifth"));
-        assertEquals(6, Lists.newArrayList(relayService.findAll()).size());
+        ArrayList<Relay> relays = Lists.newArrayList(relayService.findAll());
+        assertEquals(6, relays.size());
     }
 
     @Test

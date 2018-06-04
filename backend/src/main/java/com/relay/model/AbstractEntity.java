@@ -1,7 +1,9 @@
 package com.relay.model;
 
 import java.math.BigInteger;
+import java.util.Date;
 
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,6 +11,7 @@ import javax.persistence.MappedSuperclass;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Data;
 
@@ -17,6 +20,7 @@ import lombok.Data;
  */
 @Data
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public class AbstractEntity {
 
     /**
@@ -30,12 +34,12 @@ public class AbstractEntity {
      * Create entity date
      */
     @CreatedDate
-    private java.time.LocalDateTime created;
+    private Date created;
 
     /**
      * Update entity date
      */
     @LastModifiedDate
-    private java.time.LocalDateTime updated;
+    private Date updated;
 
 }
