@@ -39,7 +39,7 @@ docker {
 }
 
 configurations {
-    compile.exclude module: "spring-boot-starter-netty"
+    compile.exclude module: 'spring-boot-starter-tomcat'
 }
 
 dependencies {
