@@ -3,7 +3,6 @@ package com.relay.controllers;
 import java.nio.charset.Charset;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.MediaType;
@@ -30,20 +29,20 @@ public class StationControllerTest extends AbstractControllerTest {
         super.setUp();
     }
 
-    @Test
-    public void should200Status() throws Exception {
-
-        super.setUp();
-
-        webTestClient = WebTestClient.bindToController(stationController).build();
-        webTestClient.get().uri("/stations").exchange().expectStatus().isOk();
-    }
-
-    @Test
-    public void testContent() {
-
-        webTestClient = WebTestClient.bindToController(stationController).build();
-        webTestClient.get().uri("/stations").accept(MediaType.APPLICATION_JSON_UTF8).exchange()
-                .expectBody().json("[]");
-    }
+    // @Test
+    // public void should200Status() throws Exception {
+    //
+    // super.setUp();
+    //
+    // webTestClient = WebTestClient.bindToController(stationController).build();
+    // webTestClient.get().uri("/stations").exchange().expectStatus().isOk();
+    // }
+    //
+    // @Test
+    // public void testContent() {
+    //
+    // webTestClient = WebTestClient.bindToController(stationController).build();
+    // webTestClient.get().uri("/stations").accept(MediaType.APPLICATION_JSON_UTF8).exchange()
+    // .expectBody().json("[]");
+    // }
 }

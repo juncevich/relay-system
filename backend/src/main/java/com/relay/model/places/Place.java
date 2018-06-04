@@ -1,13 +1,13 @@
 package com.relay.model.places;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
 
 import com.relay.model.AbstractEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Document
+@Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 class Place extends AbstractEntity {

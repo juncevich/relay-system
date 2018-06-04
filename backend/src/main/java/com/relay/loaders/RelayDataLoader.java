@@ -26,10 +26,10 @@ public class RelayDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        if (relayRepository.count().block() == 0L) {
+        if (relayRepository.count() == 0L) {
             populate();
         } else {
-            relayRepository.deleteAll().subscribe();
+            relayRepository.deleteAll();
             populate();
         }
 
@@ -44,7 +44,7 @@ public class RelayDataLoader implements CommandLineRunner {
         Relay relay5 = new Relay("Text4");
 
         List<Relay> relayToSave = Arrays.asList(relay1, relay2, relay3, relay4, relay5);
-        relayRepository.saveAll(relayToSave).subscribe();
+        relayRepository.saveAll(relayToSave);
 
         Station station1 = new Station("Test station 1");
         Station station2 = new Station("Test station 2");

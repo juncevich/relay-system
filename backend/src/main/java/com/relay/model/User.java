@@ -1,5 +1,6 @@
 package com.relay.model;
 
+import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
@@ -8,18 +9,9 @@ import lombok.Data;
 import lombok.NonNull;
 
 @ApiModel(description = "All details about the user")
-// @Entity
+@Entity
 @Data
-public class User {
-
-    /**
-     * id
-     */
-    // @Id
-    // @Column(nullable = false,
-    // updatable = false)
-    // @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class User extends AbstractEntity {
 
     /**
      * User name

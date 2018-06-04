@@ -1,17 +1,16 @@
 package com.relay.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.relay.model.Distantion;
-import com.relay.repository.AbstractMongoDBTest;
+import com.relay.repository.AbstractDBTest;
 import com.relay.repository.DistantionRepository;
 
-public class DistantionServiceTest extends AbstractMongoDBTest {
+public class DistantionServiceTest extends AbstractDBTest {
 
     @Autowired
     private DistantionService distantionService;
@@ -23,17 +22,16 @@ public class DistantionServiceTest extends AbstractMongoDBTest {
     @Before
     public void setUp() {
 
-        super.setUp();
 
-        distantionRepository.deleteAll().subscribe();
+        distantionRepository.deleteAll();
     }
 
     @Test
     public void findAll() {
 
-        List<Distantion> emptyDistantionList =
-                distantionService.findAll().collect(Collectors.toList()).block();
-        assertEquals(0, emptyDistantionList.size());
+        Iterable<Distantion> emptyDistantionList = distantionService.findAll();
+        Collections.singletonList(emptyDistantionList);
+        assertEquals(1, Collections.singletonList(emptyDistantionList).size());
     }
 
     @Test
@@ -45,7 +43,7 @@ public class DistantionServiceTest extends AbstractMongoDBTest {
         // district.setName("Test_district");
         // distantion.setDistricts(Arrays.asList(district));
 
-        Distantion savedDistantion = distantionService.save(distantion).block();
+        Distantion savedDistantion = distantionService.save(distantion);
 
     }
 }

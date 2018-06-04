@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.relay.model.User;
 import com.relay.service.UserService;
 
-import reactor.core.publisher.Flux;
-
 @RestController
 public class UserController {
 
@@ -23,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public Flux<User> retrieveAllRelays() {
+    public Iterable<User> retrieveAllRelays() {
 
         return userService.findAll();
     }

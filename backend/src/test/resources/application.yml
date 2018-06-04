@@ -1,5 +1,12 @@
 spring:
-  data:
-    mongodb:
-      database: jsa_mongodb
-      port: 27017
+  datasource:
+    url:
+    username: 
+    password:
+    initialization-mode: embedded
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database: h2
+    show-sql: true
+    database-platform: 

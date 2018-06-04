@@ -1,8 +1,13 @@
 package com.relay.model;
 
-import org.bson.types.ObjectId;
+import java.math.BigInteger;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import lombok.Data;
@@ -11,14 +16,15 @@ import lombok.Data;
  * Some test comment1
  */
 @Data
-// @MappedSuperclass
+@MappedSuperclass
 public class AbstractEntity {
 
     /**
      * id
      */
     @Id
-    private ObjectId id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private BigInteger id;
 
     /**
      * Create entity date

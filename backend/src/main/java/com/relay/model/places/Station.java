@@ -2,7 +2,8 @@ package com.relay.model.places;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import com.relay.model.Relay;
 import com.relay.model.statives.Stativ;
@@ -12,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-@Document
+@Entity
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -27,11 +28,13 @@ public class Station extends Place {
     /**
      * Relay on the station
      */
+    @OneToMany
     private List<Relay> relay;
 
     /**
      * List of statives on the station
      */
+    @OneToMany
     private List<Stativ> statives;
 
     /**

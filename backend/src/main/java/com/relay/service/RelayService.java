@@ -1,12 +1,12 @@
 package com.relay.service;
 
+import java.math.BigInteger;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.relay.model.Relay;
 import com.relay.repository.RelayRepository;
-
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * {@link Relay} service
@@ -26,27 +26,27 @@ public class RelayService {
      * 
      * @return list with all relays
      */
-    public Flux<Relay> findAll() {
+    public Iterable<Relay> findAll() {
 
         return relayRepository.findAll();
     }
 
-    public Mono<Relay> save(Relay relay) {
+    public Relay save(Relay relay) {
 
         return relayRepository.save(relay);
     }
 
-    public Mono<Relay> findOne(String id) {
+    public Optional<Relay> findOne(String id) {
 
-        return relayRepository.findById(id);
+        return relayRepository.findById(new BigInteger(id));
     }
 
-    public Mono<Void> deleteById(String id) {
+    public void deleteById(String id) {
 
-        return relayRepository.deleteById(id);
+        relayRepository.deleteById(new BigInteger(id));
     }
 
-    public Flux<Relay> findByText(String text) {
+    public Relay findByText(String text) {
 
         return relayRepository.findByText(text);
     }

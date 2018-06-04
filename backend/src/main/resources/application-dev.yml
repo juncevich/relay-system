@@ -1,17 +1,12 @@
-#spring:
-#  datasource:
-#    url:
-#    username: 
-#    password:
-#  jpa:
-#    hibernate:
-#      ddl-auto: validate
-#    database: postgresql
-#    show-sql: true
-#    database-platform: 
 spring:
-  data:
-    mongodb:
-      database: jsa_mongodb
-      port: 27017
-      host: 127.0.0.1
+  datasource: 
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: user
+    password: example
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database: postgresql
+    show-sql: true
+    database-platform: 
+

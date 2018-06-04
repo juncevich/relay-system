@@ -1,14 +1,14 @@
 package com.relay.repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.relay.model.Relay;
 
-public class RelayRepositoryTest extends AbstractMongoDBTest {
+public class RelayRepositoryTest extends AbstractDBTest {
 
     @Autowired
     private RelayRepository relayRepository;
@@ -16,7 +16,7 @@ public class RelayRepositoryTest extends AbstractMongoDBTest {
     @Test
     public void assertFindAllReturn4Relays() {
 
-        List<Relay> block = relayRepository.findAll().collect(Collectors.toList()).block();
+        List<Relay> block = Lists.newArrayList(relayRepository.findAll());
         assertNotNull(block);
         assertEquals(5, block.size());
     }
@@ -24,9 +24,9 @@ public class RelayRepositoryTest extends AbstractMongoDBTest {
     @Test
     public void testCreationRelay() {
 
-        relayRepository.deleteAll().subscribe();
+        relayRepository.deleteAll();
         Relay relay = Relay.builder().text("Test text").build();
-        Relay savedRelay = relayRepository.save(relay).block();
+        Relay savedRelay = relayRepository.save(relay);
         System.out.println(savedRelay);
         assertNotNull(savedRelay);
     }
@@ -34,9 +34,7 @@ public class RelayRepositoryTest extends AbstractMongoDBTest {
     @Test
     public void findByTextSuccessFindTest() {
 
-        List<Relay> test_relay =
-                relayRepository.findByText("Text1").toStream().collect(Collectors.toList());
-        assertEquals(1, test_relay.size());
-        assertEquals("Text1", test_relay.get(0).getText());
+        Relay test_relay = relayRepository.findByText("Text1");
+        assertEquals("Text1", test_relay.getText());
     }
 }

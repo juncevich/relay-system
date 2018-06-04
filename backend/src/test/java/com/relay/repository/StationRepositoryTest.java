@@ -1,13 +1,14 @@
 package com.relay.repository;
 
-import com.relay.model.places.Station;
+import java.util.List;
+
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import reactor.core.publisher.Flux;
 
-import java.util.Objects;
+import com.relay.model.places.Station;
 
-public class StationRepositoryTest extends AbstractMongoDBTest {
+public class StationRepositoryTest extends AbstractDBTest {
 
     @Autowired
     private StationRepository stationRepository;
@@ -15,7 +16,7 @@ public class StationRepositoryTest extends AbstractMongoDBTest {
     @Test
     public void assertEmptyStationList() {
 
-        Flux<Station> all = stationRepository.findAll();
-        assertEquals(0, Objects.requireNonNull(all.count().block()).intValue());
+        List<Station> all = Lists.newArrayList(stationRepository.findAll());
+        assertEquals(0, all.size());
     }
 }
