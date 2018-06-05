@@ -1,8 +1,11 @@
 package com.relay.controllers;
 
+import static org.junit.Assert.assertTrue;
+
 import java.nio.charset.Charset;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.MediaType;
@@ -27,6 +30,12 @@ public class StationControllerTest extends AbstractControllerTest {
     public void setUp() throws Exception {
 
         super.setUp();
+    }
+
+    @Test
+    public void testMock() {
+
+        assertTrue(true);
     }
 
     // @Test
