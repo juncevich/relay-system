@@ -40,7 +40,7 @@ public class DistantionServiceTest extends AbstractDBTest {
         // district.setName("Test_district");
         // distantion.setDistricts(Arrays.asList(district));
 
-        Distantion savedDistantion = distantionService.save(distantion);
+        distantionService.save(distantion);
 
     }
 }
