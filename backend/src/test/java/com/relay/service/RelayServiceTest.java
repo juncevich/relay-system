@@ -52,6 +52,28 @@ public class RelayServiceTest extends AbstractDBTest {
     }
 
     @Test
+    public void testFindRelayAfterDateOfManufacture() {
+
+        Relay equalsReley = new Relay();
+        equalsReley.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 5));
+        relayRepository.save(equalsReley);
+
+        Relay lessRelay = new Relay();
+        lessRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
+        relayRepository.save(lessRelay);
+
+        Relay moreRelay = new Relay();
+        moreRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 7));
+        Relay savedMoreRelay = relayRepository.save(moreRelay);
+
+        List<Relay> foundedRelayList =
+                relayRepository.findByDateOfManufactureAfter(LocalDate.of(2018, Month.JUNE, 6));
+        assertEquals(1, foundedRelayList.size());
+        assertEquals(savedMoreRelay.getId(), foundedRelayList.get(0).getId());
+
+    }
+
+    @Test
     public void findAll() {
 
         List<Relay> block = Lists.newArrayList(relayService.findAll());

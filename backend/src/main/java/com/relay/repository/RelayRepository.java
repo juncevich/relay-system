@@ -23,9 +23,18 @@ public interface RelayRepository extends CrudRepository<Relay, BigInteger> {
     /**
      * Find relay by born date
      * 
-     * @param bornDate
+     * @param dateOfManufacture
      *            {@link Relay#getDateOfManufacture()}
      * @return relay
      */
-    List<Relay> findByDateOfManufacture(LocalDate bornDate);
+    List<Relay> findByDateOfManufacture(LocalDate dateOfManufacture);
+
+    /**
+     * Find relay by born date
+     *
+     * @param dateOfManufacture
+     *            {@link Relay#getDateOfManufacture()}
+     * @return relay
+     */
+    List<Relay> findByDateOfManufactureAfter(LocalDate dateOfManufacture);
 }
