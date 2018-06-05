@@ -1,5 +1,6 @@
 package com.relay.model;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
@@ -39,6 +40,11 @@ public class Relay extends AbstractEntity {
      */
     @JsonIgnore
     private ZonedDateTime time;
+
+    /**
+     * Date of manufacture relay
+     */
+    private LocalDate dateOfManufacture;
 
     /**
      * Relay constructor

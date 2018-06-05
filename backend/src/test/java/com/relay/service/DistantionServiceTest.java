@@ -1,13 +1,12 @@
 package com.relay.service;
 
-import java.util.Collections;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.Lists;
+import com.relay.AbstractDBTest;
 import com.relay.model.Distantion;
-import com.relay.repository.AbstractDBTest;
 import com.relay.repository.DistantionRepository;
 
 public class DistantionServiceTest extends AbstractDBTest {
@@ -22,7 +21,6 @@ public class DistantionServiceTest extends AbstractDBTest {
     @Before
     public void setUp() {
 
-
         distantionRepository.deleteAll();
     }
 
@@ -30,8 +28,7 @@ public class DistantionServiceTest extends AbstractDBTest {
     public void findAll() {
 
         Iterable<Distantion> emptyDistantionList = distantionService.findAll();
-        Collections.singletonList(emptyDistantionList);
-        assertEquals(1, Collections.singletonList(emptyDistantionList).size());
+        assertEquals(0, Lists.newArrayList(emptyDistantionList).size());
     }
 
     @Test

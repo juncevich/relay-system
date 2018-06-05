@@ -1,4 +1,4 @@
-package com.relay.repository;
+package com.relay;
 
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

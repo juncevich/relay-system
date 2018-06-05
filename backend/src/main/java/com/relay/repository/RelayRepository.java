@@ -1,6 +1,8 @@
 package com.relay.repository;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +19,13 @@ public interface RelayRepository extends CrudRepository<Relay, BigInteger> {
      * @return relay
      */
     Relay findByText(@Param("text") String text);
+
+    /**
+     * Find relay by born date
+     * 
+     * @param bornDate
+     *            {@link Relay#getDateOfManufacture()}
+     * @return relay
+     */
+    List<Relay> findByDateOfManufacture(LocalDate bornDate);
 }
