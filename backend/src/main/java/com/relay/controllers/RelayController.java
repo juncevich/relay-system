@@ -11,8 +11,6 @@ import com.relay.model.Relay;
 import com.relay.service.RelayService;
 import com.relay.service.StationService;
 
-import reactor.core.publisher.Flux;
-
 @RestController
 public class RelayController {
 
@@ -68,7 +66,7 @@ public class RelayController {
      * @return list with all relays
      */
     @GetMapping("/relays")
-    public Flux<Relay> retrieveAllRelays() {
+    public Iterable<Relay> retrieveAllRelays() {
 
         return relayService.findAll();
     }
@@ -126,7 +124,7 @@ public class RelayController {
         // URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
         // .buildAndExpand(savedRelay.getId()).toUri();
         // return ResponseEntity.created(uri).build();
-        return relayService.save(relay).block();
+        return relayService.save(relay);
     }
 
     // @GetMapping("/users/{id}")

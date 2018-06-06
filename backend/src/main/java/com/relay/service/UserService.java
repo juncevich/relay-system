@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 import com.relay.model.User;
 import com.relay.repository.UserRepository;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 @Component
 public class UserService {
 
@@ -20,17 +17,17 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Flux<User> findAll() {
+    public Iterable<User> findAll() {
 
         return userRepository.findAll();
     }
 
-    public Mono<User> save(User user) {
+    public User save(User user) {
 
         return userRepository.save(user);
     }
 
-    public Mono<User> findOne(long id) {
+    public User findOne(long id) {
 
         return userRepository.findById(id);
     }

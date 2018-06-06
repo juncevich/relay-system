@@ -5,11 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.convert.Jsr310Converters;
-import org.springframework.web.reactive.config.EnableWebFlux;
 
 // @EnableDiscoveryClient
 @SpringBootApplication
-@EnableWebFlux
 @ComponentScan(value = "com.relay")
 @EntityScan(basePackageClasses = { RelaySystemApplication.class, Jsr310Converters.class })
 public class RelaySystemApplication {

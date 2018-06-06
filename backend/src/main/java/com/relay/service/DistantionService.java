@@ -5,9 +5,6 @@ import org.springframework.stereotype.Service;
 import com.relay.model.Distantion;
 import com.relay.repository.DistantionRepository;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 @Service
 public class DistantionService {
 
@@ -18,12 +15,12 @@ public class DistantionService {
         this.distantionRepository = distantionRepository;
     }
 
-    public Flux<Distantion> findAll() {
+    public Iterable<Distantion> findAll() {
 
         return distantionRepository.findAll();
     }
 
-    public Mono<Distantion> save(Distantion distantion) {
+    public Distantion save(Distantion distantion) {
 
         return distantionRepository.save(distantion);
     }

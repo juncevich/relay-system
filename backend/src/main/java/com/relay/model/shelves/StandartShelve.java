@@ -1,13 +1,13 @@
 package com.relay.model.shelves;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
 
 import com.relay.model.Relay;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Document
+@Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class StandartShelve extends Shelve {

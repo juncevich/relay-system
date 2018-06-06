@@ -2,7 +2,8 @@ package com.relay.model.statives;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import com.relay.model.AbstractEntity;
 import com.relay.model.shelves.Shelve;
@@ -10,7 +11,7 @@ import com.relay.model.shelves.Shelve;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Document
+@Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Stativ extends AbstractEntity {
@@ -18,6 +19,7 @@ public class Stativ extends AbstractEntity {
     /**
      * List of shelves
      */
+    @OneToMany
     private List<Shelve> shelves;
 
 }

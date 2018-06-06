@@ -2,8 +2,8 @@ package com.relay.model;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import com.relay.model.places.Station;
 
@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-@Document
+@Entity
 @Data
 public class District extends AbstractEntity {
 
@@ -23,12 +23,12 @@ public class District extends AbstractEntity {
     /**
      * Stations list
      */
-    @DBRef
+    @OneToMany
     private List<Station> stations;
 
     /**
      * Stages list
      */
-    @DBRef
+    @OneToMany
     private List<Stage> stages;
 }

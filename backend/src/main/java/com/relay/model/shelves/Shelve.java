@@ -1,15 +1,17 @@
 package com.relay.model.shelves;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
 
 import com.relay.model.AbstractEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Document
+@Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
 public class Shelve extends AbstractEntity {
 
 }

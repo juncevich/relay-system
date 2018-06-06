@@ -1,8 +1,8 @@
 package com.relay.repository;
 
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import com.relay.model.Distantion;
 
-public interface DistantionRepository extends ReactiveCrudRepository<Distantion, String> {
+public interface DistantionRepository extends CrudRepository<Distantion, String> {
 }

@@ -1,10 +1,10 @@
 package com.relay.model;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
+import javax.persistence.Entity;
 import javax.validation.constraints.Size;
-
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,7 +19,7 @@ import lombok.NonNull;
 
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "Relay details.")
-@Document
+@Entity
 @Data
 @Builder
 @AllArgsConstructor
@@ -40,6 +40,11 @@ public class Relay extends AbstractEntity {
      */
     @JsonIgnore
     private ZonedDateTime time;
+
+    /**
+     * Date of manufacture relay
+     */
+    private LocalDate dateOfManufacture;
 
     /**
      * Relay constructor

@@ -2,14 +2,14 @@ package com.relay.model;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-@Document
+@Entity
 @Data
 public class Distantion extends AbstractEntity {
 
@@ -21,6 +21,6 @@ public class Distantion extends AbstractEntity {
     /**
      * List of the districts
      */
-    @DBRef
+    @OneToMany
     private List<District> districts;
 }
