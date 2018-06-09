@@ -45,6 +45,16 @@ public class Relay extends AbstractEntity {
     private LocalDate dateOfManufacture;
 
     /**
+     * Relay verification date
+     */
+    private LocalDate verificationDate;
+
+    /**
+     * Relay serial number
+     */
+    private String serialNumber;
+
+    /**
      * Relay constructor
      * 
      * @param text
