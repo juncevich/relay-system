@@ -73,9 +73,9 @@ public class RelayService {
      * @param id
      *            {@link Relay#id}
      */
-    public void deleteById(String id) {
+    public void deleteById(BigInteger id) {
 
-        relayRepository.deleteById(BigInteger.valueOf(Long.parseLong(id)));
+        relayRepository.deleteById(id);
     }
 
     public Relay findByText(String text) {

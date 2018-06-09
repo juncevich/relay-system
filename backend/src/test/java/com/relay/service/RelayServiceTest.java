@@ -3,7 +3,6 @@ package com.relay.service;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -23,14 +22,14 @@ public class RelayServiceTest extends AbstractDBTest {
     @Before
     public void setUp() {
 
-        Relay relay1 = new Relay("Text");
-        Relay relay2 = new Relay("Text1");
-        Relay relay3 = new Relay("Text2");
-        Relay relay4 = new Relay("Text3");
-        Relay relay5 = new Relay("Text4");
-
-        List<Relay> relayToSave = Arrays.asList(relay1, relay2, relay3, relay4, relay5);
-        relayService.saveAll(relayToSave);
+        // Relay relay1 = new Relay("Text");
+        // Relay relay2 = new Relay("Text1");
+        // Relay relay3 = new Relay("Text2");
+        // Relay relay4 = new Relay("Text3");
+        // Relay relay5 = new Relay("Text4");
+        //
+        // List<Relay> relayToSave = Arrays.asList(relay1, relay2, relay3, relay4, relay5);
+        // relayService.saveAll(relayToSave);
     }
 
     @Test
@@ -72,25 +71,41 @@ public class RelayServiceTest extends AbstractDBTest {
     @Test
     public void findAll() {
 
-        List<Relay> block = Lists.newArrayList(relayService.findAll());
-        assertEquals(5, block.size());
+        Relay relay = Relay.builder().text("some text").build();
+        relayService.save(relay);
+        relay = Relay.builder().text("some text").build();
+        relayService.save(relay);
+        relay = Relay.builder().text("some text").build();
+        relayService.save(relay);
+        relay = Relay.builder().text("some text").build();
+        relayService.save(relay);
+
+        List<Relay> relayList = Lists.newArrayList(relayService.findAll());
+        assertEquals(4, relayList.size());
 
     }
 
     @Test
     public void save() {
 
-        relayService.save(new Relay("fifth"));
         ArrayList<Relay> relays = Lists.newArrayList(relayService.findAll());
-        assertEquals(6, relays.size());
+        assertEquals(0, relays.size());
+
+        relayService.save(new Relay("fifth"));
+        relays = Lists.newArrayList(relayService.findAll());
+        assertEquals(1, relays.size());
     }
 
     @Test
     public void findExistingOne() {
 
-        Relay relay = relayService.findByText("Text1");
-        assertNotNull(relay);
-        assertEquals("Text1", relay.getText());
+        Relay relay = Relay.builder().text("Text1").build();
+
+        relayService.save(relay);
+
+        Relay foundedRelay = relayService.findByText("Text1");
+        assertNotNull(foundedRelay);
+        assertEquals("Text1", foundedRelay.getText());
     }
 
     @Test
@@ -124,5 +139,21 @@ public class RelayServiceTest extends AbstractDBTest {
         Relay foundedRelay = relayService.findBySerialNumber("45");
         assertNotNull(foundedRelay);
         assertEquals(savedRelay.getId(), foundedRelay.getId());
+    }
+
+    @Test
+    public void testDeletingRelayById() {
+
+        Relay relay = Relay.builder().text("some text").build();
+        relayService.save(relay);
+        relay = Relay.builder().text("some another text").build();
+        Relay savedRelay = relayService.save(relay);
+
+        assertEquals(2, Lists.newArrayList(relayService.findAll()).size());
+
+        relayService.deleteById(savedRelay.getId());
+
+        assertEquals(1, Lists.newArrayList(relayService.findAll()).size());
+
     }
 }
