@@ -38,12 +38,12 @@ public class RelayService {
 
     public Optional<Relay> findOne(String id) {
 
-        return relayRepository.findById(new BigInteger(id));
+        return relayRepository.findById(BigInteger.valueOf(Long.parseLong(id)));
     }
 
     public void deleteById(String id) {
 
-        relayRepository.deleteById(new BigInteger(id));
+        relayRepository.deleteById(BigInteger.valueOf(Long.parseLong(id)));
     }
 
     public Relay findByText(String text) {
