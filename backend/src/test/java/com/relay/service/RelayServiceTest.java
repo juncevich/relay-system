@@ -1,36 +1,20 @@
 package com.relay.service;
 
+import com.google.common.collect.Lists;
+import com.relay.AbstractDBTest;
+import com.relay.model.Relay;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.google.common.collect.Lists;
-import com.relay.AbstractDBTest;
-import com.relay.model.Relay;
-
 public class RelayServiceTest extends AbstractDBTest {
 
     @Autowired
     private RelayService relayService;
-
-    @Override
-    @Before
-    public void setUp() {
-
-        // Relay relay1 = new Relay("Text");
-        // Relay relay2 = new Relay("Text1");
-        // Relay relay3 = new Relay("Text2");
-        // Relay relay4 = new Relay("Text3");
-        // Relay relay5 = new Relay("Text4");
-        //
-        // List<Relay> relayToSave = Arrays.asList(relay1, relay2, relay3, relay4, relay5);
-        // relayService.saveAll(relayToSave);
-    }
 
     @Test
     public void findRelayByDate() {
@@ -71,6 +55,9 @@ public class RelayServiceTest extends AbstractDBTest {
     @Test
     public void findAll() {
 
+        ArrayList<Relay> relayList = Lists.newArrayList(relayService.findAll());
+        assertEquals(0, relayList.size());
+
         Relay relay = Relay.builder().text("some text").build();
         relayService.save(relay);
         relay = Relay.builder().text("some text").build();
@@ -80,7 +67,7 @@ public class RelayServiceTest extends AbstractDBTest {
         relay = Relay.builder().text("some text").build();
         relayService.save(relay);
 
-        List<Relay> relayList = Lists.newArrayList(relayService.findAll());
+        relayList = Lists.newArrayList(relayService.findAll());
         assertEquals(4, relayList.size());
 
     }
@@ -155,5 +142,24 @@ public class RelayServiceTest extends AbstractDBTest {
 
         assertEquals(1, Lists.newArrayList(relayService.findAll()).size());
 
+    }
+
+    @Test
+    public void testSaveAll() {
+
+        ArrayList<Relay> relayList = Lists.newArrayList(relayService.findAll());
+        assertEquals(0, relayList.size());
+
+        Relay relay1 = new Relay("Text");
+        Relay relay2 = new Relay("Text1");
+        Relay relay3 = new Relay("Text2");
+        Relay relay4 = new Relay("Text3");
+        Relay relay5 = new Relay("Text4");
+
+        List<Relay> relayToSave = Lists.newArrayList(relay1, relay2, relay3, relay4, relay5);
+        relayService.saveAll(relayToSave);
+
+        relayList = Lists.newArrayList(relayService.findAll());
+        assertEquals(5, relayList.size());
     }
 }
