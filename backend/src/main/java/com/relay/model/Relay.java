@@ -1,13 +1,6 @@
 package com.relay.model;
 
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-
-import javax.persistence.Entity;
-import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,6 +9,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
+import javax.persistence.Entity;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "Relay details.")
@@ -47,18 +45,14 @@ public class Relay extends AbstractEntity {
     private LocalDate dateOfManufacture;
 
     /**
-     * Relay constructor
-     * 
-     * @param id
-     *            relay id
-     * @param someText
-     *            relay text
+     * Relay verification date
      */
-    public Relay(final String id, final String someText) {
+    private LocalDate verificationDate;
 
-        // this.setId(id);
-        this.setText(someText);
-    }
+    /**
+     * Relay serial number
+     */
+    private String serialNumber;
 
     /**
      * Relay constructor
@@ -66,8 +60,9 @@ public class Relay extends AbstractEntity {
      * @param text
      *            relay text
      */
-    public Relay(@Size(min = 2,
-            message = "Text should contain at least to characters") final String text) {
+    @Size(min = 2,
+            message = "Text should contain at least to characters")
+    public Relay(final String text) {
 
         this.text = text;
     }
