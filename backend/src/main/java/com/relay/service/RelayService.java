@@ -78,10 +78,6 @@ public class RelayService {
         relayRepository.deleteById(id);
     }
 
-    public Relay findByText(String text) {
-
-        return relayRepository.findByText(text);
-    }
 
     /**
      * Find relay by verification date

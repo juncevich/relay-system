@@ -81,13 +81,13 @@ public class RelayServiceTest extends AbstractDBTest {
         ArrayList<Relay> relayList = Lists.newArrayList(relayService.findAll());
         assertEquals(0, relayList.size());
 
-        Relay relay = Relay.builder().text("some text").build();
+        Relay relay = Relay.builder().serialNumber("012345").build();
         relayService.save(relay);
-        relay = Relay.builder().text("some text").build();
+        relay = Relay.builder().serialNumber("012345").build();
         relayService.save(relay);
-        relay = Relay.builder().text("some text").build();
+        relay = Relay.builder().serialNumber("012345").build();
         relayService.save(relay);
-        relay = Relay.builder().text("some text").build();
+        relay = Relay.builder().serialNumber("012345").build();
         relayService.save(relay);
 
         relayList = Lists.newArrayList(relayService.findAll());
@@ -101,21 +101,9 @@ public class RelayServiceTest extends AbstractDBTest {
         ArrayList<Relay> relays = Lists.newArrayList(relayService.findAll());
         assertEquals(0, relays.size());
 
-        relayService.save(new Relay("fifth"));
+        relayService.save(new Relay());
         relays = Lists.newArrayList(relayService.findAll());
         assertEquals(1, relays.size());
-    }
-
-    @Test
-    public void findExistingOne() {
-
-        Relay relay = Relay.builder().text("Text1").build();
-
-        relayService.save(relay);
-
-        Relay foundedRelay = relayService.findByText("Text1");
-        assertNotNull(foundedRelay);
-        assertEquals("Text1", foundedRelay.getText());
     }
 
     @Test
@@ -142,11 +130,11 @@ public class RelayServiceTest extends AbstractDBTest {
     @Test
     public void testFindBySerialNumber() {
 
-        Relay relay = Relay.builder().serialNumber("45").text("some text").build();
+        Relay relay = Relay.builder().serialNumber("012345").build();
 
         Relay savedRelay = relayService.save(relay);
 
-        Relay foundedRelay = relayService.findBySerialNumber("45");
+        Relay foundedRelay = relayService.findBySerialNumber("012345");
         assertNotNull(foundedRelay);
         assertEquals(savedRelay.getId(), foundedRelay.getId());
     }
@@ -154,9 +142,9 @@ public class RelayServiceTest extends AbstractDBTest {
     @Test
     public void testDeletingRelayById() {
 
-        Relay relay = Relay.builder().text("some text").build();
+        Relay relay = Relay.builder().serialNumber("012345").build();
         relayService.save(relay);
-        relay = Relay.builder().text("some another text").build();
+        relay = Relay.builder().serialNumber("0123456").build();
         Relay savedRelay = relayService.save(relay);
 
         assertEquals(2, Lists.newArrayList(relayService.findAll()).size());
@@ -173,11 +161,11 @@ public class RelayServiceTest extends AbstractDBTest {
         ArrayList<Relay> relayList = Lists.newArrayList(relayService.findAll());
         assertEquals(0, relayList.size());
 
-        Relay relay1 = new Relay("Text");
-        Relay relay2 = new Relay("Text1");
-        Relay relay3 = new Relay("Text2");
-        Relay relay4 = new Relay("Text3");
-        Relay relay5 = new Relay("Text4");
+        Relay relay1 = new Relay();
+        Relay relay2 = new Relay();
+        Relay relay3 = new Relay();
+        Relay relay4 = new Relay();
+        Relay relay5 = new Relay();
 
         List<Relay> relayToSave = Lists.newArrayList(relay1, relay2, relay3, relay4, relay5);
         relayService.saveAll(relayToSave);

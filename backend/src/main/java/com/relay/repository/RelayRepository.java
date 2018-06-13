@@ -6,20 +6,11 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
 
 import com.relay.model.Relay;
 
 public interface RelayRepository extends PagingAndSortingRepository<Relay, BigInteger> {
 
-    /**
-     * Find Relay by text
-     *
-     * @param text
-     *            text
-     * @return relay
-     */
-    Relay findByText(@Param("text") String text);
 
     /**
      * Find relay by born date
