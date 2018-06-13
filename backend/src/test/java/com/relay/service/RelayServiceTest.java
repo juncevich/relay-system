@@ -1,15 +1,16 @@
 package com.relay.service;
 
-import com.google.common.collect.Lists;
-import com.relay.AbstractDBTest;
-import com.relay.model.Relay;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.collect.Lists;
+import com.relay.AbstractDBTest;
+import com.relay.model.Relay;
 
 public class RelayServiceTest extends AbstractDBTest {
 
@@ -49,6 +50,28 @@ public class RelayServiceTest extends AbstractDBTest {
                 relayService.findByDateOfManufactureAfter(LocalDate.of(2018, Month.JUNE, 6));
         assertEquals(1, foundedRelayList.size());
         assertEquals(savedMoreRelay.getId(), foundedRelayList.get(0).getId());
+
+    }
+
+    @Test
+    public void testFindRelayBeforeDateOfManufacture() {
+
+        Relay equalsRelay = new Relay();
+        equalsRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 5));
+        relayService.save(equalsRelay);
+
+        Relay lessRelay = new Relay();
+        lessRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
+        relayService.save(lessRelay);
+
+        Relay moreRelay = new Relay();
+        moreRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 7));
+        relayService.save(moreRelay);
+
+        List<Relay> foundedRelayList =
+                relayService.findByDateOfManufactureBefore(LocalDate.of(2018, Month.JUNE, 6));
+        assertEquals(1, foundedRelayList.size());
+        assertEquals(equalsRelay.getId(), foundedRelayList.get(0).getId());
 
     }
 
@@ -162,4 +185,5 @@ public class RelayServiceTest extends AbstractDBTest {
         relayList = Lists.newArrayList(relayService.findAll());
         assertEquals(5, relayList.size());
     }
+
 }

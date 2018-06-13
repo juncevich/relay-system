@@ -65,4 +65,16 @@ public interface RelayRepository extends PagingAndSortingRepository<Relay, BigIn
      * @return relay
      */
     Relay findBySerialNumber(String serialNumber);
+
+    /**
+     * Find relay before born date
+     *
+     * @param dateOfManufacture
+     *            {@link Relay#dateOfManufacture}
+     *
+     * @param pageable
+     *            {@link Pageable}
+     * @return relay
+     */
+    List<Relay> findByDateOfManufactureBefore(LocalDate dateOfManufacture, Pageable pageable);
 }

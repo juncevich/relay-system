@@ -144,4 +144,17 @@ public class RelayService {
 
         return relayRepository.findBySerialNumber(serialNumber);
     }
+
+    /**
+     * Find relay before date of manufacture
+     *
+     * @param date
+     *            {@link Relay#dateOfManufacture}
+     * @return List of {@link Relay}
+     */
+    public List<Relay> findByDateOfManufactureBefore(LocalDate date) {
+
+        PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
+        return relayRepository.findByDateOfManufactureBefore(date, pageable);
+    }
 }
