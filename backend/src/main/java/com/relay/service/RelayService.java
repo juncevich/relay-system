@@ -78,10 +78,6 @@ public class RelayService {
         relayRepository.deleteById(id);
     }
 
-    public Relay findByText(String text) {
-
-        return relayRepository.findByText(text);
-    }
 
     /**
      * Find relay by verification date
@@ -143,5 +139,18 @@ public class RelayService {
     public Relay findBySerialNumber(String serialNumber) {
 
         return relayRepository.findBySerialNumber(serialNumber);
+    }
+
+    /**
+     * Find relay before date of manufacture
+     *
+     * @param date
+     *            {@link Relay#dateOfManufacture}
+     * @return List of {@link Relay}
+     */
+    public List<Relay> findByDateOfManufactureBefore(LocalDate date) {
+
+        PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
+        return relayRepository.findByDateOfManufactureBefore(date, pageable);
     }
 }
