@@ -5,17 +5,28 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Lists;
 import com.relay.AbstractDBTest;
 import com.relay.model.Relay;
+import com.relay.repository.RelayRepository;
 
 public class RelayServiceTest extends AbstractDBTest {
 
     @Autowired
     private RelayService relayService;
+
+    @Autowired
+    private RelayRepository relayRepository;
+
+    @Before
+    public void setUp() {
+
+        relayRepository.deleteAll();
+    }
 
     @Test
     public void findRelayByDate() {
