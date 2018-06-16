@@ -43,6 +43,7 @@ public class SwaggerConfig {
     public Docket api() {
 
         return new Docket(SWAGGER_2).apiInfo(DEFAULT_API_INFO).select()
-                .apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
+                .apis(RequestHandlerSelectors.basePackage("com.relay.controllers"))
+                .paths(PathSelectors.any()).build();
     }
 }
