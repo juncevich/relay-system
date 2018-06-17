@@ -1,17 +1,7 @@
 package com.relay.controllers;
 
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.IOException;
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.Arrays;
-
+import com.relay.model.Relay;
+import com.relay.service.RelayService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +16,18 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.relay.model.Relay;
-import com.relay.service.RelayService;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest
@@ -56,6 +56,25 @@ public class RelayControllerTest {
         MockHttpServletResponse response = this.mockMvc
                 .perform(post("/relay").content(json(relay)).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        String contentAsString = response.getContentAsString();
+        assertNotNull(contentAsString);
+    }
+
+    @Test
+    @WithMockUser
+    public void testRetrieveAllRelays() throws Exception {
+
+        Relay relay = new Relay();
+        relay.setId(BigInteger.ONE);
+        relay.setDateOfManufacture(LocalDate.of(2016, 6, 10));
+        relay.setVerificationDate(LocalDate.of(2018, 6, 25));
+        relay.setSerialNumber("012345");
+
+        when(relayService.save(any(Relay.class))).thenReturn(relay);
+
+        MockHttpServletResponse response = this.mockMvc.perform(get("/relays").with(csrf()))
+
                 .andExpect(status().isOk()).andReturn().getResponse();
         String contentAsString = response.getContentAsString();
         assertNotNull(contentAsString);
