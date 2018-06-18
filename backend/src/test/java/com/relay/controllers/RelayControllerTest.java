@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -80,7 +81,7 @@ public class RelayControllerTest {
         relay.setVerificationDate(LocalDate.of(2018, 6, 25));
         relay.setSerialNumber("012345");
 
-        when(relayService.save(any(Relay.class))).thenReturn(relay);
+        when(relayService.findAll()).thenReturn(Collections.singleton(relay));
 
         MockHttpServletResponse response = this.mockMvc.perform(get("/relays").with(csrf()))
 
