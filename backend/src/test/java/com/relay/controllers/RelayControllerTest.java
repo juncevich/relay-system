@@ -1,26 +1,5 @@
 package com.relay.controllers;
 
-import com.relay.model.Relay;
-import com.relay.service.RelayService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.mock.http.MockHttpOutputMessage;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.io.IOException;
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.Arrays;
-
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -28,6 +7,25 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.math.BigInteger;
+import java.time.LocalDate;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.relay.model.Relay;
+import com.relay.service.RelayService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest
@@ -39,7 +37,14 @@ public class RelayControllerTest {
     @MockBean
     private RelayService relayService;
 
-    private HttpMessageConverter mappingJackson2HttpMessageConverter;
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Before
+    public void setUp() {
+
+        objectMapper = new ObjectMapper();
+    }
 
     @Test
     @WithMockUser()
@@ -54,8 +59,8 @@ public class RelayControllerTest {
         when(relayService.save(any(Relay.class))).thenReturn(relay);
 
         MockHttpServletResponse response = this.mockMvc
-                .perform(post("/relay").content(json(relay)).with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(post("/relay").content(objectMapper.writeValueAsString(relay))
+                        .with(csrf()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn().getResponse();
         String contentAsString = response.getContentAsString();
         assertNotNull(contentAsString);
@@ -80,22 +85,4 @@ public class RelayControllerTest {
         assertNotNull(contentAsString);
     }
 
-    @Autowired
-    private void setConverters(HttpMessageConverter<?>[] converters) {
-
-        this.mappingJackson2HttpMessageConverter = Arrays.stream(converters)
-                .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter).findAny()
-                .orElse(null);
-
-        assertNotNull("the JSON message converter must not be null",
-                this.mappingJackson2HttpMessageConverter);
-    }
-
-    private String json(Object o) throws IOException {
-
-        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
-        this.mappingJackson2HttpMessageConverter.write(o, MediaType.APPLICATION_JSON,
-                mockHttpOutputMessage);
-        return mockHttpOutputMessage.getBodyAsString();
-    }
 }
