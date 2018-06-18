@@ -24,6 +24,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.relay.model.Relay;
 import com.relay.service.RelayService;
 
@@ -43,7 +45,8 @@ public class RelayControllerTest {
     @Before
     public void setUp() {
 
-        objectMapper = new ObjectMapper();
+        objectMapper = new ObjectMapper().registerModule(new Jdk8Module())
+                .registerModule(new JavaTimeModule());
     }
 
     @Test
@@ -59,8 +62,9 @@ public class RelayControllerTest {
         when(relayService.save(any(Relay.class))).thenReturn(relay);
 
         MockHttpServletResponse response = this.mockMvc
-                .perform(post("/relay").content(objectMapper.writeValueAsString(relay))
-                        .with(csrf()).contentType(MediaType.APPLICATION_JSON))
+                .perform(post("/relay").accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(relay))
+                        .contentType(MediaType.APPLICATION_JSON).with(csrf()))
                 .andExpect(status().isOk()).andReturn().getResponse();
         String contentAsString = response.getContentAsString();
         assertNotNull(contentAsString);
