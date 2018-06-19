@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,10 @@ public class RelayService {
      * 
      * @return list with all {@link Relay}
      */
-    public Iterable<Relay> findAll() {
+    public Page<Relay> findAll() {
 
-        return relayRepository.findAll();
+        PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
+        return relayRepository.findAll(pageable);
     }
 
     /**
@@ -77,7 +79,6 @@ public class RelayService {
 
         relayRepository.deleteById(id);
     }
-
 
     /**
      * Find relay by verification date
