@@ -1,21 +1,12 @@
 package com.relay.controllers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Stream;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.relay.model.Relay;
+import com.relay.service.RelayService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,13 +21,21 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.relay.model.Relay;
-import com.relay.service.RelayService;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Stream;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -110,9 +109,8 @@ public class RelayControllerTest {
         generateRelay(1);
         Relay relay = relayService.findAll().getContent().get(0);
 
-        MockHttpServletResponse response =
-                this.mockMvc.perform(delete("/relay/" + relay.getId()).with(csrf()))
-                        .andExpect(status().isOk()).andReturn().getResponse();
+        this.mockMvc.perform(delete("/relay/" + relay.getId()).with(csrf()))
+                .andExpect(status().isOk()).andReturn().getResponse();
 
         List<Relay> relayList = relayService.findAll().getContent();
         assertTrue(CollectionUtils.isEmpty(relayList));
