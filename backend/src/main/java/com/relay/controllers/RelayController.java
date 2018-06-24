@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.time.LocalDate;
 
 @RestController
 public class RelayController {
@@ -66,5 +67,18 @@ public class RelayController {
     public Relay createRelay(@Valid @RequestBody Relay relay) {
 
         return relayService.save(relay);
+    }
+
+    /**
+     * Finding relay by verification date
+     * 
+     * @param verificationDate
+     *            {@link Relay#verificationDate}
+     * @return Page of relay
+     */
+    @PostMapping("/relay/verificationDate")
+    public Page<Relay> findByVerificationDate(@RequestBody LocalDate verificationDate) {
+
+        return relayService.findByVerificationDate(verificationDate);
     }
 }

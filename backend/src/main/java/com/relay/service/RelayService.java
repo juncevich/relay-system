@@ -85,9 +85,9 @@ public class RelayService {
      * 
      * @param date
      *            {@link Relay#verificationDate}
-     * @return List of {@link Relay}
+     * @return Page of {@link Relay}
      */
-    public List<Relay> findByVerificationDate(LocalDate date) {
+    public Page<Relay> findByVerificationDate(LocalDate date) {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         return relayRepository.findByVerificationDate(date, pageable);

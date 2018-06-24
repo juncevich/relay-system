@@ -133,7 +133,8 @@ public class RelayServiceTest extends AbstractDBTest {
         Relay savedRelay = relayService.save(relay);
 
         List<Relay> relayList =
-                relayService.findByVerificationDate(LocalDate.of(2018, Month.JUNE, 5));
+                relayService.findByVerificationDate(LocalDate.of(2018, Month.JUNE, 5))
+                        .getContent();
         assertEquals(1, relayList.size());
         assertEquals(savedRelay.getId(), relayList.get(0).getId());
     }
