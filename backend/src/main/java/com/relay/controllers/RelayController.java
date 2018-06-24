@@ -49,7 +49,7 @@ public class RelayController {
      * @param id
      *            id relay to delete
      */
-    @DeleteMapping("/relays/{id}")
+    @DeleteMapping("/relay/{id}")
     public void deleteRelay(@PathVariable BigInteger id) {
 
         relayService.deleteById(id);

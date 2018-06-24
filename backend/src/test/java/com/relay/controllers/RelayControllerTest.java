@@ -18,6 +18,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigInteger;
@@ -28,7 +29,9 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -83,13 +86,7 @@ public class RelayControllerTest {
     @WithMockUser
     public void testRetrieveAllRelays() throws Exception {
 
-        Stream.generate(() -> {
-            Relay relay = new Relay();
-            relay.setDateOfManufacture(LocalDate.of(2016, 6, 10));
-            relay.setVerificationDate(LocalDate.of(2018, 6, 25));
-            relay.setSerialNumber(String.valueOf(new Random().nextInt(20) + 10000));
-            return relay;
-        }).limit(15).forEach(relay -> relayService.save(relay));
+        generateRelay(15);
 
         MockHttpServletResponse response = this.mockMvc.perform(get("/relays").with(csrf()))
                 .andExpect(status().isOk()).andReturn().getResponse();
@@ -104,6 +101,30 @@ public class RelayControllerTest {
                 });
         assertNotNull(receivedRelayList);
         assertEquals(10, receivedRelayList.size());
+    }
+
+    @Test
+    public void testDeleteRelay() throws Exception {
+
+        generateRelay(1);
+        Relay relay = relayService.findAll().getContent().get(0);
+
+        this.mockMvc.perform(delete("/relay/" + relay.getId()).with(csrf()))
+                .andExpect(status().isOk()).andReturn().getResponse();
+
+        List<Relay> relayList = relayService.findAll().getContent();
+        assertTrue(CollectionUtils.isEmpty(relayList));
+    }
+
+    private void generateRelay(Integer amount) {
+
+        Stream.generate(() -> {
+            Relay relay = new Relay();
+            relay.setDateOfManufacture(LocalDate.of(2016, 6, 10));
+            relay.setVerificationDate(LocalDate.of(2018, 6, 25));
+            relay.setSerialNumber(String.valueOf(new Random().nextInt(20) + 10000));
+            return relay;
+        }).limit(amount).forEach(relay -> relayService.save(relay));
     }
 
 }
