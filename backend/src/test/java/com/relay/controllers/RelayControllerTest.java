@@ -1,12 +1,20 @@
 package com.relay.controllers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.relay.model.Relay;
-import com.relay.service.RelayService;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Stream;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,21 +29,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Stream;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.relay.model.Relay;
+import com.relay.service.RelayService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -65,17 +65,13 @@ public class RelayControllerTest {
     @WithMockUser()
     public void testCreateRelay() throws Exception {
 
-        Relay relay = new Relay();
-        relay.setId(BigInteger.ONE);
-        relay.setDateOfManufacture(LocalDate.of(2016, 6, 10));
-        relay.setVerificationDate(LocalDate.of(2018, 6, 25));
-        relay.setSerialNumber("012345");
-
-        // when(relayService.save(any(Relay.class))).thenReturn(relay);
-
+        String createdRelayJson = "{\n" + "    \"id\": 1,\n" + "    \"created\": null,\n"
+                + "    \"updated\": null,\n" + "    \"dateOfManufacture\": [\n" + "        2016,\n"
+                + "        6,\n" + "        10\n" + "    ],\n" + "    \"verificationDate\": [\n"
+                + "        2018,\n" + "        6,\n" + "        25\n" + "    ],\n"
+                + "    \"serialNumber\": \"012345\"\n" + "}";
         MockHttpServletResponse response = this.mockMvc
-                .perform(post("/relay").accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(relay))
+                .perform(post("/relay").content(createdRelayJson)
                         .contentType(MediaType.APPLICATION_JSON).with(csrf()))
                 .andExpect(status().isOk()).andReturn().getResponse();
         String contentAsString = response.getContentAsString();
@@ -114,6 +110,30 @@ public class RelayControllerTest {
 
         List<Relay> relayList = relayService.findAll().getContent();
         assertTrue(CollectionUtils.isEmpty(relayList));
+    }
+
+    @Test
+    @WithMockUser
+    public void testRelayWithCurrentDate() throws Exception {
+
+        generateRelay(15);
+        String date = "[2018,6,25]";
+        MockHttpServletResponse response = this.mockMvc
+                .perform(post("/relay/verificationDate").content(date)
+                        .contentType(MediaType.APPLICATION_JSON).with(csrf()))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        String contentAsString = response.getContentAsString();
+        assertNotNull(contentAsString);
+
+        JsonNode jsonNode = objectMapper.readTree(contentAsString);
+        JsonNode content = jsonNode.get("content");
+
+        List<Relay> receivedRelayList =
+                objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
+                });
+        assertNotNull(receivedRelayList);
+        assertEquals(10, receivedRelayList.size());
+
     }
 
     private void generateRelay(Integer amount) {

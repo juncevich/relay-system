@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -44,9 +45,9 @@ public interface RelayRepository extends PagingAndSortingRepository<Relay, BigIn
      * 
      * @param pageable
      *            * {@link Pageable}
-     * @return relay list
+     * @return relay page
      */
-    List<Relay> findByVerificationDate(LocalDate date, Pageable pageable);
+    Page<Relay> findByVerificationDate(LocalDate date, Pageable pageable);
 
     /**
      * Find relay by serial number
