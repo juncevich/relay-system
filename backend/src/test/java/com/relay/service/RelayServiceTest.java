@@ -1,5 +1,6 @@
 package com.relay.service;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class RelayServiceTest extends AbstractDBTest {
     @Test
     public void findNotExistingOne() {
 
-        Relay relay = relayService.findOne("77").orElse(null);
+        Relay relay = relayService.findOne(new BigInteger("77")).orElse(null);
         assertNull(relay);
 
     }
@@ -132,9 +133,8 @@ public class RelayServiceTest extends AbstractDBTest {
         relay.setVerificationDate(LocalDate.of(2018, Month.JUNE, 5));
         Relay savedRelay = relayService.save(relay);
 
-        List<Relay> relayList =
-                relayService.findByVerificationDate(LocalDate.of(2018, Month.JUNE, 5))
-                        .getContent();
+        List<Relay> relayList = relayService
+                .findByVerificationDate(LocalDate.of(2018, Month.JUNE, 5)).getContent();
         assertEquals(1, relayList.size());
         assertEquals(savedRelay.getId(), relayList.get(0).getId());
     }
