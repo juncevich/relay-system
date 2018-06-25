@@ -64,9 +64,9 @@ public class RelayService {
      *            {@link Relay#id}
      * @return optional of {@link Relay}
      */
-    public Optional<Relay> findOne(String id) {
+    public Optional<Relay> findOne(BigInteger id) {
 
-        return relayRepository.findById(BigInteger.valueOf(Long.parseLong(id)));
+        return relayRepository.findById(id);
     }
 
     /**

@@ -114,7 +114,7 @@ public class RelayControllerTest {
 
     @Test
     @WithMockUser
-    public void testRelayWithCurrentDate() throws Exception {
+    public void testFindRelayToEqualsVerificationDate() throws Exception {
 
         generateRelay(15);
         String date = "[2018,6,25]";
@@ -133,6 +133,28 @@ public class RelayControllerTest {
                 });
         assertNotNull(receivedRelayList);
         assertEquals(10, receivedRelayList.size());
+
+        receivedRelayList.forEach(
+                relay -> assertEquals("2018-06-25", relay.getVerificationDate().toString()));
+    }
+
+    @Test
+    @WithMockUser
+    public void testFindRelayById() throws Exception {
+
+        generateRelay(1);
+        Relay createdRelay = relayService.findAll().getContent().get(0);
+        MockHttpServletResponse response =
+                this.mockMvc.perform(get("/relay/" + createdRelay.getId()).with(csrf()))
+                        .andExpect(status().isOk()).andReturn().getResponse();
+
+        String contentAsString = response.getContentAsString();
+        assertNotNull(contentAsString);
+
+        Relay receivedRelay = objectMapper.readValue(contentAsString, Relay.class);
+
+        assertNotNull(receivedRelay);
+        assertEquals(createdRelay.getId(), receivedRelay.getId());
 
     }
 

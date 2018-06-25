@@ -61,7 +61,7 @@ public class RelayController {
      * 
      * @param relay
      *            relay to create
-     * @return created relay
+     * @return created {@link Relay}
      */
     @PostMapping("/relay")
     public Relay createRelay(@Valid @RequestBody Relay relay) {
@@ -74,11 +74,24 @@ public class RelayController {
      * 
      * @param verificationDate
      *            {@link Relay#verificationDate}
-     * @return Page of relay
+     * @return Page of {@link Relay}
      */
     @PostMapping("/relay/verificationDate")
     public Page<Relay> findByVerificationDate(@RequestBody LocalDate verificationDate) {
 
         return relayService.findByVerificationDate(verificationDate);
+    }
+
+    /**
+     * Find relay by id
+     * 
+     * @param id
+     *            {@link Relay#id}
+     * @return {@link Relay}
+     */
+    @GetMapping("/relay/{id}")
+    public Relay findRelayById(@PathVariable BigInteger id) {
+
+        return relayService.findOne(id).orElse(null);
     }
 }
