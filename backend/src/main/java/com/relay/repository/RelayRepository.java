@@ -2,7 +2,6 @@ package com.relay.repository;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +22,7 @@ public interface RelayRepository extends PagingAndSortingRepository<Relay, BigIn
      *            {@link Pageable}
      * @return relay
      */
-    List<Relay> findByDateOfManufacture(LocalDate dateOfManufacture, Pageable pageable);
+    Page<Relay> findByDateOfManufacture(LocalDate dateOfManufacture, Pageable pageable);
 
     /**
      * Find relay by born date
@@ -35,7 +34,7 @@ public interface RelayRepository extends PagingAndSortingRepository<Relay, BigIn
      *            {@link Pageable}
      * @return relay
      */
-    List<Relay> findByDateOfManufactureAfter(LocalDate dateOfManufacture, Pageable pageable);
+    Page<Relay> findByDateOfManufactureAfter(LocalDate dateOfManufacture, Pageable pageable);
 
     /**
      * Find list of relays by verification date
@@ -68,5 +67,5 @@ public interface RelayRepository extends PagingAndSortingRepository<Relay, BigIn
      *            {@link Pageable}
      * @return relay
      */
-    List<Relay> findByDateOfManufactureBefore(LocalDate dateOfManufacture, Pageable pageable);
+    Page<Relay> findByDateOfManufactureBefore(LocalDate dateOfManufacture, Pageable pageable);
 }

@@ -94,4 +94,17 @@ public class RelayController {
 
         return relayService.findOne(id).orElse(null);
     }
+
+    /**
+     * Finding relay by verification date
+     *
+     * @param dateOfManufacture
+     *            {@link Relay#dateOfManufacture}
+     * @return Page of {@link Relay}
+     */
+    @PostMapping("/relay/dateOfManufacture")
+    public Page<Relay> findByDateOfManufacture(@RequestBody LocalDate dateOfManufacture) {
+
+        return relayService.findByDateOfManufacture(dateOfManufacture);
+    }
 }
