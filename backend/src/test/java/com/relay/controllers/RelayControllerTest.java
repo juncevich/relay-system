@@ -158,6 +158,32 @@ public class RelayControllerTest {
 
     }
 
+    @Test
+    @WithMockUser
+    public void testFindRelayToEqualsDateOfManufacture() throws Exception {
+
+        generateRelay(15);
+        String date = "[2016,6,10]";
+        MockHttpServletResponse response = this.mockMvc
+                .perform(post("/relay/dateOfManufacture").content(date)
+                        .contentType(MediaType.APPLICATION_JSON).with(csrf()))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        String contentAsString = response.getContentAsString();
+        assertNotNull(contentAsString);
+
+        JsonNode jsonNode = objectMapper.readTree(contentAsString);
+        JsonNode content = jsonNode.get("content");
+
+        List<Relay> receivedRelayList =
+                objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
+                });
+        assertNotNull(receivedRelayList);
+        assertEquals(10, receivedRelayList.size());
+
+        receivedRelayList.forEach(
+                relay -> assertEquals("2016-06-10", relay.getDateOfManufacture().toString()));
+    }
+
     private void generateRelay(Integer amount) {
 
         Stream.generate(() -> {

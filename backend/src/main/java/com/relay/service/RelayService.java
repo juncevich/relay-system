@@ -100,7 +100,7 @@ public class RelayService {
      *            {@link Relay#dateOfManufacture}
      * @return List of {@link Relay}
      */
-    public List<Relay> findByDateOfManufactureAfter(LocalDate date) {
+    public Page<Relay> findByDateOfManufactureAfter(LocalDate date) {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         return relayRepository.findByDateOfManufactureAfter(date, pageable);
@@ -113,7 +113,7 @@ public class RelayService {
      *            {@link Relay#dateOfManufacture}
      * @return List of {@link Relay}
      */
-    public List<Relay> findByDateOfManufacture(LocalDate date) {
+    public Page<Relay> findByDateOfManufacture(LocalDate date) {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         return relayRepository.findByDateOfManufacture(date, pageable);
@@ -149,7 +149,7 @@ public class RelayService {
      *            {@link Relay#dateOfManufacture}
      * @return List of {@link Relay}
      */
-    public List<Relay> findByDateOfManufactureBefore(LocalDate date) {
+    public Page<Relay> findByDateOfManufactureBefore(LocalDate date) {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         return relayRepository.findByDateOfManufactureBefore(date, pageable);
