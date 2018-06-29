@@ -125,7 +125,7 @@ public class RelayService {
      * @param relayList
      *            list of relays to save
      */
-    public void saveAll(List<Relay> relayList) {
+    void saveAll(List<Relay> relayList) {
 
         relayRepository.saveAll(relayList);
     }
