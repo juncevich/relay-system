@@ -2,7 +2,6 @@ package com.relay.service;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -117,17 +116,6 @@ public class RelayService {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         return relayRepository.findByDateOfManufacture(date, pageable);
-    }
-
-    /**
-     * Save list of relay
-     * 
-     * @param relayList
-     *            list of relays to save
-     */
-    public void saveAll(List<Relay> relayList) {
-
-        relayRepository.saveAll(relayList);
     }
 
     /**

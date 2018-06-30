@@ -183,7 +183,7 @@ public class RelayServiceTest extends AbstractDBTest {
         Relay relay5 = new Relay();
 
         List<Relay> relayToSave = Lists.newArrayList(relay1, relay2, relay3, relay4, relay5);
-        relayService.saveAll(relayToSave);
+        relayRepository.saveAll(relayToSave);
 
         relayList = Lists.newArrayList(relayService.findAll());
         assertEquals(5, relayList.size());
