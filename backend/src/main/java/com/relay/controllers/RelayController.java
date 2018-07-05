@@ -3,11 +3,13 @@ package com.relay.controllers;
 import com.relay.model.Relay;
 import com.relay.service.RelayService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -39,6 +41,7 @@ public class RelayController {
      * 
      * @return list with all relays
      */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/relays")
     public Page<Relay> retrieveAllRelays() {
 
@@ -51,6 +54,7 @@ public class RelayController {
      * @param id
      *            id relay to delete
      */
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/relay/{id}")
     public void deleteRelay(@PathVariable BigInteger id) {
 
@@ -64,6 +68,7 @@ public class RelayController {
      *            relay to create
      * @return created {@link Relay}
      */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/relay")
     public Relay createRelay(@Valid @RequestBody Relay relay) {
 
@@ -77,6 +82,7 @@ public class RelayController {
      *            {@link Relay#verificationDate}
      * @return Page of {@link Relay}
      */
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/relay/verificationDate")
     public Page<Relay> findByVerificationDate(@RequestBody LocalDate verificationDate) {
 
@@ -90,6 +96,7 @@ public class RelayController {
      *            {@link Relay#id}
      * @return {@link Relay}
      */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/relay/{id}")
     public Relay findRelayById(@PathVariable BigInteger id) {
 
@@ -103,6 +110,7 @@ public class RelayController {
      *            {@link Relay#dateOfManufacture}
      * @return Page of {@link Relay}
      */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/relay/dateOfManufacture")
     public Page<Relay> findByDateOfManufacture(@PathParam("date") String date) {
 
@@ -116,6 +124,7 @@ public class RelayController {
      *            The date before {@link Relay#dateOfManufacture}
      * @return Page of {@link Relay}
      */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/relay/dateOfManufacture",
             params = "before")
     public Page<Relay> findByDateOfManufactureBefore(@PathParam("before") String before) {
@@ -130,6 +139,7 @@ public class RelayController {
      *            {@link Relay#serialNumber}
      * @return {@link Relay}
      */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/relay/serialNumber",
             params = "serialNumber")
     public Relay findBySerialNumber(@PathParam("serialNumber") String serialNumber) {
@@ -137,6 +147,14 @@ public class RelayController {
         return relayService.findBySerialNumber(serialNumber);
     }
 
+    /**
+     * Finding relay after date of manufacture
+     *
+     * @param after
+     *            The date before {@link Relay#dateOfManufacture}
+     * @return Page of {@link Relay}
+     */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/relay/dateOfManufacture",
             params = "after")
     public Page<Relay> findByDateOfManufactureAfter(@PathParam("after") String after) {
