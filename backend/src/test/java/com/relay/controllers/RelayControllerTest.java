@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.relay.model.Relay;
+import com.relay.repository.RelayRepository;
 import com.relay.service.RelayService;
 
 @RunWith(SpringRunner.class)
@@ -53,12 +55,21 @@ public class RelayControllerTest {
     @Autowired
     private RelayService relayService;
 
+    @Autowired
+    private RelayRepository relayRepository;
+
     @Before
     public void setUp() {
 
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
         objectMapper = new ObjectMapper().registerModule(new Jdk8Module())
                 .registerModule(new JavaTimeModule());
+    }
+
+    @After
+    public void tearDown() {
+
+        relayRepository.deleteAll();
     }
 
     @Test
@@ -73,7 +84,7 @@ public class RelayControllerTest {
         MockHttpServletResponse response = this.mockMvc
                 .perform(post("/relay").content(createdRelayJson)
                         .contentType(MediaType.APPLICATION_JSON).with(csrf()))
-                .andExpect(status().isOk()).andReturn().getResponse();
+                .andExpect(status().isCreated()).andReturn().getResponse();
         String contentAsString = response.getContentAsString();
         assertNotNull(contentAsString);
     }
@@ -106,7 +117,7 @@ public class RelayControllerTest {
         Relay relay = relayService.findAll().getContent().get(0);
 
         this.mockMvc.perform(delete("/relay/" + relay.getId()).with(csrf()))
-                .andExpect(status().isOk()).andReturn().getResponse();
+                .andExpect(status().isNoContent()).andReturn().getResponse();
 
         List<Relay> relayList = relayService.findAll().getContent();
         assertTrue(CollectionUtils.isEmpty(relayList));
