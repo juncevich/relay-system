@@ -1,46 +1,77 @@
 package com.relay.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.relay.model.places.Station;
+import com.relay.repository.StationRepository;
 
 @Component
 public class StationService {
 
-    private static final List<Station> STATIONS = new ArrayList<>();
+    /**
+     * Station repository
+     */
+    private StationRepository stationRepository;
 
+    /**
+     * 
+     * @param stationRepository
+     *            {@link StationRepository}
+     */
+    public StationService(StationRepository stationRepository) {
 
-    static {
-        STATIONS.add(new Station("Березит"));
-        STATIONS.add(new Station("Кедровка"));
-        STATIONS.add(new Station("Монетная"));
-        STATIONS.add(new Station("Капалуха"));
+        this.stationRepository = stationRepository;
     }
 
-    public List<Station> findAll() {
+    /**
+     * Find all stations
+     * 
+     * @return page with {@link Station}
+     */
+    public Page<Station> findAll() {
 
-        return STATIONS;
+        PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
+        return stationRepository.findAll(pageable);
     }
 
+    /**
+     * Save station
+     * 
+     * @param station
+     *            Saved {@link Station}
+     * @return {@link Station}
+     */
     public Station save(Station station) {
 
-        STATIONS.add(station);
-        return station;
+        return stationRepository.save(station);
     }
 
-    public Station findOne(long id) {
+    /**
+     * Find Station by id
+     * 
+     * @param id
+     *            {@link Station#id}
+     * @return Optional of {@link Station}
+     */
+    public Optional<Station> findOne(long id) {
 
-        return null;
+        return stationRepository.findById(id);
     }
 
-    public Station deleteById(long id) {
+    /**
+     * Delete Station by id
+     * 
+     * @param id
+     *            {@link Station#id}
+     */
+    public void deleteById(long id) {
 
-        Iterator<Station> it = STATIONS.iterator();
-        return null;
+        stationRepository.deleteById(id);
     }
 
 }
