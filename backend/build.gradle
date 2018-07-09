@@ -40,6 +40,7 @@ docker {
 
 ext {
     swaggerVersion = '2.9.0'
+    apacheCommonsVersion = '3.7'
 
     spring = [
             web          : "org.springframework.boot:spring-boot-starter-web",
@@ -66,7 +67,8 @@ ext {
     ]
 
     util = [
-            lombok: "org.projectlombok:lombok"
+            lombok: "org.projectlombok:lombok",
+            apache_commons: "org.apache.commons:commons-lang3:$apacheCommonsVersion"
     ]
 }
 
@@ -83,7 +85,8 @@ dependencies {
             spring.actuator,
             doc.swagger,
             doc.swagger_ui,
-            db.postgresql
+            db.postgresql,
+            util.apache_commons
 
     runtime spring.devtools
     testCompile spring.test,
