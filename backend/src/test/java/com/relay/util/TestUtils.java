@@ -1,19 +1,19 @@
 package com.relay.util;
 
-import java.time.LocalDate;
-import java.util.Random;
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.relay.model.Relay;
 import com.relay.model.places.Station;
 import com.relay.model.statives.Stativ;
 import com.relay.service.RelayService;
 import com.relay.service.StationService;
 import com.relay.service.StativService;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Stream;
 
 @Component
 public class TestUtils {
@@ -52,7 +52,7 @@ public class TestUtils {
         });
     }
 
-    public void generateRelayToStativ(Integer amount, Stativ stativ) {
+    public Stativ generateRelayToStativ(Integer amount, Stativ stativ) {
 
         Stream.generate(() -> {
             Relay relay = new Relay();
@@ -65,6 +65,7 @@ public class TestUtils {
             relayService.save(relay);
             stativService.save(stativ);
         });
+        return stativ;
     }
 
     public void generateEmptyStation(Integer amount) {
@@ -73,13 +74,20 @@ public class TestUtils {
                 .forEach(station -> stationService.save(station));
     }
 
-    // public void generateStationWithRelayAndStatives(Integer amount) {
-    //
-    // Stream.generate(() -> new Station(RandomStringUtils.randomAlphabetic(6))).limit(amount)
-    // .flatMap(station -> Stream.generate(() -> {
-    // Stativ stativ = new Stativ(new Random().nextInt(20));
-    // station.getStatives().add(stativ);
-    // return stativ;
-    // }).limit(5)).flatMap(stativ -> generateRelayToStativ(5, stativ));
-    // }
+    public void generateStationWithRelayAndStatives(Integer stationAmount) {
+
+        Stream.generate(() -> new Station(RandomStringUtils.randomAlphabetic(6)))
+                .limit(stationAmount).forEach(station -> {
+                    List<Stativ> statives = generateStativeWithRelays(10);
+                    station.setStatives(statives);
+                    stationService.save(station);
+                });
+    }
+
+    List<Stativ> generateStativeWithRelays(Integer amount) {
+
+        // Stream.generate(() -> )
+        return null;
+    }
+
 }
