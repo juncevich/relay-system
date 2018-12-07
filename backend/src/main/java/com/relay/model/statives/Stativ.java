@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import com.relay.model.AbstractEntity;
-import com.relay.model.Relay;
 import com.relay.model.shelves.Shelve;
 
 import lombok.Data;
@@ -26,9 +25,5 @@ public class Stativ extends AbstractEntity {
      */
     @OneToMany
     private List<Shelve> shelves;
-
-    public void addRelay(Relay relay) {
-
-    }
 
 }

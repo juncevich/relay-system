@@ -1,29 +1,29 @@
-buildscript {
-    ext {
-        springBootVersion = '2.0.2.RELEASE'
-    }
-    repositories {
-        jcenter()
-        mavenCentral()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-        maven { url "http://repo.spring.io/snapshot" }
-        maven { url "http://repo.spring.io/milestone" }
-        maven { url 'https://repo.spring.io/libs-snapshot' }
-        maven { url 'https://repo.spring.io/libs-release' }
-        maven { url 'https://repo.spring.io/libs-milestone' }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.17.2')
-    }
-}
+//buildscript {
+//    ext {
+//        springBootVersion = '2.1.0.RELEASE'
+//    }
+//    repositories {
+//        jcenter()
+//        mavenCentral()
+//        maven {
+//            url "https://plugins.gradle.org/m2/"
+//        }
+//        maven { url "http://repo.spring.io/snapshot" }
+//        maven { url "http://repo.spring.io/milestone" }
+//        maven { url 'https://repo.spring.io/libs-snapshot' }
+//        maven { url 'https://repo.spring.io/libs-release' }
+//        maven { url 'https://repo.spring.io/libs-milestone' }
+//    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//        classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.17.2')
+//    }
+//}
 
 apply plugin: 'jacoco'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.springframework.boot'
-apply plugin: 'com.palantir.docker'
+//apply plugin: 'com.palantir.docker'
 
 jar {
     archivesBaseName = 'relay-service'
@@ -31,12 +31,12 @@ jar {
     sourceCompatibility = 1.8
 }
 
-docker {
-    name "${jar.baseName}"
-    dockerfile file('Dockerfile')
-    files jar.archivePath
-    buildArgs(['JAR_FILE': "${jar.archiveName}"])
-}
+//docker {
+//    name "${jar.baseName}"
+//    dockerfile file('Dockerfile')
+//    files jar.archivePath
+//    buildArgs(['JAR_FILE': "${jar.archiveName}"])
+//}
 
 ext {
     swaggerVersion = '2.9.0'
@@ -67,7 +67,7 @@ ext {
     ]
 
     util = [
-            lombok: "org.projectlombok:lombok",
+            lombok        : "org.projectlombok:lombok",
             apache_commons: "org.apache.commons:commons-lang3:$apacheCommonsVersion"
     ]
 }
@@ -95,6 +95,7 @@ dependencies {
     compileOnly util.lombok
 //    compile('org.springframework.cloud:spring-cloud-starter-config')
 //    compile(':spring-cloud-starter-eureka')
+    compile group: 'org.testcontainers', name: 'postgresql', version: '1.10.2'
 }
 
 repositories {
@@ -114,5 +115,15 @@ jacocoTestReport {
         html.enabled = false
     }
 }
+test {
+    useJUnit {
+        excludeCategories 'com.relay.integration.IntegrationTest'
+    }
+}
 
+task integrationTest(type: Test) {
+    useJUnit {
+        includeCategories 'com.relay.integration.IntegrationTest'
+    }
+}
 check.dependsOn jacocoTestReport

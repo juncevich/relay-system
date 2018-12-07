@@ -1,4 +1,4 @@
-package com.relay.controllers;
+package com.relay.integration.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -35,7 +35,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.relay.model.Relay;
 import com.relay.repository.RelayRepository;
 import com.relay.service.RelayService;
-import com.relay.util.TestUtils;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -56,8 +55,6 @@ public class RelayControllerTest {
     @Autowired
     private RelayRepository relayRepository;
 
-    @Autowired
-    private TestUtils testUtils;
     @Before
     public void setUp() {
 
@@ -93,8 +90,6 @@ public class RelayControllerTest {
     @WithMockUser
     public void testRetrieveAllRelays() throws Exception {
 
-        testUtils.generateRelay(15);
-
         MockHttpServletResponse response = this.mockMvc.perform(get("/relays").with(csrf()))
                 .andExpect(status().isOk()).andReturn().getResponse();
         String contentAsString = response.getContentAsString();
@@ -107,13 +102,13 @@ public class RelayControllerTest {
                 objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
                 });
         assertNotNull(receivedRelayList);
-        assertEquals(10, receivedRelayList.size());
+        assertEquals(0, receivedRelayList.size());
     }
 
     @Test
     public void testDeleteRelay() throws Exception {
 
-        testUtils.generateRelay(1);
+        relayRepository.save(new Relay());
         Relay relay = relayService.findAll().getContent().get(0);
 
         this.mockMvc.perform(delete("/relay/" + relay.getId()).with(csrf()))
@@ -127,7 +122,6 @@ public class RelayControllerTest {
     @WithMockUser
     public void testFindRelayToEqualsVerificationDate() throws Exception {
 
-        testUtils.generateRelay(15);
         String date = "[2018,6,25]";
         MockHttpServletResponse response = this.mockMvc
                 .perform(post("/relay/verificationDate").content(date)
@@ -143,7 +137,7 @@ public class RelayControllerTest {
                 objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
                 });
         assertNotNull(receivedRelayList);
-        assertEquals(10, receivedRelayList.size());
+        assertEquals(0, receivedRelayList.size());
 
         receivedRelayList.forEach(
                 relay -> assertEquals("2018-06-25", relay.getVerificationDate().toString()));
@@ -153,7 +147,9 @@ public class RelayControllerTest {
     @WithMockUser
     public void testFindRelayById() throws Exception {
 
-        testUtils.generateRelay(1);
+        Relay relay = new Relay();
+        relay.setSerialNumber("serial123");
+        relayRepository.save(relay);
         Relay createdRelay = relayService.findAll().getContent().get(0);
         MockHttpServletResponse response =
                 this.mockMvc.perform(get("/relay/" + createdRelay.getId()).with(csrf()))
@@ -173,7 +169,6 @@ public class RelayControllerTest {
     @WithMockUser
     public void testFindRelayToEqualsDateOfManufacture() throws Exception {
 
-        testUtils.generateRelay(15);
         String date = "2016-06-10";
         MockHttpServletResponse response = this.mockMvc
                 .perform(get("/relay/dateOfManufacture").param("date", date).with(csrf()))
@@ -188,7 +183,7 @@ public class RelayControllerTest {
                 objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
                 });
         assertNotNull(receivedRelayList);
-        assertEquals(10, receivedRelayList.size());
+        assertEquals(0, receivedRelayList.size());
 
         receivedRelayList.forEach(
                 relay -> assertEquals("2016-06-10", relay.getDateOfManufacture().toString()));
@@ -198,7 +193,6 @@ public class RelayControllerTest {
     @WithMockUser
     public void testFindRelayToBeforeDateOfManufactureEqualsDate() throws Exception {
 
-        testUtils.generateRelay(15);
         String date = "2016-06-10";
         MockHttpServletResponse response = this.mockMvc
                 .perform(get("/relay/dateOfManufacture").param("before", date).with(csrf()))
@@ -223,7 +217,6 @@ public class RelayControllerTest {
     @WithMockUser
     public void testFindRelayToBeforeDateOfManufactureWithOlderDate() throws Exception {
 
-        testUtils.generateRelay(15);
         String date = "2016-06-11";
         MockHttpServletResponse response = this.mockMvc
                 .perform(get("/relay/dateOfManufacture").param("before", date).with(csrf()))
@@ -238,7 +231,7 @@ public class RelayControllerTest {
                 objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
                 });
         assertNotNull(receivedRelayList);
-        assertEquals(10, receivedRelayList.size());
+        assertEquals(0, receivedRelayList.size());
 
         receivedRelayList.forEach(
                 relay -> assertEquals("2016-06-10", relay.getDateOfManufacture().toString()));
@@ -248,7 +241,6 @@ public class RelayControllerTest {
     @WithMockUser
     public void testFindRelayToAfterDateOfManufactureEqualsDate() throws Exception {
 
-        testUtils.generateRelay(15);
         String date = "2016-06-10";
         MockHttpServletResponse response = this.mockMvc
                 .perform(get("/relay/dateOfManufacture").param("after", date).with(csrf()))
@@ -273,7 +265,6 @@ public class RelayControllerTest {
     @WithMockUser
     public void testFindRelayToafterDateOfManufactureWithOlderDate() throws Exception {
 
-        testUtils.generateRelay(15);
         String date = "2016-06-09";
         MockHttpServletResponse response = this.mockMvc
                 .perform(get("/relay/dateOfManufacture").param("after", date).with(csrf()))
@@ -288,7 +279,7 @@ public class RelayControllerTest {
                 objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
                 });
         assertNotNull(receivedRelayList);
-        assertEquals(10, receivedRelayList.size());
+        assertEquals(0, receivedRelayList.size());
 
         receivedRelayList.forEach(
                 relay -> assertEquals("2016-06-10", relay.getDateOfManufacture().toString()));
@@ -298,7 +289,9 @@ public class RelayControllerTest {
     @WithMockUser
     public void testFindBySerialNumber() throws Exception {
 
-        testUtils.generateRelay(1);
+        Relay relay = new Relay();
+        relay.setSerialNumber("serial123");
+        relayService.save(relay);
         Relay createdRelay = relayService.findAll().getContent().get(0);
         MockHttpServletResponse response = this.mockMvc
                 .perform(get("/relay/serialNumber")
@@ -312,6 +305,5 @@ public class RelayControllerTest {
         assertEquals(createdRelay.getId(), receivedRelay.getId());
 
     }
-
 
 }

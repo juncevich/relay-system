@@ -1,32 +1,33 @@
-package com.relay.service;
+package com.relay.unit.service;
 
-import org.junit.Before;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.google.common.collect.Lists;
-import com.relay.AbstractDBTest;
 import com.relay.model.Distantion;
 import com.relay.repository.DistantionRepository;
+import com.relay.service.DistantionService;
 
-public class DistantionServiceTest extends AbstractDBTest {
+@RunWith(MockitoJUnitRunner.class)
+public class DistantionServiceTest {
 
-    @Autowired
+    @InjectMocks
     private DistantionService distantionService;
 
-    @Autowired
+    @Mock
     private DistantionRepository distantionRepository;
 
-    @Override
-    @Before
-    public void setUp() {
-
-        distantionRepository.deleteAll();
-    }
 
     @Test
     public void findAll() {
 
+        when(distantionRepository.findAll()).thenReturn(Lists.newArrayList());
         Iterable<Distantion> emptyDistantionList = distantionService.findAll();
         assertEquals(0, Lists.newArrayList(emptyDistantionList).size());
     }
