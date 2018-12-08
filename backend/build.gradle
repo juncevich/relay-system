@@ -117,13 +117,13 @@ jacocoTestReport {
 }
 test {
     useJUnit {
-        excludeCategories 'com.relay.integration.IntegrationTest'
+        excludeCategories 'com.relay.integration.annotation.IntegrationTest'
     }
 }
 
 task integrationTest(type: Test) {
     useJUnit {
-        includeCategories 'com.relay.integration.IntegrationTest'
+        includeCategories 'com.relay.integration.annotation.IntegrationTest'
     }
 }
 check.dependsOn jacocoTestReport
