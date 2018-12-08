@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 import com.relay.model.Relay;
 import com.relay.repository.RelayRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * {@link Relay} service
  */
 @Service
+@Slf4j
 public class RelayService {
 
     /**
@@ -114,6 +117,7 @@ public class RelayService {
      */
     public Page<Relay> findByDateOfManufacture(LocalDate date) {
 
+        log.info("Try to find relay with date {}", date);
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         return relayRepository.findByDateOfManufacture(date, pageable);
     }

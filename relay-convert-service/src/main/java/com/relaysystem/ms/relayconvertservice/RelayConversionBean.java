@@ -19,7 +19,7 @@ public class RelayConversionBean {
     private String to;
 
     @NonNull
-    private int port;
+    private Integer port;
 
     public RelayConversionBean(Long id, String from, String to) {
 

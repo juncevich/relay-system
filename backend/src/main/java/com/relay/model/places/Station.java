@@ -1,17 +1,16 @@
 package com.relay.model.places;
 
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-
 import com.relay.model.Relay;
 import com.relay.model.statives.Stativ;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,13 +27,14 @@ public class Station extends Place {
     /**
      * Relay on the station
      */
-    @OneToMany
+
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Relay> relay;
 
     /**
      * List of statives on the station
      */
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Stativ> statives;
 
     /**

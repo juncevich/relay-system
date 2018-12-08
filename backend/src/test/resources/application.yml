@@ -8,6 +8,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    database: h2
+    database: postgresql
     show-sql: true
-    database-platform: org.hibernate.dialect.H2Dialect
+
+    database-platform: org.hibernate.dialect.PostgreSQL
+
+logging:
+  level.root: debug
+  
