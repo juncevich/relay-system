@@ -47,9 +47,6 @@ apply plugin: "org.sonarqube"
 group = 'com.relay-system.ms'
 version = "0.0.1-SNAPSHOT"
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '5.0'
-}
 configure(springProjects) {
     apply plugin: 'idea'
     apply plugin: 'org.springframework.boot'
