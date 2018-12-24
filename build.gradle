@@ -2,7 +2,6 @@ buildscript {
     ext {
         springBootVersion = '2.0.1.RELEASE'
     }
-
     repositories {
         jcenter()
         mavenCentral()
@@ -56,6 +55,7 @@ configure(springProjects) {
     dependencies {
         runtime('org.springframework.boot:spring-boot-devtools')
         compileOnly('org.projectlombok:lombok')
+        annotationProcessor('org.projectlombok:lombok')
         testCompile('org.springframework.boot:spring-boot-starter-test')
     }
     repositories {
@@ -67,8 +67,12 @@ configure(springProjects) {
 
     dependencyManagement {
         dependencies {
-            dependency 'org.projectlombok:lombok:1.16.20'
+            dependency 'org.projectlombok:lombok:1.18.4'
         }
+    }
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = '5.0'
     }
 }
 
