@@ -1,17 +1,13 @@
 package com.relay.integration.controllers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-
-import java.util.List;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.relay.model.Relay;
+import com.relay.repository.RelayRepository;
+import com.relay.service.RelayService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,14 +23,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.relay.model.Relay;
-import com.relay.repository.RelayRepository;
-import com.relay.service.RelayService;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -73,16 +72,16 @@ public class RelayControllerTest {
     @WithMockUser()
     public void testCreateRelay() throws Exception {
 
-        String createdRelayJson = "{\n" + "    \"id\": 1,\n" + "    \"created\": null,\n"
-                + "    \"updated\": null,\n" + "    \"dateOfManufacture\": [\n" + "        2016,\n"
-                + "        6,\n" + "        10\n" + "    ],\n" + "    \"verificationDate\": [\n"
-                + "        2018,\n" + "        6,\n" + "        25\n" + "    ],\n"
-                + "    \"serialNumber\": \"012345\"\n" + "}";
+        String createdRelayJson =
+                "{\"created\": null,\"updated\": null,\"dateOfManufacture\": [2016,6, 10 ], "
+                        + "\"verificationDate\": [2018, 6, 25],\"serialNumber\": \"012345\"}";
+
         MockHttpServletResponse response = this.mockMvc
                 .perform(post("/relay").content(createdRelayJson)
                         .contentType(MediaType.APPLICATION_JSON).with(csrf()))
                 .andExpect(status().isCreated()).andReturn().getResponse();
         String contentAsString = response.getContentAsString();
+
         assertNotNull(contentAsString);
     }
 

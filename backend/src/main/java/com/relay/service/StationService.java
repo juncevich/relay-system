@@ -16,7 +16,7 @@ public class StationService {
     /**
      * Station repository
      */
-    private StationRepository stationRepository;
+    private final StationRepository stationRepository;
 
     /**
      * 

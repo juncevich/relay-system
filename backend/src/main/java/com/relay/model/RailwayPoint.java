@@ -8,5 +8,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class RailwayPoint extends AbstractEntity {
+class RailwayPoint extends AbstractEntity {
 }

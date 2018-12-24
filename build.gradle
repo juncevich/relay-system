@@ -2,7 +2,6 @@ buildscript {
     ext {
         springBootVersion = '2.0.1.RELEASE'
     }
-
     repositories {
         jcenter()
         mavenCentral()
@@ -36,15 +35,30 @@ ext {
                       project(':relay-service'),
                       project(':history-service')
     ]
+    frontendProjects = [
+            project(':frontend')
+    ]
 }
 
 apply plugin: 'java'
 apply plugin: "org.sonarqube"
-allprojects {
+
+group = 'com.relay-system.ms'
+version = "0.0.1-SNAPSHOT"
+
+configure(springProjects) {
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'java'
+
+    dependencies {
+        runtime('org.springframework.boot:spring-boot-devtools')
+        compileOnly('org.projectlombok:lombok')
+        annotationProcessor('org.projectlombok:lombok')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+    }
     repositories {
-//        maven { url "https://repo.spring.io/snapshot" }
         maven { url "https://repo.spring.io/milestone" }
         maven { url 'https://repo.spring.io/libs-milestone' }
         mavenCentral()
@@ -53,33 +67,12 @@ allprojects {
 
     dependencyManagement {
         dependencies {
-            dependency 'org.projectlombok:lombok:1.16.20'
+            dependency 'org.projectlombok:lombok:1.18.4'
         }
     }
-}
 
-subprojects {
-    apply plugin: 'java'
-
-    group = 'com.relay-system.ms'
-    version = "0.0.1-SNAPSHOT"
-
-    dependencies {
-        compile('javax.xml.bind:jaxb-api:2.3.0')
-        compileOnly('org.projectlombok:lombok')
-    }
-}
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
-}
-configure(springProjects) {
-    apply plugin: 'idea'
-    apply plugin: 'org.springframework.boot'
-
-    dependencies {
-        runtime('org.springframework.boot:spring-boot-devtools')
-//        compile('org.springframework.boot:spring-boot-starter-web')
-        testCompile('org.springframework.boot:spring-boot-starter-test')
+    task wrapper(type: Wrapper) {
+        gradleVersion = '5.0'
     }
 }
 
