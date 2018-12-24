@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -116,10 +117,11 @@ public class RelayServiceITTest {
 
     }
 
-    static class Initializer
+    private static class Initializer
             implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+        public void initialize(
+                @NotNull ConfigurableApplicationContext configurableApplicationContext) {
 
             TestPropertyValues
                     .of("spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),

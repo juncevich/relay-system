@@ -15,6 +15,6 @@ import junit.framework.TestCase;
 @ContextConfiguration(classes = { DbConfig.class, RelaySystemApplication.class })
 @SpringBootTest
 @AutoConfigureTestDatabase
-public abstract class AbstractDBTest extends TestCase {
+abstract class AbstractDBTest extends TestCase {
 
 }

@@ -11,7 +11,7 @@ public class DistantionService {
     /**
      * Repository for {@link Distantion}
      */
-    private DistantionRepository distantionRepository;
+    private final DistantionRepository distantionRepository;
 
     /**
      * Constructor

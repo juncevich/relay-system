@@ -1,6 +1,6 @@
 package com.relay;
 
-public class RelayResourceProcessor
+class RelayResourceProcessor
 // implements ResourceProcessor<Resource<Relay>>
 {
 

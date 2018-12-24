@@ -24,7 +24,7 @@ public class RelayService {
     /**
      * Relay repository
      */
-    private RelayRepository relayRepository;
+    private final RelayRepository relayRepository;
 
     /**
      * 

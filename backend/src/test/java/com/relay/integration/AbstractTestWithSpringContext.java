@@ -10,5 +10,5 @@ import com.relay.RelaySystemApplication;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = RelaySystemApplication.class)
-public abstract class AbstractTestWithSpringContext {
+abstract class AbstractTestWithSpringContext {
 }
