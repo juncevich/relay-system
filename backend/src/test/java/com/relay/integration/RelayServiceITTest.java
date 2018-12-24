@@ -117,7 +117,7 @@ public class RelayServiceITTest {
 
     }
 
-    private static class Initializer
+    public static class Initializer
             implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
         public void initialize(
