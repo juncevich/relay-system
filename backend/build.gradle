@@ -93,8 +93,6 @@ dependencies {
             spring.security_test,
             db.h2
     compileOnly util.lombok
-//    compile('org.springframework.cloud:spring-cloud-starter-config')
-//    compile(':spring-cloud-starter-eureka')
     compile group: 'org.testcontainers', name: 'postgresql', version: '1.10.2'
 }
 
