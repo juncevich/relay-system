@@ -18,7 +18,7 @@ services:
 #      - ./config/elasticsearch/data:/usr/share/elasticsearch/data:rw
       - es_data:/usr/share/elasticsearch/data:rw
     networks:
-      - common
+      - elk
   kibana:
     image: docker.elastic.co/kibana/kibana:6.3.2
     ports:
@@ -26,7 +26,7 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - common
+      - elk
   logstash:
     image: docker.elastic.co/logstash/logstash:6.3.2
     ports:
@@ -38,9 +38,9 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - common
+      - elk
 networks:
-  common:
+  elk:
 volumes:
   es_data:
   #  relay-service:
