@@ -8,17 +8,16 @@ import javax.persistence.OneToMany;
 import com.relay.model.AbstractEntity;
 import com.relay.model.shelves.Shelve;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
 public class Stativ extends AbstractEntity {
 
-    private final Integer number;
+    private Integer number;
 
     /**
      * List of shelves

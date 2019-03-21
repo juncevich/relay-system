@@ -4,12 +4,13 @@ import javax.persistence.Entity;
 
 import com.relay.model.Relay;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class BigShelve extends Shelve {
 
     /**

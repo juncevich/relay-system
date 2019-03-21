@@ -42,9 +42,11 @@ public class RelayService {
      * @return list with all {@link Relay}
      */
     public Page<Relay> findAll() {
-
+        log.info("GetAllRelay request");
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
-        return relayRepository.findAll(pageable);
+        Page<Relay> relayPage = relayRepository.findAll(pageable);
+        log.info("Founded relays:{}", relayPage.getContent());
+        return relayPage;
     }
 
     /**

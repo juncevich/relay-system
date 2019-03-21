@@ -7,11 +7,12 @@ import javax.persistence.OneToMany;
 
 import com.relay.model.Relay;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Store extends Place {
 

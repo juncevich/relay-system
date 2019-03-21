@@ -5,14 +5,14 @@ import javax.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "All details about the user")
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User extends AbstractEntity {
 
     /**

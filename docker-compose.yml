@@ -9,26 +9,61 @@ services:
     environment:
       POSTGRES_PASSWORD: example
       POSTGRES_USER: user
-#  relay-service:
-#    build:
-#      context: backend/
-#      dockerfile: Dockerfile
-#    restart: always
-#    ports:
-#      - 8080:8080
-#    container_name: backend
-#    links:
-#      - mongo-relay-service
-#    environment:
-#      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
-#      - MONGODB_HOST=mongo
-#      - MONGODB_PORT=27017
-#      - MONGODB_USERNAME=test
-#      - MONGODB_PASSWORD=test
-#      - MONGODB_DATABASE=test
-#
-#    depends_on:
-#      - mongo-relay-service
-#    ports:
-#      - "5005:5005"
-#      - "8080:8080"  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+#      - ./config/elasticsearch/data:/usr/share/elasticsearch/data:rw
+      - es_data:/usr/share/elasticsearch/data:rw
+    networks:
+      - common
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.3.2
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    networks:
+      - common
+  logstash:
+    image: docker.elastic.co/logstash/logstash:6.3.2
+    ports:
+      - 25826:25826
+    volumes:
+      - ./config/elk:/elk-config
+      - ./logs/:/logs
+    command: logstash -f /elk-config/logstash.config
+    depends_on:
+      - elasticsearch
+    networks:
+      - common
+networks:
+  common:
+volumes:
+  es_data:
+  #  relay-service:
+  #    build:
+  #      context: backend/
+  #      dockerfile: Dockerfile
+  #    restart: always
+  #    ports:
+  #      - 8080:8080
+  #    container_name: backend
+  #    links:
+  #      - mongo-relay-service
+  #    environment:
+  #      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+  #      - MONGODB_HOST=mongo
+  #      - MONGODB_PORT=27017
+  #      - MONGODB_USERNAME=test
+  #      - MONGODB_PASSWORD=test
+  #      - MONGODB_DATABASE=test
+  #
+  #    depends_on:
+  #      - mongo-relay-service
+  #    ports:
+  #      - "5005:5005"
+  #      - "8080:8080"  
+  

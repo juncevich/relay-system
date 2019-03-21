@@ -9,4 +9,5 @@ spring:
     database: postgresql
     show-sql: true
     database-platform: 
-
+logging:
+  file: logs/backend.log

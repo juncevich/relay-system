@@ -7,12 +7,13 @@ import javax.persistence.OneToMany;
 
 import com.relay.model.places.Station;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class District extends AbstractEntity {
 
     /**

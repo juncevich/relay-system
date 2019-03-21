@@ -4,12 +4,12 @@ import javax.persistence.Entity;
 
 import com.relay.model.AbstractEntity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
 class Place extends AbstractEntity {
 
 }

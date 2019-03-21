@@ -2,11 +2,11 @@ package com.relay.model;
 
 import javax.persistence.Entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@AllArgsConstructor
 class RailwayPoint extends AbstractEntity {
 }
