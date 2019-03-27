@@ -1,6 +1,6 @@
 ext {
-//    springCloudVersion = 'Finchley.M2'
-    springCloudVersion = 'Finchley.M9'
+//    springCloudVersion = 'Finchley.M7'
+    springCloudVersion = 'Greenwich.RC1'
 }
 
 dependencies {
@@ -8,8 +8,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
     compile('org.springframework.cloud:spring-cloud-starter-sleuth')
-    compile('io.zipkin.java:zipkin-server:2.7.1')
-    runtime('io.zipkin.java:zipkin-autoconfigure-ui:2.7.1')
+    compile('io.zipkin.java:zipkin-server:2.12.5') {
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+    }
+    runtime('io.zipkin.java:zipkin-autoconfigure-ui:2.12.5')
 }
 
 dependencyManagement {
