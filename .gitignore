@@ -28,9 +28,6 @@ nbdist/
 /out
 /build
 !.gitignore
-gradle/
-gradlew
-gradlew.bat
 /src
 /logs
 
