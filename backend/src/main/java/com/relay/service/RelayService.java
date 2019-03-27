@@ -2,11 +2,9 @@ package com.relay.service;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.*;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import com.relay.model.Relay;
@@ -45,7 +43,7 @@ public class RelayService {
         log.info("GetAllRelay request");
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         Page<Relay> relayPage = relayRepository.findAll(pageable);
-        log.info("Founded relays:{}", relayPage.getContent());
+        log.info("Founded relays:{}", Optional.ofNullable(relayPage).filter(Objects::nonNull).map(Slice::getContent));
         return relayPage;
     }
 

@@ -2,10 +2,11 @@ package com.relay.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.builders.*;
+import org.springframework.security.config.annotation.web.configuration.*;
 
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     /**
      * User role name
@@ -41,6 +42,15 @@ public class WebSecurityConfig {
         auth.inMemoryAuthentication().withUser(USER_USERNAME) // #1
                 .password("{noop}123").roles(USER_ROLE).and().withUser(ADMIN_USERNAME) // #2
                 .password("{noop}321").roles(ADMIN_ROLE, USER_ROLE);
+
+
     }
+    
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.anonymous();
+    }
+
 
 }

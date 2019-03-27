@@ -13,4 +13,11 @@ spring:
     database-platform: 
 logging:
   file: logs/relay-service.log
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
+  
 
