@@ -25,7 +25,7 @@ group = 'com.relay-system.ms'
 version = "0.0.1-SNAPSHOT"
 
 ext {
-    springProjects = [project(':backend'),
+    springProjects = [project(':data-service'),
                       project(':netflix-eureka-naming-server'),
                       project(':netflix-zuul-api-gateway'),
                       project(':spring-cloud-config-server'),
