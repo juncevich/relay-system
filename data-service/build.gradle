@@ -1,42 +1,24 @@
-//buildscript {
-//    ext {
-//        springBootVersion = '2.1.0.RELEASE'
-//    }
-//    repositories {
-//        jcenter()
-//        mavenCentral()
-//        maven {
-//            url "https://plugins.gradle.org/m2/"
-//        }
-//        maven { url "http://repo.spring.io/snapshot" }
-//        maven { url "http://repo.spring.io/milestone" }
-//        maven { url 'https://repo.spring.io/libs-snapshot' }
-//        maven { url 'https://repo.spring.io/libs-release' }
-//        maven { url 'https://repo.spring.io/libs-milestone' }
-//    }
-//    dependencies {
-//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-//        classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.17.2')
-//    }
-//}
-
+plugins {
+    id "com.palantir.docker" version "0.22.1"
+    id 'nebula.release'
+}
 apply plugin: 'jacoco'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.springframework.boot'
-//apply plugin: 'com.palantir.docker'
+apply plugin: 'nebula.release'
 
 jar {
-    archivesBaseName = 'relay-service'
+    archivesBaseName = 'data-service'
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = 1.8
 }
 
-//docker {
-//    name "${jar.baseName}"
-//    dockerfile file('Dockerfile')
-//    files jar.archivePath
-//    buildArgs(['JAR_FILE': "${jar.archiveName}"])
-//}
+docker {
+    name "${jar.baseName}"
+    dockerfile file('Dockerfile')
+    files jar.archivePath
+    buildArgs(['JAR_FILE': "${jar.archiveName}"])
+}
 
 ext {
     swaggerVersion = '2.9.0'
