@@ -4,18 +4,29 @@ stages:
   - build
   - test
 
-before_script:
+#before_script:
   #  - echo `pwd` # debug
   #  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
-  - export GRADLE_USER_HOME=`pwd`/.gradle
-  - cd user-service
+#  - export GRADLE_USER_HOME=`pwd`/.gradle
+#  - cd user-service
+
+.user-service:
+  before_script:
+    - cd user-service
+  only: &changes
+    changes:
+      - user-service/**/*
 
 cache:
+  key: "user-service-$CI_BUILD_REF_NAME"
+  policy: push
   paths:
-    - .gradle/wrapper
-    - .gradle/caches
+    - user-service/.gradle/wrapper
+    - user-service/.gradle/caches
+    - user-service/build
 
 user-service-build:
+  extends: .user-service
   stage: build
   script:
     - ./gradlew assemble
@@ -27,6 +38,7 @@ user-service-build:
     - master
 
 user-service-test:
+  extends: .user-service
   stage: test
   script:
     - ./gradlew check
