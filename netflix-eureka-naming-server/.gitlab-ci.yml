@@ -25,7 +25,7 @@ cache:
     - netflix-eureka-naming-server/.gradle/caches
     - netflix-eureka-naming-server/build
 
-build:
+netflix-eureka-naming-server-build:
   extends: .netflix-eureka-naming-server
   stage: build
   script:
@@ -37,7 +37,7 @@ build:
   only:
     - master
 
-test:
+netflix-eureka-naming-server-test:
   extends: .netflix-eureka-naming-server
   stage: test
   script:
