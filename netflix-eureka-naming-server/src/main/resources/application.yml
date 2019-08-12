@@ -5,8 +5,6 @@ spring:
   application:
     name: netflix-eureka-naming-server
 eureka:
-  instance:
-    hostname: netflix-eureka-naming-server
   client:
     register-with-eureka: false
     fetch-registry: true
