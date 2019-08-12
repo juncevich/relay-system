@@ -9,13 +9,24 @@ before_script:
   #  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - cd netflix-eureka-naming-server
+  -
+.netflix-eureka-naming-server:
+  before_script:
+    - cd netflix-eureka-naming-server
+  only: &changes
+    changes:
+      - netflix-eureka-naming-server/**/*
 
 cache:
+  key: "netflix-eureka-naming-server-$CI_BUILD_REF_NAME"
+  policy: push
   paths:
-    - .gradle/wrapper
-    - .gradle/caches
+    - netflix-eureka-naming-server/.gradle/wrapper
+    - netflix-eureka-naming-server/.gradle/caches
+    - netflix-eureka-naming-server/build
 
 build:
+  extends: .netflix-eureka-naming-server
   stage: build
   script:
     - ./gradlew assemble
