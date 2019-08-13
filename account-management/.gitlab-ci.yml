@@ -1,0 +1,50 @@
+image: java:8-jdk
+
+stages:
+  - build
+  - test
+
+#before_script:
+  #  - echo `pwd` # debug
+  #  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
+#  - export GRADLE_USER_HOME=`pwd`/.gradle
+#  - cd netflix-eureka-naming-server
+
+.common-job:
+  before_script:
+    - cd account-management
+  only: &changes
+    changes:
+      - account-management/**/*
+
+cache:
+  key: "netflix-eureka-naming-server-$CI_BUILD_REF_NAME"
+  policy: push
+  paths:
+    - account-management/.gradle/wrapper
+    - account-management/.gradle/caches
+    - account-management/build
+
+account-management-build:
+  extends: .common-job
+  stage: build
+  script:
+    - ./gradlew assemble
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 week
+  only:
+    - master
+
+account-management-test:
+  extends: .common-job
+  stage: test
+  script:
+    - ./gradlew check
+  only:
+    - master
+
+after_script:
+  - echo "End CI"
+
