@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: netflix-zuul-api-gateway
+server:
+  port: 8765
+#zuul.prefix=api/
+logging:
+  level: org.springframework=info
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
