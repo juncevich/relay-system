@@ -6,6 +6,11 @@ spring:
   devtools:
     restart:
       enabled: true
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
 eureka:
   client:
     service-url:
