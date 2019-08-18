@@ -23,7 +23,14 @@ public class UserController {
         return "Working";
     }
 
-    @PostMapping
+    @PostMapping(consumes = {
+            MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE
+    },
+            produces = {
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_JSON_VALUE
+            })
     public ResponseEntity createUser(@Valid @RequestBody CreateUserRequestModel userDetails) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
