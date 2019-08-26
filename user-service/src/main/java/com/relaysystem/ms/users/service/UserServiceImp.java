@@ -1,13 +1,18 @@
 package com.relaysystem.ms.users.service;
 
-import com.relaysystem.ms.users.data.*;
-import com.relaysystem.ms.users.shared.*;
-import org.modelmapper.*;
-import org.modelmapper.convention.*;
-import org.springframework.security.crypto.bcrypt.*;
-import org.springframework.stereotype.*;
+import com.relaysystem.ms.users.data.UserEntity;
+import com.relaysystem.ms.users.data.UsersRepository;
+import com.relaysystem.ms.users.shared.UserDto;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.UUID;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -29,5 +34,14 @@ public class UserServiceImp implements UserService {
         UserEntity entity = mapper.map(userDetails, UserEntity.class);
         usersRepository.save(entity);
         return mapper.map(entity, UserDto.class);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserEntity userEntity = usersRepository.findByEmail(username);
+        if (userEntity == null) throw new UsernameNotFoundException(username);
+        return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), true,
+                true, true, true, new ArrayList<>());
+
     }
 }
