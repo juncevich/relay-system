@@ -21,3 +21,6 @@ gateway:
 token:
   expiration_time: 864000000 # 10 days
   secret: adsf68768asdfuiyewrh3927dslfj
+login:
+  url:
+    path: /users/login
