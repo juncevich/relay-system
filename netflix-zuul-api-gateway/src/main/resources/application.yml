@@ -21,3 +21,11 @@ api:
   h2console:
     url:
       path: /user-service/h2-console/**
+
+authorization:
+  token:
+    header:
+      name: Authorization
+      prefix: Bearer
+token:
+  secret: adsf68768asdfuiyewrh3927dslfj
