@@ -17,4 +17,10 @@ eureka:
       default-zone: http://localhost:8761/eureka
 
 gateway:
-  address: 192.168.0.8
+  address: localhost
+token:
+  expiration_time: 864000000 # 10 days
+  secret: adsf68768asdfuiyewrh3927dslfj
+login:
+  url:
+    path: /users/login

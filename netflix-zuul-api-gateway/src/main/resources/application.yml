@@ -10,3 +10,22 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+api:
+  login:
+    url:
+      path: /user-service/users/login
+  registration:
+    url:
+      path: /user-service/users
+  h2console:
+    url:
+      path: /user-service/h2-console/**
+
+authorization:
+  token:
+    header:
+      name: Authorization
+      prefix: Bearer
+token:
+  secret: adsf68768asdfuiyewrh3927dslfj
