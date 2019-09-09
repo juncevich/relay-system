@@ -21,7 +21,10 @@ api:
   h2console:
     url:
       path: /user-service/h2-console/**
-
+  zuul:
+    actuator:
+      url:
+        path: /actuator/*
 authorization:
   token:
     header:
@@ -29,3 +32,9 @@ authorization:
       prefix: Bearer
 token:
   secret: adsf68768asdfuiyewrh3927dslfj
+management:
+  endpoints:
+    web:
+      exposure:
+        include: beans, health, routes, httptrace
+
