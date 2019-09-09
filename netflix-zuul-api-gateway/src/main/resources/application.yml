@@ -32,9 +32,9 @@ authorization:
       prefix: Bearer
 token:
   secret: adsf68768asdfuiyewrh3927dslfj
+
 management:
   endpoints:
     web:
       exposure:
-        include: beans, health, routes, httptrace
-
+        include: ['beans','health','routes','httptrace']
