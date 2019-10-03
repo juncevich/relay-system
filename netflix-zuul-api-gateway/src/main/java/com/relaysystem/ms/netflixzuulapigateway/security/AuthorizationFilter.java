@@ -1,18 +1,15 @@
 package com.relaysystem.ms.netflixzuulapigateway.security;
 
-import io.jsonwebtoken.Jwts;
-import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import io.jsonwebtoken.*;
+import org.springframework.core.env.*;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.context.*;
+import org.springframework.security.web.authentication.www.*;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+import java.util.*;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -26,7 +23,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        String authorizationHeader = request.getHeader(environment.getProperty("quthorization.token.header.name"));
+        String authorizationHeader = request.getHeader(environment.getProperty("authorization.token.header.name"));
         if (authorizationHeader == null || !authorizationHeader.startsWith(environment.getProperty("authorization.token.header.prefix"))) {
             chain.doFilter(request, response);
             return;
