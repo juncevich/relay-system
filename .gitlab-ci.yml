@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - analyze
 
 include:
   - local: 'account-management/.gitlab-ci.yml'

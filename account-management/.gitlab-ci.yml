@@ -3,6 +3,7 @@ image: openjdk:11-jdk-slim
 stages:
   - build
   - test
+  - analyze
 
 #before_script:
   #  - echo `pwd` # debug
@@ -45,6 +46,13 @@ account-management-test:
   only:
     - master
 
+account-management-analyse:
+  extends: .common-job
+  stage: analyze
+  script:
+    - ./gradlew sonarqube
+  only:
+    - master
 after_script:
   - echo "End CI"
 
