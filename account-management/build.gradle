@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.1.7.RELEASE'
     id 'java'
+    id "org.sonarqube" version "2.7.1"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -27,6 +28,14 @@ ext {
     set('springCloudVersion', "Greenwich.SR2")
 }
 
+sonarqube{
+    properties{
+        property 'sonar.login', $SONAR_ACCOUNT_SERVICE_TOKEN
+        property 'sonar.host.url', 'https://sonarcloud.io'
+        property 'sonar.organization', 'relay-service'
+        property 'sonar.projectKey', 'com.relay-system.ms.api:account-management'
+    }
+}
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
