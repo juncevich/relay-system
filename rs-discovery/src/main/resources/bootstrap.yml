@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: rs-discovery
+  cloud:
+    config:
+      fail-fast: true
