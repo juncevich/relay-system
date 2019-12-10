@@ -45,6 +45,13 @@ netflix-eureka-naming-server-test:
   only:
     - master
 
+data-service-analyse:
+  extends: .common-job
+  stage: analyze
+  script:
+    - ./gradlew sonarqube
+  only:
+    - master
 after_script:
   - echo "End CI"
 
