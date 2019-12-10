@@ -3,19 +3,30 @@ image: java:8-jdk
 stages:
   - build
   - test
+  - analyze
 
-before_script:
-  #  - echo `pwd` # debug
-  #  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
-  - export GRADLE_USER_HOME=`pwd`/.gradle
-  - cd data-service
+#before_script:
+#  #  - echo `pwd` # debug
+#  #  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
+#  - export GRADLE_USER_HOME=`pwd`/.gradle
+#  - cd data-service
 
+.common-job:
+  before_script:
+    - cd data-service
+  only: &changes
+    changes:
+      - data-service/**/*
 cache:
+  key: "data-service-$CI_BUILD_REF_NAME"
+  policy: push
   paths:
-    - .gradle/wrapper
-    - .gradle/caches
+    - data-service/.gradle/wrapper
+    - data-service/.gradle/caches
+    - data-service/build
 
 data-service-build:
+  extends: .common-job
   stage: build
   script:
     - ./gradlew assemble
@@ -27,12 +38,20 @@ data-service-build:
     - master
 
 data-service-test:
+  extends: .common-job
   stage: test
   script:
     - ./gradlew check
   only:
     - master
 
+data-service-analyse:
+  stage: analyze
+  script:
+    - ./gradlew sonarqube
+  only:
+    - master
 after_script:
   - echo "End CI"
+
 
