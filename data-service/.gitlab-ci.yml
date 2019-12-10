@@ -46,6 +46,7 @@ data-service-test:
     - master
 
 data-service-analyse:
+  extends: .common-job
   stage: analyze
   script:
     - ./gradlew sonarqube
