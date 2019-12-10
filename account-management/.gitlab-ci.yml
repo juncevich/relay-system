@@ -11,7 +11,7 @@ stages:
 #  - export GRADLE_USER_HOME=`pwd`/.gradle
 #  - cd netflix-eureka-naming-server
 
-.common-job:
+.am-common-job:
   before_script:
     - cd account-management
   only: &changes
@@ -27,7 +27,7 @@ cache:
     - account-management/build
 
 account-management-build:
-  extends: .common-job
+  extends: .am-common-job
   stage: build
   script:
     - ./gradlew assemble
@@ -39,7 +39,7 @@ account-management-build:
     - master
 
 account-management-test:
-  extends: .common-job
+  extends: .am-common-job
   stage: test
   script:
     - ./gradlew check
@@ -47,7 +47,7 @@ account-management-test:
     - master
 
 account-management-analyse:
-  extends: .common-job
+  extends: .am-common-job
   stage: analyze
   script:
     - ./gradlew sonarqube

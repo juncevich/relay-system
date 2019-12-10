@@ -11,7 +11,7 @@ stages:
 #  - export GRADLE_USER_HOME=`pwd`/.gradle
 #  - cd data-service
 
-.common-job:
+.ds-common-job:
   before_script:
     - cd data-service
   only: &changes
@@ -26,7 +26,7 @@ cache:
     - data-service/build
 
 data-service-build:
-  extends: .common-job
+  extends: .ds-common-job
   stage: build
   script:
     - ./gradlew assemble
@@ -38,7 +38,7 @@ data-service-build:
     - master
 
 data-service-test:
-  extends: .common-job
+  extends: .ds-common-job
   stage: test
   script:
     - ./gradlew check
@@ -46,7 +46,7 @@ data-service-test:
     - master
 
 data-service-analyse:
-  extends: .common-job
+  extends: .ds-common-job
   stage: analyze
   script:
     - ./gradlew sonarqube
