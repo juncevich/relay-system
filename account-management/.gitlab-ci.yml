@@ -19,7 +19,7 @@ stages:
       - account-management/**/*
 
 cache:
-  key: "netflix-eureka-naming-server-$CI_BUILD_REF_NAME"
+  key: "account-management-$CI_BUILD_REF_NAME"
   policy: push
   paths:
     - account-management/.gradle/wrapper
