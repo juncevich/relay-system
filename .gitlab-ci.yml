@@ -7,4 +7,4 @@ include:
   - local: 'account-management/.gitlab-ci.yml'
   - local: 'data-service/.gitlab-ci.yml'
   - local: 'user-service/.gitlab-ci.yml'
-  - local: 'netflix-eureka-naming-server/.gitlab-ci.yml'
+  - local: 'rs-discovery/.gitlab-ci.yml'
