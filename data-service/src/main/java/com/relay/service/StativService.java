@@ -2,7 +2,7 @@ package com.relay.service;
 
 import org.springframework.stereotype.Component;
 
-import com.relay.model.statives.Stativ;
+import com.relay.web.model.statives.Stativ;
 
 @Component
 public class StativService {

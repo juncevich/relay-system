@@ -7,8 +7,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import com.relay.model.places.Station;
-import com.relay.repository.StationRepository;
+import com.relay.web.model.places.Station;
+import com.relay.db.repository.StationRepository;
 
 @Component
 public class StationService {
@@ -36,7 +36,8 @@ public class StationService {
     public Page<Station> findAll() {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
-        return stationRepository.findAll(pageable);
+//        return stationRepository.findAll(pageable);
+    return null;
     }
 
     /**
@@ -48,7 +49,8 @@ public class StationService {
      */
     public Station save(Station station) {
 
-        return stationRepository.save(station);
+//        return stationRepository.save(station);
+        return null;
     }
 
     /**
@@ -60,7 +62,8 @@ public class StationService {
      */
     public Optional<Station> findOne(long id) {
 
-        return stationRepository.findById(id);
+//        return stationRepository.findById(id);
+        return null;
     }
 
     /**

@@ -10,8 +10,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.google.common.collect.Lists;
-import com.relay.model.Distantion;
-import com.relay.repository.DistantionRepository;
+import com.relay.web.model.Distantion;
+import com.relay.db.repository.DistantionRepository;
 import com.relay.service.DistantionService;
 
 @RunWith(MockitoJUnitRunner.class)

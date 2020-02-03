@@ -3,8 +3,8 @@ package com.relay.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.relay.model.User;
-import com.relay.repository.UserRepository;
+import com.relay.web.model.User;
+import com.relay.db.repository.UserRepository;
 
 @Component
 public class UserService {

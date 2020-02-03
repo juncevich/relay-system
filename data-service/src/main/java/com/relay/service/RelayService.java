@@ -7,8 +7,8 @@ import java.util.*;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import com.relay.model.Relay;
-import com.relay.repository.RelayRepository;
+import com.relay.web.model.Relay;
+import com.relay.db.repository.RelayRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,9 +42,10 @@ public class RelayService {
     public Page<Relay> findAll() {
         log.info("GetAllRelay request");
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
-        Page<Relay> relayPage = relayRepository.findAll(pageable);
-        log.info("Founded relays:{}", Optional.ofNullable(relayPage).filter(Objects::nonNull).map(Slice::getContent));
-        return relayPage;
+//        Page<Relay> relayPage = relayRepository.findAll(pageable);
+//        log.info("Founded relays:{}", Optional.ofNullable(relayPage).filter(Objects::nonNull).map(Slice::getContent));
+//        return relayPage;
+        return null;
     }
 
     /**
@@ -56,7 +57,8 @@ public class RelayService {
      */
     public Relay save(Relay relay) {
 
-        return relayRepository.save(relay);
+//        return relayRepository.save(relay);
+        return null;
     }
 
     /**
@@ -68,7 +70,8 @@ public class RelayService {
      */
     public Optional<Relay> findOne(BigInteger id) {
 
-        return relayRepository.findById(id);
+//        return relayRepository.findById(id);
+        return null;
     }
 
     /**
@@ -79,7 +82,8 @@ public class RelayService {
      */
     public void deleteById(BigInteger id) {
 
-        relayRepository.deleteById(id);
+//        relayRepository.deleteById(id);
+
     }
 
     /**
@@ -92,7 +96,8 @@ public class RelayService {
     public Page<Relay> findByVerificationDate(LocalDate date) {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
-        return relayRepository.findByVerificationDate(date, pageable);
+//        return relayRepository.findByVerificationDate(date, pageable);
+        return null;
     }
 
     /**
@@ -105,7 +110,8 @@ public class RelayService {
     public Page<Relay> findByDateOfManufactureAfter(LocalDate date) {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
-        return relayRepository.findByDateOfManufactureAfter(date, pageable);
+//        return relayRepository.findByDateOfManufactureAfter(date, pageable);
+        return null;
     }
 
     /**
@@ -119,7 +125,8 @@ public class RelayService {
 
         log.info("Try to find relay with date {}", date);
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
-        return relayRepository.findByDateOfManufacture(date, pageable);
+//        return relayRepository.findByDateOfManufacture(date, pageable);
+        return null;
     }
 
     /**
@@ -131,7 +138,8 @@ public class RelayService {
      */
     public Relay findBySerialNumber(String serialNumber) {
 
-        return relayRepository.findBySerialNumber(serialNumber);
+//        return relayRepository.findBySerialNumber(serialNumber);
+        return null;
     }
 
     /**
@@ -144,6 +152,7 @@ public class RelayService {
     public Page<Relay> findByDateOfManufactureBefore(LocalDate date) {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
-        return relayRepository.findByDateOfManufactureBefore(date, pageable);
+//        return relayRepository.findByDateOfManufactureBefore(date, pageable);
+        return null;
     }
 }

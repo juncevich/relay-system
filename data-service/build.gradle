@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.7.RELEASE'
-    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
     id "org.sonarqube" version "2.7.1"
     id "com.palantir.docker" version "0.22.1"
@@ -42,8 +42,8 @@ ext {
             commons      : "org.springframework.data:spring-data-commons",
             actuator     : "org.springframework.boot:spring-boot-starter-actuator",
             devtools     : "org.springframework.boot:spring-boot-devtools",
-            test         : "org.springframework.boot:spring-boot-starter-test",
-            security_test: "org.springframework.security:spring-security-test",
+//            test         : "org.springframework.boot:spring-boot-starter-test",
+//            security_test: "org.springframework.security:spring-security-test",
 
 
     ]
@@ -71,7 +71,7 @@ configurations {
 dependencies {
     compile spring.web,
             spring.undertow,
-            spring.security,
+//            spring.security,
             spring.jpa,
             spring.commons,
             spring.actuator,
@@ -81,14 +81,19 @@ dependencies {
             util.apache_commons
 
     runtime spring.devtools
-    testCompile spring.test,
-            spring.security_test,
-            db.h2
+//    testCompile
+//    spring.test,
+//            spring.security_test,
+
     compileOnly util.lombok
     annotationProcessor util.lombok
 //    compile('org.springframework.cloud:spring-cloud-starter-config')
 //    compile(':spring-cloud-starter-eureka')
     compile group: 'org.testcontainers', name: 'postgresql', version: '1.10.2'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation db.h2
 }
 
 repositories {
@@ -104,15 +109,15 @@ jacocoTestReport {
     }
 }
 test {
-    useJUnit {
-        excludeCategories 'com.relay.integration.annotation.IntegrationTest'
+    useJUnitPlatform() {
+//        excludeCategories 'com.relay.integration.annotation.IntegrationTest'
     }
 }
 
-task integrationTest(type: Test) {
-    useJUnit {
-        includeCategories 'com.relay.integration.annotation.IntegrationTest'
-    }
-}
+//task integrationTest(type: Test) {
+//    useJUnitPlatform() {
+//        includeCategories 'com.relay.integration.annotation.IntegrationTest'
+//    }
+//}
 check.dependsOn jacocoTestReport
 

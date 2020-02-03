@@ -2,8 +2,8 @@ package com.relay.service;
 
 import org.springframework.stereotype.Service;
 
-import com.relay.model.Distantion;
-import com.relay.repository.DistantionRepository;
+import com.relay.web.model.Distantion;
+import com.relay.db.repository.DistantionRepository;
 
 @Service
 public class DistantionService {
@@ -30,11 +30,14 @@ public class DistantionService {
      */
     public Iterable<Distantion> findAll() {
 
-        return distantionRepository.findAll();
+//        return distantionRepository.findAll();
+    return null;
     }
+
 
     public Distantion save(Distantion distantion) {
 
-        return distantionRepository.save(distantion);
+//        return distantionRepository.save(distantion);
+    return null;
     }
 }

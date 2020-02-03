@@ -19,8 +19,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.PageImpl;
 
 import com.google.common.collect.Lists;
-import com.relay.model.Relay;
-import com.relay.repository.RelayRepository;
+import com.relay.web.model.Relay;
+import com.relay.db.repository.RelayRepository;
 import com.relay.service.RelayService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,8 +37,8 @@ public class RelayServiceTest {
         Relay relay = new Relay();
         relay.setId(BigInteger.valueOf(1));
         relay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
-        when(relayRepository.findByDateOfManufacture(any(), any()))
-                .thenReturn(new PageImpl<>(Lists.newArrayList(relay)));
+//        when(relayRepository.findByDateOfManufacture(any(), any()))
+//                .thenReturn(new PageImpl<>(Lists.newArrayList(relay)));
 
 
         List<Relay> foundedRelayList = relayService

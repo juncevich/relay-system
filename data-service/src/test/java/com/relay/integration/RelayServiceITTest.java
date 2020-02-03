@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import com.relay.integration.annotation.IntegrationTest;
-import com.relay.model.Relay;
+import com.relay.web.model.Relay;
 import com.relay.service.RelayService;
 
 @RunWith(SpringRunner.class)
