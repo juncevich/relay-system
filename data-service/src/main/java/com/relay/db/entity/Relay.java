@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity
 @Data
@@ -26,7 +25,7 @@ public class Relay {
 
     private String serialNumber;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Shelve shelve;
 
 }
