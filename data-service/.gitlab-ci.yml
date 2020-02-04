@@ -49,7 +49,7 @@ data-service-analyse:
   extends: .ds-common-job
   stage: analyze
   script:
-    - ./gradlew sonarqube
+    - ./gradlew jacocoTestReport sonarqube
   only:
     - master
 after_script:
