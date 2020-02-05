@@ -110,9 +110,10 @@ jacocoTestReport {
     }
 }
 test {
-    useJUnitPlatform() {
+    useJUnitPlatform()
+//            {
 //        excludeCategories 'com.relay.integration.annotation.IntegrationTest'
-    }
+//    }
 }
 
 //task integrationTest(type: Test) {
