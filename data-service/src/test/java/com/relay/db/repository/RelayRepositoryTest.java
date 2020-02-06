@@ -1,6 +1,7 @@
 package com.relay.db.repository;
 
 import com.relay.db.entity.Relay;
+import com.relay.db.entity.RelayType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,6 +124,17 @@ public class RelayRepositoryTest {
     public void testIncorrectFindBySerialNumber() {
         Relay relay = new Relay();
         relay.setSerialNumber("12345");
+        relayRepository.save(relay);
+
+        Relay savedRelay = relayRepository.findBySerialNumber("123456");
+        assertNotEquals(relay, savedRelay);
+    }
+
+    @Test
+    public void testCorrectTypeMapping() {
+        Relay relay = new Relay();
+        relay.setSerialNumber("12346");
+        relay.setType(RelayType.NMSH_400);
         relayRepository.save(relay);
 
         Relay savedRelay = relayRepository.findBySerialNumber("123456");
