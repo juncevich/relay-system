@@ -22,8 +22,6 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-//@ExtendWith(MockitoExtension.class)
-//@RunWith(JUnitPlatform.class)
 public class RelayServiceTest {
 
     @Mock
