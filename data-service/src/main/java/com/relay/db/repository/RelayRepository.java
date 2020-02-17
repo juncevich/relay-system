@@ -61,6 +61,6 @@ public interface RelayRepository extends PagingAndSortingRepository<RelayEntity,
     RelayEntity findBySerialNumber(String serialNumber);
 
 
-    @Query("from Relay as r where r.station.name=:stationName")
+    @Query("from RelayEntity as r where r.station.name=:stationName")
     List<RelayEntity> findRelaysByStationName(@Param("stationName") String stationName);
 }
