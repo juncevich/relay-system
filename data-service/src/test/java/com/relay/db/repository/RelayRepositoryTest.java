@@ -149,10 +149,16 @@ public class RelayRepositoryTest {
 
     @Test
     public void testFindRelaysByStation() {
-        List<Relay> relays = createRelaysByStation(5, "Монетная");
+        Station monetnajaStation = new Station();
+        monetnajaStation.setName("Монетная");
+        stationRepository.save(monetnajaStation);
+        List<Relay> relays = createRelaysByStation(5, monetnajaStation);
         relayRepository.saveAll(relays);
 
-        relays = createRelaysByStation(2, "Березит");
+        Station berezitStation = new Station();
+        berezitStation.setName("Березит");
+        stationRepository.save(berezitStation);
+        relays = createRelaysByStation(2, berezitStation);
         relayRepository.saveAll(relays);
 
         List<Relay> monetnayaRelays = relayRepository.findRelaysByStationName("Монетная");
@@ -160,11 +166,8 @@ public class RelayRepositoryTest {
         assertEquals(5, monetnayaRelays.size());
     }
 
-    private List<Relay> createRelaysByStation(int stationCount, String stationName) {
+    private List<Relay> createRelaysByStation(int stationCount, Station station) {
         List<Relay> relays = new ArrayList<>(stationCount);
-        Station station = new Station();
-        stationRepository.save(station);
-        station.setName(stationName);
         for (int j = 0; j < stationCount; j++) {
             Relay relay = Relay.builder()
                     .station(station)
