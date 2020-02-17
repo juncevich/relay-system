@@ -2,6 +2,7 @@ package com.relay.db.repository;
 
 import com.relay.db.entity.Relay;
 import com.relay.db.entity.RelayType;
+import com.relay.db.entity.location.Station;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +24,9 @@ public class RelayRepositoryTest {
 
     @Autowired
     private RelayRepository relayRepository;
+
+    @Autowired
+    private StationRepository stationRepository;
 
     @Test
     public void testFindByCreationDate() {
@@ -140,4 +146,33 @@ public class RelayRepositoryTest {
         Relay savedRelay = relayRepository.findBySerialNumber("123456");
         assertNotEquals(relay, savedRelay);
     }
+
+    @Test
+    public void testFindRelaysByStation() {
+        List<Relay> relays = createRelaysByStation(5, "Монетная");
+        relayRepository.saveAll(relays);
+
+        relays = createRelaysByStation(2, "Березит");
+        relayRepository.saveAll(relays);
+
+        List<Relay> monetnayaRelays = relayRepository.findRelaysByStationName("Монетная");
+        assertNotNull(monetnayaRelays);
+        assertEquals(5, monetnayaRelays.size());
+    }
+
+    private List<Relay> createRelaysByStation(int stationCount, String stationName) {
+        List<Relay> relays = new ArrayList<>(stationCount);
+        Station station = new Station();
+        stationRepository.save(station);
+        station.setName(stationName);
+        for (int j = 0; j < stationCount; j++) {
+            Relay relay = Relay.builder()
+                    .station(station)
+                    .build();
+            relays.add(relay);
+        }
+        return relays;
+    }
+
+
 }

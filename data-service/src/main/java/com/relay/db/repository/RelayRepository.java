@@ -3,11 +3,14 @@ package com.relay.db.repository;
 import com.relay.db.entity.Relay;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface RelayRepository extends PagingAndSortingRepository<Relay, Long> {
@@ -58,4 +61,6 @@ public interface RelayRepository extends PagingAndSortingRepository<Relay, Long>
     Relay findBySerialNumber(String serialNumber);
 
 
+    @Query("from Relay as r where r.station.name=:stationName")
+    List<Relay> findRelaysByStationName(@Param("stationName") String stationName);
 }

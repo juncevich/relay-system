@@ -1,5 +1,6 @@
 package com.relay.db.entity;
 
+import com.relay.db.entity.location.Station;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,5 +34,9 @@ public class Relay {
 
     @ManyToOne
     private Shelve shelve;
+
+    @ManyToOne
+    @JoinColumn(name = "station_id")
+    private Station station;
 
 }
