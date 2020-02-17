@@ -1,16 +1,19 @@
 package com.relay.service;
 
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.*;
-
-import org.springframework.data.domain.*;
+import com.relay.db.entity.RelayEntity;
+import com.relay.db.repository.RelayRepository;
+import com.relay.mappers.RelayMapper;
+import com.relay.web.model.Relay;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.relay.web.model.Relay;
-import com.relay.db.repository.RelayRepository;
-
-import lombok.extern.slf4j.Slf4j;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * {@link Relay} service
@@ -154,5 +157,11 @@ public class RelayService {
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
 //        return relayRepository.findByDateOfManufactureBefore(date, pageable);
         return null;
+    }
+
+    public List<Relay> findByStationName(String stationName) {
+
+        List<RelayEntity> relaysByStationName = relayRepository.findRelaysByStationName(stationName);
+        return RelayMapper.INSTANCE.mapEntityToModel(relaysByStationName);
     }
 }

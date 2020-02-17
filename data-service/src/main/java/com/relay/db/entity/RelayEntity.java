@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Relay {
+public class RelayEntity {
 
     @Id
     @GeneratedValue

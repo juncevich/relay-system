@@ -1,6 +1,6 @@
 package com.relay.db.repository;
 
-import com.relay.db.entity.Relay;
+import com.relay.db.entity.RelayEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -13,54 +13,54 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface RelayRepository extends PagingAndSortingRepository<Relay, Long> {
+public interface RelayRepository extends PagingAndSortingRepository<RelayEntity, Long> {
 
 
     /**
      * Find relay by born date
      *
-     * @param creationDate {@link Relay#getCreationDate()}
+     * @param creationDate {@link RelayEntity#getCreationDate()}
      * @param pageable     {@link Pageable}
      * @return relay
      */
-    Page<Relay> findByCreationDate(LocalDate creationDate, Pageable pageable);
+    Page<RelayEntity> findByCreationDate(LocalDate creationDate, Pageable pageable);
 
     /**
      * Find relay before born date
      *
-     * @param dateOfManufacture {@link Relay#getCreationDate()}
+     * @param dateOfManufacture {@link RelayEntity#getCreationDate()}
      * @param pageable          {@link Pageable}
      * @return relay
      */
-    Page<Relay> findByCreationDateBefore(LocalDate dateOfManufacture, Pageable pageable);
+    Page<RelayEntity> findByCreationDateBefore(LocalDate dateOfManufacture, Pageable pageable);
 
     /**
      * Find relay by born date
      *
-     * @param dateOfManufacture {@link Relay#getCreationDate()}
+     * @param dateOfManufacture {@link RelayEntity#getCreationDate()}
      * @param pageable          {@link Pageable}
      * @return relay
      */
-    Page<Relay> findByCreationDateAfter(LocalDate dateOfManufacture, Pageable pageable);
+    Page<RelayEntity> findByCreationDateAfter(LocalDate dateOfManufacture, Pageable pageable);
 
     /**
      * Find list of relays by verification date
      *
-     * @param dateTime {@link Relay#getLastCheckDate()}
+     * @param dateTime {@link RelayEntity#getLastCheckDate()}
      * @param pageable * {@link Pageable}
      * @return relay page
      */
-    Page<Relay> findByLastCheckDate(LocalDateTime dateTime, Pageable pageable);
+    Page<RelayEntity> findByLastCheckDate(LocalDateTime dateTime, Pageable pageable);
 
     /**
      * Find relay by serial number
      *
-     * @param serialNumber {@link Relay#getSerialNumber()}
+     * @param serialNumber {@link RelayEntity#getSerialNumber()}
      * @return relay
      */
-    Relay findBySerialNumber(String serialNumber);
+    RelayEntity findBySerialNumber(String serialNumber);
 
 
     @Query("from Relay as r where r.station.name=:stationName")
-    List<Relay> findRelaysByStationName(@Param("stationName") String stationName);
+    List<RelayEntity> findRelaysByStationName(@Param("stationName") String stationName);
 }

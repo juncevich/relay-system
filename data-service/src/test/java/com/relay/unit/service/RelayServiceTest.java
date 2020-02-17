@@ -1,6 +1,8 @@
 package com.relay.unit.service;
 
 import com.google.common.collect.Lists;
+import com.relay.db.entity.RelayEntity;
+import com.relay.db.entity.location.Station;
 import com.relay.db.repository.RelayRepository;
 import com.relay.service.RelayService;
 import com.relay.web.model.Relay;
@@ -17,8 +19,8 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static com.relay.util.RelayTestUtil.createRelaysByStation;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -97,17 +99,29 @@ public class RelayServiceTest {
     @Test
     public void findAll() {
 
-        com.relay.db.entity.Relay relay1 = com.relay.db.entity.Relay.builder().serialNumber("012345").build();
-        com.relay.db.entity.Relay relay2 = com.relay.db.entity.Relay.builder().serialNumber("012345").build();
-        com.relay.db.entity.Relay relay3 = com.relay.db.entity.Relay.builder().serialNumber("012345").build();
-        com.relay.db.entity.Relay relay4 = com.relay.db.entity.Relay.builder().serialNumber("012345").build();
-        List<com.relay.db.entity.Relay> relays = Lists.newArrayList(relay1, relay2, relay3, relay4);
+        RelayEntity relay1 = RelayEntity.builder().serialNumber("012345").build();
+        RelayEntity relay2 = RelayEntity.builder().serialNumber("012345").build();
+        RelayEntity relay3 = RelayEntity.builder().serialNumber("012345").build();
+        RelayEntity relay4 = RelayEntity.builder().serialNumber("012345").build();
+        List<RelayEntity> relays = Lists.newArrayList(relay1, relay2, relay3, relay4);
         when(relayRepository.findAll()).thenReturn(relays);
 
         Page<Relay> relayList = relayService.findAll();
 //        assertEquals(4, relayList.size());
         assertNull(relayList);
 
+    }
+
+    @Test
+    public void findRelayByStationName() {
+        Station monetnajaStation = new Station();
+        List<RelayEntity> relaysByMonetnajaStation = createRelaysByStation(4, monetnajaStation);
+
+        when(relayRepository.findRelaysByStationName("Монетная")).thenReturn(relaysByMonetnajaStation);
+
+        List<Relay> relays = relayService.findByStationName("Монетная");
+        assertNotNull(relays);
+        assertEquals(4, relays.size());
     }
 
 
