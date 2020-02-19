@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 
 import static com.relay.util.RelayTestUtil.createRelaysByStation;
@@ -166,5 +167,21 @@ public class RelayRepositoryTest {
         assertEquals(5, monetnayaRelays.size());
     }
 
+
+    @Test
+    public void findByCreationDateAndStation() {
+        LocalDate currentTime = LocalDate.of(2020, Month.DECEMBER, 20);
+        RelayEntity relay1 = new RelayEntity();
+        relay1.setCreationDate(currentTime.minusDays(1L));
+
+        Station monetnajaStation = new Station();
+        monetnajaStation.setName("Монетная");
+        stationRepository.save(monetnajaStation);
+        relayRepository.save(relay1);
+
+        relayRepository.findRelaysByStationNameAndCreationDate("Монетная", currentTime.minusDays(1L));
+
+
+    }
 
 }
