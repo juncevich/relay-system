@@ -21,6 +21,7 @@ public class RelayEntity {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "creation_date")
     private LocalDate creationDate;
 
     private LocalDateTime lastCheckDate;

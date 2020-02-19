@@ -170,17 +170,26 @@ public class RelayRepositoryTest {
 
     @Test
     public void findByCreationDateAndStation() {
-        LocalDate currentTime = LocalDate.of(2020, Month.DECEMBER, 20);
-        RelayEntity relay1 = new RelayEntity();
-        relay1.setCreationDate(currentTime.minusDays(1L));
-
         Station monetnajaStation = new Station();
         monetnajaStation.setName("Монетная");
         stationRepository.save(monetnajaStation);
+
+        LocalDate currentTime = LocalDate.of(2020, Month.DECEMBER, 20);
+        RelayEntity relay1 = new RelayEntity();
+        relay1.setCreationDate(currentTime.minusDays(1L));
+        relay1.setStation(monetnajaStation);
+
         relayRepository.save(relay1);
 
-        relayRepository.findRelaysByStationNameAndCreationDate("Монетная", currentTime.minusDays(1L));
+        RelayEntity relay2 = new RelayEntity();
+        relay2.setCreationDate(currentTime);
+        relay2.setStation(monetnajaStation);
 
+        relayRepository.save(relay2);
+
+        List<RelayEntity> relays = relayRepository.findRelaysByStationNameAndCreationDate("Монетная", currentTime.minusDays(1L));
+        assertNotNull(relays);
+        assertEquals(1, relays.size());
 
     }
 
