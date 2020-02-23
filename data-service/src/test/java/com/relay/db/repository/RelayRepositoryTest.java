@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,7 +28,7 @@ public class RelayRepositoryTest {
     private RelayRepository relayRepository;
 
     @Autowired
-    private StationRepository stationRepository;
+    private TestEntityManager testEntityManager;
 
     @Test
     public void testFindByCreationDate() {
@@ -152,13 +153,13 @@ public class RelayRepositoryTest {
     public void testFindRelaysByStation() {
         Station monetnajaStation = new Station();
         monetnajaStation.setName("Монетная");
-        stationRepository.save(monetnajaStation);
+        testEntityManager.persist(monetnajaStation);
         List<RelayEntity> relays = createRelaysByStation(5, monetnajaStation);
         relayRepository.saveAll(relays);
 
         Station berezitStation = new Station();
         berezitStation.setName("Березит");
-        stationRepository.save(berezitStation);
+        testEntityManager.persist(berezitStation);
         relays = createRelaysByStation(2, berezitStation);
         relayRepository.saveAll(relays);
 
@@ -172,8 +173,7 @@ public class RelayRepositoryTest {
     public void findByCreationDateAndStation() {
         Station monetnajaStation = new Station();
         monetnajaStation.setName("Монетная");
-        stationRepository.save(monetnajaStation);
-
+        testEntityManager.persist(monetnajaStation);
         LocalDate currentTime = LocalDate.of(2020, Month.DECEMBER, 20);
         RelayEntity relay1 = new RelayEntity();
         relay1.setCreationDate(currentTime.minusDays(1L));
