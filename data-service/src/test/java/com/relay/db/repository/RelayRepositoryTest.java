@@ -53,50 +53,6 @@ public class RelayRepositoryTest {
     }
 
     @Test
-    public void testCorrectFindByCreationDateAfter() {
-        RelayEntity relay = new RelayEntity();
-        LocalDate creationDate = LocalDate.of(2020, 10, 10);
-        relay.setCreationDate(creationDate);
-        relayRepository.save(relay);
-
-        Page<RelayEntity> relayPage = relayRepository.findByCreationDateAfter(LocalDate.of(2020, 10, 9), PageRequest.of(0, 1));
-        assertEquals(relay, relayPage.get().findFirst().orElseThrow());
-    }
-
-    @Test
-    public void testIncorrectFindByCreationDateAfter() {
-        RelayEntity relay = new RelayEntity();
-        LocalDate creationDate = LocalDate.of(2020, 10, 10);
-        relay.setCreationDate(creationDate);
-        relayRepository.save(relay);
-
-        Page<RelayEntity> relayPage = relayRepository.findByCreationDateAfter(LocalDate.of(2020, 10, 11), PageRequest.of(0, 1));
-        assertTrue(relayPage.get().findFirst().isEmpty());
-    }
-
-    @Test
-    public void testCorrectFindByCreationDateBefore() {
-        RelayEntity relay = new RelayEntity();
-        LocalDate creationDate = LocalDate.of(2020, 10, 10);
-        relay.setCreationDate(creationDate);
-        relayRepository.save(relay);
-
-        Page<RelayEntity> relayPage = relayRepository.findByCreationDateBefore(LocalDate.of(2020, 10, 11), PageRequest.of(0, 1));
-        assertEquals(relay, relayPage.get().findFirst().orElseThrow());
-    }
-
-    @Test
-    public void testIncorrectFindByCreationDateBefore() {
-        RelayEntity relay = new RelayEntity();
-        LocalDate creationDate = LocalDate.of(2020, 10, 10);
-        relay.setCreationDate(creationDate);
-        relayRepository.save(relay);
-
-        Page<RelayEntity> relayPage = relayRepository.findByCreationDateBefore(LocalDate.of(2020, 10, 9), PageRequest.of(0, 1));
-        assertTrue(relayPage.get().findFirst().isEmpty());
-    }
-
-    @Test
     public void testCorrectFindByLastCheckDate() {
         RelayEntity relay = new RelayEntity();
         LocalDateTime lastCheckDate = LocalDateTime.of(2020, 10, 10, 10, 10);
@@ -193,4 +149,13 @@ public class RelayRepositoryTest {
 
     }
 
+    @Test
+    public void testCreationDateField() {
+        RelayEntity relayEntity = new RelayEntity();
+        relayRepository.save(relayEntity);
+
+        assertNotNull(relayEntity.getCreated());
+        assertNull(relayEntity.getUpdated());
+
+    }
 }

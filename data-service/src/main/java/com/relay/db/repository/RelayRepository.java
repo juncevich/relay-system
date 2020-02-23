@@ -26,25 +26,7 @@ public interface RelayRepository extends PagingAndSortingRepository<RelayEntity,
     Page<RelayEntity> findByCreationDate(LocalDate creationDate, Pageable pageable);
 
     /**
-     * Find relay before born date
-     *
-     * @param dateOfManufacture {@link RelayEntity#getCreationDate()}
-     * @param pageable          {@link Pageable}
-     * @return relay
-     */
-    Page<RelayEntity> findByCreationDateBefore(LocalDate dateOfManufacture, Pageable pageable);
-
-    /**
-     * Find relay by born date
-     *
-     * @param dateOfManufacture {@link RelayEntity#getCreationDate()}
-     * @param pageable          {@link Pageable}
-     * @return relay
-     */
-    Page<RelayEntity> findByCreationDateAfter(LocalDate dateOfManufacture, Pageable pageable);
-
-    /**
-     * Find list of relays by verification date
+     * Find list of relays by last check date
      *
      * @param dateTime {@link RelayEntity#getLastCheckDate()}
      * @param pageable * {@link Pageable}
