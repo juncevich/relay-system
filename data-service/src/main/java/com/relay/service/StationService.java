@@ -1,16 +1,17 @@
 package com.relay.service;
 
-import java.util.Optional;
-
+import com.relay.db.repository.StationRepository;
+import com.relay.web.model.places.Station;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import com.relay.web.model.places.Station;
-import com.relay.db.repository.StationRepository;
+import javax.transaction.Transactional;
+import java.util.Optional;
 
-@Component
+@Service
+@Transactional
 public class StationService {
 
     /**

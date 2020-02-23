@@ -1,10 +1,12 @@
 package com.relay.service;
 
-import org.springframework.stereotype.Component;
-
 import com.relay.web.model.statives.Stativ;
+import org.springframework.stereotype.Service;
 
-@Component
+import javax.transaction.Transactional;
+
+@Service
+@Transactional
 public class StativService {
 
     public Stativ save(Stativ stativ) {

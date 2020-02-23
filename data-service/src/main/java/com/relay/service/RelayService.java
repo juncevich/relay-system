@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Optional;
  * {@link Relay} service
  */
 @Service
+@Transactional
 @Slf4j
 public class RelayService {
 

@@ -1,11 +1,13 @@
 package com.relay.service;
 
+import com.relay.db.repository.DistantionRepository;
+import com.relay.web.model.Distantion;
 import org.springframework.stereotype.Service;
 
-import com.relay.web.model.Distantion;
-import com.relay.db.repository.DistantionRepository;
+import javax.transaction.Transactional;
 
 @Service
+@Transactional
 public class DistantionService {
 
     /**

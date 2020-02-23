@@ -1,8 +1,11 @@
 package com.relay.service;
 
-import com.relay.web.model.shelves.Shelve;
 import com.relay.db.repository.ShelveRepository;
+import com.relay.web.model.shelves.Shelve;
 
+import javax.transaction.Transactional;
+
+@Transactional
 class ShelveService {
 
     private final ShelveRepository shelveRepository;
@@ -15,6 +18,6 @@ class ShelveService {
     public Shelve save(Shelve shelve) {
 
 //        return shelveRepository.save(shelve);
-    return null;
+        return null;
     }
 }
