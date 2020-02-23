@@ -1,35 +1,37 @@
 package com.relay.integration;
 
-import static org.junit.Assert.assertEquals;
-
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.List;
-
+import com.relay.integration.annotation.IntegrationTest;
+import com.relay.service.RelayService;
+import com.relay.web.model.Relay;
 import org.jetbrains.annotations.NotNull;
 import org.junit.ClassRule;
-import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import com.relay.integration.annotation.IntegrationTest;
-import com.relay.web.model.Relay;
-import com.relay.service.RelayService;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
 
-@RunWith(SpringRunner.class)
+import static org.junit.Assert.assertEquals;
+
+@Disabled
+@ExtendWith(SpringExtension.class)
 @DataJpaTest
-@ComponentScan(basePackages = { "com.relay" })
-@ContextConfiguration(initializers = { RelayServiceITTest.Initializer.class })
+@ComponentScan(basePackages = {"com.relay"})
+@ContextConfiguration(initializers = {RelayServiceITTest.Initializer.class})
 @Category(IntegrationTest.class)
 public class RelayServiceITTest {
 
@@ -112,7 +114,7 @@ public class RelayServiceITTest {
         Relay relay4 = Relay.builder().serialNumber("012345").build();
         relayService.save(relay4);
 
-        List<Relay> relayList = relayService.findAll().getContent();
+        List<Relay> relayList = relayService.findAll(PageRequest.of(1, 10));
         assertEquals(4, relayList.size());
 
     }

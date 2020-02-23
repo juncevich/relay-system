@@ -5,13 +5,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 /**
  * Some test comment1
@@ -32,12 +28,12 @@ public abstract class AbstractEntity {
      * Create entity date
      */
     @CreatedDate
-    private Date created;
+    private OffsetDateTime created;
 
     /**
      * Update entity date
      */
     @LastModifiedDate
-    private Date updated;
+    private OffsetDateTime updated;
 
 }

@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigInteger;
@@ -20,7 +22,9 @@ import java.time.Month;
 import java.util.List;
 
 import static com.relay.util.RelayTestUtil.createRelaysByStation;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -104,11 +108,11 @@ public class RelayServiceTest {
         RelayEntity relay3 = RelayEntity.builder().serialNumber("012345").build();
         RelayEntity relay4 = RelayEntity.builder().serialNumber("012345").build();
         List<RelayEntity> relays = Lists.newArrayList(relay1, relay2, relay3, relay4);
-        when(relayRepository.findAll()).thenReturn(relays);
+        when(relayRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(relays));
 
-        Page<Relay> relayList = relayService.findAll();
-//        assertEquals(4, relayList.size());
-        assertNull(relayList);
+        List<Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
+        assertNotNull(relayList);
+        assertEquals(4, relayList.size());
 
     }
 

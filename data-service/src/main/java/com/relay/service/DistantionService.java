@@ -5,6 +5,8 @@ import com.relay.web.model.Distantion;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Transactional
@@ -27,13 +29,12 @@ public class DistantionService {
     }
 
     /**
-     * 
      * @return
      */
-    public Iterable<Distantion> findAll() {
+    public List<Distantion> findAll() {
 
-//        return distantionRepository.findAll();
-    return null;
+//        return Lists.newArrayList(distantionRepository.findAll());
+        return Collections.EMPTY_LIST;
     }
 
 

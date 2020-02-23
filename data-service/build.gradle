@@ -95,6 +95,7 @@ dependencies {
 //    compile('org.springframework.cloud:spring-cloud-starter-config')
 //    compile(':spring-cloud-starter-eureka')
     compile group: 'org.testcontainers', name: 'postgresql', version: '1.10.2'
+//    testCompile "org.testcontainers:testcontainers:1.12.5"
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

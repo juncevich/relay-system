@@ -7,6 +7,7 @@ import com.relay.web.model.Relay;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -41,16 +42,17 @@ public class RelayService {
 
     /**
      * Find all relays
-     * 
+     *
      * @return list with all {@link Relay}
      */
-    public Page<Relay> findAll() {
+    public List<Relay> findAll(Pageable pageable) {
         log.info("GetAllRelay request");
-        PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
-//        Page<Relay> relayPage = relayRepository.findAll(pageable);
+//        PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
+        Page<RelayEntity> relayPage = relayRepository.findAll(pageable);
+
 //        log.info("Founded relays:{}", Optional.ofNullable(relayPage).filter(Objects::nonNull).map(Slice::getContent));
 //        return relayPage;
-        return null;
+        return RelayMapper.INSTANCE.mapEntityToModel(relayPage.toList());
     }
 
     /**

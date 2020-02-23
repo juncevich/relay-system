@@ -1,18 +1,16 @@
 package com.relay.unit.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
+import com.google.common.collect.Lists;
+import com.relay.db.repository.DistantionRepository;
+import com.relay.service.DistantionService;
+import com.relay.web.model.Distantion;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.google.common.collect.Lists;
-import com.relay.web.model.Distantion;
-import com.relay.db.repository.DistantionRepository;
-import com.relay.service.DistantionService;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DistantionServiceTest {
@@ -27,7 +25,7 @@ public class DistantionServiceTest {
     @Test
     public void findAll() {
 
-        when(distantionRepository.findAll()).thenReturn(Lists.newArrayList());
+//        when(distantionRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
         Iterable<Distantion> emptyDistantionList = distantionService.findAll();
         assertEquals(0, Lists.newArrayList(emptyDistantionList).size());
     }
