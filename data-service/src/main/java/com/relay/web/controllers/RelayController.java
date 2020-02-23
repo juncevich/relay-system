@@ -1,23 +1,15 @@
 package com.relay.web.controllers;
 
-import java.math.BigInteger;
-import java.time.LocalDate;
+import com.relay.service.RelayService;
+import com.relay.web.model.Relay;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
-
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.relay.web.model.Relay;
-import com.relay.service.RelayService;
+import java.math.BigInteger;
+import java.time.LocalDate;
 
 @RestController
 public class RelayController {
@@ -36,18 +28,6 @@ public class RelayController {
     public RelayController(RelayService relayService) {
 
         this.relayService = relayService;
-    }
-
-    /**
-     * Retrieve all relays
-     * 
-     * @return list with all relays
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/relays")
-    public Page<Relay> retrieveAllRelays() {
-
-        return relayService.findAll();
     }
 
     /**
@@ -81,7 +61,7 @@ public class RelayController {
      * Finding relay by verification date
      * 
      * @param verificationDate
-     *            {@link Relay#verificationDate}
+     *            {@link Relay#getVerificationDate()}
      * @return Page of {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
@@ -95,7 +75,7 @@ public class RelayController {
      * Find relay by id
      * 
      * @param id
-     *            {@link Relay#id}
+     *            {@link Relay#getId()}
      * @return {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
@@ -109,7 +89,7 @@ public class RelayController {
      * Finding relay by verification date
      *
      * @param date
-     *            {@link Relay#dateOfManufacture}
+     *            {@link Relay#getDateOfManufacture()}
      * @return Page of {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
@@ -123,7 +103,7 @@ public class RelayController {
      * Finding relay before date of manufacture
      * 
      * @param before
-     *            The date before {@link Relay#dateOfManufacture}
+     *            The date before {@link Relay#getDateOfManufacture()}
      * @return Page of {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
@@ -138,7 +118,7 @@ public class RelayController {
      * Find relay by serial number
      * 
      * @param serialNumber
-     *            {@link Relay#serialNumber}
+     *            {@link Relay#getSerialNumber()}
      * @return {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
@@ -153,7 +133,7 @@ public class RelayController {
      * Finding relay after date of manufacture
      *
      * @param after
-     *            The date before {@link Relay#dateOfManufacture}
+     *            The date before {@link Relay#getDateOfManufacture()}
      * @return Page of {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
