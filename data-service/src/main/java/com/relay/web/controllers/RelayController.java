@@ -22,8 +22,7 @@ public class RelayController {
     /**
      * Init beans
      *
-     * @param relayService
-     *            relay service
+     * @param relayService relay service
      */
     public RelayController(RelayService relayService) {
 
@@ -33,8 +32,7 @@ public class RelayController {
     /**
      * Delete current relay
      *
-     * @param id
-     *            id relay to delete
+     * @param id id relay to delete
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/relay/{id}")
@@ -45,23 +43,19 @@ public class RelayController {
 
     /**
      * Create relay
-     * 
-     * @param relay
-     *            relay to create
-     * @return created {@link Relay}
+     *
+     * @param relay relay to create
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/relay")
-    public Relay createRelay(@Valid @RequestBody Relay relay) {
-
-        return relayService.save(relay);
+    public void createRelay(@Valid @RequestBody Relay relay) {
+        relayService.save(relay);
     }
 
     /**
      * Finding relay by verification date
-     * 
-     * @param verificationDate
-     *            {@link Relay#getVerificationDate()}
+     *
+     * @param verificationDate {@link Relay#getVerificationDate()}
      * @return Page of {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
@@ -73,9 +67,8 @@ public class RelayController {
 
     /**
      * Find relay by id
-     * 
-     * @param id
-     *            {@link Relay#getId()}
+     *
+     * @param id {@link Relay#getId()}
      * @return {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
@@ -88,8 +81,7 @@ public class RelayController {
     /**
      * Finding relay by verification date
      *
-     * @param date
-     *            {@link Relay#getDateOfManufacture()}
+     * @param date {@link Relay#getDateOfManufacture()}
      * @return Page of {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
@@ -101,9 +93,8 @@ public class RelayController {
 
     /**
      * Finding relay before date of manufacture
-     * 
-     * @param before
-     *            The date before {@link Relay#getDateOfManufacture()}
+     *
+     * @param before The date before {@link Relay#getDateOfManufacture()}
      * @return Page of {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
@@ -116,9 +107,8 @@ public class RelayController {
 
     /**
      * Find relay by serial number
-     * 
-     * @param serialNumber
-     *            {@link Relay#getSerialNumber()}
+     *
+     * @param serialNumber {@link Relay#getSerialNumber()}
      * @return {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
@@ -132,8 +122,7 @@ public class RelayController {
     /**
      * Finding relay after date of manufacture
      *
-     * @param after
-     *            The date before {@link Relay#getDateOfManufacture()}
+     * @param after The date before {@link Relay#getDateOfManufacture()}
      * @return Page of {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)

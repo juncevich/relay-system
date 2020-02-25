@@ -15,4 +15,6 @@ public interface RelayMapper {
     Relay mapEntityToModel(RelayEntity relayEntity);
 
     List<Relay> mapEntityToModel(List<RelayEntity> relayEntity);
+
+    RelayEntity mapModelToEntity(Relay relay);
 }

@@ -31,9 +31,7 @@ public class RelayService {
     private final RelayRepository relayRepository;
 
     /**
-     * 
-     * @param relayRepository
-     *            {@link RelayRepository}
+     * @param relayRepository {@link RelayRepository}
      */
     public RelayService(final RelayRepository relayRepository) {
 
@@ -46,33 +44,26 @@ public class RelayService {
      * @return list with all {@link Relay}
      */
     public List<Relay> findAll(Pageable pageable) {
-        log.info("GetAllRelay request");
-//        PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         Page<RelayEntity> relayPage = relayRepository.findAll(pageable);
-
-//        log.info("Founded relays:{}", Optional.ofNullable(relayPage).filter(Objects::nonNull).map(Slice::getContent));
-//        return relayPage;
         return RelayMapper.INSTANCE.mapEntityToModel(relayPage.toList());
     }
 
     /**
      * Save relay method
-     * 
-     * @param relay
-     *            {@link Relay}
+     *
+     * @param relay {@link Relay}
      * @return {@link Relay}
      */
-    public Relay save(Relay relay) {
+    public void save(Relay relay) {
 
-//        return relayRepository.save(relay);
-        return null;
+        RelayEntity entity = RelayMapper.INSTANCE.mapModelToEntity(relay);
+        relayRepository.save(entity);
     }
 
     /**
      * Find relay by id
-     * 
-     * @param id
-     *            {@link Relay#id}
+     *
+     * @param id {@link Relay#id}
      * @return optional of {@link Relay}
      */
     public Optional<Relay> findOne(BigInteger id) {
@@ -83,9 +74,8 @@ public class RelayService {
 
     /**
      * Delete relay by id
-     * 
-     * @param id
-     *            {@link Relay#id}
+     *
+     * @param id {@link Relay#id}
      */
     public void deleteById(BigInteger id) {
 
@@ -95,9 +85,8 @@ public class RelayService {
 
     /**
      * Find relay by verification date
-     * 
-     * @param date
-     *            {@link Relay#verificationDate}
+     *
+     * @param date {@link Relay#verificationDate}
      * @return Page of {@link Relay}
      */
     public Page<Relay> findByVerificationDate(LocalDate date) {
@@ -109,9 +98,8 @@ public class RelayService {
 
     /**
      * Find relay after date of manufacture
-     * 
-     * @param date
-     *            {@link Relay#dateOfManufacture}
+     *
+     * @param date {@link Relay#dateOfManufacture}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufactureAfter(LocalDate date) {
@@ -124,8 +112,7 @@ public class RelayService {
     /**
      * Find relay by date of manufacture
      *
-     * @param date
-     *            {@link Relay#dateOfManufacture}
+     * @param date {@link Relay#dateOfManufacture}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufacture(LocalDate date) {
@@ -138,9 +125,8 @@ public class RelayService {
 
     /**
      * Find relay by serial number
-     * 
-     * @param serialNumber
-     *            {@link Relay#serialNumber}
+     *
+     * @param serialNumber {@link Relay#serialNumber}
      * @return {@link Relay}
      */
     public Relay findBySerialNumber(String serialNumber) {
@@ -152,8 +138,7 @@ public class RelayService {
     /**
      * Find relay before date of manufacture
      *
-     * @param date
-     *            {@link Relay#dateOfManufacture}
+     * @param date {@link Relay#dateOfManufacture}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufactureBefore(LocalDate date) {
