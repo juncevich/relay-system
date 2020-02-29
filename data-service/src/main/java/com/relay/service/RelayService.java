@@ -54,10 +54,11 @@ public class RelayService {
      * @param relay {@link Relay}
      * @return {@link Relay}
      */
-    public void save(Relay relay) {
+    public Relay save(Relay relay) {
 
         RelayEntity entity = RelayMapper.INSTANCE.mapModelToEntity(relay);
-        relayRepository.save(entity);
+        RelayEntity savedEntity = relayRepository.save(entity);
+        return RelayMapper.INSTANCE.mapEntityToModel(savedEntity);
     }
 
     /**
