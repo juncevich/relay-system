@@ -1,46 +1,93 @@
-version: '3.3'
+version: '2.4'
 services:
 
-  db:
-    image: postgres
-    restart: always
+  config-server:
+    image: alexunc/rs_config-server:latest
     ports:
-      - 5432:5432
+      - 8888:8888
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8888/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - common
+
+  service-discovery:
     environment:
-      POSTGRES_PASSWORD: example
-      POSTGRES_USER: user
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+      - CONFIG_SERVICE_URL=config-server
+    image: alexunc/rs_service-discovery:latest
     ports:
-      - 9200:9200
-      - 9300:9300
-    volumes:
-#      - ./config/elasticsearch/data:/usr/share/elasticsearch/data:rw
-      - es_data:/usr/share/elasticsearch/data:rw
-    networks:
-      - common
-  kibana:
-    image: docker.elastic.co/kibana/kibana:6.3.2
-    ports:
-      - 5601:5601
+      - 8761:8761
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8761/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     depends_on:
-      - elasticsearch
+      config-server:
+        condition: service_healthy
     networks:
       - common
-  logstash:
-    image: docker.elastic.co/logstash/logstash:6.3.2
+
+  api-gateway:
+    environment:
+      - DISCOVERY_SERVICE_URL=service-discovery
+    image: alexunc/rs_api-gateway:latest
     ports:
-      - 25826:25826
-    volumes:
-      - ./config/elk:/elk-config
-      - ./logs/:/logs
-    command: logstash -f /elk-config/logstash.config
+      - 8765:8765
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8765/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     depends_on:
-      - elasticsearch
+      service-discovery:
+        condition: service_healthy
     networks:
       - common
-networks:
-  common:
+#        condition: service_healthy
+
+#  db:
+#    image: postgres
+#    restart: always
+#    ports:
+#      - 5432:5432
+#    environment:
+#      POSTGRES_PASSWORD: example
+#      POSTGRES_USER: user
+#  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+#    ports:
+#      - 9200:9200
+#      - 9300:9300
+#    volumes:
+##      - ./config/elasticsearch/data:/usr/share/elasticsearch/data:rw
+#      - es_data:/usr/share/elasticsearch/data:rw
+#    networks:
+#      - common
+#  kibana:
+#    image: docker.elastic.co/kibana/kibana:6.3.2
+#    ports:
+#      - 5601:5601
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - common
+#  logstash:
+#    image: docker.elastic.co/logstash/logstash:6.3.2
+#    ports:
+#      - 25826:25826
+#    volumes:
+#      - ./config/elk:/elk-config
+#      - ./logs/:/logs
+#    command: logstash -f /elk-config/logstash.config
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - common
+#networks:
+#  common:
 volumes:
   es_data:
   #  relay-service:
@@ -66,4 +113,7 @@ volumes:
   #    ports:
   #      - "5005:5005"
   #      - "8080:8080"  
-  
+
+networks:
+  common:
+    enable_ipv6: false

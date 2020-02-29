@@ -3,4 +3,5 @@ spring:
     name: rs-discovery
   cloud:
     config:
-      fail-fast: true
+      fail-fast: false
+      uri: http://${CONFIG.SERVICE.URL:localhost}:8888
