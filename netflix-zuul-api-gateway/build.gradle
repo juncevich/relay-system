@@ -49,8 +49,8 @@ dependencies {
 docker {
     registryCredentials {
         url = "https://index.docker.io/v1/"
-        username = "${docker.hub.login}"
-        password = "${docker.hub.password}"
+        username = System.getenv('DOCKER_LOGIN')
+        password = System.getenv('DOCKER_PASS')
     }
     springBootApplication {
         baseImage = 'openjdk:11'
