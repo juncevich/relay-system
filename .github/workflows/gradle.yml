@@ -13,7 +13,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Enter to datat-service directory
+      run: cd data-service
     - name: Grant execute permission for data-service gradlew
-      run: chmod +x data-service/gradlew
+      run: chmod +x ./gradlew
     - name: Build data-service with Gradle
-      run: data-service/gradlew build
+      run: ./gradlew assemble
+    - name: Run tests in data-service
+      run: ./gradlew check
