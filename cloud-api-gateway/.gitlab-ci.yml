@@ -11,20 +11,20 @@ stages:
 
 .common:
   before_script:
-    - cd netflix-zuul-api-gateway
+    - cd cloud-api-gateway
   only: &changes
     changes:
       - user-service/**/*
 
 cache:
-  key: "netflix-zuul-api-gateway-$CI_BUILD_REF_NAME"
+  key: "cloud-api-gateway-$CI_BUILD_REF_NAME"
   policy: push
   paths:
-    - netflix-zuul-api-gateway/.gradle/wrapper
-    - netflix-zuul-api-gateway/.gradle/caches
-    - netflix-zuul-api-gateway/build
+    - cloud-api-gateway/.gradle/wrapper
+    - cloud-api-gateway/.gradle/caches
+    - cloud-api-gateway/build
 
-netflix-zuul-api-gateway-build:
+cloud-api-gateway-build:
   extends: .common
   stage: build
   script:
@@ -36,7 +36,7 @@ netflix-zuul-api-gateway-build:
   only:
     - master
 
-netflix-zuul-api-gateway-test:
+cloud-api-gateway-test:
   extends: .common
   stage: test
   script:

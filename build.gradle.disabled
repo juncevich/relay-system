@@ -39,7 +39,7 @@ version = "0.0.1-SNAPSHOT"
 ext {
     springProjects = [project(':data-service'),
                       project(':netflix-eureka-naming-server'),
-                      project(':netflix-zuul-api-gateway'),
+                      project(':cloud-api-gateway'),
                       project(':spring-cloud-config-server'),
                       project(':zipkin-distributed-tracing-server'),
                       project(':relay-convert-service'),
