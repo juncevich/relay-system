@@ -1,11 +1,16 @@
 spring:
   application:
     name: cloud-api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: data_service
+          uri: lb://data_service
+          predicates:
+            - Path=/data/**
 server:
   port: 8765
-#zuul.prefix=api/
-#logging:
-#  level: org.springframework=info
+
 eureka:
   client:
     service-url:
