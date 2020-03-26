@@ -18,27 +18,6 @@ eureka:
   instance:
     prefer-ip-address: true
     ip-address: 127.0.0.1
-api:
-  login:
-    url:
-      path: /user-service/users/login
-  registration:
-    url:
-      path: /user-service/users
-  h2console:
-    url:
-      path: /user-service/h2-console/**
-  zuul:
-    actuator:
-      url:
-        path: /actuator/*
-authorization:
-  token:
-    header:
-      name: Authorization
-      prefix: Bearer
-token:
-  secret: adsf68768asdfuiyewrh3927dslfj
 
 management:
   endpoints:
