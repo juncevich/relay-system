@@ -1,11 +1,11 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
     id "org.sonarqube" version "2.7.1"
     id 'nebula.release' version '11.0.0'
     id 'jacoco'
-    id 'com.bmuschko.docker-spring-boot-application' version '6.1.2'
+    id 'com.bmuschko.docker-spring-boot-application' version '6.4.0'
 }
 
 sonarqube {
@@ -67,7 +67,7 @@ dependencies {
             spring.undertow,
             spring.jpa,
             spring.commons,
-            spring.actuator,
+
             doc.swagger,
             doc.swagger_ui,
             db.postgresql,
@@ -76,7 +76,8 @@ dependencies {
     runtime spring.devtools
 
     implementation "org.mapstruct:mapstruct-jdk8:1.3.0.Final"
-
+    implementation  spring.actuator
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.3.6'
     annotationProcessor "org.mapstruct:mapstruct-processor:1.3.0.Final" //Must be defined before the lombok annotationProcessor
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
@@ -86,6 +87,7 @@ dependencies {
 //    compile('org.springframework.cloud:spring-cloud-starter-config')
 //    compile(':spring-cloud-starter-eureka')
     compile group: 'org.testcontainers', name: 'postgresql', version: '1.10.2'
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
@@ -116,7 +118,7 @@ docker {
         password = System.getenv('DOCKER_PASS')
     }
     springBootApplication {
-        baseImage = 'openjdk:11'
+        baseImage = 'openjdk:14'
         ports = [9090, 8082]
         images = [System.getenv('DOCKER_IMAGE') + ':0.0.2', System.getenv('DOCKER_IMAGE') + ':latest']
     }

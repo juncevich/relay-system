@@ -1,7 +1,9 @@
+server:
+  port: 8082
 spring:
   application:
     name: relay-service
-  datasource: 
+  datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: user
     password: example
@@ -10,7 +12,7 @@ spring:
       ddl-auto: create-drop
     database: postgresql
     show-sql: true
-    database-platform: 
+    database-platform:
 logging:
   file: logs/relay-service.log
   level:
@@ -19,5 +21,18 @@ logging:
         web:
           filter:
             CommonsRequestLoggingFilter: DEBUG
-  
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: metrics,prometheus
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true

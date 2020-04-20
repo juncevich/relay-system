@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class AbstractEntity {
+public class AbstractEntity {
 
     /**
      * id
