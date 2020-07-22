@@ -4,11 +4,15 @@ spring:
   devtools:
     restart:
       enabled: true
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
+  #  h2:
+  #    console:
+  #      enabled: true
+  #      settings:
+  #        web-allow-others: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: user
+    password: example
   rabbitmq:
     host: localhost
     username: guest

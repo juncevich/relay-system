@@ -1,15 +1,14 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.7.RELEASE'
+    id 'org.springframework.boot' version '2.3.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
     id 'com.bmuschko.docker-spring-boot-application' version '6.1.4'
     id "nebula.release" version "14.1.0"
 }
 
-apply plugin: 'io.spring.dependency-management'
-
 group = 'com.relay-system.ms'
-//version = '0.0.1-SNAPSHOT'
-//sourceCompatibility = 11
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 14
 
 configurations {
     developmentOnly
@@ -22,7 +21,7 @@ configurations {
 }
 
 ext {
-    set('springCloudVersion', "Greenwich.SR3")
+    set('springCloudVersion', "Hoxton.SR6")
     dockerImage = "alexunc/rs_service-discovery"
 }
 
@@ -58,7 +57,7 @@ docker {
         password = System.getenv('DOCKER_PASS')
     }
     springBootApplication {
-        baseImage = 'openjdk:11'
+        baseImage = 'openjdk:14'
         ports = [8761, 8761]
         images = ["${dockerImage}:" + project.version, "${dockerImage}" + ':latest']
     }
