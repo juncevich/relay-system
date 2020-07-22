@@ -1,7 +1,7 @@
 package com.relay.unit.db;
 
-import com.relay.db.entity.items.Relay;
-import com.relay.repository.RelayRepository;
+import com.relay.db.entity.RelayEntity;
+import com.relay.db.repository.RelayRepository;
 import com.relay.unit.GenericUnitTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,9 +18,9 @@ public class RelayRepositoryTest extends GenericUnitTest {
 
     @Test
     public void name() {
-        Relay relay = new Relay();
+        RelayEntity relay = new RelayEntity();
         relay.setSerialNumber("12345");
 
-        relayRepository.save(relay)
+        relayRepository.save(relay);
     }
 }
