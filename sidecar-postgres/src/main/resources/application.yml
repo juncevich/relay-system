@@ -1,0 +1,47 @@
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    appname: ${spring.application.name}
+    hostname: ${sidecar.hostname}
+    statusPageUrlPath: ${management.context-path}/info
+    healthCheckUrlPath: ${sidecar.health-uri}
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${sidecar.port}
+sidecar:
+  hostname: localhost
+  # port should be passed from command line (eg java -jar ... --sidecar.port=5432 ...)
+  port: 5432
+  # health-uri the service uri returning health data in the form of { "status": "UP" } or
+  # http://localhost:${sidecar.port}/${health-uri:health.json} if the service provides such endpoint.
+  health-uri: http://localhost:${server.port}/delegating-status
+  # Sidecar controller
+  home-page-uri: http://${sidecar.hostname}:${server.port}/
+postgres:
+  user-name: user
+  enabled: true
+management:
+  endpoint:
+    health:
+      enabled: true
+    info:
+      enabled: true
+    loggers:
+      enabled: true
+    metrics:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - configprops
+          - loggers
+          - metrics
+          - info
+          - httptrace
+          - env

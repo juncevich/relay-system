@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 37647
 spring:
   devtools:
     restart:
@@ -10,9 +10,15 @@ spring:
   #      settings:
   #        web-allow-others: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://%s:%s/postgres
     username: user
     password: example
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database: postgresql
+    show-sql: true
+    database-platform:
   rabbitmq:
     host: localhost
     username: guest
