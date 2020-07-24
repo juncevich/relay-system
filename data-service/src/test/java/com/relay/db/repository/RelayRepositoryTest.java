@@ -107,14 +107,16 @@ public class RelayRepositoryTest {
 
     @Test
     public void testFindRelaysByStation() {
-        Station monetnajaStation = new Station();
-        monetnajaStation.setName("Монетная");
+        Station monetnajaStation = Station.builder()
+                .name("Монетная")
+                .build();
         testEntityManager.persist(monetnajaStation);
         List<RelayEntity> relays = createRelaysByStation(5, monetnajaStation);
         relayRepository.saveAll(relays);
 
-        Station berezitStation = new Station();
-        berezitStation.setName("Березит");
+        Station berezitStation = Station.builder()
+                .name("Березит")
+                .build();
         testEntityManager.persist(berezitStation);
         relays = createRelaysByStation(2, berezitStation);
         relayRepository.saveAll(relays);
@@ -127,11 +129,12 @@ public class RelayRepositoryTest {
 
     @Test
     public void findByCreationDateAndStation() {
-        Station monetnajaStation = new Station();
-        monetnajaStation.setName("Монетная");
+        Station monetnajaStation = Station.builder()
+                .name("Монетная")
+                .build();
         testEntityManager.persist(monetnajaStation);
-        LocalDate currentTime = LocalDate.of(2020, Month.DECEMBER, 20);
-        RelayEntity relay1 = new RelayEntity();
+        LocalDate   currentTime = LocalDate.of(2020, Month.DECEMBER, 20);
+        RelayEntity relay1      = new RelayEntity();
         relay1.setCreationDate(currentTime.minusDays(1L));
         relay1.setStation(monetnajaStation);
 
