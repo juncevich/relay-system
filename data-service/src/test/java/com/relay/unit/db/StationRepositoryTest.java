@@ -1,8 +1,8 @@
 package com.relay.unit.db;
 
 import com.google.common.collect.Lists;
-import com.relay.db.entity.place.Station;
-import com.relay.repository.StationRepository;
+import com.relay.db.entity.location.Station;
+import com.relay.db.repository.StationRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

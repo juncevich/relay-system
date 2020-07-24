@@ -3,6 +3,7 @@ package com.relay.db.entity.location;
 import com.relay.db.entity.AbstractEntity;
 import com.relay.db.entity.place.Stativ;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = true)
 public class Station extends AbstractEntity {
