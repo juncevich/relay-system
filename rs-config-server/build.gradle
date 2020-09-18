@@ -7,7 +7,7 @@ plugins {
 }
 group = 'com.relay-system.ms'
 //version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '14'
 configurations {
     developmentOnly
     runtimeClasspath {
@@ -41,7 +41,7 @@ docker {
         password = System.getenv('DOCKER_PASS')
     }
     springBootApplication {
-        baseImage = 'openjdk:11'
+        baseImage = 'openjdk:14'
 //        innerPort = System.getenv('INNER_PORT')
 //        outerPort = System.getenv('OUTER_PORT')
 //        ports = [innerPort, outerPort]

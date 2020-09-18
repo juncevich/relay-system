@@ -118,7 +118,7 @@ public class RelayServiceTest {
 
     @Test
     public void findRelayByStationName() {
-        Station monetnajaStation = new Station();
+        Station           monetnajaStation         = Station.builder().build();
         List<RelayEntity> relaysByMonetnajaStation = createRelaysByStation(4, monetnajaStation);
 
         when(relayRepository.findRelaysByStationName("Монетная")).thenReturn(relaysByMonetnajaStation);
