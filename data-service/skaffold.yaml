@@ -1,0 +1,10 @@
+apiVersion: skaffold/v2alpha1
+kind: Config
+metadata:
+  name: alexunc/data-service
+build:
+  artifacts:
+    - image: alexunc/data-service
+      jib: { }
+  tagPolicy:
+    gitCommit: { }
