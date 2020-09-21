@@ -20,7 +20,11 @@ jobs:
       #          path: ~/.gradle/caches
       #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
       #          restore-keys: ${{ runner.os }}-gradle
+      - name: ls_1
+        run: ls
       - name: Go to work catalog
         run: cd data-service
+      - name: ls_2
+        run: ls
       - name: Build with Gradle
         run: gradle build
