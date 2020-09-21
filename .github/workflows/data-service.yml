@@ -29,4 +29,4 @@ jobs:
       - name: ls_2
         run: ls
       - name: Build with Gradle
-        run: data-service/gradle build
+        run: gradle build
