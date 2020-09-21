@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./data-service
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -27,4 +29,4 @@ jobs:
       - name: ls_2
         run: ls
       - name: Build with Gradle
-        run: gradle build
+        run: data-service/gradle build
