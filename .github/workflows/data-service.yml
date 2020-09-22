@@ -1,4 +1,4 @@
-name: Java CI
+name: Data Service Java CI
 
 on:
   push:
