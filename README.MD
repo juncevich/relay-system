@@ -6,6 +6,12 @@
 Data Service:
  
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=relay-data-service&metric=alert_status)](https://sonarcloud.io/dashboard?id=relay-data-service)
+
+Config Server: 
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=relay-config-server&metric=alert_status)](https://sonarcloud.io/dashboard?id=relay-config-server)
+
+
 ## Setup
 
 * install nodejs
