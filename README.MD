@@ -8,9 +8,9 @@ Data Service:
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=relay-data-service&metric=alert_status)](https://sonarcloud.io/dashboard?id=relay-data-service)
 ## Setup
 
-*install nodejs
-*install npm
-*install Angular cli
+* install nodejs
+* install npm
+* install Angular cli
 
 Design prototype:
 https://ninjamock.com/s/HMR47Wx
