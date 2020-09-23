@@ -29,5 +29,5 @@ jobs:
         run: gradle jacocoTestReport
       - name: Sonar analyse
         run: gradle sonarqube
-          env:
-            SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+        env:
+          SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
