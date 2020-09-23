@@ -25,3 +25,9 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Build with Gradle
         run: gradle build
+      - name: Generate test info
+        run: gradle jacocoTestReport
+      - name: Sonar analyse
+        run: gradle sonarqube
+          env:
+            SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
