@@ -2,7 +2,20 @@ plugins {
     id 'org.springframework.boot' version '2.1.7.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
+    id "org.sonarqube" version "2.7.1"
+    id 'jacoco'
 }
+
+sonarqube {
+    properties {
+        property 'sonar.login', System.getenv('SONAR_DATA_SERVICE_TOKEN')
+        property 'sonar.host.url', 'https://sonarcloud.io'
+        property 'sonar.organization', 'relay-service'
+        property 'sonar.projectKey', 'relay-config-server'
+        property 'sonar.coverage.jacoco.xmlReportsPath', 'build/reports/jacoco/test/jacocoTestReport.xml'
+    }
+}
+
 group = 'com.relay-system.ms'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -29,3 +42,11 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+check.dependsOn jacocoTestReport
