@@ -1,4 +1,4 @@
-name: Data Service Java CI
+name: Cloud Api Gateway Java CI
 
 on:
   push:
@@ -25,10 +25,10 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Build with Gradle
         run: gradle build
-      - name: Generate test report
-        run: gradle jacocoTestReport
-      - name: Sonar analyse
-        run: gradle sonarqube
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+#      - name: Generate test report
+#        run: gradle jacocoTestReport
+#      - name: Sonar analyse
+#        run: gradle sonarqube
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
