@@ -117,6 +117,11 @@ services:
       - 3000:3000
     networks:
       - common
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411
 volumes:
   es_data:
   #  relay-service:
