@@ -21,7 +21,7 @@ import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 public class SwaggerConfig {
 
     /**
-     * Desault contact information
+     * Default contact information
      */
     private static final Contact DEFAULT_CONTACT =
             new Contact("Alexandr Juncevich", "", "a.juncevich@gmail.com");
@@ -40,7 +40,6 @@ public class SwaggerConfig {
      */
     @Bean
     public Docket api() {
-
         return new Docket(SWAGGER_2).apiInfo(DEFAULT_API_INFO).select()
                 .apis(RequestHandlerSelectors.basePackage("com.relay.integrations.controllers"))
                 .paths(PathSelectors.any()).build();
