@@ -1,60 +1,37 @@
 {
   "name": "frontend",
-  "version": "0.0.0",
-  "license": "MIT",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "buildDev": "ng build",
-    "buildWatch": "ng build --watch=true",
-    "buildProd": "ng build --prod"
-  },
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@angular/animations": "^7.2.11",
-    "@angular/common": "^7.2.11",
-    "@angular/compiler": "^7.2.11",
-    "@angular/core": "^7.2.11",
-    "@angular/forms": "^7.2.11",
-    "@angular/http": "^7.2.11",
-    "@angular/platform-browser": "^7.2.11",
-    "@angular/platform-browser-dynamic": "^7.2.11",
-    "@angular/platform-server": "^7.2.11",
-    "@angular/router": "^7.2.11",
-    "classlist.js": "1.1.20150312",
-    "core-js": "^2.6.5",
-    "rxjs": "^6.4.0",
-    "rxjs-compat": "^6.4.0",
-    "tslib": "^1.9.0",
-    "zone.js": "^0.9.0"
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.803.20",
-    "@angular/cli": "^8.3.20",
-    "@angular/compiler-cli": "^8.2.14",
-    "@angular/language-service": "7.2.11",
-    "@types/jasmine": "~3.3.12",
-    "@types/jasminewd2": "~2.0.6",
-    "@types/node": "~11.12.2",
-    "bootstrap": "^4.3.1",
-    "codelyzer": "~5.0.0",
-    "jasmine-core": "~3.3.0",
-    "jasmine-spec-reporter": "~4.2.1",
-    "karma": "^4.4.1",
-    "karma-chrome-launcher": "~2.2.0",
-    "karma-cli": "~2.0.0",
-    "karma-coverage-istanbul-reporter": "^2.0.5",
-    "karma-jasmine": "~2.0.1",
-    "karma-jasmine-html-reporter": "^1.4.0",
-    "protractor": "^5.4.2",
-    "rxjs-tslint": "^0.1.7",
-    "ts-node": "~8.0.3",
-    "tslint": "~5.14.0",
-    "typescript": "^3.2.4",
-    "webpack": "^4.29.6"
+    "typescript": "^4.0.3"
   }
 }
