@@ -12,7 +12,7 @@ class RelayCard extends React.Component<any, any> {
                            cover={
                                <img
                                    alt="example"
-                                   src="https://lh3.googleusercontent.com/proxy/Wg_x4GNfLG6R13LUSdanmVfZGj3Zr9RI5Q5WonJ5phQgZVOVQyVpvbm6n0M6BygZxcUOmBeV_c3fr5bM2AGfNkIvnyFTQzV_oBHA6DWWOp3wZCNlE7f8iK7SF8ft0otTs8tskvVrCA"
+                                   src="http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png"
                                />
                            }
                            actions={[
