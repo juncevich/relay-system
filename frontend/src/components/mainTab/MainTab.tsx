@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Breadcrumb, Col, Layout, Menu, Row, Space} from 'antd';
+import {Breadcrumb, Col, Layout, Menu, Row} from 'antd';
 import RelayCard from '../relay/RelayCard';
 import './RelayContent.css';
 
@@ -11,7 +11,7 @@ class MainTab extends React.Component<any, any> {
 
     render() {
         const relays = [<RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>];
-        const relay =<RelayCard/>;
+        const relay = <RelayCard/>;
         return (
             <Layout>
                 <Header className="header">
@@ -44,21 +44,16 @@ class MainTab extends React.Component<any, any> {
                                 </SubMenu>
                             </Menu>
                         </Sider>
-                        <Content style={{padding: '0 24px', minHeight: 280, maxWidth: "100%"}}>
-                                {/*<Space size={'small'}>*/}
-                                {/*    /!*<div className={'relay-space'}>*!/*/}
-                                {/*        {relays}*/}
-                                {/*    /!*</div>*!/*/}
-                                {/*</Space>*/}
-                            <Row gutter={[8,8]}>
+                        <Content style={{padding: '0 24px', minHeight: 280, maxWidth: '100%'}}>
+                            <Row gutter={[8, 8]}>
                                 <Col className="gutter-row" span={3}>
-                                    <div >{relay}</div>
+                                    <div>{relay}</div>
                                 </Col>
                                 <Col className="gutter-row" span={3}>
                                     <div>{relay}</div>
                                 </Col>
                                 <Col className="gutter-row" span={3}>
-                                    <div >{relay}</div>
+                                    <div>{relay}</div>
                                 </Col>
                                 <Col className="gutter-row" span={3}>
                                     <div>{relay}</div>
@@ -77,15 +72,15 @@ class MainTab extends React.Component<any, any> {
                                 </Col>
                             </Row>
 
-                            <Row gutter={[8,8]}>
+                            <Row gutter={[8, 8]}>
                                 <Col className="gutter-row" span={3}>
-                                    <div >{relay}</div>
+                                    <div>{relay}</div>
                                 </Col>
                                 <Col className="gutter-row" span={3}>
                                     <div>{relay}</div>
                                 </Col>
                                 <Col className="gutter-row" span={3}>
-                                    <div >{relay}</div>
+                                    <div>{relay}</div>
                                 </Col>
                                 <Col className="gutter-row" span={3}>
                                     <div>{relay}</div>
@@ -104,15 +99,15 @@ class MainTab extends React.Component<any, any> {
                                 </Col>
                             </Row>
 
-                            <Row gutter={[8,8]}>
+                            <Row gutter={[8, 8]}>
                                 <Col className="gutter-row" span={3}>
-                                    <div >{relay}</div>
+                                    <div>{relay}</div>
                                 </Col>
                                 <Col className="gutter-row" span={3}>
                                     <div>{relay}</div>
                                 </Col>
                                 <Col className="gutter-row" span={3}>
-                                    <div >{relay}</div>
+                                    <div>{relay}</div>
                                 </Col>
                                 <Col className="gutter-row" span={3}>
                                     <div>{relay}</div>
