@@ -10,7 +10,7 @@ const {Header, Content, Footer, Sider} = Layout;
 class MainTab extends React.Component<any, any> {
 
     render() {
-        const relays = [<RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>];
+        // const relays = [<RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>];
         const relay = <RelayCard/>;
         return (
             <Layout>
