@@ -19,13 +19,19 @@ sonarqube {
     }
 }
 
-jar {
-    archivesBaseName = 'data-service'
-    version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = '15'
+group = 'com.relay'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '15'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
+
 repositories {
+    jcenter()
     mavenCentral()
     maven { url 'https://repo.spring.io/snapshot' }
     maven { url 'https://repo.spring.io/milestone' }
@@ -33,82 +39,34 @@ repositories {
 
 ext {
     set('springCloudVersion', "2020.0.0-SNAPSHOT")
-
-    swaggerVersion = '2.9.0'
-    apacheCommonsVersion = '3.7'
-
-    spring = [
-            web     : "org.springframework.boot:spring-boot-starter-web",
-            undertow: "org.springframework.boot:spring-boot-starter-undertow",
-            security: "org.springframework.boot:spring-boot-starter-security",
-            jpa     : "org.springframework.boot:spring-boot-starter-data-jpa",
-            commons : "org.springframework.data:spring-data-commons",
-            actuator: "org.springframework.boot:spring-boot-starter-actuator",
-            devtools: "org.springframework.boot:spring-boot-devtools",
-//            test         : "org.springframework.boot:spring-boot-starter-test",
-//            security_test: "org.springframework.security:spring-security-test",
-
-
-    ]
-
-    db = [
-            h2        : "com.h2database:h2",
-            postgresql: "org.postgresql:postgresql"
-    ]
-
-    doc = [
-            swagger   : "io.springfox:springfox-swagger2:$swaggerVersion",
-            swagger_ui: "io.springfox:springfox-swagger-ui:$swaggerVersion"
-    ]
-
-    util = [
-            apache_commons: "org.apache.commons:commons-lang3:$apacheCommonsVersion"
-    ]
-}
-
-configurations {
-    compile.exclude module: 'spring-boot-starter-tomcat'
+    set('testcontainersVersion', "1.15.0")
+    set('swaggerVersion', "2.9.0")
 }
 
 dependencies {
-    compile spring.web,
-            spring.undertow,
-            spring.jpa,
-            spring.commons,
+    implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
+    implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
-            doc.swagger,
-            doc.swagger_ui,
-            db.postgresql,
-            util.apache_commons
-
-    runtime spring.devtools
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
 
     implementation "org.mapstruct:mapstruct-jdk8:1.3.0.Final"
-    implementation "org.springframework.cloud:spring-cloud-starter-zipkin"
-    implementation spring.actuator
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.3.6'
     annotationProcessor "org.mapstruct:mapstruct-processor:1.3.0.Final"
-    //Must be defined before the lombok annotationProcessor
-    compileOnly 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
-
-    testCompileOnly 'org.projectlombok:lombok:1.18.12'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
-//    compile('org.springframework.cloud:spring-cloud-starter-config')
-//    compile(':spring-cloud-starter-eureka')
-    compile group: 'org.testcontainers', name: 'postgresql', version: '1.10.2'
-
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-    testImplementation db.h2
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.3.6'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.jetbrains:annotations:16.0.2'
 }
-
-repositories {
-    jcenter()
-    mavenCentral()
-}
-
 
 jacocoTestReport {
     reports {
@@ -137,6 +95,7 @@ check.dependsOn jacocoTestReport
 
 dependencyManagement {
     imports {
+        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }

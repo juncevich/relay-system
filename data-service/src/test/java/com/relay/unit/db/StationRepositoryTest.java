@@ -3,6 +3,7 @@ package com.relay.unit.db;
 import com.google.common.collect.Lists;
 import com.relay.db.entity.location.Station;
 import com.relay.db.repository.StationRepository;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
+@Ignore
 @RunWith(SpringRunner.class)
 //@ExtendWith(SpringExtension.class)
 //@SpringBootTest
