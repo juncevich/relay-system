@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import {Button, DatePicker} from 'antd';
 import 'antd/dist/antd.css';
 import MainTab from './components/mainTab/MainTab';
 
@@ -11,8 +10,7 @@ function App() {
         </div>
 
 
-    )
-        ;
+    );
 }
 
 export default App;
