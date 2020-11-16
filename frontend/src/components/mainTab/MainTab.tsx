@@ -1,16 +1,18 @@
 import React from 'react';
-import {LaptopOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons';
 
-import {Breadcrumb, Layout, Menu} from 'antd';
+import {Breadcrumb, Col, Layout, Menu, Row, Space, Tabs} from 'antd';
 import RelayCard from '../relay/RelayCard';
+import './RelayContent.css';
 
 const {SubMenu} = Menu;
 const {Header, Content, Footer, Sider} = Layout;
+const { TabPane } = Tabs;
 
 class MainTab extends React.Component<any, any> {
 
     render() {
-        const relays = [<RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>];
+        // const relays = [<RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>];
+        const relay = <RelayCard/>;
         return (
             <Layout>
                 <Header className="header">
@@ -28,14 +30,14 @@ class MainTab extends React.Component<any, any> {
                         <Breadcrumb.Item>App</Breadcrumb.Item>
                     </Breadcrumb>
                     <Layout className="site-layout-background" style={{padding: '24px 0'}}>
-                        <Sider className="site-layout-background" width={"auto"} >
+                        <Sider className="site-layout-background" width={'auto'}>
                             <Menu
                                 mode="inline"
                                 defaultSelectedKeys={['1']}
                                 defaultOpenKeys={['sub1']}
-                                style={{height: '100%'}}
+                                // style={{height: '100%'}}
                             >
-                                <SubMenu key="sub1" title="Свердловский участок" >
+                                <SubMenu key="sub1" title="Свердловский участок">
                                     <Menu.Item key="1">Березит</Menu.Item>
                                     <Menu.Item key="2">Кедровка</Menu.Item>
                                     <Menu.Item key="3">Монетная</Menu.Item>
@@ -43,8 +45,177 @@ class MainTab extends React.Component<any, any> {
                                 </SubMenu>
                             </Menu>
                         </Sider>
-                        <Content style={{padding: '0 24px', minHeight: 280, }}>
-                            {relays}
+                        <Content style={{padding: '0 24px', minHeight: 280, maxWidth: '100%'}}>
+
+                            <Space>
+                                <Tabs tabPosition="top" centered>
+                                    <TabPane tab="Tab 1" key="1">
+                                        <Row gutter={[8, 8]}>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                        </Row>
+
+                                        <Row gutter={[8, 8]}>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                        </Row>
+
+                                        <Row gutter={[8, 8]}>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                        </Row>
+                                    </TabPane>
+                                    <TabPane tab="Tab 2" key="2">
+                                        <Row gutter={[8, 8]}>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                        </Row>
+                                    </TabPane>
+                                    <TabPane tab="Tab 3" key="3">
+                                        <Row gutter={[8, 8]}>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                        </Row>
+                                        <Row gutter={[8, 8]}>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                            <Col className="gutter-row" span={3}>
+                                                <div>{relay}</div>
+                                            </Col>
+                                        </Row>
+                                    </TabPane>
+                                </Tabs>
+                            </Space>
+
                         </Content>
                     </Layout>
                 </Content>

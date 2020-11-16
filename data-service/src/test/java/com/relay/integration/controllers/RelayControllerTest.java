@@ -7,6 +7,7 @@ import com.relay.db.repository.RelayRepository;
 import com.relay.service.RelayService;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 //import org.springframework.security.test.context.support.WithMockUser;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureTestDatabase

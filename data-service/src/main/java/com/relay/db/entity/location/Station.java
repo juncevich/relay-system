@@ -2,9 +2,7 @@ package com.relay.db.entity.location;
 
 import com.relay.db.entity.AbstractEntity;
 import com.relay.db.entity.place.Stativ;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +14,8 @@ import java.util.List;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Station extends AbstractEntity {
 
