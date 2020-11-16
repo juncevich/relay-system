@@ -68,6 +68,10 @@ dependencies {
     implementation 'org.jetbrains:annotations:16.0.2'
 }
 
+jacoco {
+    toolVersion = "0.8.6"
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true
