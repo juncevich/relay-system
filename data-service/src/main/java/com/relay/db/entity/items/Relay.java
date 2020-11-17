@@ -1,7 +1,6 @@
 package com.relay.db.entity.items;
 
-import com.relay.db.entity.location.Location;
-import com.relay.db.entity.place.Place;
+import com.relay.db.entity.place.Container;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,11 +15,8 @@ public class Relay {
     @GeneratedValue
     private Long id;
 
-    @OneToOne()
-    private Place place;
-
     @OneToOne
-    private Location location;
+    private Container container;
 
     private String serialNumber;
 
