@@ -5,15 +5,17 @@ spring:
 #    password:
     initialization-mode: embedded
     driver-class-name: org.h2.Driver
+
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     database: postgresql
 
-    database-platform: org.hibernate.dialect.PostgreSQL
+    #    database-platform: org.h2.Driver
     properties:
       hibernate:
         format_sql: true
+    generate-ddl: true
 
 logging:
   level.org.hibernate: info

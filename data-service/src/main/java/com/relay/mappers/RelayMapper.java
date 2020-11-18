@@ -1,6 +1,5 @@
 package com.relay.mappers;
 
-import com.relay.db.entity.RelayEntity;
 import com.relay.web.model.Relay;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -12,9 +11,9 @@ import java.util.List;
 public interface RelayMapper {
     RelayMapper INSTANCE = Mappers.getMapper(RelayMapper.class);
 
-    Relay mapEntityToModel(RelayEntity relayEntity);
+    Relay mapEntityToModel(com.relay.db.entity.items.Relay relayEntity);
 
-    List<Relay> mapEntityToModel(List<RelayEntity> relayEntity);
+    List<Relay> mapEntityToModel(List<com.relay.db.entity.items.Relay> relayEntity);
 
-    RelayEntity mapModelToEntity(Relay relay);
+    com.relay.db.entity.items.Relay mapModelToEntity(Relay relay);
 }

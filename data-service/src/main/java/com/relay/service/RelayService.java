@@ -1,9 +1,9 @@
 package com.relay.service;
 
-import com.relay.db.entity.RelayEntity;
 import com.relay.db.repository.RelayRepository;
 import com.relay.mappers.RelayMapper;
 import com.relay.web.model.Relay;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +21,7 @@ import java.util.Optional;
  * {@link Relay} service
  */
 @Service
+@RequiredArgsConstructor
 @Transactional
 @Slf4j
 public class RelayService {
@@ -31,20 +32,12 @@ public class RelayService {
     private final RelayRepository relayRepository;
 
     /**
-     * @param relayRepository {@link RelayRepository}
-     */
-    public RelayService(final RelayRepository relayRepository) {
-
-        this.relayRepository = relayRepository;
-    }
-
-    /**
      * Find all relays
      *
      * @return list with all {@link Relay}
      */
     public List<Relay> findAll(Pageable pageable) {
-        Page<RelayEntity> relayPage = relayRepository.findAll(pageable);
+        Page<com.relay.db.entity.items.Relay> relayPage = relayRepository.findAll(pageable);
         return RelayMapper.INSTANCE.mapEntityToModel(relayPage.toList());
     }
 
@@ -56,8 +49,8 @@ public class RelayService {
      */
     public Relay save(Relay relay) {
 
-        RelayEntity entity = RelayMapper.INSTANCE.mapModelToEntity(relay);
-        RelayEntity savedEntity = relayRepository.save(entity);
+        com.relay.db.entity.items.Relay entity      = RelayMapper.INSTANCE.mapModelToEntity(relay);
+        com.relay.db.entity.items.Relay savedEntity = relayRepository.save(entity);
         return RelayMapper.INSTANCE.mapEntityToModel(savedEntity);
     }
 
@@ -149,9 +142,4 @@ public class RelayService {
         return null;
     }
 
-    public List<Relay> findByStationName(String stationName) {
-
-        List<RelayEntity> relaysByStationName = relayRepository.findRelaysByStationName(stationName);
-        return RelayMapper.INSTANCE.mapEntityToModel(relaysByStationName);
-    }
 }
