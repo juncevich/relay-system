@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,10 +18,9 @@ import java.time.ZoneOffset;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-@ComponentScan(basePackages = {"com.relay"})
 @DataJpaTest
 @Transactional
-public class RelayRepositoryTest {
+class RelayRepositoryTest {
 
     @Autowired
     private RelayRepository relayRepository;
@@ -31,7 +29,7 @@ public class RelayRepositoryTest {
     private TestEntityManager testEntityManager;
 
     @Test
-    public void testFindByCreationDate() {
+    void testFindByCreationDate() {
         Relay          relay        = new Relay();
         OffsetDateTime creationDate = OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
         relay.setCreationDate(creationDate);
