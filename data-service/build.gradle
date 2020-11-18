@@ -79,7 +79,9 @@ jacocoTestReport {
     }
 }
 test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        includeTags 'unit', 'integration'
+    }
 }
 
 
