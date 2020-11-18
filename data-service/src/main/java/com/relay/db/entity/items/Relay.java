@@ -18,6 +18,9 @@ public class Relay {
     @GeneratedValue
     private Long id;
 
+    @Version
+    private Long version;
+
     @OneToOne
     private Container container;
 
