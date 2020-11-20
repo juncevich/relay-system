@@ -1,6 +1,7 @@
 package com.relay.db.repository;
 
 import com.relay.db.entity.items.Relay;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -28,27 +30,32 @@ class RelayRepositoryTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    @Test
-    void testFindByCreationDate() {
-        Relay          relay        = new Relay();
-        OffsetDateTime creationDate = OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
+    private Relay          relay;
+    private OffsetDateTime creationDate;
+
+    @BeforeEach
+    void setUp() {
+        relay = new Relay();
+        creationDate = OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
         relay.setCreationDate(creationDate);
         relayRepository.save(relay);
+    }
+
+    @Test
+    void testFindByCreationDate() {
 
         Page<Relay> relayPage = relayRepository.findByCreationDate(creationDate.toLocalDate(), PageRequest.of(0, 1));
+        assertEquals(1, relayPage.getTotalElements());
         assertEquals(relay, relayPage.get().findFirst().orElseThrow());
     }
 
-//    @Test
-//    public void testNotFindByCreationDate() {
-//        RelayEntity relay        = new RelayEntity();
-//        LocalDate   creationDate = LocalDate.of(2020, 10, 10);
-//        relay.setCreationDate(creationDate);
-//        relayRepository.save(relay);
-//
-//        Page<RelayEntity> relayPage = relayRepository.findByCreationDate(LocalDate.of(2020, 10, 11), PageRequest.of(0, 1));
-//        assertTrue(relayPage.get().findFirst().isEmpty());
-//    }
+    @Test
+    void testNotFindByCreationDate() {
+
+
+        Page<Relay> relayPage = relayRepository.findByCreationDate(creationDate.plusDays(1).toLocalDate(), PageRequest.of(0, 1));
+        assertTrue(relayPage.get().findFirst().isEmpty());
+    }
 //
 //    @Test
 //    public void testCorrectFindByLastCheckDate() {
