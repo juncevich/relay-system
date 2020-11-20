@@ -36,7 +36,7 @@ public class Relay {
     @LastModifiedDate
     @Column(name = "update_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime updateDate;
-
+    @Column(name = "last_check_date")
     private OffsetDateTime lastCheckDate;
 
 

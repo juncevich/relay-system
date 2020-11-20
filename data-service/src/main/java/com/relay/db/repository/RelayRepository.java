@@ -27,11 +27,12 @@ public interface RelayRepository extends PagingAndSortingRepository<Relay, Long>
     /**
      * Find list of relays by last check date
      *
-     * @param dateTime {@link Relay#getLastCheckDate()}
-     * @param pageable * {@link Pageable}
+     * @param lastCheckDate {@link Relay#getLastCheckDate()}
+     * @param pageable      * {@link Pageable}
      * @return relay page
      */
-    Page<Relay> findByLastCheckDate(LocalDate dateTime, Pageable pageable);
+    @Query(value = "SELECT * FROM Relay r WHERE TO_DATE(r.last_check_date, 'YYYY-MM-DD') = :lastCheckDate", nativeQuery = true)
+    Page<Relay> findByLastCheckDate(@Param("lastCheckDate") LocalDate lastCheckDate, Pageable pageable);
 
     /**
      * Find relay by serial number
