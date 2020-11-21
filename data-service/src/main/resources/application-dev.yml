@@ -8,16 +8,24 @@ spring:
     username: user
     password: example
   jpa:
-    hibernate:
-      ddl-auto: create-drop
+    #    hibernate:
+    #      ddl-auto: create-drop
     database: postgresql
     show-sql: true
     database-platform:
   zipkin:
     baseUrl:
       'http://localhost:9411'
+  flyway:
+    sql-migration-prefix: V
+    repeatable-sql-migration-prefix: R
+    sql-migration-separator: __
+    sql-migration-suffixes: .sql
+    enabled: true
+
 logging:
-  file: logs/relay-service.log
+  file:
+    name: logs/relay-service.log
   level:
     org:
       springframework:
