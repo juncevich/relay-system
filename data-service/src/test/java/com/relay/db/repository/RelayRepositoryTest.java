@@ -1,6 +1,7 @@
 package com.relay.db.repository;
 
 import com.relay.db.entity.items.Relay;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -28,49 +30,46 @@ class RelayRepositoryTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
+    private Relay          relay;
+    private OffsetDateTime creationDate;
+    private OffsetDateTime lastCheckDate;
+
+    @BeforeEach
+    void setUp() {
+        relay = new Relay();
+        creationDate = OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
+        relay.setCreationDate(creationDate);
+        lastCheckDate = OffsetDateTime.of(LocalDateTime.of(2020, 11, 19, 23, 15), ZoneOffset.ofHours(3));
+        relay.setLastCheckDate(lastCheckDate);
+        relayRepository.save(relay);
+    }
+
     @Test
     void testFindByCreationDate() {
-        Relay          relay        = new Relay();
-        OffsetDateTime creationDate = OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
-        relay.setCreationDate(creationDate);
-        relayRepository.save(relay);
 
         Page<Relay> relayPage = relayRepository.findByCreationDate(creationDate.toLocalDate(), PageRequest.of(0, 1));
+        assertEquals(1, relayPage.getTotalElements());
         assertEquals(relay, relayPage.get().findFirst().orElseThrow());
     }
 
-//    @Test
-//    public void testNotFindByCreationDate() {
-//        RelayEntity relay        = new RelayEntity();
-//        LocalDate   creationDate = LocalDate.of(2020, 10, 10);
-//        relay.setCreationDate(creationDate);
-//        relayRepository.save(relay);
-//
-//        Page<RelayEntity> relayPage = relayRepository.findByCreationDate(LocalDate.of(2020, 10, 11), PageRequest.of(0, 1));
-//        assertTrue(relayPage.get().findFirst().isEmpty());
-//    }
-//
-//    @Test
-//    public void testCorrectFindByLastCheckDate() {
-//        RelayEntity   relay         = new RelayEntity();
-//        LocalDateTime lastCheckDate = LocalDateTime.of(2020, 10, 10, 10, 10);
-//        relay.setLastCheckDate(lastCheckDate);
-//        relayRepository.save(relay);
-//
-//        Page<RelayEntity> relayPage = relayRepository.findByLastCheckDate(lastCheckDate, PageRequest.of(0, 1));
-//        assertEquals(relay, relayPage.get().findFirst().orElseThrow());
-//    }
-//
-//    @Test
-//    public void testIncorrectFindByLastCheckDate() {
-//        RelayEntity   relay         = new RelayEntity();
-//        LocalDateTime lastCheckDate = LocalDateTime.of(2020, 10, 10, 10, 10);
-//        relay.setLastCheckDate(lastCheckDate);
-//        relayRepository.save(relay);
-//
-//        Page<RelayEntity> relayPage = relayRepository.findByLastCheckDate(LocalDateTime.of(2020, 10, 10, 10, 11), PageRequest.of(0, 1));
-//        assertTrue(relayPage.get().findFirst().isEmpty());
-//    }
+    @Test
+    void testNotFindByCreationDate() {
+        Page<Relay> relayPage = relayRepository.findByCreationDate(creationDate.plusDays(1).toLocalDate(), PageRequest.of(0, 1));
+        assertTrue(relayPage.get().findFirst().isEmpty());
+    }
+
+    @Test
+    void testCorrectFindByLastCheckDate() {
+        Page<Relay> relayPage = relayRepository.findByLastCheckDate(lastCheckDate.toLocalDate(), PageRequest.of(0, 1));
+        assertEquals(1, relayPage.getTotalElements());
+        assertEquals(relay, relayPage.get().findFirst().orElseThrow());
+    }
+
+    @Test
+    void testIncorrectFindByLastCheckDate() {
+        Page<Relay> relayPage = relayRepository.findByLastCheckDate(lastCheckDate.plusDays(1).toLocalDate(), PageRequest.of(0, 1));
+        assertTrue(relayPage.get().findFirst().isEmpty());
+    }
 //
 //    @Test
 //    public void testCorrectFindBySerialNumber() {
