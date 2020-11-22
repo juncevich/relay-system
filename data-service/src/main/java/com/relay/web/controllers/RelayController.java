@@ -1,24 +1,27 @@
 package com.relay.web.controllers;
 
+import com.relay.service.RelayService;
+import com.relay.web.model.Relay;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
+@RequiredArgsConstructor
 public class RelayController {
 
-//    /**
-//     * Relay service
-//     */
-//    private final RelayService relayService;
-//
-//    /**
-//     * Init beans
-//     *
-//     * @param relayService relay service
-//     */
-//    public RelayController(RelayService relayService) {
-//
-//        this.relayService = relayService;
-//    }
+    /**
+     * Relay service
+     */
+    private final RelayService relayService;
+
+    @GetMapping("/relays")
+    public List<Relay> findAllRelays() {
+        return relayService.findAll(PageRequest.of(1, 100));
+    }
 //
 //    /**
 //     * Delete current relay
