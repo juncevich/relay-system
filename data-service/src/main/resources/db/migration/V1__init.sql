@@ -1,3 +1,5 @@
+CREATE SEQUENCE seq_relay START 1 INCREMENT 5
+
 create table relay
 (
     id              int not null,
