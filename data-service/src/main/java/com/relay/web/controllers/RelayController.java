@@ -20,7 +20,7 @@ public class RelayController {
 
     @GetMapping("/relays")
     public List<Relay> findAllRelays() {
-        return relayService.findAll(PageRequest.of(1, 100));
+        return relayService.findAll(PageRequest.of(0, 100));
     }
 //
 //    /**

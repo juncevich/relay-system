@@ -1,4 +1,4 @@
-CREATE SEQUENCE seq_relay START 1 INCREMENT 5
+CREATE SEQUENCE IF NOT EXISTS seq_relay START 1 INCREMENT 5;
 
 create table relay
 (
