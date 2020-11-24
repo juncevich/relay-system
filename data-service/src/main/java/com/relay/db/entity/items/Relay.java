@@ -9,12 +9,14 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import com.relay.db.entity.place.Container;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity(name = "RELAY")
-@Data
-@NoArgsConstructor
+@Entity
+@Builder(toBuilder = true)
+@AllArgsConstructor()
+@NoArgsConstructor()
+@Setter()
+@Getter
 public class Relay {
 
     @Id

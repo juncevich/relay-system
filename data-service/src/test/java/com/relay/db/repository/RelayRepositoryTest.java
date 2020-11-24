@@ -42,7 +42,6 @@ class RelayRepositoryTest {
 
     @BeforeEach
     void setUp() {
-
         relay = new Relay();
         creationDate =
                 OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
