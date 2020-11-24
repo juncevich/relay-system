@@ -1,13 +1,16 @@
 package com.relay.mappers;
 
-import com.relay.web.model.Relay;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
+import com.relay.web.model.Relay;
 
-@Mapper(unmappedSourcePolicy = ReportingPolicy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring",
+        unmappedSourcePolicy = ReportingPolicy.IGNORE,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RelayMapper {
     RelayMapper INSTANCE = Mappers.getMapper(RelayMapper.class);
 
