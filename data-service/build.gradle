@@ -6,7 +6,6 @@ plugins {
     id "org.sonarqube" version "3.0"
     id 'nebula.release' version '11.0.0'
     id 'jacoco'
-    id 'com.bmuschko.docker-spring-boot-application' version '6.4.0'
     id "org.flywaydb.flyway" version "6.2.3"
 }
 
@@ -91,19 +90,6 @@ test {
     }
 }
 
-
-docker {
-    registryCredentials {
-        url = "https://index.docker.io/v1/"
-        username = System.getenv('DOCKER_LOGIN')
-        password = System.getenv('DOCKER_PASS')
-    }
-    springBootApplication {
-        baseImage = 'openjdk:14'
-        ports = [9090, 8082]
-        images = [System.getenv('DOCKER_IMAGE') + ':0.0.2', System.getenv('DOCKER_IMAGE') + ':latest']
-    }
-}
 check.dependsOn jacocoTestReport
 
 dependencyManagement {
