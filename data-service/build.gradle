@@ -129,7 +129,7 @@ jib {
 //        jvmFlags = ['-Dmy.property=example.value', '-Xms512m', '-Xdebug']
 //        mainClass = 'mypackage.MyApp'
 //        args = ['some', 'args']
-        ports = ['9090', '8082']
+        ports = ['9090', '8080']
 //        labels = [key1:'value1', key2:'value2']
 //        format = 'OCI'
     }

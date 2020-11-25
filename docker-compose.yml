@@ -52,7 +52,7 @@ services:
   data-service:
     image: alexunc/data-service:latest
     ports:
-      - 9091:8082
+      - 9091:8080
     healthcheck:
       test: ["CMD", "curl", "http://localhost:8082/actuator/health"]
       interval: 30s
