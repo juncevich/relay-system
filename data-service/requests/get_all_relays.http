@@ -1,4 +1,4 @@
-GET http://localhost:8080/relays
+GET http://localhost:9091/relays
 Accept: application/json
 
 ###

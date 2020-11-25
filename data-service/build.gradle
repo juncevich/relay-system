@@ -1,5 +1,5 @@
 plugins {
-    id 'com.google.cloud.tools.jib' version '2.5.0'
+    id 'com.google.cloud.tools.jib' version '2.6.0'
     id 'org.springframework.boot' version '2.4.0'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
@@ -21,7 +21,7 @@ sonarqube {
 }
 
 group = 'com.relay'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 sourceCompatibility = '15'
 
 configurations {
@@ -110,5 +110,27 @@ dependencyManagement {
     imports {
         mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+jib {
+    from {
+        image = 'openjdk:15-alpine'
+    }
+    to {
+        image = 'alexunc/data-service'
+        auth{
+            username = System.getenv('DOCKER_LOGIN')
+            password = System.getenv('DOCKER_PASS')
+        }
+        tags = [version, 'latest']
+    }
+    container {
+//        jvmFlags = ['-Dmy.property=example.value', '-Xms512m', '-Xdebug']
+//        mainClass = 'mypackage.MyApp'
+//        args = ['some', 'args']
+        ports = ['9090', '8082']
+//        labels = [key1:'value1', key2:'value2']
+//        format = 'OCI'
     }
 }
