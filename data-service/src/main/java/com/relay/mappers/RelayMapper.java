@@ -3,6 +3,7 @@ package com.relay.mappers;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -14,7 +15,10 @@ import com.relay.web.model.Relay;
 public interface RelayMapper {
     RelayMapper INSTANCE = Mappers.getMapper(RelayMapper.class);
 
+    @Mapping(source = "creationDate",
+            target = "dateOfManufacture")
     Relay mapEntityToModel(com.relay.db.entity.items.Relay relayEntity);
+
 
     List<Relay> mapEntityToModel(List<com.relay.db.entity.items.Relay> relayEntity);
 

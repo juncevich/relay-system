@@ -1,18 +1,12 @@
 package com.relay.web.model;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
-import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "Relay details.")
@@ -26,13 +20,13 @@ public class Relay extends AbstractEntity {
      * Date of manufacture relay
      */
     @ApiModelProperty(notes = "Date of manufacture relay")
-    private LocalDate dateOfManufacture;
+    private OffsetDateTime dateOfManufacture;
 
     /**
      * Relay verification date
      */
     @ApiModelProperty(notes = "Verification date relay")
-    private LocalDate verificationDate;
+    private OffsetDateTime verificationDate;
 
     /**
      * Relay serial number

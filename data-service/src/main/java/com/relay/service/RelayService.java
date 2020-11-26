@@ -120,12 +120,14 @@ public class RelayService {
      *            {@link Relay#dateOfManufacture}
      * @return List of {@link Relay}
      */
-    public Page<Relay> findByDateOfManufacture(LocalDate date) {
+    public List<Relay> findByDateOfManufacture(LocalDate date) {
 
         log.info("Try to find relay with date {}", date);
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
-        // return relayRepository.findByDateOfManufacture(date, pageable);
-        return null;
+
+        final var relaysByCreationDate = relayRepository.findByCreationDate(date, pageable);
+        final var relays = relayMapper.mapEntityToModel(relaysByCreationDate.getContent());
+        return relays;
     }
 
     /**
