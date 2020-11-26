@@ -1,13 +1,14 @@
 package com.relay.web.model;
 
-import lombok.Data;
+import java.time.OffsetDateTime;
+
+import javax.persistence.*;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
-import java.math.BigInteger;
-import java.time.OffsetDateTime;
+import lombok.Data;
 
 /**
  * Some test comment1
@@ -22,7 +23,7 @@ public class AbstractEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
 
     /**
      * Create entity date

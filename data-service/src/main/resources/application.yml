@@ -1,5 +1,13 @@
-spring.application.name=relay-data-service
-#logging.level.org.springframework=debug
+spring:
+  profiles:
+    active: dev
+
+  application:
+    name: relay-data-service
+  jackson:
+    serialization:
+      indent_output: true
+  #logging.level.org.springframework=debug
 #logging.level.com.relay=debug
 #logging.path=logs
 #logging.file=${logging.path}/backend_service_log.log
@@ -7,8 +15,6 @@ spring.application.name=relay-data-service
 #logging.pattern.console=
 #spring.jackson.serialization.write-dates-as-timestamps=false
 #eureka.client.service-url.default-zone=http://localhost:8761/eureka
-spring.profiles.active=dev
-debug=true
-spring.jackson.serialization.indent_output=true
-server.undertow.accesslog.enabled=true
-server.undertow.accesslog.pattern=%t %a "%r" %s (%D ms)
+#  debug=true
+#  server.undertow.accesslog.enabled=true
+#  server.undertow.accesslog.pattern=%t %a "%r" %s (%D ms)

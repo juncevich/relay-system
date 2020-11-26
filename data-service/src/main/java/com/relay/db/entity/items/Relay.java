@@ -1,29 +1,51 @@
 package com.relay.db.entity.items;
 
-import com.relay.db.entity.location.Location;
-import com.relay.db.entity.place.Place;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.OffsetDateTime;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import com.relay.db.entity.place.Container;
+
+import lombok.*;
+
 @Entity
-@Data
-@NoArgsConstructor
+@Builder(toBuilder = true)
+@AllArgsConstructor()
+@NoArgsConstructor()
+@Setter()
+@Getter
 public class Relay {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "seq_relay")
+    @SequenceGenerator(name = "seq_relay",
+            allocationSize = 5)
     private Long id;
 
-    @OneToOne()
-    private Place place;
+    @Version
+    private Long version;
 
     @OneToOne
-    private Location location;
+    private Container container;
 
     private String serialNumber;
 
     @Enumerated(EnumType.STRING)
     private RelayType relayType;
+
+    @CreatedDate
+    @Column(name = "creation_date", columnDefinition = "TIMESTAMP WITH TIME ZONE", updatable = false)
+    private OffsetDateTime creationDate;
+
+    @LastModifiedDate
+    @Column(name = "update_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime updateDate;
+    @Column(name = "last_check_date")
+    private OffsetDateTime lastCheckDate;
+
+
 }

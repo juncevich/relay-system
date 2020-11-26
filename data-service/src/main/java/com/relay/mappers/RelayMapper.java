@@ -1,20 +1,26 @@
 package com.relay.mappers;
 
-import com.relay.db.entity.RelayEntity;
-import com.relay.web.model.Relay;
+import java.util.List;
+
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
+import com.relay.web.model.Relay;
 
-@Mapper(unmappedSourcePolicy = ReportingPolicy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring",
+        unmappedSourcePolicy = ReportingPolicy.IGNORE,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RelayMapper {
     RelayMapper INSTANCE = Mappers.getMapper(RelayMapper.class);
 
-    Relay mapEntityToModel(RelayEntity relayEntity);
+    @Mapping(source = "creationDate",
+            target = "dateOfManufacture")
+    Relay mapEntityToModel(com.relay.db.entity.items.Relay relayEntity);
 
-    List<Relay> mapEntityToModel(List<RelayEntity> relayEntity);
 
-    RelayEntity mapModelToEntity(Relay relay);
+    List<Relay> mapEntityToModel(List<com.relay.db.entity.items.Relay> relayEntity);
+
+    com.relay.db.entity.items.Relay mapModelToEntity(Relay relay);
 }

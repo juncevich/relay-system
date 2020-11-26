@@ -1,8 +1,10 @@
 package com.relay.integration;
 
-import com.relay.integration.annotation.IntegrationTest;
-import com.relay.service.RelayService;
-import com.relay.web.model.Relay;
+import static org.junit.Assert.assertEquals;
+
+import java.time.*;
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 import org.junit.ClassRule;
 import org.junit.experimental.categories.Category;
@@ -20,20 +22,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import com.relay.integration.annotation.IntegrationTest;
+import com.relay.service.RelayService;
+import com.relay.web.model.Relay;
 
 @Disabled
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-@ComponentScan(basePackages = {"com.relay"})
-@ContextConfiguration(initializers = {RelayServiceITTest.Initializer.class})
+@ComponentScan(basePackages = { "com.relay" })
+@ContextConfiguration(initializers = { RelayServiceITTest.Initializer.class })
 @Category(IntegrationTest.class)
-public class RelayServiceITTest {
+class RelayServiceITTest {
 
     @ClassRule
     public static PostgreSQLContainer postgreSQLContainer =
@@ -45,32 +44,36 @@ public class RelayServiceITTest {
     private RelayService relayService;
 
     @Test
-    public void findRelayByDate() {
+    void findRelayByDate() {
 
         Relay relay = new Relay();
-        relay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
+        relay.setDateOfManufacture(OffsetDateTime.of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15),
+                ZoneOffset.ofHours(3)));
         relayService.save(relay);
 
-        List<Relay> foundedRelayList = relayService
-                .findByDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6)).getContent();
+        List<Relay> foundedRelayList =
+                relayService.findByDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
 
         assertEquals(relay.getId(), foundedRelayList.get(0).getId());
         assertEquals(relay.getDateOfManufacture(), foundedRelayList.get(0).getDateOfManufacture());
     }
 
     @Test
-    public void testFindRelayAfterDateOfManufacture() {
+    void testFindRelayAfterDateOfManufacture() {
 
         Relay equalsRelay = new Relay();
-        equalsRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 5));
+        equalsRelay.setDateOfManufacture(OffsetDateTime
+                .of(LocalDateTime.of(2018, Month.JUNE, 5, 23, 15), ZoneOffset.ofHours(3)));
         relayService.save(equalsRelay);
 
         Relay lessRelay = new Relay();
-        lessRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
+        lessRelay.setDateOfManufacture(OffsetDateTime
+                .of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15), ZoneOffset.ofHours(3)));
         relayService.save(lessRelay);
 
         Relay moreRelay = new Relay();
-        moreRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 7));
+        moreRelay.setDateOfManufacture(OffsetDateTime
+                .of(LocalDateTime.of(2018, Month.JUNE, 7, 23, 15), ZoneOffset.ofHours(3)));
         Relay savedMoreRelay = relayService.save(moreRelay);
 
         List<Relay> foundedRelayList = relayService
@@ -81,18 +84,21 @@ public class RelayServiceITTest {
     }
 
     @Test
-    public void testFindRelayBeforeDateOfManufacture() {
+    void testFindRelayBeforeDateOfManufacture() {
 
         Relay equalsRelay = new Relay();
-        equalsRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 5));
+        equalsRelay.setDateOfManufacture(OffsetDateTime
+                .of(LocalDateTime.of(2018, Month.JUNE, 5, 23, 15), ZoneOffset.ofHours(3)));
         relayService.save(equalsRelay);
 
         Relay lessRelay = new Relay();
-        lessRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
+        lessRelay.setDateOfManufacture(OffsetDateTime
+                .of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15), ZoneOffset.ofHours(3)));
         relayService.save(lessRelay);
 
         Relay moreRelay = new Relay();
-        moreRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 7));
+        moreRelay.setDateOfManufacture(OffsetDateTime
+                .of(LocalDateTime.of(2018, Month.JUNE, 7, 23, 15), ZoneOffset.ofHours(3)));
         relayService.save(moreRelay);
 
         List<Relay> foundedRelayList = relayService
@@ -103,7 +109,7 @@ public class RelayServiceITTest {
     }
 
     @Test
-    public void findAll() {
+    void findAll() {
 
         Relay relay1 = Relay.builder().serialNumber("012345").build();
         relayService.save(relay1);
