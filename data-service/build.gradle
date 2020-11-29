@@ -41,6 +41,7 @@ ext {
     set('springCloudVersion', "2020.0.0-SNAPSHOT")
     set('testcontainersVersion', "1.15.0")
     set('swaggerVersion', "2.9.0")
+    set('dekorateVersion', "1.0.1")
 }
 
 dependencies {
@@ -60,6 +61,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
+    implementation "io.dekorate:kubernetes-spring-starter:${dekorateVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.testcontainers:junit-jupiter'
