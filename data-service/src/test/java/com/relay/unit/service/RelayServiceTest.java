@@ -1,14 +1,9 @@
 package com.relay.unit.service;
 
-import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
-import java.time.*;
-import java.util.List;
-
+import com.relay.db.entity.items.Relay;
+import com.relay.db.repository.RelayRepository;
+import com.relay.mappers.RelayMapper;
+import com.relay.service.RelayService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,10 +14,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.relay.db.entity.items.Relay;
-import com.relay.db.repository.RelayRepository;
-import com.relay.mappers.RelayMapper;
-import com.relay.service.RelayService;
+import java.time.*;
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.Collections.emptyList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class RelayServiceTest {
@@ -143,5 +144,23 @@ class RelayServiceTest {
     // assertNotNull(relays);
     // assertEquals(4, relays.size());
     // }
+
+    @Test
+    void findRelayById() {
+
+        Relay relay = new Relay();
+        relay.setId(1L);
+        relay.setSerialNumber("12345");
+        OffsetDateTime creationDate =
+                OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
+        relay.setCreationDate(creationDate);
+        when(relayRepository.findById(anyLong()))
+                .thenReturn(Optional.of(relay));
+
+        com.relay.web.model.Relay foundedRelay =
+                relayService.findOne(relay.getId());
+
+        assertEquals(1, foundedRelay.getId());
+    }
 
 }

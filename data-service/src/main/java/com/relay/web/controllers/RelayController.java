@@ -1,19 +1,17 @@
 package com.relay.web.controllers;
 
-import java.util.List;
-
-import javax.websocket.server.PathParam;
-
+import com.relay.service.RelayService;
+import com.relay.web.model.Relay;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.relay.service.RelayService;
-import com.relay.web.model.Relay;
-
-import lombok.RequiredArgsConstructor;
+import javax.websocket.server.PathParam;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -67,18 +65,19 @@ public class RelayController {
     // return relayService.findByVerificationDate(verificationDate);
     // }
     //
-    // /**
-    // * Find relay by id
-    // *
-    // * @param id {@link Relay#getId()}
-    // * @return {@link Relay}
-    // */
-    // @ResponseStatus(HttpStatus.OK)
-    // @GetMapping("/relay/{id}")
-    // public Relay findRelayById(@PathVariable BigInteger id) {
-    //
-    // return relayService.findOne(id).orElse(null);
-    // }
+
+    /**
+     * Find relay by id
+     *
+     * @param id {@link Relay#getId()}
+     * @return {@link Relay}
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/relay/{id}")
+    public Relay findRelayById(@PathVariable Long id) {
+
+        return relayService.findOne(id);
+    }
     //
     // /**
     // * Finding relay by verification date
@@ -107,11 +106,11 @@ public class RelayController {
     // return relayService.findByDateOfManufactureBefore(LocalDate.parse(before));
     // }
     //
+
     /**
      * Find relay by serial number
      *
-     * @param serialNumber
-     *            {@link Relay#getSerialNumber()}
+     * @param serialNumber {@link Relay#getSerialNumber()}
      * @return {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)
