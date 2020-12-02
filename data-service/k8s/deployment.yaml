@@ -15,7 +15,8 @@ spec:
         - name: data-service
           image: alexunc/data-service
           ports:
-            - containerPort: 8080
+            - containerPort: 8082
+
 ---
 kind: ConfigMap
 apiVersion: v1
