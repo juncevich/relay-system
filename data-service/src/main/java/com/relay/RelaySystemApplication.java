@@ -1,9 +1,8 @@
 package com.relay;
 
+import io.dekorate.kubernetes.annotation.KubernetesApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import io.dekorate.kubernetes.annotation.KubernetesApplication;
 
 // @EnableDiscoveryClient
 @KubernetesApplication
