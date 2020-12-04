@@ -23,6 +23,7 @@ sonarqube {
 group = 'com.relay'
 version = '0.0.2-SNAPSHOT'
 sourceCompatibility = '15'
+targetCompatibility = '15'
 
 configurations {
     compileOnly {
@@ -42,11 +43,10 @@ ext {
     set('springCloudVersion', "2020.0.0-SNAPSHOT")
     set('testcontainersVersion', "1.15.0")
     set('swaggerVersion', "2.9.0")
-    set('dekorateVersion', "1.0.1")
+    set('dekorateVersion', "1.0.3")
 }
 
 dependencies {
-
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -62,7 +62,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation "io.dekorate:kubernetes-spring-starter:${dekorateVersion}"
+    annotationProcessor "io.dekorate:kubernetes-spring-starter:${dekorateVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.testcontainers:junit-jupiter'

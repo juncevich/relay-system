@@ -1,44 +1,56 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: data-service
-spec:
-  selector:
-    matchLabels:
-      app: data-service
-  template:
-    metadata:
-      labels:
-        app: data-service
-    spec:
-      containers:
-        - name: data-service
-          image: alexunc/data-service
-          ports:
-            - containerPort: 8080
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: data-service
-data:
-  application.yml: |-
-    spring:
-     cloud:
-      kubernetes:
-        discovery:
-          all-namespaces: true
-          service-labels:
-            spring-boot: true
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/name: data-service
+    app.kubernetes.io/version: 0.0.2-SNAPSHOT
   name: data-service
 spec:
-  type: NodePort
-  selector:
-    app: data-service
   ports:
-    - port: 8082
-      targetPort: 8080
+    - name: http
+      port: 8082
+      targetPort: 8082
+  selector:
+    app.kubernetes.io/name: data-service
+    app.kubernetes.io/version: 0.0.2-SNAPSHOT
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.dekorate.io/commit-id: 7937c4540c5af8396361615ae220c0112f3ddd42
+    app.dekorate.io/vcs-url: https://github.com/juncevich/relay-system.git
+  labels:
+    app.kubernetes.io/name: data-service
+    app.kubernetes.io/version: 0.0.2-SNAPSHOT
+  name: data-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: data-service
+      app.kubernetes.io/version: 0.0.2-SNAPSHOT
+  template:
+    metadata:
+      annotations:
+        app.dekorate.io/commit-id: 7937c4540c5af8396361615ae220c0112f3ddd42
+        app.dekorate.io/vcs-url: https://github.com/juncevich/relay-system.git
+      labels:
+        app.kubernetes.io/name: data-service
+        app.kubernetes.io/version: 0.0.2-SNAPSHOT
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: alexunc/data-service:0.0.2-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          name: data-service
+          ports:
+            - containerPort: 8082
+              name: http
+              protocol: TCP
