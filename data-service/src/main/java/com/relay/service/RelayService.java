@@ -83,7 +83,7 @@ public class RelayService {
     /**
      * Find relay by verification date
      *
-     * @param date {@link Relay#verificationDate}
+     * @param date {@link Relay#getVerificationDate()}
      * @return Page of {@link Relay}
      */
     public Page<Relay> findByVerificationDate(LocalDate date) {
@@ -96,7 +96,7 @@ public class RelayService {
     /**
      * Find relay after date of manufacture
      *
-     * @param date {@link Relay#dateOfManufacture}
+     * @param date {@link Relay#getDateOfManufacture()}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufactureAfter(LocalDate date) {
@@ -109,7 +109,7 @@ public class RelayService {
     /**
      * Find relay by date of manufacture
      *
-     * @param date {@link Relay#dateOfManufacture}
+     * @param date {@link Relay#getDateOfManufacture()}
      * @return List of {@link Relay}
      */
     public List<Relay> findByDateOfManufacture(LocalDate date) {
@@ -125,7 +125,7 @@ public class RelayService {
     /**
      * Find relay by serial number
      *
-     * @param serialNumber {@link Relay#serialNumber}
+     * @param serialNumber {@link Relay#getSerialNumber()}
      * @return {@link Relay}
      */
     public Relay findBySerialNumber(String serialNumber) {
@@ -137,7 +137,7 @@ public class RelayService {
     /**
      * Find relay before date of manufacture
      *
-     * @param date {@link Relay#dateOfManufacture}
+     * @param date {@link Relay#getDateOfManufacture()}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufactureBefore(LocalDate date) {
