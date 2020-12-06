@@ -1,6 +1,6 @@
 package com.relay.web.controllers;
 
-import com.relay.service.RelayService;
+import com.relay.core.service.RelayService;
 import com.relay.web.model.Relay;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

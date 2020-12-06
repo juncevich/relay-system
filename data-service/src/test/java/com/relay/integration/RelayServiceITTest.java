@@ -1,10 +1,8 @@
 package com.relay.integration;
 
-import static org.junit.Assert.assertEquals;
-
-import java.time.*;
-import java.util.List;
-
+import com.relay.core.service.RelayService;
+import com.relay.integration.annotation.IntegrationTest;
+import com.relay.web.model.Relay;
 import org.jetbrains.annotations.NotNull;
 import org.junit.ClassRule;
 import org.junit.experimental.categories.Category;
@@ -22,9 +20,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import com.relay.integration.annotation.IntegrationTest;
-import com.relay.service.RelayService;
-import com.relay.web.model.Relay;
+import java.time.*;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @Disabled
 @ExtendWith(SpringExtension.class)

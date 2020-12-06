@@ -44,13 +44,16 @@ ext {
     set('testcontainersVersion', "1.15.0")
     set('swaggerVersion', "2.9.0")
     set('dekorateVersion', "1.0.3")
+    set('mapStructVersion', "1.4.1.Final")
 }
 
 dependencies {
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
+    implementation("io.springfox:springfox-swagger2:${swaggerVersion}") {
+        exclude group: 'org.mapstruct', module: 'mapstruct'
+    }
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -68,9 +71,10 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:postgresql'
 
-    implementation "org.mapstruct:mapstruct-jdk8:1.3.0.Final"
-    annotationProcessor "org.mapstruct:mapstruct-processor:1.3.0.Final"
-    testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.3.0.Final"
+//    implementation "org.mapstruct:mapstruct-jdk8:${mapStructVersion}"
+    compile "org.mapstruct:mapstruct:${mapStructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.jetbrains:annotations:16.0.2'
     implementation 'org.flywaydb:flyway-core'
