@@ -1,9 +1,9 @@
 package com.relay.unit.service;
 
+import com.relay.core.mappers.RelayMapper;
+import com.relay.core.service.RelayService;
 import com.relay.db.entity.items.Relay;
 import com.relay.db.repository.RelayRepository;
-import com.relay.mappers.RelayMapper;
-import com.relay.service.RelayService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,6 +70,7 @@ class RelayServiceTest {
 
         assertEquals(0, foundedRelayList.size());
     }
+
     //
     // @Disabled
     // @Test
@@ -120,10 +121,10 @@ class RelayServiceTest {
     @Test
     void findAll() {
 
-        Relay relay1 = Relay.builder().serialNumber("012345").build();
-        Relay relay2 = Relay.builder().serialNumber("012345").build();
-        Relay relay3 = Relay.builder().serialNumber("012345").build();
-        Relay relay4 = Relay.builder().serialNumber("012345").build();
+        Relay       relay1 = Relay.builder().serialNumber("012345").build();
+        Relay       relay2 = Relay.builder().serialNumber("012345").build();
+        Relay       relay3 = Relay.builder().serialNumber("012345").build();
+        Relay       relay4 = Relay.builder().serialNumber("012345").build();
         List<Relay> relays = List.of(relay1, relay2, relay3, relay4);
         when(relayRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(relays));
 
@@ -157,10 +158,10 @@ class RelayServiceTest {
         when(relayRepository.findById(anyLong()))
                 .thenReturn(Optional.of(relay));
 
-        com.relay.web.model.Relay foundedRelay =
-                relayService.findOne(relay.getId());
+        com.relay.web.model.Relay foundedRelay = relayService.findOne(relay.getId());
 
-        assertEquals(1, foundedRelay.getId());
+        assertEquals("12345", foundedRelay.getSerialNumber());
+        assertEquals(creationDate, foundedRelay.getDateOfManufacture());
     }
 
 }

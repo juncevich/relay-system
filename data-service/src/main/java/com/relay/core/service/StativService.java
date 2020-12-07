@@ -1,4 +1,4 @@
-package com.relay.service;
+package com.relay.core.service;
 
 import com.relay.web.model.statives.Stativ;
 import org.springframework.stereotype.Service;

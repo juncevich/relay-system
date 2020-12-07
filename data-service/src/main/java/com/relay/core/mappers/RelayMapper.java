@@ -1,13 +1,12 @@
-package com.relay.mappers;
+package com.relay.core.mappers;
 
-import java.util.List;
-
+import com.relay.web.model.Relay;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-import com.relay.web.model.Relay;
+import java.util.List;
 
 @Mapper(componentModel = "spring",
         unmappedSourcePolicy = ReportingPolicy.IGNORE,

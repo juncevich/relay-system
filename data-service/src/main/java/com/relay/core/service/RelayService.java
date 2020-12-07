@@ -1,7 +1,7 @@
-package com.relay.service;
+package com.relay.core.service;
 
+import com.relay.core.mappers.RelayMapper;
 import com.relay.db.repository.RelayRepository;
-import com.relay.mappers.RelayMapper;
 import com.relay.web.model.Relay;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
