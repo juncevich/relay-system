@@ -118,8 +118,7 @@ public class RelayService {
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
 
         final var relaysByCreationDate = relayRepository.findByCreationDate(date, pageable);
-        final var relays               = relayMapper.mapEntityToModel(relaysByCreationDate.getContent());
-        return relays;
+        return relayMapper.mapEntityToModel(relaysByCreationDate.getContent());
     }
 
     /**
