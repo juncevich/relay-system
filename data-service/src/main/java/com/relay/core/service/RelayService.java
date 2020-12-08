@@ -143,7 +143,6 @@ public class RelayService {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         // return relayRepository.findByDateOfManufactureBefore(date, pageable);
-        return null;
     }
 
 }
