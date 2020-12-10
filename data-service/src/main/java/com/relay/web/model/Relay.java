@@ -1,12 +1,11 @@
 package com.relay.web.model;
 
-import java.time.OffsetDateTime;
-
-import javax.validation.constraints.Size;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+
+import javax.validation.constraints.Size;
+import java.time.OffsetDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "Relay details.")
@@ -14,7 +13,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Relay extends AbstractEntity {
+public class Relay {
 
     /**
      * Date of manufacture relay
