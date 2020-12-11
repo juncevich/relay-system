@@ -7,8 +7,6 @@ import javax.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import com.relay.db.entity.place.Container;
-
 import lombok.*;
 
 @Entity
@@ -38,14 +36,17 @@ public class Relay {
     private RelayType relayType;
 
     @CreatedDate
-    @Column(name = "creation_date", columnDefinition = "TIMESTAMP WITH TIME ZONE", updatable = false)
+    @Column(name = "creation_date",
+            columnDefinition = "TIMESTAMP WITH TIME ZONE",
+            updatable = false)
     private OffsetDateTime creationDate;
 
     @LastModifiedDate
-    @Column(name = "update_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "update_date",
+            columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime updateDate;
+
     @Column(name = "last_check_date")
     private OffsetDateTime lastCheckDate;
-
 
 }
