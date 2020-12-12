@@ -7,13 +7,15 @@ import javax.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.relay.db.entity.place.Container;
+
 import lombok.*;
 
 @Entity
 @Builder(toBuilder = true)
-@AllArgsConstructor()
-@NoArgsConstructor()
-@Setter()
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
 @Getter
 public class Relay {
 
