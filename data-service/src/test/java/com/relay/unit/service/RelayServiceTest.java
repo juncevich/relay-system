@@ -133,18 +133,7 @@ class RelayServiceTest {
         assertEquals(4, relayList.size());
 
     }
-    //
-    // @Test
-    // public void findRelayByStationName() {
-    // Station monetnajaStation = Station.builder().build();
-    // List<RelayEntity> relaysByMonetnajaStation = createRelaysByStation(4, monetnajaStation);
-    //
-    // when(relayRepository.findRelaysByStationName("Монетная")).thenReturn(relaysByMonetnajaStation);
-    //
-    // List<Relay> relays = relayService.findByStationName("Монетная");
-    // assertNotNull(relays);
-    // assertEquals(4, relays.size());
-    // }
+
 
     @Test
     void findRelayById() {
