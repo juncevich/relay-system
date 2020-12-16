@@ -77,7 +77,6 @@ public class RelayService {
      * Delete relay by id
      *
      * @param id
-     *            {@link Relay#getId()}
      */
     public void deleteById(BigInteger id) {
 
