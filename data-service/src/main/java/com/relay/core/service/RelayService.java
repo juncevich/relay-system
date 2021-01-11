@@ -1,20 +1,23 @@
 package com.relay.core.service;
 
-import com.relay.core.mappers.RelayMapper;
-import com.relay.db.repository.RelayRepository;
-import com.relay.web.model.Relay;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.List;
+import com.relay.core.mappers.RelayMapper;
+import com.relay.db.repository.RelayRepository;
+import com.relay.web.model.Relay;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * {@link Relay} service
@@ -46,12 +49,13 @@ public class RelayService {
     /**
      * Save relay method
      *
-     * @param relay {@link Relay}
+     * @param relay
+     *            {@link Relay}
      * @return {@link Relay}
      */
     public Relay save(Relay relay) {
 
-        com.relay.db.entity.items.Relay entity      = RelayMapper.INSTANCE.mapModelToEntity(relay);
+        com.relay.db.entity.items.Relay entity = RelayMapper.INSTANCE.mapModelToEntity(relay);
         com.relay.db.entity.items.Relay savedEntity = relayRepository.save(entity);
         return relayMapper.mapEntityToModel(savedEntity);
     }
@@ -59,20 +63,20 @@ public class RelayService {
     /**
      * Find relay by id
      *
-     * @param id {@link Relay#getId()}
+     * @param id
+     *            {@link Relay#getSerialNumber()}
      * @return optional of {@link Relay}
      */
     public Relay findOne(Long id) {
 
-        var foundedEntity = relayRepository.findById(id)
-                .orElse(null);
+        var foundedEntity = relayRepository.findById(id).orElse(null);
         return relayMapper.mapEntityToModel(foundedEntity);
     }
 
     /**
      * Delete relay by id
      *
-     * @param id {@link Relay#getId()}
+     * @param id
      */
     public void deleteById(BigInteger id) {
 
@@ -83,7 +87,8 @@ public class RelayService {
     /**
      * Find relay by verification date
      *
-     * @param date {@link Relay#getVerificationDate()}
+     * @param date
+     *            {@link Relay#getVerificationDate()}
      * @return Page of {@link Relay}
      */
     public Page<Relay> findByVerificationDate(LocalDate date) {
@@ -96,7 +101,8 @@ public class RelayService {
     /**
      * Find relay after date of manufacture
      *
-     * @param date {@link Relay#getDateOfManufacture()}
+     * @param date
+     *            {@link Relay#getDateOfManufacture()}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufactureAfter(LocalDate date) {
@@ -109,7 +115,8 @@ public class RelayService {
     /**
      * Find relay by date of manufacture
      *
-     * @param date {@link Relay#getDateOfManufacture()}
+     * @param date
+     *            {@link Relay#getDateOfManufacture()}
      * @return List of {@link Relay}
      */
     public List<Relay> findByDateOfManufacture(LocalDate date) {
@@ -124,7 +131,8 @@ public class RelayService {
     /**
      * Find relay by serial number
      *
-     * @param serialNumber {@link Relay#getSerialNumber()}
+     * @param serialNumber
+     *            {@link Relay#getSerialNumber()}
      * @return {@link Relay}
      */
     public Relay findBySerialNumber(String serialNumber) {
@@ -136,13 +144,15 @@ public class RelayService {
     /**
      * Find relay before date of manufacture
      *
-     * @param date {@link Relay#getDateOfManufacture()}
+     * @param date
+     *            {@link Relay#getDateOfManufacture()}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufactureBefore(LocalDate date) {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         // return relayRepository.findByDateOfManufactureBefore(date, pageable);
+        return null;
     }
 
 }

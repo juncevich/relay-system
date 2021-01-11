@@ -13,9 +13,9 @@ import lombok.*;
 
 @Entity
 @Builder(toBuilder = true)
-@AllArgsConstructor()
-@NoArgsConstructor()
-@Setter()
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
 @Getter
 public class Relay {
 
@@ -38,14 +38,17 @@ public class Relay {
     private RelayType relayType;
 
     @CreatedDate
-    @Column(name = "creation_date", columnDefinition = "TIMESTAMP WITH TIME ZONE", updatable = false)
+    @Column(name = "creation_date",
+            columnDefinition = "TIMESTAMP WITH TIME ZONE",
+            updatable = false)
     private OffsetDateTime creationDate;
 
     @LastModifiedDate
-    @Column(name = "update_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "update_date",
+            columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime updateDate;
+
     @Column(name = "last_check_date")
     private OffsetDateTime lastCheckDate;
-
 
 }
