@@ -8,8 +8,6 @@ spring:
     username: user
     password: example
   jpa:
-    #    hibernate:
-    #      ddl-auto: create-drop
     database: postgresql
     show-sql: true
     database-platform:
