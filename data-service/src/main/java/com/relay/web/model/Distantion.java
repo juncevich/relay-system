@@ -1,17 +1,16 @@
 package com.relay.web.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.OneToMany;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-
-import lombok.*;
-
-@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Distantion extends AbstractEntity {
+public class Distantion {
 
     /**
      * Distantion name

@@ -7,7 +7,6 @@ import lombok.*;
 import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "Relay details.")
 @Data
 @Builder

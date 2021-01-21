@@ -1,19 +1,17 @@
 package com.relay.web.model;
 
+import com.relay.web.model.places.Station;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.OneToMany;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-
-import com.relay.web.model.places.Station;
-
-import lombok.*;
-
-@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class District extends AbstractEntity {
+public class District {
 
     /**
      * District name

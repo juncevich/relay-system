@@ -1,20 +1,17 @@
 package com.relay.web.model.statives;
 
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-
-import com.relay.web.model.AbstractEntity;
 import com.relay.web.model.shelves.Shelve;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-import lombok.*;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Data
 @RequiredArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-public class Stativ extends AbstractEntity {
+public class Stativ {
 
     private Integer number;
 
