@@ -56,7 +56,7 @@ class RelayServiceTest {
                 relayService.findByDateOfManufacture(LocalDate.of(2020, Month.NOVEMBER, 18));
 
         assertEquals(1, foundedRelayList.size());
-        assertEquals(relay.getCreationDate(), foundedRelayList.get(0).dateOfManufacture());
+        assertEquals(relay.getCreationDate(), foundedRelayList.get(0).getDateOfManufacture());
     }
 
     @Test
@@ -149,8 +149,8 @@ class RelayServiceTest {
 
         com.relay.web.model.Relay foundedRelay = relayService.findOne(relay.getId());
 
-        assertEquals("12345", foundedRelay.serialNumber());
-        assertEquals(creationDate, foundedRelay.dateOfManufacture());
+        assertEquals("12345", foundedRelay.getSerialNumber());
+        assertEquals(creationDate, foundedRelay.getDateOfManufacture());
     }
 
 }
