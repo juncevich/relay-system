@@ -18,7 +18,13 @@ Config Server:
 * install npm
 * install Angular cli
 
+
+Run services in local r8s:
+
+skaffold dev --port-forward --trigger=manual --no-prune
+
 Design prototype:
+
 https://ninjamock.com/s/HMR47Wx
 
 
