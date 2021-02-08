@@ -1,23 +1,20 @@
 package com.relay.core.service;
 
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import com.relay.core.mappers.RelayMapper;
+import com.relay.db.repository.RelayRepository;
+import com.relay.web.model.Relay;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.relay.core.mappers.RelayMapper;
-import com.relay.db.repository.RelayRepository;
-import com.relay.web.model.Relay;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import javax.transaction.Transactional;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * {@link Relay} service
@@ -55,7 +52,7 @@ public class RelayService {
      */
     public Relay save(Relay relay) {
 
-        com.relay.db.entity.items.Relay entity = RelayMapper.INSTANCE.mapModelToEntity(relay);
+        com.relay.db.entity.items.Relay entity      = relayMapper.mapModelToEntity(relay);
         com.relay.db.entity.items.Relay savedEntity = relayRepository.save(entity);
         return relayMapper.mapEntityToModel(savedEntity);
     }
