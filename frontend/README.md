@@ -1,7 +1,7 @@
 docker run -d --name rs_frontend -p3000:3000 6ea
 
 
-docker build -t alexunc/rs-frontend .
+docker build -t alexunc/rs-frontend:0.0.1 .
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

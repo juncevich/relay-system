@@ -1,1 +1,8 @@
+Dockerfile
+.dockerignore
+.gitignore
+README.md
+gradle
+.gradle
+build
 node_modules
