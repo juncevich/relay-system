@@ -7,32 +7,19 @@ import lombok.*;
 import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 
-@ApiModel(description = "Relay details.")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(description = "Relay details.")
 public class Relay {
 
-    /**
-     * Date of manufacture relay
-     */
     @ApiModelProperty(notes = "Date of manufacture relay")
-    private OffsetDateTime dateOfManufacture;
-
-    /**
-     * Relay verification date
-     */
+    OffsetDateTime dateOfManufacture;
     @ApiModelProperty(notes = "Verification date relay")
-    private OffsetDateTime verificationDate;
-
-    /**
-     * Relay serial number
-     */
+    OffsetDateTime verificationDate;
     @ApiModelProperty(notes = "Serial number relay")
     @NonNull
-    @Size(min = 5,
-            message = "Serial number should contain at least five characters")
-    private String serialNumber;
-
+    @Size(min = 5, message = "Serial number should contain at least five characters")
+    String         serialNumber;
 }
