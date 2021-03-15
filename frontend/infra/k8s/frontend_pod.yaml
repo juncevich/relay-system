@@ -1,8 +1,17 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: posts
+  name: frontend-depl
 spec:
-  containers:
-    - name: rs_frontend
-      image: alexunc/rs-frontend:0.0.1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: alexunc/rs-frontend:0.0.1
