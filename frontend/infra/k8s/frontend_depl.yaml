@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: alexunc/rs-frontend:0.0.1
+          image: alexunc/rs-frontend
