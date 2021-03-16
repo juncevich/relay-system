@@ -1,16 +1,16 @@
 apiVersion: skaffold/v2alpha3
 kind: Config
-metadata:
-  name: alexunc/data-service
+#metadata:
+#  name: alexunc/data-service
 build:
   local:
     push: false
   artifacts:
     - image: alexunc/data-service
-      context: ./data-service
+      context: data-service
       jib: { }
     - image: alexunc/rs-frontend
-      context: ./frontend
+      context: frontend
       docker:
         dockerfile: Dockerfile
       sync:
@@ -22,5 +22,5 @@ build:
 deploy:
   kubectl:
     manifests:
-      - ./data-service/k8s
-      - ./frontend/infra
+      - ./data-service/k8s/*
+      - ./frontend/infra/*
