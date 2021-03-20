@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: data-service
     app.kubernetes.io/version: 0.0.2-SNAPSHOT
-  name: data-service
+  name: data-service-srv
 spec:
   ports:
     - name: http
