@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  annotations:
+    kubernetes.io/ingress.class: ngonx
+spec:
+  rules:
+    - host: frontend.com
+      http:
+        paths:
+          - path: /frontend
+            backend:
+              service:
+                name: frontend-srv
+                port: 3000
+
