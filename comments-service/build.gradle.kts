@@ -5,6 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.4.32"
     kotlin("plugin.spring") version "1.4.32"
+    id("com.google.cloud.tools.jib") version "3.0.0"
 }
 
 group = "com.relay"
@@ -55,6 +56,30 @@ dependencyManagement {
     }
 }
 
+jib {
+    from {
+        image = "openjdk:16-alpine"
+    }
+    to {
+        image = "alexunc/relay/comments"
+        auth {
+            username = System.getenv("DOCKER_LOGIN")
+            password = System.getenv("DOCKER_PASS")
+        }
+        tags = setOf("latest")
+    }
+    container {
+//        jvmFlags = ['-Dmy.property=example.value', '-Xms512m', '-Xdebug']
+        ports = listOf("9090", "8080")
+//        labels = [key1:'value1', key2:'value2']
+//        format = 'OCI'
+    }
+}
+
+tasks.bootJar {
+    archiveFileName.set("app.jar")
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -65,3 +90,6 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+
+

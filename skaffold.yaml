@@ -24,3 +24,4 @@ deploy:
     manifests:
       - ./data-service/k8s/*
       - ./frontend/infra/*
+      - ./comments-service/infra/*
