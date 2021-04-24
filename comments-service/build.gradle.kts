@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.4.32"
     kotlin("plugin.spring") version "1.4.32"
     id("com.google.cloud.tools.jib") version "3.0.0"
+    id("org.sonarqube") version "3.1.1"
     jacoco
 }
 
@@ -25,6 +26,16 @@ repositories {
 
 extra["springCloudVersion"] = "2020.0.2"
 extra["testcontainersVersion"] = "1.15.3"
+
+sonarqube {
+    properties {
+        property("sonar.login", System.getenv("SONAR_DATA_SERVICE_TOKEN"))
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.organization", "relay-service")
+        property("sonar.projectKey", "comment-data-service")
+        property("sonar.jacoco.reportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+    }
+}
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
