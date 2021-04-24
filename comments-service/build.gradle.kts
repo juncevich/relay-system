@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.4.32"
     kotlin("plugin.spring") version "1.4.32"
     id("com.google.cloud.tools.jib") version "3.0.0"
+    jacoco
 }
 
 group = "com.relay"
@@ -90,6 +91,36 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+
+
+jacoco {
+    toolVersion = "0.8.6"
+//    reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
+}
+
+
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = true
+        csv.isEnabled = true
+//        html.destination = layout.buildDirectory.dir("jacocoHtml").get().asFile
+    }
+}
+
+
+
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+}
+
+
+
 
 
 
