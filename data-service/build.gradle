@@ -112,10 +112,10 @@ jib {
     }
     to {
         image = 'alexunc/data-service'
-        auth {
-            username = System.getenv('DOCKER_LOGIN')
-            password = System.getenv('DOCKER_PASS')
-        }
+//        auth {
+//            username = System.getenv('DOCKER_LOGIN')
+//            password = System.getenv('DOCKER_PASS')
+//        }
         tags = [version, 'latest']
     }
     container {
