@@ -1,4 +1,4 @@
-name: Data Service Java CI
+name: Comments Service Kotlin CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: data-service
+    working-directory: comments-service
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,8 +29,8 @@ jobs:
         run: gradle build
       - name: Generate test report
         run: gradle jacocoTestReport
-      - name: Sonar analyse
-        run: gradle sonarqube
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+#      - name: Sonar analyse
+#        run: gradle sonarqube
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}

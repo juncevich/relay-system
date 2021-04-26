@@ -1,7 +1,7 @@
-apiVersion: skaffold/v2alpha3
+apiVersion: skaffold/v2beta9
 kind: Config
-#metadata:
-#  name: alexunc/data-service
+metadata:
+  name: default
 build:
   local:
     push: false
@@ -20,7 +20,20 @@ build:
   tagPolicy:
     gitCommit: { }
 deploy:
+  #  TODO try to order configs and helm charts.
+  #  ./k8s/manifests
+  #  ./k8s/charts
   kubectl:
     manifests:
+      - ./k8s/namespace-dev.yaml
       - ./data-service/k8s/*
       - ./frontend/infra/*
+  #      - ./comments-service/infra/*
+  helm:
+    releases:
+      - name: postgres
+        namespace: default
+        chartPath: ./helm/postgresql
+        valuesFiles:
+          - ./data-service/k8s_pg/pg_values.yaml
+        wait: true
