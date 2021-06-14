@@ -23,9 +23,8 @@ Run services in local r8s:
 
 skaffold dev --port-forward --trigger=manual --no-prune
 
-Install postgres to k8s
-
-helm install pg-release -f data-service/k8s/pg_values.yaml bitnami/postgresql
+Install postgres to k8s helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install pg-release -f data-service/k8s_pg/pg_values.yaml bitnami/postgresql
 https://artifacthub.io/packages/helm/bitnami/postgresql
 
 Design prototype:
