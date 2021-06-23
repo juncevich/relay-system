@@ -38,6 +38,7 @@ jobs:
         with:
           name: builded-service
           path: ./build/libs/
+          if-no-files-found: error
   docker:
     name: Publish to Docker Hub
     runs-on: ubuntu-latest
