@@ -27,6 +27,8 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Build with Gradle
         run: gradle build
+      - name: Display structure of downloaded files
+        run: ls -R
       - name: Generate test report
         run: gradle jacocoTestReport
       - name: Sonar analyse
@@ -34,6 +36,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+      - name: Display structure of downloaded files
+        run: ls -R
       - uses: actions/upload-artifact@v2
         with:
           name: builded-service
