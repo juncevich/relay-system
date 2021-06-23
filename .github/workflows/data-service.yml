@@ -54,7 +54,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: builded-service
-          path: data-service/builded
+          path: data-service/build/libs
       - name: Display structure of downloaded files
         run: ls -R
       #      - name: Set up JDK 16
