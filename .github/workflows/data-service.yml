@@ -32,7 +32,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: builded-service
-          path: ./
+          path: data-service/build/libs
           if-no-files-found: error
       - name: Generate test report
         run: gradle jacocoTestReport
