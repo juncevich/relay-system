@@ -50,6 +50,10 @@ jobs:
           java-version: 16
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+      - name: Print current directory
+        run: pwd
+      - name: Current directory files list
+        run: ls -ahl
       - name: List available artifacts
         run: ls build/libs/
       - name: Build Docker image
