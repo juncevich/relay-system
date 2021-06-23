@@ -41,7 +41,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: builded-service
-          path: ./build/**/*.jar
+          path: build/**/*.jar
           if-no-files-found: error
   docker:
     name: Publish to Docker Hub
