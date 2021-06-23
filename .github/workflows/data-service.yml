@@ -41,7 +41,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: builded-service
-#          path: *
+          #          path: *
           if-no-files-found: error
   docker:
     name: Publish to Docker Hub
@@ -53,11 +53,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Download builded service
-        uses: actions/download-artifact@v2
-          with:
-            name: builded-service
-            path: builded
+      - uses: actions/download-artifact@v2
+        with:
+          name: builded-service
+          path: builded
       - name: Display structure of downloaded files
         run: ls -R
       #      - name: Set up JDK 16
