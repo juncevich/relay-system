@@ -50,6 +50,8 @@ jobs:
           java-version: 16
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+      - name: List available artifacts
+        run: ls build/libs/
       - name: Build Docker image
         run: docker build -t ${{ secrets.DOCKER_USER }}/$REPO:latest .
       - name: Publish Docker image
