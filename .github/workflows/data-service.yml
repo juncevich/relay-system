@@ -34,6 +34,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Package
+          path: build/libs
   docker:
     name: Publish to Docker Hub
     runs-on: ubuntu-latest
@@ -48,14 +52,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 16
-      - name: Cache Gradle packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
-      - name: Build with Gradle
-        run: gradle build
+      #      - name: Cache Gradle packages
+      #        uses: actions/cache@v2
+      #        with:
+      #          path: ~/.gradle/caches
+      #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+      #          restore-keys: ${{ runner.os }}-gradle
+      #      - name: Build with Gradle
+      #        run: gradle build
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
       - name: Print current directory
