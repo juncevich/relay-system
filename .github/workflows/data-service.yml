@@ -37,7 +37,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: Package
-          path: build/libs
+          path: build/libs/
   docker:
     name: Publish to Docker Hub
     runs-on: ubuntu-latest
