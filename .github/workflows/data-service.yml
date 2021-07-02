@@ -27,6 +27,11 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
       - name: Build with Gradle
         run: gradle build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: builded-service
+          path: data-service/build/libs
+          if-no-files-found: error
       - name: Generate test report
         run: gradle jacocoTestReport
       - name: Sonar analyse
@@ -34,3 +39,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+  docker:
+    name: Publish to Docker Hub
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    env:
+      REPO: ${{ secrets.DOCKER_REPO }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: builded-service
+          path: data-service/build/libs
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+      - name: Build latest Docker image
+        run: docker build -t ${{ secrets.DOCKER_USER }}/$REPO:latest .
+      - name: Publish Docker image
+        run: docker push ${{ secrets.DOCKER_USER }}/$REPO:latest
