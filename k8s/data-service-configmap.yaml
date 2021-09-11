@@ -1,0 +1,7 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: department
+data:
+  spring.cloud.kubernetes.discovery.all-namespaces: "true"
+  # other config removed for brevity.
