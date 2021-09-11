@@ -1,6 +1,6 @@
 plugins {
     id 'com.google.cloud.tools.jib' version '3.1.1'
-    id 'org.springframework.boot' version '2.5.1'
+    id 'org.springframework.boot' version '2.5.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id "org.sonarqube" version "3.0"
@@ -22,7 +22,7 @@ sonarqube {
 
 group = 'com.relay'
 version = '0.0.2-SNAPSHOT'
-//sourceCompatibility = '16'
+sourceCompatibility = '16'
 //targetCompatibility = '16'
 
 configurations {
@@ -40,17 +40,18 @@ repositories {
 }
 
 ext {
-    set('springCloudVersion', "2020.0.0-SNAPSHOT")
+    set('springCloudVersion', "2020.0.3")
     set('testcontainersVersion', "1.15.0")
-    set('swaggerVersion', "2.9.0")
+    set('swaggerVersion', "2.9.2")
     set('dekorateVersion', "2.2.0")
     set('mapStructVersion', "1.4.1.Final")
 }
 
 dependencies {
     runtimeOnly 'com.h2database:h2'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-ribbon', version: '2.2.9.RELEASE'
 //    implementation("io.springfox:springfox-swagger2:${swaggerVersion}") {
 //        exclude group: 'org.mapstruct', module: 'mapstruct'
 //    }
@@ -79,7 +80,7 @@ dependencies {
     implementation 'org.jetbrains:annotations:16.0.2'
     implementation 'org.flywaydb:flyway-core'
     implementation('io.micrometer:micrometer-registry-prometheus:1.5.0')
-    implementation('org.springframework.cloud:spring-cloud-starter-kubernetes-all')
+    implementation('org.springframework.cloud:spring-cloud-starter-kubernetes-all:1.1.10.RELEASE')
 }
 
 jacoco {
@@ -103,7 +104,7 @@ check.dependsOn jacocoTestReport
 dependencyManagement {
     imports {
         mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
-//        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
 
