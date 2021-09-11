@@ -2,6 +2,7 @@ package com.relay.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -34,13 +35,14 @@ public class SwaggerConfig {
 
     /**
      * Setting Docket bean
-     * 
+     *
      * @return Docket bean
      */
     @Bean
     public Docket api() {
         return new Docket(SWAGGER_2).apiInfo(DEFAULT_API_INFO).select()
                 .apis(RequestHandlerSelectors.basePackage("com.relay.integrations.controllers"))
-                .paths(PathSelectors.any()).build();
+                .paths(PathSelectors.any()).build()
+                .apiInfo(new ApiInfoBuilder().version("1.0").title("Data service API").description("Documentation Data service API v1.0").build());
     }
 }
