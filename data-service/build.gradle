@@ -43,7 +43,7 @@ ext {
     set('springCloudVersion', "2020.0.3")
     set('testcontainersVersion', "1.15.0")
     set('swaggerVersion', "2.9.2")
-    set('dekorateVersion', "2.2.0")
+//    set('dekorateVersion', "2.5.0")
     set('mapStructVersion', "1.4.1.Final")
 }
 
@@ -68,7 +68,8 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor "io.dekorate:kubernetes-spring-starter:${dekorateVersion}"
+    testAnnotationProcessor 'org.projectlombok:lombok'
+//    annotationProcessor "io.dekorate:kubernetes-spring-starter:${dekorateVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.testcontainers:junit-jupiter'
@@ -84,7 +85,7 @@ dependencies {
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-ribbon', version: '2.2.9.RELEASE'
-    implementation('org.springframework.cloud:spring-cloud-starter-kubernetes-all:1.1.10.RELEASE')
+    implementation('org.springframework.cloud:spring-cloud-starter-kubernetes-fabric8-all:2.0.3')
 }
 
 jacoco {
