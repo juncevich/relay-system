@@ -31,4 +31,9 @@ Design prototype:
 
 https://ninjamock.com/s/HMR47Wx
 
+kubectl create namespace data
+kubectl create namespace history
+kubectl create namespace gateway
+kubectl create namespace postgres
+kubectl create namespace mongo
 
