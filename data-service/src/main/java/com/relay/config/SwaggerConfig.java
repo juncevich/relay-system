@@ -8,6 +8,7 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 /**
  * Swagger configuration file
  */
-//@EnableSwagger2
+@EnableSwagger2
 @Configuration
 public class SwaggerConfig {
 
