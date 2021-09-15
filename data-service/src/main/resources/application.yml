@@ -4,6 +4,13 @@ spring:
 
   application:
     name: relay-data-service
+  cloud:
+    kubernetes:
+      secrets:
+        enabled: true
+        paths:
+          - /etc/secretspot
+        enableApi: false
   jackson:
     serialization:
       indent_output: true
