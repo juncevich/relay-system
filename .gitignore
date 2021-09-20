@@ -31,3 +31,4 @@ nbdist/
 /src
 /logs
 
+*.tgz
