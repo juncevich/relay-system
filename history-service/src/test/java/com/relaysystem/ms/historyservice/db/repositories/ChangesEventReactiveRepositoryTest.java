@@ -1,4 +1,4 @@
-package com.relaysystem.ms.historyservice.repositories;
+package com.relaysystem.ms.historyservice.db.repositories;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.relaysystem.ms.historyservice.entities.ChangeEvent;
-import com.relaysystem.ms.historyservice.enums.ChangeEventType;
+import com.relaysystem.ms.historyservice.db.enums.Event;
+import com.relaysystem.ms.historyservice.db.entities.EventType;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -25,8 +25,8 @@ public class ChangesEventReactiveRepositoryTest {
     @Before
     public void setUp() throws Exception {
 
-        ChangeEvent changeEvent =
-                new ChangeEvent("beforeTest", ChangeEventType.DELETE, Instant.now());
+        Event changeEvent =
+                new Event("beforeTest", EventType.DELETE, Instant.now());
         changesEventReactiveRepository.save(changeEvent).block();
     }
 
@@ -36,8 +36,8 @@ public class ChangesEventReactiveRepositoryTest {
         Long total = changesEventReactiveRepository.count().block();
         assertEquals(Long.valueOf(1L), total);
 
-        ChangeEvent changeEvent = new ChangeEvent(UUID.randomUUID().toString(),
-                ChangeEventType.CREATE, Instant.now());
+        Event changeEvent = new Event(UUID.randomUUID().toString(),
+                EventType.CREATE, Instant.now());
         changesEventReactiveRepository.save(changeEvent).block();
 
         total = changesEventReactiveRepository.count().block();
