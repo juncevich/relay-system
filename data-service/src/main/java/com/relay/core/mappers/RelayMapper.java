@@ -12,6 +12,7 @@ import java.util.List;
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RelayMapper {
+
     RelayMapper INSTANCE = Mappers.getMapper(RelayMapper.class);
 
     @Mapping(source = "creationDate",

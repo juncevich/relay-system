@@ -21,12 +21,13 @@ kind: Deployment
 metadata:
   name: data-service
   labels:
-    app: data-service
+    app.kubernetes.io/name: data-service
+    app.kubernetes.io/version: 0.0.2-SNAPSHOT
 spec:
   replicas: 1
   selector:
     matchLabels:
-      #      app: data-service
+      app: data-service
       app.kubernetes.io/name: data-service
       app.kubernetes.io/version: 0.0.2-SNAPSHOT
   template:
@@ -35,14 +36,11 @@ spec:
         app.dekorate.io/commit-id: 7937c4540c5af8396361615ae220c0112f3ddd42
         app.dekorate.io/vcs-url: https://github.com/juncevich/relay-system.git
       labels:
-        #        app: data-service
+        app: data-service
         app.kubernetes.io/name: data-service
         app.kubernetes.io/version: 0.0.2-SNAPSHOT
     spec:
       containers:
-        - volumeMounts:
-            - name: mongodb
-              mountPath: /etc/secretspot
         - env:
             - name: KUBERNETES_NAMESPACE
               valueFrom:
@@ -51,6 +49,9 @@ spec:
           image: alexunc/data-service:0.0.2-SNAPSHOT
           imagePullPolicy: IfNotPresent
           name: data-service
+          volumeMounts:
+            - name: mongodb
+              mountPath: /etc/secretspot
           ports:
             - containerPort: 8082
               name: http
@@ -62,24 +63,24 @@ spec:
             limits:
               cpu: "1.0"
               memory: 300Mi
-            readinessProbe:
-              httpGet:
-                port: 8080
-                path: /actuator/health
-              initialDelaySeconds: 60
-              timeoutSeconds: 2
-              periodSeconds: 20
-              failureThreshold: 5
-            livenessProbe:
-              httpGet:
-                port: 8080
-                path: /actuator/info
-              initialDelaySeconds: 60
-              timeoutSeconds: 2
-              periodSeconds: 20
-              failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health
+            initialDelaySeconds: 60
+            timeoutSeconds: 2
+            periodSeconds: 20
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/info
+            initialDelaySeconds: 60
+            timeoutSeconds: 2
+            periodSeconds: 20
+            failureThreshold: 5
       volumes:
         - name: mongodb
           secret:
             secretName: department
-  serviceAccountName: api-service-account
+      serviceAccountName: api-service-account
