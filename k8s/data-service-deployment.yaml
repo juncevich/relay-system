@@ -104,3 +104,31 @@ data:
   spring.data.mongodb.database: "admin"
   spring.data.mongodb.host: "mongodb.mongo.svc.cluster.local"
   spring.output.ansi.enabled: "ALWAYS"
+---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: data-service-ingress
+#  annotations:
+#    nginx.ingress.kubernetes.io/rewrite-target: /
+#spec:
+#  rules:
+#    - http:
+#        paths:
+#          - path: /backend1
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: data-service
+#                port:
+#                  number: 8082
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: data-service-ingress
+spec:
+  defaultBackend:
+    service:
+      name: data-service-srv
+      port:
+        number: 8082
