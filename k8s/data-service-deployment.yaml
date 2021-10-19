@@ -49,9 +49,9 @@ spec:
           image: alexunc/data-service:0.0.2-SNAPSHOT
           imagePullPolicy: IfNotPresent
           name: data-service
-          volumeMounts:
-            - name: mongodb
-              mountPath: /etc/secretspot
+#          volumeMounts:
+#            - name: mongodb
+#              mountPath: /etc/secretspot
           ports:
             - containerPort: 8082
               name: http
@@ -79,8 +79,28 @@ spec:
             timeoutSeconds: 2
             periodSeconds: 20
             failureThreshold: 5
-      volumes:
-        - name: mongodb
-          secret:
-            secretName: department
-      serviceAccountName: api-service-account
+#      volumes:
+#        - name: mongodb
+#          secret:
+#            secretName: department
+#      serviceAccountName: api-service-account
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: data-service
+type: Opaque
+data:
+  spring.data.mongodb.username: bW9uZ28tYWRtaW4=
+  spring.data.mongodb.password: bW9uZ28tYWRtaW4tcGFzc3dvcmQ=
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: department
+data:
+  logging.pattern.console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
+  spring.cloud.kubernetes.discovery.all-namespaces: "true"
+  spring.data.mongodb.database: "admin"
+  spring.data.mongodb.host: "mongodb.mongo.svc.cluster.local"
+  spring.output.ansi.enabled: "ALWAYS"
