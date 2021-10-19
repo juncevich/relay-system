@@ -3,11 +3,11 @@ spring:
     active: dev
 
   application:
-    name: relay-data-service
+    name: data-service
   cloud:
     kubernetes:
       secrets:
-        enabled: true
+        enabled: false
         paths:
           - /etc/secretspot
         enableApi: false
