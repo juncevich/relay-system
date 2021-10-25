@@ -1,4 +1,6 @@
-docker_build('alexunc/data-service', '.')
+local_resource('data-service-compile', './gradlew bootJar', deps=['src', 'build.gradle'])
+
+docker_build('alexunc/data-service', './build/libs', dockerfile='./Dockerfile')
 k8s_yaml([
 '../k8s/data-service-deployment.yaml',
 ##'../k8s/mongodb-deployment.yaml'
@@ -11,4 +13,4 @@ helm_remote('postgresql',
             repo_url='https://charts.bitnami.com/bitnami',
             values=['k8s_pg/pg_values.yaml'])
 
-k8s_resource('data-service', port_forwards=8080)
+k8s_resource('data-service', port_forwards=8080, resource_deps=['data-service-compile'])
