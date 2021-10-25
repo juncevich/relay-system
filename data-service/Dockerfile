@@ -4,8 +4,18 @@
 #COPY build/libs/data-service-0.0.2-SNAPSHOT.jar data-service.jar
 #EXPOSE 8080
 #ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/data-service.jar"]
+
+#FROM openjdk:16.0.1-jdk
+#
+#ADD . .
+#
+#ENTRYPOINT java -jar example-0.0.1-SNAPSHOT.jar
+
 FROM openjdk:16.0.1-jdk
 
-ADD . .
+WORKDIR /app
+ADD BOOT-INF/lib /app/lib
+ADD META-INF /app/META-INF
+ADD BOOT-INF/classes /app
 
-ENTRYPOINT java -jar data-service-0.0.2-SNAPSHOT.jar
+ENTRYPOINT java -cp .:./lib/* com.relay.RelaySystemApplication

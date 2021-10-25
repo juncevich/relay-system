@@ -1,6 +1,19 @@
-local_resource('data-service-compile', './gradlew bootJar', deps=['src', 'build.gradle'])
+load('ext://restart_process', 'docker_build_with_restart')
 
-docker_build('alexunc/data-service', './build/libs', dockerfile='./Dockerfile')
+local_resource('data-service-compile', './gradlew bootJar && ' +
+                                         'rm -rf build/jar-staging && ' +
+                                         'unzip -o build/libs/data-service-0.0.2-SNAPSHOT.jar -d build/jar-staging && ' +
+                                         'rsync --delete --inplace --checksum -r build/jar-staging/ build/jar',
+                                         deps=['src', 'build.gradle'])
+
+docker_build('alexunc/data-service', './build/jar',
+                                       entrypoint=['java', '-noverify', '-cp', '.:./lib/*', 'com.relay.RelaySystemApplication'],
+                                       dockerfile='./Dockerfile',
+                                       live_update=[
+                                         sync('./build/jar/BOOT-INF/lib', '/app/lib'),
+                                         sync('./build/jar/META-INF', '/app/META-INF'),
+                                         sync('./build/jar/BOOT-INF/classes', '/app'),
+                                       ],)
 k8s_yaml([
 '../k8s/data-service-deployment.yaml',
 ##'../k8s/mongodb-deployment.yaml'
