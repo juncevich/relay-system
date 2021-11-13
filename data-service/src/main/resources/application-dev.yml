@@ -39,6 +39,10 @@ management:
   endpoint:
     health:
       enabled: true
+      show-components: always
+      show-details: always
+      probes:
+        enabled: true
     info:
       enabled: true
     metrics:
