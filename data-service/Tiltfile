@@ -15,8 +15,8 @@ docker_build('alexunc/data-service', './build/jar',
                                          sync('./build/jar/BOOT-INF/classes', '/app'),
                                        ],)
 k8s_yaml([
-'../k8s/data-service-deployment.yaml',
-##'../k8s/mongodb-deployment.yaml'
+'../k8s/data-service/data-service-deployment.yaml',
+##'../k8s/data-service/mongodb-deployment.yaml'
 ]
 , allow_duplicates=False
 )
@@ -25,5 +25,9 @@ helm_remote('postgresql',
             repo_name='pg-data-service',
             repo_url='https://charts.bitnami.com/bitnami',
             values=['k8s_pg/pg_values.yaml'])
+
+helm_remote('kong',
+            repo_name='kong',
+            repo_url='https://charts.konghq.com')
 
 k8s_resource('data-service', port_forwards=8080, resource_deps=['data-service-compile'])
