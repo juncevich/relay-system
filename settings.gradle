@@ -2,7 +2,7 @@ rootProject.name = 'relay-system'
 
 include 'frontend'
 include 'data-service'
-include 'comments-service'
+//include 'comments-service'
 //include 'netflix-eureka-naming-server'
 //include 'cloud-api-gateway'
 //include 'spring-cloud-config-server'

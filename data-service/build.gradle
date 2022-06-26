@@ -24,7 +24,7 @@ sonarqube {
 group = 'com.relay'
 version = '0.0.2-SNAPSHOT'
 sourceCompatibility = '17'
-//targetCompatibility = '16'
+targetCompatibility = '17'
 
 configurations {
     compileOnly {
