@@ -11,7 +11,7 @@
 #
 #ENTRYPOINT java -jar example-0.0.1-SNAPSHOT.jar
 
-FROM openjdk:16.0.1-jdk
+FROM openjdk:17-alpine
 
 WORKDIR /app
 ADD BOOT-INF/lib /app/lib

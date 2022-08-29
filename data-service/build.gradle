@@ -1,5 +1,5 @@
 plugins {
-    id 'com.google.cloud.tools.jib' version '3.1.1'
+    id 'com.google.cloud.tools.jib' version '3.2.1'
     id 'org.springframework.boot' version '2.5.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
@@ -23,8 +23,8 @@ sonarqube {
 
 group = 'com.relay'
 version = '0.0.2-SNAPSHOT'
-sourceCompatibility = '16'
-//targetCompatibility = '16'
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -116,7 +116,7 @@ dependencyManagement {
 
 jib {
     from {
-        image = 'openjdk:16.0.1-jdk'
+        image = 'openjdk:17-alpine'
     }
     to {
         image = 'alexunc/data-service'
