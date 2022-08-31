@@ -1,7 +1,7 @@
 plugins {
     id 'com.google.cloud.tools.jib' version '3.2.1'
-    id 'org.springframework.boot' version '2.5.4'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.7.3'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
     id 'java'
     id "org.sonarqube" version "3.0"
 //    id 'nebula.release' version '11.0.0'
@@ -42,7 +42,7 @@ repositories {
 
 ext {
     set('springCloudVersion', "2020.0.3")
-    set('testcontainersVersion', "1.15.0")
+    set('testcontainersVersion', "1.17.3")
     set('swaggerVersion', "2.9.2")
 //    set('dekorateVersion', "2.5.0")
     set('mapStructVersion', "1.4.1.Final")
@@ -82,10 +82,10 @@ dependencies {
     implementation 'org.jetbrains:annotations:16.0.2'
     implementation 'org.flywaydb:flyway-core'
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+//    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-ribbon', version: '2.2.9.RELEASE'
+//    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-ribbon', version: '2.2.9.RELEASE'
     implementation('org.springframework.cloud:spring-cloud-starter-kubernetes-fabric8-all:2.0.3')
 }
 
@@ -134,4 +134,8 @@ jib {
 //        labels = [key1:'value1', key2:'value2']
 //        format = 'OCI'
     }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }
