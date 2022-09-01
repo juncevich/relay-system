@@ -1,15 +1,12 @@
 package com.relay.db.entity.items;
 
-import java.time.OffsetDateTime;
-
-import javax.persistence.*;
-
+import com.relay.db.entity.place.Container;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import com.relay.db.entity.place.Container;
-
-import lombok.*;
+import javax.persistence.*;
+import java.time.OffsetDateTime;
 
 @Entity
 @Builder(toBuilder = true)
@@ -21,8 +18,8 @@ public class Relay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "seq_relay")
-    @SequenceGenerator(name = "seq_relay",
+            generator = "SEQ_RELAY")
+    @SequenceGenerator(name = "SEQ_RELAY",
             allocationSize = 5)
     private Long id;
 

@@ -1,7 +1,7 @@
 package com.relay.config;
 
-import org.springframework.cloud.openfeign.EnableFeignClients;
+//import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients
+//@EnableFeignClients
 public class FeignClientsConfig {
 }
