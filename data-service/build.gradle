@@ -24,7 +24,7 @@ sonarqube {
 group = 'com.relay'
 version = '0.0.2-SNAPSHOT'
 sourceCompatibility = '17'
-targetCompatibility = '17'
+//targetCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -90,7 +90,7 @@ dependencies {
 }
 
 jacoco {
-    toolVersion = "0.8.6"
+    toolVersion = "0.8.8"
 }
 
 jacocoTestReport {
@@ -136,6 +136,6 @@ jib {
     }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}

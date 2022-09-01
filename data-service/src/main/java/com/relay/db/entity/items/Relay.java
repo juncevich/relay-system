@@ -18,8 +18,8 @@ public class Relay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "SEQ_RELAY")
-    @SequenceGenerator(name = "SEQ_RELAY",
+            generator = "seq_relay")
+    @SequenceGenerator(name = "seq_relay",
             allocationSize = 5)
     private Long id;
 
