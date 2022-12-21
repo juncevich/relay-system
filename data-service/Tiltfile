@@ -26,8 +26,8 @@ helm_remote('postgresql',
             repo_url='https://charts.bitnami.com/bitnami',
             values=['k8s_pg/pg_values.yaml'])
 
-helm_remote('kong',
-            repo_name='kong',
-            repo_url='https://charts.konghq.com')
+#helm_remote('kong',
+#            repo_name='kong',
+#            repo_url='https://charts.konghq.com')
 
 k8s_resource('data-service', port_forwards=8080, resource_deps=['data-service-compile'])

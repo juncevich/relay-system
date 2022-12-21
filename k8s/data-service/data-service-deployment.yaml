@@ -49,9 +49,9 @@ spec:
           image: alexunc/data-service:0.0.2-SNAPSHOT
           imagePullPolicy: IfNotPresent
           name: data-service
-#          volumeMounts:
-#            - name: mongodb
-#              mountPath: /etc/secretspot
+          #          volumeMounts:
+          #            - name: mongodb
+          #              mountPath: /etc/secretspot
           ports:
             - containerPort: 8082
               name: http
@@ -122,13 +122,13 @@ data:
 #                name: data-service
 #                port:
 #                  number: 8082
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: data-service-ingress
-spec:
-  defaultBackend:
-    service:
-      name: data-service-srv
-      port:
-        number: 8082
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: data-service-ingress
+#spec:
+#  defaultBackend:
+#    service:
+#      name: data-service-srv
+#      port:
+#        number: 8082

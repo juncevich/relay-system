@@ -5,12 +5,12 @@ package com.relay.config;
 //import com.netflix.loadbalancer.ServerList;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
+//import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 @RequiredArgsConstructor
 public class RibbonConfiguration {
 
-    private DiscoveryClient discoveryClient;
+//    private DiscoveryClient discoveryClient;
 
     //    private String serviceId = "client";
     protected static final String VALUE_NOT_SET = "__not__set__";
