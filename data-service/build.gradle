@@ -49,6 +49,8 @@ ext {
 }
 
 dependencies {
+    implementation 'commons-beanutils:commons-beanutils:1.9.4'
+
     runtimeOnly 'com.h2database:h2'
     testImplementation "org.springframework.boot:spring-boot-starter-test"
 

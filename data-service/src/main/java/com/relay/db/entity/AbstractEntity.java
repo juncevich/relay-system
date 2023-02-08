@@ -4,9 +4,9 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
@@ -14,8 +14,8 @@ import javax.persistence.MappedSuperclass;
 @Data
 @NoArgsConstructor
 public class AbstractEntity {
-    @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "snowFlakeId")
+    @GenericGenerator(name = "snowFlakeId", strategy = "com.relay.common.SnowflakeId")
     Long id;
 
 }

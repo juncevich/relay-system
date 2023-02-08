@@ -2,6 +2,7 @@ package com.relay.db.entity.items;
 
 import com.relay.db.entity.place.Container;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,10 +18,12 @@ import java.time.OffsetDateTime;
 public class Relay {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "seq_relay")
-    @SequenceGenerator(name = "seq_relay",
-            allocationSize = 5)
+    @GeneratedValue(generator = "snowFlakeId")
+    @GenericGenerator(name = "snowFlakeId", strategy = "com.relay.common.SnowflakeId")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+//            generator = "seq_relay")
+//    @SequenceGenerator(name = "seq_relay",
+//            allocationSize = 5)
     private Long id;
 
     @Version
