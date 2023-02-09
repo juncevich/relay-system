@@ -21,7 +21,7 @@ public interface RelayRepository extends PagingAndSortingRepository<Relay, Long>
      * @param pageable     {@link Pageable}
      * @return relay
      */
-    @Query(value = "SELECT * FROM Relay r WHERE TO_DATE(r.creation_date, 'YYYY-MM-DD') = :creationDate", nativeQuery = true)
+    @Query(value = "SELECT * FROM Relay WHERE DATE_TRUNC('day', creation_date) = :creationDate", nativeQuery = true)
     Page<Relay> findByCreationDate(@Param("creationDate") LocalDate creationDate, Pageable pageable);
 
     /**
@@ -31,7 +31,7 @@ public interface RelayRepository extends PagingAndSortingRepository<Relay, Long>
      * @param pageable      * {@link Pageable}
      * @return relay page
      */
-    @Query(value = "SELECT * FROM Relay r WHERE TO_DATE(r.last_check_date, 'YYYY-MM-DD') = :lastCheckDate", nativeQuery = true)
+    @Query(value = "SELECT * FROM Relay WHERE DATE_TRUNC('day', last_check_date) = :lastCheckDate", nativeQuery = true)
     Page<Relay> findByLastCheckDate(@Param("lastCheckDate") LocalDate lastCheckDate, Pageable pageable);
 
     /**

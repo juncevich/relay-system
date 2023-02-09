@@ -3,7 +3,6 @@ spring:
 #    url:
 #    username: 
 #    password:
-    initialization-mode: embedded
     driver-class-name: org.h2.Driver
 
   jpa:
@@ -16,6 +15,9 @@ spring:
       hibernate:
         format_sql: true
     generate-ddl: true
+  sql:
+    init:
+      mode: embedded
 
 logging:
   level.org.hibernate: info
