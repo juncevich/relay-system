@@ -1,10 +1,10 @@
 package com.relay.web.exeptions;
 
-import java.time.Instant;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.Instant;
 
 @Getter
 @Setter

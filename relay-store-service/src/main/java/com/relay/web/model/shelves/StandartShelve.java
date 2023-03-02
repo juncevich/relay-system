@@ -1,9 +1,6 @@
 package com.relay.web.model.shelves;
 
-import javax.persistence.Entity;
-
 import com.relay.web.model.Relay;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

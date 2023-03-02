@@ -4,7 +4,6 @@ import com.relay.web.model.Relay;
 import com.relay.web.model.statives.Stativ;
 import lombok.*;
 
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.List;

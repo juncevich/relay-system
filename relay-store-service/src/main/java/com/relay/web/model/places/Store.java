@@ -1,13 +1,13 @@
 package com.relay.web.model.places;
 
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-
 import com.relay.web.model.Relay;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import lombok.*;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Data
 @AllArgsConstructor

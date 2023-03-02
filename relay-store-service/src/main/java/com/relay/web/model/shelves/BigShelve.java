@@ -1,10 +1,10 @@
 package com.relay.web.model.shelves;
 
-import javax.persistence.Entity;
-
 import com.relay.web.model.Relay;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

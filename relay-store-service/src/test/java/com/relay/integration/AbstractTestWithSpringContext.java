@@ -1,11 +1,10 @@
 package com.relay.integration;
 
+import com.relay.RelaySystemApplication;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import com.relay.RelaySystemApplication;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
