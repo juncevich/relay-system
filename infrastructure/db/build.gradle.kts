@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.0.3"
     id("io.spring.dependency-management") version "1.1.0"
     `maven-publish`
+    `java-library`
 }
 
 val jar: Jar by tasks
@@ -21,9 +22,9 @@ repositories {
 
 dependencies {
     implementation("commons-beanutils:commons-beanutils:1.9.4")
-    implementation("ru.relay.infrastructure:id:0.01")
-//    implementation(project(":id"))
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation(project(":id"))
+    api("org.springframework.boot:spring-boot-starter-data-jpa")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
 }

@@ -50,9 +50,8 @@ ext {
 }
 
 dependencies {
-    implementation 'commons-beanutils:commons-beanutils:1.9.4'
     implementation 'ru.relay.infrastructure:db:0.01'
-    implementation 'ru.relay.infrastructure:id:0.01'
+//    implementation 'ru.relay.infrastructure:id:0.01'
 
     runtimeOnly 'com.h2database:h2'
     testImplementation "org.springframework.boot:spring-boot-starter-test"
@@ -70,7 +69,6 @@ dependencies {
     implementation "org.mapstruct:mapstruct:${mapStructVersion}"
 //    implementation "io.springfox:springfox-boot-starter:3.0.0"
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
