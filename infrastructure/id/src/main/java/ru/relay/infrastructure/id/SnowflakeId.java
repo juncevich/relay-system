@@ -1,14 +1,6 @@
-package com.relay.common;
+package ru.relay.infrastructure.id;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.IdentifierGenerator;
-
-import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-
-public class SnowflakeId implements IdentifierGenerator {
+public class SnowflakeId  {
     public static final long MAX_WORKER_ID = 31L;
     public static final long MAX_DATA_CENTER_ID = 31L;
     private static final long TWEPOCH = 1514764800000L;
@@ -84,16 +76,5 @@ public class SnowflakeId implements IdentifierGenerator {
         return System.currentTimeMillis();
     }
 
-    public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
-        try {
-            String id = BeanUtils.getProperty(object, "id");
-            if (id != null) {
-                return Long.valueOf(id);
-            }
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException var4) {
-            throw new HibernateException("only support id as the primary key by now");
-        }
 
-        return getId();
-    }
 }

@@ -36,6 +36,7 @@ configurations {
 repositories {
 //    jcenter()
     mavenCentral()
+    mavenLocal()
 //    maven { url 'https://repo.spring.io/snapshot' }
 //    maven { url 'https://repo.spring.io/milestone' }
 }
@@ -50,6 +51,8 @@ ext {
 
 dependencies {
     implementation 'commons-beanutils:commons-beanutils:1.9.4'
+    implementation 'ru.relay.infrastructure:db:0.01'
+    implementation 'ru.relay.infrastructure:id:0.01'
 
     runtimeOnly 'com.h2database:h2'
     testImplementation "org.springframework.boot:spring-boot-starter-test"

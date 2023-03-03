@@ -15,7 +15,7 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 public class AbstractEntity {
     @GeneratedValue(generator = "snowFlakeId")
-    @GenericGenerator(name = "snowFlakeId", strategy = "com.relay.common.SnowflakeId")
+    @GenericGenerator(name = "snowFlakeId", strategy = "ru.relay.infrastructure.db.SnowflakeIdGenerator")
     Long id;
 
 }

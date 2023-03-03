@@ -19,7 +19,7 @@ public class Relay {
 
     @Id
     @GeneratedValue(generator = "snowFlakeId")
-    @GenericGenerator(name = "snowFlakeId", strategy = "com.relay.common.SnowflakeId")
+    @GenericGenerator(name = "snowFlakeId", strategy = "ru.relay.infrastructure.db.SnowflakeIdGenerator")
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE,
 //            generator = "seq_relay")
 //    @SequenceGenerator(name = "seq_relay",
