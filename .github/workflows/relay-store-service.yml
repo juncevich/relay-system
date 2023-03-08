@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: relay-storage-service
+    working-directory: relay-store-service
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,8 +29,8 @@ jobs:
         run: gradle build
       - uses: actions/upload-artifact@v2
         with:
-          name: builded-service
-          path: relay-storage-service/build/libs
+          name: built-service
+          path: relay-store-service/build/libs
           if-no-files-found: error
       - name: Generate test report
         run: gradle jacocoTestReport
