@@ -114,8 +114,8 @@ jacoco {
 
 tasks.jacocoTestReport {
     reports {
-        xml.isEnabled = true
-        csv.isEnabled = true
+        xml.required.set(true)
+        html.required.set(true)
 //        html.destination = layout.buildDirectory.dir("jacocoHtml").get().asFile
     }
 }
