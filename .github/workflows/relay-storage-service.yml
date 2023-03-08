@@ -1,4 +1,4 @@
-name: Data Service Java CI
+name: Relay storage service CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: data-service
+    working-directory: relay-storage-service
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: builded-service
-          path: data-service/build/libs
+          path: relay-storage-service/build/libs
           if-no-files-found: error
       - name: Generate test report
         run: gradle jacocoTestReport
