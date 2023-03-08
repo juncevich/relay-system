@@ -27,7 +27,7 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       - name: Build with infrastructure libs
-        run: ../infrastructure/gradlew publishToMavenLocal
+        run: gradle publishToMavenLocal -p "../infrastructure/"
       - name: Build with Gradle
         run: gradle build
       - uses: actions/upload-artifact@v2
