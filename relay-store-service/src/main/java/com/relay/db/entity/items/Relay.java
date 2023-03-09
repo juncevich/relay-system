@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import ru.relay.infrastructure.db.annotation.EntityId;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -18,8 +19,10 @@ import java.time.OffsetDateTime;
 public class Relay {
 
     @Id
+    //TODO: think about how to move such annotations to infrastructure
     @GeneratedValue(generator = "snowFlakeId")
-    @GenericGenerator(name = "snowFlakeId", strategy = "ru.relay.infrastructure.db.SnowflakeIdGenerator")
+    @GenericGenerator(name = "snowFlakeId", strategy = "ru.relay.infrastructure.db.generator.SnowflakeEntityIdGenerator")
+    @EntityId
     private Long id;
 
     @Version
