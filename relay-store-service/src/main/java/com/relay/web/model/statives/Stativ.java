@@ -1,11 +1,11 @@
 package com.relay.web.model.statives;
 
 import com.relay.web.model.shelves.Shelve;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.OneToMany;
 import java.util.List;
 
 @Data

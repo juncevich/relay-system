@@ -1,13 +1,13 @@
 package com.relay.db.entity.items;
 
 import com.relay.db.entity.place.Container;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import ru.relay.infrastructure.db.annotation.EntityId;
 
-import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Entity

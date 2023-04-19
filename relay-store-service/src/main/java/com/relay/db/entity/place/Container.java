@@ -1,9 +1,9 @@
 package com.relay.db.entity.place;
 
 import com.relay.db.entity.items.Relay;
+import jakarta.persistence.*;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Entity

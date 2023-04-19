@@ -1,13 +1,13 @@
 package com.relay.db.entity;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @FieldDefaults(level = AccessLevel.PRIVATE)

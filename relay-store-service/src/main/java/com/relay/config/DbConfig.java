@@ -7,6 +7,7 @@ import org.springframework.data.convert.Jsr310Converters;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+
 @Configuration
 @EnableJpaRepositories(basePackages = {"com.relay.db.repository"})
 @EnableJpaAuditing

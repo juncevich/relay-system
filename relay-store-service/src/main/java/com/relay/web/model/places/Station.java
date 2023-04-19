@@ -2,15 +2,15 @@ package com.relay.web.model.places;
 
 import com.relay.web.model.Relay;
 import com.relay.web.model.statives.Stativ;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @EqualsAndHashCode(callSuper = true)
 public class Station extends Place {
 

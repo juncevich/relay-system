@@ -1,9 +1,9 @@
 package com.relay.core.service;
 
 import com.relay.web.model.statives.Stativ;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 
 @Service
 @Transactional

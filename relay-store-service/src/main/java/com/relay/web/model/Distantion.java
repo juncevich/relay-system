@@ -1,10 +1,10 @@
 package com.relay.web.model;
 
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.OneToMany;
 import java.util.List;
 
 @Data

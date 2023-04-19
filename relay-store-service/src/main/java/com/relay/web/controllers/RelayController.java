@@ -2,6 +2,7 @@ package com.relay.web.controllers;
 
 import com.relay.core.service.RelayService;
 import com.relay.web.model.Relay;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -69,7 +69,7 @@ public class RelayController {
     /**
      * Find relay by id
      *
-     * @param id {@link Relay#getId()}
+     * @param id {@link Relay#getSerialNumber()}
      * @return {@link Relay}
      */
     @ResponseStatus(HttpStatus.OK)

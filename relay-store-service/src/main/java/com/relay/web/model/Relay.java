@@ -3,15 +3,16 @@ package com.relay.web.model;
 //import io.swagger.annotations.ApiModel;
 //import io.swagger.annotations.ApiModelProperty;
 
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import javax.validation.constraints.Size;
+
 import java.time.OffsetDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 //@ApiModel(description = "Relay details.")
 public class Relay {
 

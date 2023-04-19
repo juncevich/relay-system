@@ -1,12 +1,12 @@
 package com.relay.web.model.places;
 
 import com.relay.web.model.Relay;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.OneToMany;
 import java.util.List;
 
 @Data
