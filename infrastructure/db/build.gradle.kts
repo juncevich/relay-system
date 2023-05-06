@@ -11,7 +11,7 @@ bootJar.enabled = false
 jar.enabled = true
 
 group = "ru.relay.infrastructure"
-version = "0.01"
+version = "0.0.1"
 
 dependencies {
     implementation("commons-beanutils:commons-beanutils:1.9.4")

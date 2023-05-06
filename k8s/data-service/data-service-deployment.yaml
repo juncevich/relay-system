@@ -3,32 +3,32 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/name: data-service
+    app.kubernetes.io/name: relay-store-service
     app.kubernetes.io/version: 0.0.2-SNAPSHOT
-  name: data-service-srv
+  name: relay-store-service-srv
 spec:
   ports:
     - name: http
       port: 8082
       targetPort: 8082
   selector:
-    app.kubernetes.io/name: data-service
+    app.kubernetes.io/name: relay-store-service
     app.kubernetes.io/version: 0.0.2-SNAPSHOT
   type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: data-service
+  name: relay-store-service
   labels:
-    app.kubernetes.io/name: data-service
+    app.kubernetes.io/name: relay-store-service
     app.kubernetes.io/version: 0.0.2-SNAPSHOT
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: data-service
-      app.kubernetes.io/name: data-service
+      app: relay-store-service
+      app.kubernetes.io/name: relay-store-service
       app.kubernetes.io/version: 0.0.2-SNAPSHOT
   template:
     metadata:
@@ -36,8 +36,8 @@ spec:
         app.dekorate.io/commit-id: 7937c4540c5af8396361615ae220c0112f3ddd42
         app.dekorate.io/vcs-url: https://github.com/juncevich/relay-system.git
       labels:
-        app: data-service
-        app.kubernetes.io/name: data-service
+        app: relay-store-service
+        app.kubernetes.io/name: relay-store-service
         app.kubernetes.io/version: 0.0.2-SNAPSHOT
     spec:
       containers:
@@ -46,9 +46,9 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: alexunc/data-service:0.0.2-SNAPSHOT
+          image: alexunc/relay-store-service:0.0.2-SNAPSHOT
           imagePullPolicy: IfNotPresent
-          name: data-service
+          name: relay-store-service
           #          volumeMounts:
           #            - name: mongodb
           #              mountPath: /etc/secretspot
@@ -88,7 +88,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: data-service
+  name: relay-store-service
 type: Opaque
 data:
   spring.data.mongodb.username: bW9uZ28tYWRtaW4=
@@ -108,7 +108,7 @@ data:
 #apiVersion: networking.k8s.io/v1
 #kind: Ingress
 #metadata:
-#  name: data-service-ingress
+#  name: relay-store-service-ingress
 #  annotations:
 #    nginx.ingress.kubernetes.io/rewrite-target: /
 #spec:
@@ -119,16 +119,16 @@ data:
 #            pathType: Prefix
 #            backend:
 #              service:
-#                name: data-service
+#                name: relay-store-service
 #                port:
 #                  number: 8082
 #apiVersion: networking.k8s.io/v1
 #kind: Ingress
 #metadata:
-#  name: data-service-ingress
+#  name: relay-store-service-ingress
 #spec:
 #  defaultBackend:
 #    service:
-#      name: data-service-srv
+#      name: relay-store-service-srv
 #      port:
 #        number: 8082

@@ -1,8 +1,8 @@
-package ru.relay.infrastructure.db.annotation;
+package com.relay.infrastructure.db.annotation;
 
+import com.relay.infrastructure.db.converter.IdConverter;
 import jakarta.persistence.Convert;
 import org.hibernate.annotations.GenericGenerator;
-import ru.relay.infrastructure.db.converter.IdConverter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

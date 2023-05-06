@@ -5,6 +5,7 @@ plugins {
 
 group = "ru.relay.infrastructure"
 version = "unspecified"
+java.sourceCompatibility = JavaVersion.VERSION_HIGHER
 
 repositories {
     mavenCentral()

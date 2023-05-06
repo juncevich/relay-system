@@ -1,5 +1,6 @@
-package ru.relay.infrastructure.db.generator;
+package com.relay.infrastructure.db.generator;
 
+import com.relay.infrastructure.generator.SnowflakeIdGenerator;
 import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -20,6 +21,6 @@ public class SnowflakeEntityIdGenerator implements IdentifierGenerator {
             throw new HibernateException("only support id as the primary key by now");
         }
 
-        return ru.relay.infrastructure.generator.SnowflakeIdGenerator.getId();
+        return SnowflakeIdGenerator.getId();
     }
 }

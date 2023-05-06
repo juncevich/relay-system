@@ -1,8 +1,8 @@
-package ru.relay.infrastructure.db.converter;
+package com.relay.infrastructure.db.converter;
 
+import com.relay.infrastructure.id.SnowflakeId;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import ru.relay.infrastructure.id.SnowflakeId;
 
 @Converter
 public class IdConverter implements

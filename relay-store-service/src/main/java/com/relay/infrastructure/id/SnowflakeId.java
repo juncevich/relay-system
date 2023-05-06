@@ -1,4 +1,4 @@
-package ru.relay.infrastructure.id;
+package com.relay.infrastructure.id;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

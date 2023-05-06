@@ -1,4 +1,4 @@
-package ru.relay.infrastructure.generator;
+package com.relay.infrastructure.generator;
 
 public class SnowflakeIdGenerator {
     public static final long MAX_WORKER_ID = 31L;

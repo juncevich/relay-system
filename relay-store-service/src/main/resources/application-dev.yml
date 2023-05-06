@@ -20,6 +20,11 @@ spring:
     sql-migration-separator: __
     sql-migration-suffixes: .sql
     enabled: true
+    user: postgres
+    password: Qwerty12345
+    url: jdbc:postgresql://postgresql:5432/postgres
+    baseline-on-migrate: true
+
 
 logging:
   file:
