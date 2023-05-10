@@ -5,7 +5,7 @@ spring:
     name: relay-service
   datasource:
     url: jdbc:postgresql://postgresql:5432/postgres
-    username: user
+    username: sample_user
     password: example
   jpa:
     database: postgresql

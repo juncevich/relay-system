@@ -13,6 +13,8 @@ create table relay
     primary key (id)
 );
 
+GRANT SELECT ON TABLE relay TO sample_user;
+
 INSERT INTO relay (id, creation_date, last_check_date, relay_type, serial_number, update_date, version, container_id)
 VALUES (1, '2020-11-21 17:53:45.684000', '2020-11-21 18:53:53.000000', null, '1234567', null, 1, null);
 INSERT INTO relay (id, creation_date, last_check_date, relay_type, serial_number, update_date, version, container_id)

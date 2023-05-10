@@ -19,7 +19,7 @@ services:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: example
-      POSTGRES_USER: user
+      POSTGRES_USER: sample_user
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "postgres" ]
       interval: 1s

@@ -14,6 +14,6 @@ global:
     ##
     auth:
       postgresPassword: Qwerty12345
-      username: user
+      username: sample_user
       password: example
       database: postgresql
