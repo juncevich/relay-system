@@ -45,8 +45,18 @@ kubectl create serviceaccount api-service-account -n gateway
 kubectl create serviceaccount api-service-account -n postgres
 kubectl create serviceaccount api-service-account -n mongo
 
-kubectl create clusterrolebinding service-pod-reader-data --clusterrole=microservices-kubernetes-namespace-reader --serviceaccount=data:api-service-account
-kubectl create clusterrolebinding service-pod-reader-history --clusterrole=microservices-kubernetes-namespace-reader --serviceaccount=history:api-service-account
-kubectl create clusterrolebinding service-pod-reader-gateway --clusterrole=microservices-kubernetes-namespace-reader --serviceaccount=gateway:api-service-account
-kubectl create clusterrolebinding service-pod-reader-postgres --clusterrole=microservices-kubernetes-namespace-reader --serviceaccount=postgres:api-service-account
-kubectl create clusterrolebinding service-pod-reader-mongo --clusterrole=microservices-kubernetes-namespace-reader --serviceaccount=mongo:api-service-account
+kubectl create clusterrolebinding service-pod-reader-data --clusterrole=microservices-kubernetes-namespace-reader
+--serviceaccount=data:api-service-account
+kubectl create clusterrolebinding service-pod-reader-history --clusterrole=microservices-kubernetes-namespace-reader
+--serviceaccount=history:api-service-account
+kubectl create clusterrolebinding service-pod-reader-gateway --clusterrole=microservices-kubernetes-namespace-reader
+--serviceaccount=gateway:api-service-account
+kubectl create clusterrolebinding service-pod-reader-postgres --clusterrole=microservices-kubernetes-namespace-reader
+--serviceaccount=postgres:api-service-account
+kubectl create clusterrolebinding service-pod-reader-mongo --clusterrole=microservices-kubernetes-namespace-reader
+--serviceaccount=mongo:api-service-account
+
+Planned services:
+
+1. Timeline service, for presenting operations history. Need to be realised on reactive spring boot.
+2. Feedback service. Simple REST service on Golang.
