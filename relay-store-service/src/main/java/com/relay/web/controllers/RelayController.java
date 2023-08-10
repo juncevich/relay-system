@@ -2,6 +2,8 @@ package com.relay.web.controllers;
 
 import com.relay.core.service.RelayService;
 import com.relay.web.model.Relay;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Relays controller")
 public class RelayController {
 
     /**
@@ -23,6 +26,10 @@ public class RelayController {
     private final RelayService relayService;
 
     @GetMapping(value = "/relays")
+    @Operation(
+            description = "Get all relays description",
+            summary = "Get all relays summary"
+    )
     public List<Relay> findAllRelays() {
         return relayService.findAll(PageRequest.of(0, 100)).getContent();
     }

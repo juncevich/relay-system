@@ -43,3 +43,8 @@ custom:
   sub-config:
     custom-string: 'custom'
   custom-number: 100
+
+
+springdoc:
+  swagger-ui:
+    path=/swagger-ui.html
