@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,10 +22,9 @@ public class RelayController {
      */
     private final RelayService relayService;
 
-    @GetMapping("/relays")
-    public Collection<Relay> findAllRelays() {
-
-        return relayService.findAll(PageRequest.of(0, 100));
+    @GetMapping(value = "/relays")
+    public List<Relay> findAllRelays() {
+        return relayService.findAll(PageRequest.of(0, 100)).getContent();
     }
 
     //

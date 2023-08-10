@@ -1,4 +1,6 @@
 spring:
+  flyway:
+    enabled: false
   datasource:
 #    url:
 #    username: 
@@ -8,9 +10,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-    database: postgresql
+    #    database: postgresql
 
-    #    database-platform: org.h2.Driver
+    #        database-platform: org.h2.Driver
     properties:
       hibernate:
         format_sql: true
@@ -24,4 +26,8 @@ logging:
   level.org.hibernate.SQL: debug
   level.org.hibernate.type.descriptor.sql: trace
 
-  
+
+custom:
+  sub-config:
+    custom-string: 'custom'
+  custom-number: 100

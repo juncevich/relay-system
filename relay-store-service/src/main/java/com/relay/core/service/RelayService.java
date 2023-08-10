@@ -6,10 +6,7 @@ import com.relay.web.model.Relay;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -37,10 +34,10 @@ public class RelayService {
      *
      * @return list with all {@link Relay}
      */
-    public List<Relay> findAll(Pageable pageable) {
+    public Slice<Relay> findAll(Pageable pageable) {
 
-        Page<com.relay.db.entity.items.Relay> relayPage = relayRepository.findAll(pageable);
-        return relayMapper.mapEntityToModel(relayPage.toList());
+        Slice<com.relay.db.entity.items.Relay> relaySlice = relayRepository.findAll(pageable);
+        return relaySlice.map(relayMapper::mapEntityToModel);
     }
 
     /**

@@ -1,19 +1,13 @@
 package com.relay.web.exeptions;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
-import java.time.Instant;
-
 @ControllerAdvice
-@RestController
-public class CustomizedResponseEntityExceptionHandler
-// extends ResponseEntityExceptionHandler
-{
+public class CustomizedResponseEntityExceptionHandler {
 
     // @ExceptionHandler(Exception.class)
     // protected ResponseEntity handleAllExceptions(Exception ex, WebRequest request) {
@@ -24,14 +18,13 @@ public class CustomizedResponseEntityExceptionHandler
     // return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     // }
 
-    @ExceptionHandler(RelayNotFoundException.class)
-    protected ResponseEntity handleRelayNotFoundExceptions(RelayNotFoundException ex,
-            WebRequest request) {
+    @ExceptionHandler
+    protected ProblemDetail handleRelayNotFoundExceptions(RelayNotFoundException ex,
+                                                          WebRequest request) {
 
-        ExceptionResponse exceptionResponse = new ExceptionResponse(Instant.now(), ex.getMessage(),
-                request.getDescription(false));
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
 
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+
     }
 
     // @Override

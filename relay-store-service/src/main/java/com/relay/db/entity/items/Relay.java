@@ -19,6 +19,7 @@ public class Relay {
 
     @Id
     @EntityId
+    @GeneratedValue(generator = "snowFlakeId")
     private Long id;
 
     @Version

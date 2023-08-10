@@ -1,5 +1,8 @@
 package com.relay.infrastructure.generator;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class SnowflakeIdGenerator {
     public static final long MAX_WORKER_ID = 31L;
     public static final long MAX_DATA_CENTER_ID = 31L;
@@ -18,21 +21,21 @@ public class SnowflakeIdGenerator {
 
     private Long value;
 
-    public SnowflakeIdGenerator(Long value) {
-    }
+//    public SnowflakeIdGenerator(Long value) {
+//    }
 
-    private SnowflakeIdGenerator(long workerId, long datacenterId) {
-        if (workerId <= 31L && workerId >= 0L) {
-            if (datacenterId <= 31L && datacenterId >= 0L) {
-                SnowflakeIdGenerator.workerId = workerId;
-                SnowflakeIdGenerator.datacenterId = datacenterId;
-            } else {
-                throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", 31L));
-            }
-        } else {
-            throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", 31L));
-        }
-    }
+//    private SnowflakeIdGenerator(long workerId, long datacenterId) {
+//        if (workerId <= 31L && workerId >= 0L) {
+//            if (datacenterId <= 31L && datacenterId >= 0L) {
+//                SnowflakeIdGenerator.workerId = workerId;
+//                SnowflakeIdGenerator.datacenterId = datacenterId;
+//            } else {
+//                throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", 31L));
+//            }
+//        } else {
+//            throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", 31L));
+//        }
+//    }
 
     public static synchronized void initDataCenterAndWorker(int datacenterId, int workerId) {
         if ((long) workerId <= 31L && workerId >= 0) {

@@ -4,6 +4,7 @@ import com.relay.core.service.RelayService;
 import com.relay.integration.annotation.IntegrationTest;
 import com.relay.web.model.Relay;
 import org.jetbrains.annotations.NotNull;
+import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.experimental.categories.Category;
 import org.junit.jupiter.api.Disabled;
@@ -16,6 +17,7 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -23,7 +25,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import java.time.*;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Disabled
 @ExtendWith(SpringExtension.class)
@@ -54,7 +56,7 @@ class RelayServiceITTest {
                 relayService.findByDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
 
 //        assertEquals(relay.getId(), foundedRelayList.get(0).getId());
-        assertEquals(relay.getDateOfManufacture(), foundedRelayList.get(0).getDateOfManufacture());
+        Assert.assertEquals(relay.getDateOfManufacture(), foundedRelayList.get(0).getDateOfManufacture());
     }
 
     @Test
@@ -77,7 +79,7 @@ class RelayServiceITTest {
 
         List<Relay> foundedRelayList = relayService
                 .findByDateOfManufactureAfter(LocalDate.of(2018, Month.JUNE, 6)).getContent();
-        assertEquals(1, foundedRelayList.size());
+        Assert.assertEquals(1, foundedRelayList.size());
 //        assertEquals(savedMoreRelay.getId(), foundedRelayList.get(0).getId());
 
     }
@@ -102,7 +104,7 @@ class RelayServiceITTest {
 
         List<Relay> foundedRelayList = relayService
                 .findByDateOfManufactureBefore(LocalDate.of(2018, Month.JUNE, 6)).getContent();
-        assertEquals(1, foundedRelayList.size());
+        Assert.assertEquals(1, foundedRelayList.size());
 //        assertEquals(equalsRelay.getId(), foundedRelayList.get(0).getId());
 
     }
@@ -119,8 +121,8 @@ class RelayServiceITTest {
         Relay relay4 = Relay.builder().serialNumber("012345").build();
         relayService.save(relay4);
 
-        List<Relay> relayList = relayService.findAll(PageRequest.of(1, 10));
-        assertEquals(4, relayList.size());
+        Slice<Relay> relayList = relayService.findAll(PageRequest.of(1, 10));
+        assertEquals(4, relayList.getSize());
 
     }
 

@@ -4,6 +4,9 @@ spring:
 
   application:
     name: data-service
+  mvc:
+    problemdetails:
+      enabled: true
   cloud:
     kubernetes:
       secrets:
@@ -25,3 +28,18 @@ spring:
 #  debug=true
 #  server.undertow.accesslog.enabled=true
 #  server.undertow.accesslog.pattern=%t %a "%r" %s (%D ms)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+
+custom:
+  sub-config:
+    custom-string: 'custom'
+  custom-number: 100

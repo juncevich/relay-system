@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.*;
@@ -128,9 +129,9 @@ class RelayServiceTest {
         List<Relay> relays = List.of(relay1, relay2, relay3, relay4);
         when(relayRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(relays));
 
-        List<com.relay.web.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
+        Slice<com.relay.web.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
         assertNotNull(relayList);
-        assertEquals(4, relayList.size());
+        assertEquals(4, relayList.getSize());
 
     }
 
