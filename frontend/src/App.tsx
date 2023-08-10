@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import 'antd/dist/antd.min.css';
 import MainTab from './components/mainTab/MainTab';
 
 function App() {
