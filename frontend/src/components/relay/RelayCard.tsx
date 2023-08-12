@@ -4,23 +4,26 @@ import {CloseCircleFilled, EditOutlined, EllipsisOutlined, SettingOutlined} from
 import Meta from 'antd/es/card/Meta';
 import './RelayCard.css';
 
-class RelayCard extends React.Component<any, any> {
+function RelayCard() {
 
-    render() {
-        const card = <Card
-            // style={{width: "auto"}}
-            cover={
-                <img
-                    alt="example"
-                    src="http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png"
-                />
-            }
-            actions={[
-                <SettingOutlined key="setting"/>,
-                <EditOutlined key="edit"/>,
-                <EllipsisOutlined key="ellipsis"/>,
-            ]}
-        >
+    return (
+        <>
+        <span>
+                <div className="relay-card-container">
+                <Card
+                    // style={{width: "auto"}}
+                    cover={
+                        <img
+                            alt="example"
+                            src="http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png"
+                        />
+                    }
+                    actions={[
+                        <SettingOutlined key="setting"/>,
+                        <EditOutlined key="edit"/>,
+                        <EllipsisOutlined key="ellipsis"/>,
+                    ]}
+                >
             <Meta
                 avatar={<CloseCircleFilled style={{color: '#08c'}}/>}
                 title="НМШ-400"
@@ -32,14 +35,48 @@ class RelayCard extends React.Component<any, any> {
                 </tr>
             </table>
         </Card>;
-        return (
-            <span>
-                <div className="relay-card-container">
-                {card}
                 </div>
             </span>
-        );
-    }
+        </>
+    );
 }
+
+// class RelayCard extends React.Component<any, any> {
+//
+//     render() {
+//         const card = <Card
+//             // style={{width: "auto"}}
+//             cover={
+//                 <img
+//                     alt="example"
+//                     src="http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png"
+//                 />
+//             }
+//             actions={[
+//                 <SettingOutlined key="setting"/>,
+//                 <EditOutlined key="edit"/>,
+//                 <EllipsisOutlined key="ellipsis"/>,
+//             ]}
+//         >
+//             <Meta
+//                 avatar={<CloseCircleFilled style={{color: '#08c'}}/>}
+//                 title="НМШ-400"
+//             />
+//             <table>
+//                 <tr>
+//                     <td>Дата проверки</td>
+//                     <td>01.02.2003</td>
+//                 </tr>
+//             </table>
+//         </Card>;
+//         return (
+//             <span>
+//                 <div className="relay-card-container">
+//                 {card}
+//                 </div>
+//             </span>
+//         );
+//     }
+// }
 
 export default RelayCard;

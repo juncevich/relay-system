@@ -12,6 +12,7 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "antd": "^5.8.2",
+    "axios": "^1.4.0",
     "caniuse-lite": "^1.0.30001519",
     "core-js": "^3.32.0",
     "craco": "^0.0.3",
