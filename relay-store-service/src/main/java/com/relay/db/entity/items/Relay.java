@@ -25,8 +25,8 @@ public class Relay {
     @Version
     private Long version;
 
-    @OneToOne
-    private Container container;
+//    @OneToOne
+//    private Container container;
 
     private String serialNumber;
 

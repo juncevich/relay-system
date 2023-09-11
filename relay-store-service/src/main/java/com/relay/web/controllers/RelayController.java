@@ -31,7 +31,7 @@ public class RelayController {
             summary = "Get all relays summary"
     )
     public List<Relay> findAllRelays() {
-        return relayService.findAll(PageRequest.of(0, 100)).getContent();
+        return relayService.findAll(PageRequest.of(0, 10)).getContent();
     }
 
     //

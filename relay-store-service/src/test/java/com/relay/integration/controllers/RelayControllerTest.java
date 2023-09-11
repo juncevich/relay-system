@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.relay.core.service.RelayService;
 import com.relay.db.entity.items.Relay;
+import com.relay.db.entity.items.RelayType;
 import com.relay.db.repository.RelayRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -14,14 +15,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.OffsetDateTime;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 
@@ -48,7 +53,8 @@ class RelayControllerTest {
     public void setUp() {
 
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-        objectMapper = new ObjectMapper().registerModule(new Jdk8Module())
+        objectMapper = new ObjectMapper()
+                .registerModule(new Jdk8Module())
                 .registerModule(new JavaTimeModule());
     }
 
@@ -78,20 +84,38 @@ class RelayControllerTest {
     @Test
         //@WithMockUser
     void testRetrieveAllRelays() throws Exception {
+        relayRepository.save(new Relay(
+                        12345L,
+                        1L,
+                        "test_serial_number",
+                        RelayType.NMSH_400,
+                        OffsetDateTime.MIN,
+                        OffsetDateTime.MAX,
+                        OffsetDateTime.MAX
+                )
+        );
 
-//        MockHttpServletResponse response = this.mockMvc.perform(get("/relays").with(csrf()))
-//                .andExpect(status().isOk()).andReturn().getResponse();
+        this.mockMvc.perform(
+                        get("/relays")
+                                .with(csrf())
+                )
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].serialNumber").value("test_serial_number"))
+                .andExpect(jsonPath("$[0].dateOfManufacture").value("-999999999-01-01T00:00:00+18:00"));
 //        String contentAsString = response.getContentAsString();
-//        assertNotNull(contentAsString);
-//
+//        Assertions.assertNotNull(contentAsString);
+
 //        JsonNode jsonNode = objectMapper.readTree(contentAsString);
 //        JsonNode content = jsonNode.get("content");
 //
 //        List<Relay> receivedRelayList =
 //                objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
 //                });
-//        assertNotNull(receivedRelayList);
-//        assertEquals(0, receivedRelayList.size());
+//        Assertions.assertNotNull(receivedRelayList);
+//        Assertions.assertEquals(0, receivedRelayList.size());
     }
 
     @Test
