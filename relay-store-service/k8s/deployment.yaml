@@ -5,6 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: data-service
     app.kubernetes.io/version: 0.0.2-SNAPSHOT
+    sidecar.opentelemetry.io/inject: "true"
   name: data-service-srv
 spec:
   ports:

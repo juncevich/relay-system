@@ -4,7 +4,7 @@ spring:
   application:
     name: relay-service
   datasource:
-    url: jdbc:postgresql://postgresql:5432/postgres
+    url: jdbc:postgresql://postgresql:5432/postgresql
     username: sample_user
     password: example
   jpa:
@@ -22,7 +22,7 @@ spring:
     enabled: true
     user: postgres
     password: Qwerty12345
-    url: jdbc:postgresql://postgresql:5432/postgres
+    url: jdbc:postgresql://postgresql:5432/postgresql
     baseline-on-migrate: true
 
 

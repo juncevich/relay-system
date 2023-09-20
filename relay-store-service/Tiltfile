@@ -26,9 +26,21 @@ helm_remote('postgresql',
             repo_url='https://charts.bitnami.com/bitnami',
             values=['k8s_pg/pg_values.yaml'])
 
+helm_remote('opentelemetry-operator',
+            repo_name='opentelemetry-operator',
+            repo_url='https://open-telemetry.github.io/opentelemetry-helm-charts'
+#           values=['k8s_pg/pg_values.yaml']
+            )
+
+helm_remote('opentelemetry-collector',
+            repo_name='opentelemetry-collector',
+            repo_url='https://open-telemetry.github.io/opentelemetry-helm-charts'
+            )
+
 #helm_remote('kong',
 #            repo_name='kong',
 #            repo_url='https://charts.konghq.com')
 
 k8s_resource('relay-store-service', port_forwards='8082:8082', resource_deps=['relay-store-compile'], labels=['Backend'])
 k8s_resource('postgresql', port_forwards=[5432], labels=['Database'])
+k8s_resource('opentelemetry-operator', port_forwards='8443:8443', labels=['Observability'])

@@ -17,3 +17,9 @@ global:
       username: sample_user
       password: example
       database: postgresql
+
+    initdb:
+      scripts:
+        init.sql: |
+          CREATE USER sample_user;
+          GRANT SELECT ON TABLE relay TO sample_user;

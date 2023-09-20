@@ -5,6 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: relay-store-service
     app.kubernetes.io/version: 0.0.2-SNAPSHOT
+    sidecar.opentelemetry.io/inject: "true"
   name: relay-store-service-srv
 spec:
   ports:
@@ -39,6 +40,8 @@ spec:
         app: relay-store-service
         app.kubernetes.io/name: relay-store-service
         app.kubernetes.io/version: 0.0.2-SNAPSHOT
+        sidecar.opentelemetry.io/inject: "true"
+        instrumentation.opentelemetry.io/inject-java: "true"
     spec:
       containers:
         - env:
