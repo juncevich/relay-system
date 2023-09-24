@@ -13,6 +13,8 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 
+import static java.util.Collections.emptyList;
+
 /**
  * {@link Relay} service
  */
@@ -34,22 +36,27 @@ public class RelayService {
      *
      * @return list with all {@link Relay}
      */
-    public Slice<Relay> findAll(Pageable pageable) {
+    public List<Relay> findAll(Pageable pageable) {
 
         Slice<com.relay.db.entity.items.Relay> relaySlice = relayRepository.findAll(pageable);
-        return relaySlice.map(relayMapper::mapEntityToModel);
+        if (relaySlice.hasContent()) {
+            return relaySlice.getContent()
+                    .stream()
+                    .map(relayMapper::mapEntityToModel).toList();
+        } else {
+            return emptyList();
+        }
     }
 
     /**
      * Save relay method
      *
-     * @param relay
-     *            {@link Relay}
+     * @param relay {@link Relay}
      * @return {@link Relay}
      */
     public Relay save(Relay relay) {
 
-        com.relay.db.entity.items.Relay entity      = relayMapper.mapModelToEntity(relay);
+        com.relay.db.entity.items.Relay entity = relayMapper.mapModelToEntity(relay);
         com.relay.db.entity.items.Relay savedEntity = relayRepository.save(entity);
         return relayMapper.mapEntityToModel(savedEntity);
     }
@@ -57,8 +64,7 @@ public class RelayService {
     /**
      * Find relay by id
      *
-     * @param id
-     *            {@link Relay#getSerialNumber()}
+     * @param id {@link Relay#getSerialNumber()}
      * @return optional of {@link Relay}
      */
     public Relay findOne(Long id) {
@@ -81,8 +87,7 @@ public class RelayService {
     /**
      * Find relay by verification date
      *
-     * @param date
-     *            {@link Relay#getVerificationDate()}
+     * @param date {@link Relay#getVerificationDate()}
      * @return Page of {@link Relay}
      */
     public Page<Relay> findByVerificationDate(LocalDate date) {
@@ -95,8 +100,7 @@ public class RelayService {
     /**
      * Find relay after date of manufacture
      *
-     * @param date
-     *            {@link Relay#getDateOfManufacture()}
+     * @param date {@link Relay#getDateOfManufacture()}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufactureAfter(LocalDate date) {
@@ -109,8 +113,7 @@ public class RelayService {
     /**
      * Find relay by date of manufacture
      *
-     * @param date
-     *            {@link Relay#getDateOfManufacture()}
+     * @param date {@link Relay#getDateOfManufacture()}
      * @return List of {@link Relay}
      */
     public List<Relay> findByDateOfManufacture(LocalDate date) {
@@ -125,8 +128,7 @@ public class RelayService {
     /**
      * Find relay by serial number
      *
-     * @param serialNumber
-     *            {@link Relay#getSerialNumber()}
+     * @param serialNumber {@link Relay#getSerialNumber()}
      * @return {@link Relay}
      */
     public Relay findBySerialNumber(String serialNumber) {
@@ -138,8 +140,7 @@ public class RelayService {
     /**
      * Find relay before date of manufacture
      *
-     * @param date
-     *            {@link Relay#getDateOfManufacture()}
+     * @param date {@link Relay#getDateOfManufacture()}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufactureBefore(LocalDate date) {

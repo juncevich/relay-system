@@ -129,9 +129,9 @@ class RelayServiceTest {
         List<Relay> relays = List.of(relay1, relay2, relay3, relay4);
         when(relayRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(relays));
 
-        Slice<com.relay.web.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
+        List<com.relay.web.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
         assertNotNull(relayList);
-        assertEquals(4, relayList.getSize());
+        assertEquals(4, relayList.size());
 
     }
 

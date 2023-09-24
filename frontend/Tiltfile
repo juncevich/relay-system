@@ -8,6 +8,6 @@ docker_build('alexunc/rs-frontend', '.',
     entrypoint="yarn start",
     live_update=[
         sync('.', '/app'),
-        run('cd /app && yarn install', trigger=['./package.json', './yarn.lock'])
+        run('cd /app && yarn install  --frozen-lockfile', trigger=['./package.json', './yarn.lock'])
 
 ])

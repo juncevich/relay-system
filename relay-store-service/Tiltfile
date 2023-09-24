@@ -32,10 +32,10 @@ helm_remote('opentelemetry-operator',
 #           values=['k8s_pg/pg_values.yaml']
             )
 
-helm_remote('opentelemetry-collector',
-            repo_name='opentelemetry-collector',
-            repo_url='https://open-telemetry.github.io/opentelemetry-helm-charts'
-            )
+#helm_remote('opentelemetry-collector',
+#            repo_name='opentelemetry-collector',
+#            repo_url='https://open-telemetry.github.io/opentelemetry-helm-charts'
+#            )
 
 #helm_remote('kong',
 #            repo_name='kong',

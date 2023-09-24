@@ -121,8 +121,8 @@ class RelayServiceITTest {
         Relay relay4 = Relay.builder().serialNumber("012345").build();
         relayService.save(relay4);
 
-        Slice<Relay> relayList = relayService.findAll(PageRequest.of(1, 10));
-        assertEquals(4, relayList.getSize());
+        List<Relay> relayList = relayService.findAll(PageRequest.of(1, 10));
+        assertEquals(4, relayList.size());
 
     }
 

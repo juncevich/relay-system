@@ -39,7 +39,7 @@ class RelayControllerTest {
 
 
         given(this.relayService.findAll(PageRequest.of(0, 100))).willReturn(
-                new SliceImpl<>(
+//                new SliceImpl<>(
                         Collections.singletonList(
                                 new Relay(
                                         OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(1)),
@@ -47,7 +47,7 @@ class RelayControllerTest {
                                         "test"
                                 )
                         )
-                )
+//                )
 //                Collections.singletonList(
 //                        new Relay(
 //                                OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(1)),
