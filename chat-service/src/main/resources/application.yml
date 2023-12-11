@@ -7,6 +7,9 @@ spring:
       port: 27017
       database: test
       authentication-database: admin
+  threads:
+    virtual:
+      enabled: on
 
 server:
   port: 8088
