@@ -1,12 +1,12 @@
 plugins {
-    id 'com.google.cloud.tools.jib' version '3.3.1'
-    id 'org.springframework.boot' version '3.2.0'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.google.cloud.tools.jib' version '3.4.0'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
     id 'java'
-    id "org.sonarqube" version "4.0.0.2929"
+    id "org.sonarqube" version "4.4.1.3373"
 //    id 'nebula.release' version '11.0.0'
     id 'jacoco'
-    id "org.flywaydb.flyway" version "9.17.0"
+    id "org.flywaydb.flyway" version "10.12.0"
 //    id "net.ltgt.apt" version "0.21"
 //    id 'pmd'
 }
@@ -23,8 +23,6 @@ sonarqube {
 
 group = 'com.relay'
 version = '0.0.2-SNAPSHOT'
-//sourceCompatibility = '20'
-//targetCompatibility = '20'
 
 configurations {
     compileOnly {
@@ -33,7 +31,9 @@ configurations {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
 }
 
 repositories {
@@ -111,7 +111,7 @@ dependencies {
 }
 
 jacoco {
-    toolVersion = "0.8.10"
+    toolVersion = "0.8.12"
 }
 
 jacocoTestReport {
@@ -139,7 +139,7 @@ dependencyManagement {
 
 jib {
     from {
-        image = 'eclipse-temurin:20-alpine'
+        image = 'eclipse-temurin:22-alpine'
     }
     to {
         image = 'alexunc/data-service'

@@ -17,11 +17,11 @@ public interface RelayRepository extends JpaRepository<Relay, Long> {
     /**
      * Find relay by born date
      *
-     * @param creationDate {@link Relay#getCreationDate()}
+     * @param creationDate {@link Relay#getCreatedAt()}
      * @param pageable     {@link Pageable}
      * @return relay
      */
-    @Query(value = "SELECT * FROM Relay WHERE DATE_TRUNC('day', creation_date) = :creationDate", nativeQuery = true)
+    @Query(value = "SELECT * FROM Relay WHERE DATE_TRUNC('day', created_at) = :creationDate", nativeQuery = true)
     Page<Relay> findByCreationDate(@Param("creationDate") LocalDate creationDate, Pageable pageable);
 
     /**

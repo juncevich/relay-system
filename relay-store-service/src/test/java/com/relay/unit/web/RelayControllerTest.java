@@ -3,28 +3,28 @@ package com.relay.unit.web;
 import com.relay.core.service.RelayService;
 import com.relay.web.controllers.RelayController;
 import com.relay.web.model.Relay;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.SliceImpl;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Collections;
+import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
 @WebMvcTest(RelayController.class)
 class RelayControllerTest {
 
@@ -38,29 +38,34 @@ class RelayControllerTest {
     void successResponse() throws Exception {
 
 
-        given(this.relayService.findAll(PageRequest.of(0, 100))).willReturn(
-//                new SliceImpl<>(
-                        Collections.singletonList(
-                                new Relay(
-                                        OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(1)),
-                                        OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(1)),
-                                        "test"
-                                )
+        given(
+                relayService.findAll(PageRequest.of(0, 10))).willReturn(
+                List.of(
+                        new Relay(
+                                OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
+                                OffsetDateTime.of(2023, 7, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
+                                "test_serial_number"
                         )
-//                )
-//                Collections.singletonList(
-//                        new Relay(
-//                                OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(1)),
-//                                OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(1)),
-//                                "test"
-//                        )
-//                )
+                )
         );
 
-        this.mvc.perform(get("/relays"))
+        mvc.perform(get("/relays"))
                 .andDo(print())
                 .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].serialNumber", is("test_serial_number")))
+                .andExpect(jsonPath("$[0].createdAt", is("2023-01-01T00:00:00+03:00")))
+                .andExpect(jsonPath("$[0].verificationDate", is("2023-07-01T00:00:00+03:00")));
+    }
 
+    @Test
+    void emptyResponseTest() throws Exception {
+        relayService.findAll(Pageable.unpaged());
+
+        mvc.perform(get("/relays"))
+                .andDo(print())
+                .andExpect(content().contentType(APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", Matchers.empty()));
     }
 }

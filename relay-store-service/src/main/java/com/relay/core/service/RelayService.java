@@ -6,7 +6,11 @@ import com.relay.web.model.Relay;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -100,7 +104,7 @@ public class RelayService {
     /**
      * Find relay after date of manufacture
      *
-     * @param date {@link Relay#getDateOfManufacture()}
+     * @param date {@link Relay#getCreatedAt()}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufactureAfter(LocalDate date) {
@@ -113,7 +117,7 @@ public class RelayService {
     /**
      * Find relay by date of manufacture
      *
-     * @param date {@link Relay#getDateOfManufacture()}
+     * @param date {@link Relay#getCreatedAt()}
      * @return List of {@link Relay}
      */
     public List<Relay> findByDateOfManufacture(LocalDate date) {
@@ -140,7 +144,7 @@ public class RelayService {
     /**
      * Find relay before date of manufacture
      *
-     * @param date {@link Relay#getDateOfManufacture()}
+     * @param date {@link Relay#getCreatedAt()}
      * @return List of {@link Relay}
      */
     public Page<Relay> findByDateOfManufactureBefore(LocalDate date) {

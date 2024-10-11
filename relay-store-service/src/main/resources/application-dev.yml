@@ -24,8 +24,9 @@ spring:
     password: Qwerty12345
     url: jdbc:postgresql://postgresql:5432/postgresql
     baseline-on-migrate: true
-
-
+  threads:
+    virtual:
+      enabled: true
 logging:
   file:
     name: logs/relay-service.log

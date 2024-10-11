@@ -17,12 +17,16 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import java.time.*;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,7 +52,7 @@ class RelayServiceITTest {
     void findRelayByDate() {
 
         Relay relay = new Relay();
-        relay.setDateOfManufacture(OffsetDateTime.of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15),
+        relay.setCreatedAt(OffsetDateTime.of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15),
                 ZoneOffset.ofHours(3)));
         relayService.save(relay);
 
@@ -56,24 +60,24 @@ class RelayServiceITTest {
                 relayService.findByDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
 
 //        assertEquals(relay.getId(), foundedRelayList.get(0).getId());
-        Assert.assertEquals(relay.getDateOfManufacture(), foundedRelayList.get(0).getDateOfManufacture());
+        Assert.assertEquals(relay.getCreatedAt(), foundedRelayList.get(0).getCreatedAt());
     }
 
     @Test
     void testFindRelayAfterDateOfManufacture() {
 
         Relay equalsRelay = new Relay();
-        equalsRelay.setDateOfManufacture(OffsetDateTime
+        equalsRelay.setCreatedAt(OffsetDateTime
                 .of(LocalDateTime.of(2018, Month.JUNE, 5, 23, 15), ZoneOffset.ofHours(3)));
         relayService.save(equalsRelay);
 
         Relay lessRelay = new Relay();
-        lessRelay.setDateOfManufacture(OffsetDateTime
+        lessRelay.setCreatedAt(OffsetDateTime
                 .of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15), ZoneOffset.ofHours(3)));
         relayService.save(lessRelay);
 
         Relay moreRelay = new Relay();
-        moreRelay.setDateOfManufacture(OffsetDateTime
+        moreRelay.setCreatedAt(OffsetDateTime
                 .of(LocalDateTime.of(2018, Month.JUNE, 7, 23, 15), ZoneOffset.ofHours(3)));
         Relay savedMoreRelay = relayService.save(moreRelay);
 
@@ -88,17 +92,17 @@ class RelayServiceITTest {
     void testFindRelayBeforeDateOfManufacture() {
 
         Relay equalsRelay = new Relay();
-        equalsRelay.setDateOfManufacture(OffsetDateTime
+        equalsRelay.setCreatedAt(OffsetDateTime
                 .of(LocalDateTime.of(2018, Month.JUNE, 5, 23, 15), ZoneOffset.ofHours(3)));
         relayService.save(equalsRelay);
 
         Relay lessRelay = new Relay();
-        lessRelay.setDateOfManufacture(OffsetDateTime
+        lessRelay.setCreatedAt(OffsetDateTime
                 .of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15), ZoneOffset.ofHours(3)));
         relayService.save(lessRelay);
 
         Relay moreRelay = new Relay();
-        moreRelay.setDateOfManufacture(OffsetDateTime
+        moreRelay.setCreatedAt(OffsetDateTime
                 .of(LocalDateTime.of(2018, Month.JUNE, 7, 23, 15), ZoneOffset.ofHours(3)));
         relayService.save(moreRelay);
 

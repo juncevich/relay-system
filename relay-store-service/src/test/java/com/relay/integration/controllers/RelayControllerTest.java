@@ -7,6 +7,8 @@ import com.relay.core.service.RelayService;
 import com.relay.db.entity.items.Relay;
 import com.relay.db.entity.items.RelayType;
 import com.relay.db.repository.RelayRepository;
+import com.relay.web.dto.CreateRelayRequest;
+import com.relay.web.dto.CreateRelayResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +27,11 @@ import java.time.OffsetDateTime;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 
@@ -68,17 +73,23 @@ class RelayControllerTest {
         ////@WithMockUser()
     void testCreateRelay() throws Exception {
 
-        String createdRelayJson =
-                "{\"created\": null,\"updated\": null,\"dateOfManufacture\": [2016,6, 10 ], "
-                        + "\"verificationDate\": [2018, 6, 25],\"serialNumber\": \"012345\"}";
+        var createRelayRequest = new CreateRelayRequest(
+                "012345",
+                OffsetDateTime.now()
+//                OffsetDateTime.now()
+        );
+        MockHttpServletResponse response = this.mockMvc
+                .perform(post("/relay").content(objectMapper.writeValueAsString(createRelayRequest))
+                        .contentType(MediaType.APPLICATION_JSON).with(csrf()))
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andReturn()
+                .getResponse();
 
-//        MockHttpServletResponse response = this.mockMvc
-//                .perform(post("/relay").content(createdRelayJson)
-//                        .contentType(MediaType.APPLICATION_JSON).with(csrf()))
-//                .andExpect(status().isCreated()).andReturn().getResponse();
-//        String contentAsString = response.getContentAsString();
-//
-//        assertNotNull(contentAsString);
+        var deserializedResponse = objectMapper.readValue(response.getContentAsString(), CreateRelayResponse.class);
+        Assertions.assertEquals(deserializedResponse.serialNumber(), "012345");
+        Assertions.assertNotNull(deserializedResponse.dateOfManufacture());
+//        Assertions.assertNotNull(deserializedResponse.verificationDate());
     }
 
     @Test
@@ -104,7 +115,7 @@ class RelayControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].serialNumber").value("test_serial_number"))
-                .andExpect(jsonPath("$[0].dateOfManufacture").value("-999999999-01-01T00:00:00+18:00"));
+                .andExpect(jsonPath("$[0].createdAt").value("-999999999-01-01T00:00:00+18:00"));
 //        String contentAsString = response.getContentAsString();
 //        Assertions.assertNotNull(contentAsString);
 
@@ -318,7 +329,6 @@ class RelayControllerTest {
 //        assertEquals(createdRelay.getId(), receivedRelay.getId());
 
     }
-
 }
 
 

@@ -6,16 +6,17 @@ import com.relay.db.entity.items.Relay;
 import com.relay.db.repository.RelayRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,13 +27,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class RelayServiceTest {
 
     @Mock
     private RelayRepository relayRepository;
 
-    @InjectMocks
+    @Mock
     private RelayService relayService;
 
     @BeforeEach
@@ -49,7 +50,7 @@ class RelayServiceTest {
         relay.setSerialNumber("12345");
         OffsetDateTime creationDate =
                 OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
-        relay.setCreationDate(creationDate);
+        relay.setCreatedAt(creationDate);
         when(relayRepository.findByCreationDate(any(), any()))
                 .thenReturn(new PageImpl<>(List.of(relay)));
 
@@ -57,7 +58,7 @@ class RelayServiceTest {
                 relayService.findByDateOfManufacture(LocalDate.of(2020, Month.NOVEMBER, 18));
 
         assertEquals(1, foundedRelayList.size());
-        assertEquals(relay.getCreationDate(), foundedRelayList.get(0).getDateOfManufacture());
+        assertEquals(relay.getCreatedAt(), foundedRelayList.get(0).getCreatedAt());
     }
 
     @Test
@@ -144,14 +145,14 @@ class RelayServiceTest {
         relay.setSerialNumber("12345");
         OffsetDateTime creationDate =
                 OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
-        relay.setCreationDate(creationDate);
+        relay.setCreatedAt(creationDate);
         when(relayRepository.findById(anyLong()))
                 .thenReturn(Optional.of(relay));
 
         com.relay.web.model.Relay foundedRelay = relayService.findOne(relay.getId());
 
         assertEquals("12345", foundedRelay.getSerialNumber());
-        assertEquals(creationDate, foundedRelay.getDateOfManufacture());
+        assertEquals(creationDate, foundedRelay.getCreatedAt());
     }
 
 }

@@ -15,8 +15,8 @@ public interface RelayMapper {
 
     RelayMapper INSTANCE = Mappers.getMapper(RelayMapper.class);
 
-    @Mapping(source = "creationDate",
-            target = "dateOfManufacture")
+    @Mapping(source = "createdAt",
+            target = "createdAt")
     Relay mapEntityToModel(com.relay.db.entity.items.Relay relayEntity);
 
 

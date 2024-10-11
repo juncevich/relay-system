@@ -1,15 +1,20 @@
 package com.relay.web.controllers;
 
 import com.relay.core.service.RelayService;
+import com.relay.web.dto.CreateRelayRequest;
+import com.relay.web.dto.CreateRelayResponse;
 import com.relay.web.model.Relay;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +30,7 @@ public class RelayController {
      */
     private final RelayService relayService;
 
+    //TODO Should be avoid to get all relays.
     @GetMapping(value = "/relays")
     @Operation(
             description = "Get all relays description",
@@ -46,18 +52,28 @@ public class RelayController {
     //
     // relayService.deleteById(id);
     // }
-    //
-    // /**
-    // * Create relay
-    // *
-    // * @param relay relay to create
-    // */
-    // @ResponseStatus(HttpStatus.CREATED)
-    // @PostMapping("/relay")
-    // public void createRelay(@Valid @RequestBody Relay relay) {
-    // relayService.save(relay);
-    // }
-    //
+
+    /**
+     * Create relay
+     *
+     * @param request relay to create
+     */
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/relay")
+    public CreateRelayResponse createRelay(@Valid @RequestBody CreateRelayRequest request) {
+        var relayToCreate = Relay.builder()
+                .serialNumber(request.serialNumber())
+                .createdAt(request.dateOfManufacture())
+                .build();
+
+        var createdRelay = relayService.save(relayToCreate);
+        return new CreateRelayResponse(
+                createdRelay.getSerialNumber(),
+                createdRelay.getCreatedAt(),
+                createdRelay.getVerificationDate()
+        );
+    }
+
     // /**
     // * Finding relay by verification date
     // *
