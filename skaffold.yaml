@@ -6,9 +6,12 @@ build:
   local:
     push: false
   artifacts:
-    - image: alexunc/data-service
-      context: data-service
-      jib: { }
+    - image: alexunc/relay-store-service
+      context: relay-store-service
+      jib:
+        type: gradle
+        project: relay-store-service
+    #      jib: { }
     - image: alexunc/rs-frontend
       context: frontend
       docker:
@@ -26,7 +29,7 @@ deploy:
   kubectl:
     manifests:
       - ./k8s/namespace-dev.yaml
-      - ./data-service/k8s/*
+      - ./relay-store-service/k8s/*
       - ./frontend/infra/*
   #      - ./comments-service/infra/*
   helm:

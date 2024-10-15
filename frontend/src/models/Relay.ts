@@ -9,3 +9,5 @@ class Relay {
         this.checkingDate = checkingDate;
     }
 }
+
+export {}

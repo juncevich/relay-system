@@ -11,7 +11,7 @@
 #
 #ENTRYPOINT java -jar example-0.0.1-SNAPSHOT.jar
 
-FROM eclipse-temurin:20-alpine
+FROM eclipse-temurin:23-alpine
 
 WORKDIR /app
 ADD BOOT-INF/lib /app/lib

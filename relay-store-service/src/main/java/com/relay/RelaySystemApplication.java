@@ -26,4 +26,33 @@ public class RelaySystemApplication {
         SpringApplication.run(RelaySystemApplication.class, args);
     }
 
+//    @Component
+//    public class Runner implements CommandLineRunner {
+//        private final RelayRepository relayRepository;
+//
+//        public Runner(RelayRepository relayRepository) {
+//            this.relayRepository = relayRepository;
+//        }
+//
+//        @Override
+//        public void run(String... args) throws Exception {
+//            Relay relay1 = Relay.builder()
+//                    .id(1L)
+//                    .version(1L)
+//                    .createdAt(OffsetDateTime.now().minusDays(10))
+//                    .serialNumber(UUID.randomUUID().toString())
+//                    .lastCheckDate(OffsetDateTime.now().plusDays(5))
+//                    .updatedAt(OffsetDateTime.now().minusDays(5))
+//                    .build();
+//            Relay relay2 = Relay.builder()
+//                    .id(2L)
+//                    .version(1L)
+//                    .createdAt(OffsetDateTime.now().minusDays(10))
+//                    .serialNumber(UUID.randomUUID().toString())
+//                    .lastCheckDate(OffsetDateTime.now().plusDays(5))
+//                    .build();
+//            relayRepository.saveAll(List.of(relay1, relay2));
+//        }
+//    }
+
 }

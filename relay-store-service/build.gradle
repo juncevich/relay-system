@@ -1,12 +1,12 @@
 plugins {
-    id 'com.google.cloud.tools.jib' version '3.4.0'
+    id 'com.google.cloud.tools.jib' version '3.4.3'
     id 'org.springframework.boot' version '3.3.4'
     id 'io.spring.dependency-management' version '1.1.6'
     id 'java'
     id "org.sonarqube" version "4.4.1.3373"
 //    id 'nebula.release' version '11.0.0'
     id 'jacoco'
-    id "org.flywaydb.flyway" version "10.12.0"
+    id "org.flywaydb.flyway" version "10.19.0"
 //    id "net.ltgt.apt" version "0.21"
 //    id 'pmd'
 }
@@ -64,7 +64,7 @@ dependencies {
 
     runtimeOnly 'com.h2database:h2'
     testImplementation "org.springframework.boot:spring-boot-starter-test"
-
+    implementation("org.flywaydb:flyway-database-postgresql")
 //    implementation("io.springfox:springfox-swagger2:${swaggerVersion}") {
 //        exclude group: 'org.mapstruct', module: 'mapstruct'
 //    }
@@ -139,10 +139,10 @@ dependencyManagement {
 
 jib {
     from {
-        image = 'eclipse-temurin:22-alpine'
+        image = 'eclipse-temurin:23-alpine'
     }
     to {
-        image = 'alexunc/data-service'
+        image = 'alexunc/relay-store-service'
 //        auth {
 //            username = System.getenv('DOCKER_LOGIN')
 //            password = System.getenv('DOCKER_PASS')

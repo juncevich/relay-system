@@ -1,10 +1,10 @@
 apiVersion: skaffold/v2alpha1
 kind: Config
 metadata:
-  name: alexunc/data-service
+  name: alexunc/relay-store-service
 build:
   artifacts:
-    - image: alexunc/data-service
+    - image: alexunc/relay-store-service
       jib: { }
   tagPolicy:
     gitCommit: { }

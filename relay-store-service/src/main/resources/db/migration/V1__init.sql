@@ -13,8 +13,8 @@ create table relay
     primary key (id)
 );
 
-CREATE USER sample_user;
-ALTER ROLE sample_user WITH PASSWORD 'example';
+-- CREATE USER IF NOT EXISTS sample_user;
+-- ALTER ROLE sample_user WITH PASSWORD 'example';
 GRANT SELECT ON TABLE relay TO sample_user;
 
 INSERT INTO relay (id, creation_date, last_check_date, relay_type, serial_number, update_date, version, container_id)
