@@ -10,4 +10,4 @@ class Relay {
     }
 }
 
-export {}
+export default Relay;

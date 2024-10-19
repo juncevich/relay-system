@@ -2,13 +2,19 @@ import React from 'react';
 
 import {Breadcrumb, Col, Layout, Menu, Row, Space, Tabs} from 'antd';
 import RelayCard from '../relay/RelayCard';
+import Relay from '../../models/Relay';
 import './RelayContent.css';
 
 const {SubMenu} = Menu;
 const {Header, Content, Footer, Sider} = Layout;
-const { TabPane } = Tabs;
+const {TabPane} = Tabs;
 
-function MainTab(){
+function MainTab() {
+    let relayModel = new Relay(
+        'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
+        'НМШ-400',
+        '01.02.2003'
+    );
     return (
         <Layout>
             <Header className="header">
@@ -48,164 +54,164 @@ function MainTab(){
                                 <TabPane tab="Tab 1" key="1">
                                     <Row gutter={[8, 8]}>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
-                                        </Col>
-                                    </Row>
-
-                                    <Row gutter={[8, 8]}>
-                                        <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
-                                        </Col>
-                                        <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
-                                        </Col>
-                                        <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
-                                        </Col>
-                                        <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
-                                        </Col>
-                                        <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
-                                        </Col>
-                                        <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
-                                        </Col>
-                                        <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
-                                        </Col>
-                                        <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                     </Row>
 
                                     <Row gutter={[8, 8]}>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
+                                        </Col>
+                                    </Row>
+
+                                    <Row gutter={[8, 8]}>
+                                        <Col className="gutter-row" span={3}>
+                                            <div><RelayCard relay={relayModel}/></div>
+                                        </Col>
+                                        <Col className="gutter-row" span={3}>
+                                            <div><RelayCard relay={relayModel}/></div>
+                                        </Col>
+                                        <Col className="gutter-row" span={3}>
+                                            <div><RelayCard relay={relayModel}/></div>
+                                        </Col>
+                                        <Col className="gutter-row" span={3}>
+                                            <div><RelayCard relay={relayModel}/></div>
+                                        </Col>
+                                        <Col className="gutter-row" span={3}>
+                                            <div><RelayCard relay={relayModel}/></div>
+                                        </Col>
+                                        <Col className="gutter-row" span={3}>
+                                            <div><RelayCard relay={relayModel}/></div>
+                                        </Col>
+                                        <Col className="gutter-row" span={3}>
+                                            <div><RelayCard relay={relayModel}/></div>
+                                        </Col>
+                                        <Col className="gutter-row" span={3}>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                     </Row>
                                 </TabPane>
                                 <TabPane tab="Tab 2" key="2">
                                     <Row gutter={[8, 8]}>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                     </Row>
                                 </TabPane>
                                 <TabPane tab="Tab 3" key="3">
                                     <Row gutter={[8, 8]}>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                     </Row>
                                     <Row gutter={[8, 8]}>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                         <Col className="gutter-row" span={3}>
-                                            <div><RelayCard/></div>
+                                            <div><RelayCard relay={relayModel}/></div>
                                         </Col>
                                     </Row>
                                 </TabPane>
@@ -219,6 +225,7 @@ function MainTab(){
         </Layout>
     );
 }
+
 // class MainTab extends React.Component<any, any> {
 //
 //     render() {
