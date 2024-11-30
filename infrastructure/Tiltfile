@@ -1,0 +1,12 @@
+load('ext://helm_remote', 'helm_remote')
+helm_remote('postgresql',
+            repo_name='bitnami',
+            repo_url='https://charts.bitnami.com/bitnami',
+            #repo_url='https://artifacthub.io/packages/helm/bitnami/postgresql',
+            version='16.2.3',
+            namespace='relay-system-dev',
+            values=['k8s_pg/pg_values.yaml'])
+
+
+
+k8s_resource('postgresql', port_forwards=[5432], labels=['Database'])

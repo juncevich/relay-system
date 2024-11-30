@@ -1,4 +1,7 @@
-k8s_yaml('./k8s/frontend_depl.yaml')
+load('ext://namespace', 'namespace_create', 'namespace_inject')
+#namespace_create('relay-system-dev')
+#k8s_yaml('./k8s/frontend_depl.yaml')
+k8s_yaml(namespace_inject(read_file('./k8s/frontend_depl.yaml'), 'relay-system-dev'))
 k8s_resource('relay-service-frontend', port_forwards=3000,
     labels=['TypeScript']
 )
