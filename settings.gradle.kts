@@ -1,3 +1,5 @@
-include(
-    "relay-store-service"
-)
+//include(
+////    "relay-store-service",
+////    "chat-service",
+////    "infrastructure"
+//)
