@@ -4,7 +4,7 @@ stages:
   - analyze
 
 include:
-#  - local: 'account-management/.gitlab-ci.yml'
-  - local: 'relay-store-service/.gitlab-ci.yml'
-#  - local: 'comments-service/.gitlab-ci.yml'
-#  - local: 'chat-service/.gitlab-ci.yml'
+  - local: 'account-management/.gitlab-ci.yml'
+  - local: 'data-service/.gitlab-ci.yml'
+  - local: 'user-service/.gitlab-ci.yml'
+  - local: 'rs-discovery/.gitlab-ci.yml'

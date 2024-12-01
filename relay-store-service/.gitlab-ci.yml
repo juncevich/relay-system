@@ -1,4 +1,4 @@
-image: openjdk:23-jdk-slimsdk
+image: openjdk:11-jdk-slimsdk
 
 stages:
   - build
