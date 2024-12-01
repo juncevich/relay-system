@@ -1,35 +1,35 @@
-name: Relay Convert Service Java CI
-
-on:
-  push:
-    branches:
-      - master
-
-defaults:
-  run:
-    working-directory: relay-convert-service
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 17
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
-      - name: Build with Gradle
-        run: gradle build
-#      - name: Generate test report
-#        run: gradle jacocoTestReport
-#      - name: Sonar analyse
-#        run: gradle sonarqube
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+#name: Relay Convert Service Java CI
+#
+#on:
+#  push:
+#    branches:
+#      - master
+#
+#defaults:
+#  run:
+#    working-directory: relay-convert-service
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'temurin'
+#          java-version: 17
+#      - name: Cache Gradle packages
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.gradle/caches
+#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+#          restore-keys: ${{ runner.os }}-gradle
+#      - name: Build with Gradle
+#        run: gradle build
+##      - name: Generate test report
+##        run: gradle jacocoTestReport
+##      - name: Sonar analyse
+##        run: gradle sonarqube
+##        env:
+##          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+##          SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}

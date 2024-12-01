@@ -12,7 +12,7 @@ plugins {
 
 group = "com.relay"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_23
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
     compileOnly {
@@ -109,7 +109,7 @@ tasks.withType<Test> {
 
 
 jacoco {
-    toolVersion = "0.8.6"
+    toolVersion = "0.8.12"
 //    reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
 }
 
