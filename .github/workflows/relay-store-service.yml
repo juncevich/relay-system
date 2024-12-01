@@ -12,13 +12,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v4
         with:
-          java-version: 17
+          distribution: 'temurin'
+          java-version: 23
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -30,7 +31,7 @@ jobs:
         run: gradle publishToMavenLocal -p "../infrastructure/"
       - name: Build with Gradle
         run: gradle build
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: built-service
           path: relay-store-service/build/libs
