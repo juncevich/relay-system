@@ -58,15 +58,18 @@ dependencies {
 //    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 //    testImplementation("org.testcontainers:mongodb")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-dependencyManagement {
-    imports {
-        mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-    }
-}
+//dependencyManagement {
+//    imports {
+//        mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
+//        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+//    }
+//}
 
 jib {
     from {
@@ -95,7 +98,7 @@ tasks.bootJar {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 
