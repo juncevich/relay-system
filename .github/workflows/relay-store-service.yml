@@ -38,11 +38,11 @@ jobs:
           if-no-files-found: error
       - name: Generate test report
         run: gradle jacocoTestReport
-      - name: Sonar analyse
-        run: gradle sonar
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+#      - name: Sonar analyse
+#        run: gradle sonar
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          SONAR_DATA_SERVICE_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
 #  docker:
 #    name: Publish to Docker Hub
 #    runs-on: ubuntu-latest
