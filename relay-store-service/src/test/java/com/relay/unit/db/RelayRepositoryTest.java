@@ -91,7 +91,7 @@ class RelayRepositoryTest extends GenericUnitTest {
         assertTrue(relayPage.get().findFirst().isEmpty());
     }
 
-    //    @Test
+    @Test
     void testCorrectFindByLastCheckDate() {
 
         Page<Relay> relayPage = relayRepository.findByLastCheckDate(lastCheckDate.toLocalDate(),
@@ -100,7 +100,7 @@ class RelayRepositoryTest extends GenericUnitTest {
         assertEquals(defaultRelay, relayPage.get().findFirst().orElseThrow());
     }
 
-    //    @Test
+    @Test
     void testFindByCreationDate() {
 
         Page<Relay> relayPage = relayRepository.findByCreationDate(creationDate.toLocalDate(),

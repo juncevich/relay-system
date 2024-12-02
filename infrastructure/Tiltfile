@@ -7,6 +7,5 @@ helm_remote('postgresql',
             namespace='relay-system-dev',
             values=['k8s_pg/pg_values.yaml'])
 
-
-
 k8s_resource('postgresql', port_forwards=[5432], labels=['Database'])
+
