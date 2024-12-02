@@ -10,7 +10,7 @@ defaults:
     working-directory: relay-store-service
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,6 +38,7 @@ jobs:
           if-no-files-found: error
       - name: Generate test report
         run: gradle jacocoTestReport
+
 #      - name: Sonar analyse
 #        run: gradle sonar
 #        env:

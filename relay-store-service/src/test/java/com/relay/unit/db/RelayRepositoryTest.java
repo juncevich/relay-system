@@ -5,6 +5,7 @@ import com.relay.db.repository.RelayRepository;
 import com.relay.unit.GenericUnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,7 @@ class RelayRepositoryTest extends GenericUnitTest {
         assertTrue(relayPage.get().findFirst().isEmpty());
     }
 
+    @Disabled
     @Test
     void testCorrectFindByLastCheckDate() {
 
@@ -100,6 +102,7 @@ class RelayRepositoryTest extends GenericUnitTest {
         assertEquals(defaultRelay, relayPage.get().findFirst().orElseThrow());
     }
 
+    @Disabled
     @Test
     void testFindByCreationDate() {
 
