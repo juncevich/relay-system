@@ -1,17 +1,11 @@
-package com.relay.chatservice.chat;
+package com.relay.chatservice.chat
 
-import lombok.*;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Document
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Document
-public class ChatNotification {
-    private String id;
-    private String senderId;
-    private String recipientId;
-    private String content;
-}
+data class ChatNotification(
+    var id: String? = null,
+    var senderId: String? = null,
+    var recipientId: String? = null,
+    var content: String? = null
+)

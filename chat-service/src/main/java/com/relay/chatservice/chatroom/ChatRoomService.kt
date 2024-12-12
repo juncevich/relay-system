@@ -1,53 +1,55 @@
-package com.relay.chatservice.chatroom;
+package com.relay.chatservice.chatroom
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import lombok.RequiredArgsConstructor
+import org.springframework.stereotype.Service
+import java.util.*
+import java.util.function.Function
+import java.util.function.Supplier
 
 @Service
 @RequiredArgsConstructor
-public class ChatRoomService {
-
-    private final ChatRoomRepository chatRoomRepository;
+class ChatRoomService(private val chatRoomRepository: ChatRoomRepository) {
 
 
-    public Optional<String> getChatRoomId(
-            String senderId,
-            String recipientId,
-            boolean createNewRoomIfNotExists
-    ) {
+    fun getChatRoomId(
+        senderId: String?,
+        recipientId: String?,
+        createNewRoomIfNotExists: Boolean
+    ): Optional<String?> {
         return chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId)
-                .map(ChatRoom::getChatId)
-                .or(
-                        () -> {
-                            if (createNewRoomIfNotExists) {
-                                var chatId = createChatId(senderId, recipientId);
-                                return Optional.of(chatId);
-                            }
-                            return Optional.empty();
-                        }
-                );
+            .map<String?>(Function { obj: ChatRoom? -> obj!!.chatId })
+            .or(
+                Supplier {
+                    if (createNewRoomIfNotExists) {
+                        val chatId = createChatId(senderId, recipientId)
+                        return@Supplier Optional.of<String?>(chatId)
+                    }
+                    Optional.empty<String?>()
+                }
+            )
     }
 
-    private String createChatId(String senderId, String recipientId) {
-        var chatId = String.format("%s_%s", senderId, recipientId);
+    private fun createChatId(senderId: String?, recipientId: String?): String {
+        val chatId = "${senderId}_${recipientId}%"
 
-        ChatRoom senderRecipient = ChatRoom.builder()
-                .chatId(chatId)
-                .senderId(senderId)
-                .recipientId(recipientId)
-                .build();
+        val senderRecipient = ChatRoom(
+            chatId,
+            senderId,
+            recipientId
+        )
 
-        ChatRoom recipientSender = ChatRoom.builder()
-                .chatId(chatId)
-                .senderId(recipientId)
-                .recipientId(senderId)
-                .build();
+        val recipientSender = ChatRoom(
+            chatId,
 
-        chatRoomRepository.save(senderRecipient);
-        chatRoomRepository.save(recipientSender);
+            recipientId,
 
-        return chatId;
+            senderId,
+
+            )
+
+        chatRoomRepository.save<ChatRoom?>(senderRecipient)
+        chatRoomRepository.save<ChatRoom?>(recipientSender)
+
+        return chatId
     }
 }

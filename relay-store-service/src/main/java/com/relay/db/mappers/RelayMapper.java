@@ -1,4 +1,4 @@
-package com.relay.core.mappers;
+package com.relay.db.mappers;
 
 import com.relay.web.model.Relay;
 import org.mapstruct.Mapper;

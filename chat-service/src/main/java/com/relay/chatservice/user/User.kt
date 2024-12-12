@@ -1,16 +1,12 @@
-package com.relay.chatservice.user;
+package com.relay.chatservice.user
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 
-@Getter
-@Setter
 @Document
-public class User {
+data class User(
     @Id
-    private String userName;
-    private String fullName;
-    private Status status;
-}
+    val userName: String,
+    val fullName: String,
+    var status: Status
+)

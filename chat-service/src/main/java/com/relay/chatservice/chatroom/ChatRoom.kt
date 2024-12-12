@@ -1,20 +1,13 @@
-package com.relay.chatservice.chatroom;
+package com.relay.chatservice.chatroom
 
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Document
-public class ChatRoom {
+data class ChatRoom(
     @Id
-    private String id;
-    private String chatId;
-    private String senderId;
-    private String recipientId;
-
-}
+    var id: String? = null,
+    var chatId: String? = null,
+    var senderId: String? = null,
+    var recipientId: String? = null
+)

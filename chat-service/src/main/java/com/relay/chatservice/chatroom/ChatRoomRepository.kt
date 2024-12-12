@@ -1,10 +1,8 @@
-package com.relay.chatservice.chatroom;
+package com.relay.chatservice.chatroom
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.MongoRepository
+import java.util.*
 
-import java.util.Optional;
-
-public interface ChatRoomRepository extends MongoRepository<ChatRoom, String> {
-
-    Optional<ChatRoom> findBySenderIdAndRecipientId(String senderId, String recipientId);
+interface ChatRoomRepository : MongoRepository<ChatRoom?, String?> {
+    fun findBySenderIdAndRecipientId(senderId: String?, recipientId: String?): Optional<ChatRoom?>
 }

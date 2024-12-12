@@ -1,5 +1,5 @@
-package com.relay.chatservice.user;
+package com.relay.chatservice.user
 
-public enum Status {
+enum class Status {
     ONLINE, OFFLINE
 }

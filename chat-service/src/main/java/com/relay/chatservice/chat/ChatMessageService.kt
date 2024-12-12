@@ -1,40 +1,44 @@
-package com.relay.chatservice.chat;
+package com.relay.chatservice.chat
 
-import com.relay.chatservice.chatroom.ChatRoomService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.relay.chatservice.chatroom.ChatRoomService
+import lombok.RequiredArgsConstructor
+import org.springframework.stereotype.Service
+import java.util.function.Function
 
 @Service
 @RequiredArgsConstructor
-public class ChatMessageService {
-    private final ChatMessageRepository chatMessageRepository;
-    private final ChatRoomService chatRoomService;
+class ChatMessageService(
+    private val chatMessageRepository: ChatMessageRepository,
+    private val chatRoomService: ChatRoomService
+) {
 
-    public ChatMessage save(ChatMessage chatMessage) {
-
-        var chatId = chatRoomService.getChatRoomId(
-                chatMessage.getSenderId(),
-                chatMessage.getRecipientId(),
-                true
-        ).orElseThrow();
-        chatMessage.setChatId(chatId);
-        chatMessageRepository.save(chatMessage);
-        return chatMessage;
+    fun save(chatMessage: ChatMessage): ChatMessage {
+        val chatId = chatRoomService.getChatRoomId(
+            chatMessage.senderId,
+            chatMessage.recipientId,
+            true
+        ).orElseThrow()
+        chatMessage.chatId = chatId
+        chatMessageRepository.save<ChatMessage?>(chatMessage)
+        return chatMessage
     }
 
-    public List<ChatMessage> findChatMessages(
-            String senderId,
-            String recipientId
-    ) {
-        var chatId = chatRoomService.getChatRoomId(
-                senderId,
-                recipientId,
-                false
-        );
+    fun findChatMessages(
+        senderId: String?,
+        recipientId: String?
+    ): MutableList<ChatMessage?> {
+        val chatId = chatRoomService.getChatRoomId(
+            senderId,
+            recipientId,
+            false
+        )
 
-        return chatId.map(chatMessageRepository::findByChatId).orElse(new ArrayList<>());
+        return chatId.map<MutableList<ChatMessage?>>(Function { chatId: String? ->
+            chatMessageRepository.findByChatId(
+                chatId
+            )
+        }).orElse(
+            ArrayList<ChatMessage?>()
+        )
     }
 }

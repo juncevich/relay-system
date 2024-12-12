@@ -1,17 +1,23 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.2.0"
-    id("io.spring.dependency-management") version "1.1.4"
-    id("org.graalvm.buildtools.native") version "0.9.20"
+    id("org.springframework.boot") version "3.4.0"
+    id("io.spring.dependency-management") version "1.1.6"
+//    id("org.graalvm.buildtools.native") version "0.9.20"
 //    id("org.springframework.cloud.contract") version "4.0.3"
+
+    kotlin("jvm") version "1.9.25"
+    kotlin("plugin.spring") version "1.9.25"
 }
 
 group = "com.relay"
 version = "0.0.1-SNAPSHOT"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
 }
+
 
 configurations {
     compileOnly {
@@ -26,6 +32,9 @@ repositories {
 extra["springCloudVersion"] = "2022.0.3"
 
 dependencies {
+    implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 //    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -48,6 +57,7 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
 //    testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:mongodb")
+
 }
 
 dependencyManagement {
@@ -67,3 +77,9 @@ tasks.withType<Test> {
 //contracts {
 //}
 
+kotlin {
+    jvmToolchain(17)
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+    }
+}

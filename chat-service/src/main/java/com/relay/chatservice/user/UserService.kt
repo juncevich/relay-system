@@ -1,30 +1,26 @@
-package com.relay.chatservice.user;
+package com.relay.chatservice.user
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
+import lombok.RequiredArgsConstructor
+import org.springframework.stereotype.Service
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+class UserService(private val userRepository: UserRepository) {
 
-    private final UserRepository userRepository;
-
-    public void saveUser(User user) {
-        user.setStatus(Status.ONLINE);
-        userRepository.save(user);
+    fun saveUser(user: User) {
+        user.status = Status.ONLINE
+        userRepository.save<User?>(user)
     }
 
-    public void disconnect(User user) {
-        var storedUser = userRepository.findById(user.getUserName()).orElse(null);
+    fun disconnect(user: User) {
+        val storedUser = userRepository.findById(user.userName).orElse(null)
         if (storedUser != null) {
-            storedUser.setStatus(Status.OFFLINE);
-            userRepository.save(storedUser);
+            storedUser.status = Status.OFFLINE
+            userRepository.save<User?>(storedUser)
         }
     }
 
-    public List<User> findConnectedUsers() {
-        return userRepository.findAllByStatus(Status.ONLINE);
+    fun findConnectedUsers(): MutableList<User?>? {
+        return userRepository.findAllByStatus(Status.ONLINE)
     }
 }
