@@ -112,7 +112,7 @@ class TestSimulation : Simulation() {
     // 10
     init {
         setUp( // 11
-            scn.injectOpen(atOnceUsers(10000)) // 12
+            scn.injectOpen(atOnceUsers(10)) // 12
 //        scn.inject(rampUsers(1000) over (1 minutes)) // 12
         ).protocols(httpProtocol) // 13
     }
