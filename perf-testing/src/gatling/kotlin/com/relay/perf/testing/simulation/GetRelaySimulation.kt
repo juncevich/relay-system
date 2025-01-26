@@ -14,16 +14,15 @@ class GetRelaySimulation : Simulation() {
     private val httpProtocol: HttpProtocolBuilder = HttpBuilder().build()
     private val simulationDuration = Duration.ofMinutes(1).toSeconds()
     private val concurrentUsers = 3000;
-    val scn = scenario("BasicSimulation") // 7
+    val scn = scenario("BasicSimulation")
         .exec(
-            http("get_all_relay") // 8
+            http("get_all_relay")
                 .get("/relays")
-        ) // 9
+        )
 
-    // 10
     init {
-        setUp( // 11
-//            scn.injectOpen(constantUsersPerSec(1000.0).during(simulationDuration)) // 12
+        setUp(
+//            scn.injectOpen(constantUsersPerSec(1000.0).during(simulationDuration))
             scn.injectClosed(
                 rampConcurrentUsers(0).to(concurrentUsers)
                     .during(simulationDuration / 2),
@@ -32,8 +31,8 @@ class GetRelaySimulation : Simulation() {
 //                    constantConcurrentUsers(concurrentUsers)
 //                        .during(simulationDuration)
             ).disablePauses()
-//            scn.injectOpen(atOnceUsers(10000)) // 12
-//        scn.inject(rampUsers(1000) over (1 minutes)) // 12
-        ).protocols(httpProtocol) // 13
+//            scn.injectOpen(atOnceUsers(10000))
+//        scn.inject(rampUsers(1000) over (1 minutes))
+        ).protocols(httpProtocol)
     }
 }
