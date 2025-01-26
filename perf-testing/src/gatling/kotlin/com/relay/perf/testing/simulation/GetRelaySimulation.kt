@@ -16,8 +16,7 @@ class GetRelaySimulation : Simulation() {
     private val concurrentUsers = 3000;
     val scn = scenario("BasicSimulation")
         .exec(
-            http("get_all_relay")
-                .get("/relays")
+            http("get_all_relay")["/relays"]
         )
 
     init {
