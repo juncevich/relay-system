@@ -1,18 +1,8 @@
 package com.relay.db.entity.items;
 
 import com.relay.infrastructure.db.annotation.EntityId;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Version;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -49,7 +39,7 @@ public class Relay {
     private OffsetDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name = "update_date",
+    @Column(name = "updated_at",
             columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime updatedAt;
 

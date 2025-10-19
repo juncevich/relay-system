@@ -1,17 +1,17 @@
 version: '2.4'
 services:
 
-  data-service:
-    image: alexunc/data-service:latest
-    ports:
-      - 9091:8080
-    healthcheck:
-      test: [ "CMD", "curl", "http://localhost:8082/actuator/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    networks:
-      - common
+#  data-service:
+#    image: alexunc/data-service:latest
+#    ports:
+#      - 9091:8080
+#    healthcheck:
+#      test: [ "CMD", "curl", "http://localhost:8082/actuator/health" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+#    networks:
+#      - common
   db:
     image: postgres
     restart: always

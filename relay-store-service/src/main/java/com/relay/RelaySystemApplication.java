@@ -35,7 +35,7 @@ public class RelaySystemApplication {
     }
 
     @Component
-    public class Runner implements CommandLineRunner {
+    public static class Runner implements CommandLineRunner {
         private final RelayRepository relayRepository;
 
         public Runner(RelayRepository relayRepository) {
@@ -43,7 +43,7 @@ public class RelaySystemApplication {
         }
 
         @Override
-        public void run(String... args) throws Exception {
+        public void run(String... args) {
             Relay relay1 = Relay.builder()
 //                    .id(1L)
                     .version(1L)

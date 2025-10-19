@@ -1,5 +1,6 @@
 package com.relay.integration.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -21,17 +22,17 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 
@@ -56,7 +57,7 @@ class RelayControllerTest {
 
     @BeforeEach
     public void setUp() {
-
+      relayRepository.deleteAll();
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
         objectMapper = new ObjectMapper()
                 .registerModule(new Jdk8Module())
@@ -87,7 +88,7 @@ class RelayControllerTest {
                 .getResponse();
 
         var deserializedResponse = objectMapper.readValue(response.getContentAsString(), CreateRelayResponse.class);
-        Assertions.assertEquals(deserializedResponse.serialNumber(), "012345");
+        Assertions.assertEquals("012345", deserializedResponse.serialNumber());
         Assertions.assertNotNull(deserializedResponse.dateOfManufacture());
 //        Assertions.assertNotNull(deserializedResponse.verificationDate());
     }
@@ -96,7 +97,8 @@ class RelayControllerTest {
         //@WithMockUser
     void testRetrieveAllRelays() throws Exception {
         relayRepository.save(new Relay(
-                        12345L,
+                        null,
+//                        12345L,
                         1L,
                         "test_serial_number",
                         RelayType.NMSH_400,
@@ -106,31 +108,28 @@ class RelayControllerTest {
                 )
         );
 
-        this.mockMvc.perform(
-                        get("/relays")
-                                .with(csrf())
-                )
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].serialNumber").value("test_serial_number"))
-                .andExpect(jsonPath("$[0].createdAt").value("-999999999-01-01T00:00:00+18:00"));
-//        String contentAsString = response.getContentAsString();
-//        Assertions.assertNotNull(contentAsString);
+      ResultActions response = this.mockMvc.perform(
+              get("/relays")
+                  .with(csrf())
+          )
+          .andExpect(status().isOk())
+          .andDo(print())
+          .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+          .andExpect(jsonPath("$.length()").value(1))
+          .andExpect(jsonPath("$[0].serialNumber").value("test_serial_number"))
+          .andExpect(jsonPath("$[0].createdAt").value("-999999999-01-01T00:00:00+18:00"));
+      String contentAsString = response.andReturn().getResponse().getContentAsString();
+        Assertions.assertNotNull(contentAsString);
 
-//        JsonNode jsonNode = objectMapper.readTree(contentAsString);
-//        JsonNode content = jsonNode.get("content");
-//
-//        List<Relay> receivedRelayList =
-//                objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
-//                });
-//        Assertions.assertNotNull(receivedRelayList);
-//        Assertions.assertEquals(0, receivedRelayList.size());
+        List<com.relay.web.model.Relay> receivedRelayList =
+                objectMapper.readValue(contentAsString, new TypeReference<>() {
+                });
+        Assertions.assertNotNull(receivedRelayList);
+        Assertions.assertEquals(1, receivedRelayList.size());
     }
 
     @Test
-    void testDeleteRelay() throws Exception {
+    void testDeleteRelay() {
 
 //        relayRepository.save(new Relay());
 //        Relay relay = relayService.findAll().getContent().get(0);
@@ -144,7 +143,7 @@ class RelayControllerTest {
 
     @Test
         //@WithMockUser
-    void testFindRelayToEqualsVerificationDate() throws Exception {
+    void testFindRelayToEqualsVerificationDate() {
 
 //        String date = "[2018,6,25]";
 //        MockHttpServletResponse response = this.mockMvc
@@ -174,7 +173,7 @@ class RelayControllerTest {
         Relay relay = new Relay();
         relay.setSerialNumber("serial123");
         relayRepository.save(relay);
-        Relay createdRelay = relayRepository.findAll().iterator().next();
+        Relay createdRelay = relayRepository.findAll().getFirst();
         MockHttpServletResponse response =
                 this.mockMvc.perform(get("/relay/" + createdRelay.getId()).with(csrf()))
                         .andExpect(status().isOk()).andReturn().getResponse();
@@ -191,7 +190,7 @@ class RelayControllerTest {
 
     @Test
         //@WithMockUser
-    void testFindRelayToEqualsDateOfManufacture() throws Exception {
+    void testFindRelayToEqualsDateOfManufacture() {
 
 //        String date = "2016-06-10";
 //        MockHttpServletResponse response = this.mockMvc
@@ -215,7 +214,7 @@ class RelayControllerTest {
 
     @Test
         //@WithMockUser
-    void testFindRelayToBeforeDateOfManufactureEqualsDate() throws Exception {
+    void testFindRelayToBeforeDateOfManufactureEqualsDate() {
 
 //        String date = "2016-06-10";
 //        MockHttpServletResponse response = this.mockMvc
@@ -239,7 +238,7 @@ class RelayControllerTest {
 
     @Test
         //@WithMockUser
-    void testFindRelayToBeforeDateOfManufactureWithOlderDate() throws Exception {
+    void testFindRelayToBeforeDateOfManufactureWithOlderDate() {
 
 //        String date = "2016-06-11";
 //        MockHttpServletResponse response = this.mockMvc
@@ -263,7 +262,7 @@ class RelayControllerTest {
 
     @Test
         //@WithMockUser
-    void testFindRelayToAfterDateOfManufactureEqualsDate() throws Exception {
+    void testFindRelayToAfterDateOfManufactureEqualsDate() {
 
 //        String date = "2016-06-10";
 //        MockHttpServletResponse response = this.mockMvc
@@ -287,7 +286,7 @@ class RelayControllerTest {
 
     @Test
         //@WithMockUser
-    void testFindRelayToafterDateOfManufactureWithOlderDate() throws Exception {
+    void testFindRelayToafterDateOfManufactureWithOlderDate() {
 
 //        String date = "2016-06-09";
 //        MockHttpServletResponse response = this.mockMvc
@@ -311,7 +310,7 @@ class RelayControllerTest {
 
     @Test
         //@WithMockUser
-    void testFindBySerialNumber() throws Exception {
+    void testFindBySerialNumber() {
 
 //        Relay relay = new Relay();
 //        relay.setSerialNumber("serial123");
