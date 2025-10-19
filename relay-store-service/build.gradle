@@ -142,7 +142,7 @@ dependencyManagement {
 
 jib {
     from {
-        image = 'eclipse-temurin:23-alpine'
+        image = 'eclipse-temurin:25-alpine'
     }
     to {
         image = 'alexunc/relay-store-service'
