@@ -62,8 +62,7 @@ dependencies {
 //    implementation 'ru.relay.infrastructure:local-postgres:0.0.1'
 //    implementation 'ru.relay.infrastructure:id:0.01'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-//    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'com.h2database:h2'
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     implementation("org.flywaydb:flyway-database-postgresql")
 //    implementation("io.springfox:springfox-swagger2:${swaggerVersion}") {
