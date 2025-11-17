@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -26,128 +26,127 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class RelayServiceTest {
 
-    @Mock
-    private RelayRepository relayRepository;
+  @Mock
+  private RelayRepository relayRepository;
 
-    @Mock
-    private RelayService relayService;
+  @Mock
+  private RelayService relayService;
 
-    @BeforeEach
-    void setUp() {
-        relayService = new RelayService(relayRepository, RelayMapper.INSTANCE);
-    }
+  @BeforeEach
+  void setUp() {
+    relayService = new RelayService(relayRepository, RelayMapper.INSTANCE);
+  }
 
-    @Test
-    void findRelayByDate() {
+  @Test
+  void findRelayByDate() {
 
-        Relay relay = new Relay();
-        relay.setId(1L);
-        relay.setSerialNumber("12345");
-        OffsetDateTime creationDate =
-                OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
-        relay.setCreatedAt(creationDate);
-        when(relayRepository.findByCreationDate(any(), any()))
-                .thenReturn(new PageImpl<>(List.of(relay)));
+    Relay relay = new Relay();
+    relay.setId(1L);
+    relay.setSerialNumber("12345");
+    OffsetDateTime creationDate =
+        OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
+    relay.setCreatedAt(creationDate);
+    when(relayRepository.findByCreationDate(any(), any()))
+        .thenReturn(new PageImpl<>(List.of(relay)));
 
-        List<com.relay.web.model.Relay> foundedRelayList =
-                relayService.findByDateOfManufacture(LocalDate.of(2020, Month.NOVEMBER, 18));
+    List<com.relay.web.model.Relay> foundedRelayList =
+        relayService.findByDateOfManufacture(LocalDate.of(2020, Month.NOVEMBER, 18));
 
-        assertEquals(1, foundedRelayList.size());
-        assertEquals(relay.getCreatedAt(), foundedRelayList.get(0).getCreatedAt());
-    }
+    assertEquals(1, foundedRelayList.size());
+    assertEquals(relay.getCreatedAt(), foundedRelayList.get(0).getCreatedAt());
+  }
 
-    @Test
-    void nonFindRelayByDate() {
+  @Test
+  void nonFindRelayByDate() {
 
-        when(relayRepository.findByCreationDate(any(), any()))
-                .thenReturn(new PageImpl<>(emptyList()));
+    when(relayRepository.findByCreationDate(any(), any()))
+        .thenReturn(new PageImpl<>(emptyList()));
 
-        List<com.relay.web.model.Relay> foundedRelayList =
-                relayService.findByDateOfManufacture(LocalDate.of(2020, Month.NOVEMBER, 18));
+    List<com.relay.web.model.Relay> foundedRelayList =
+        relayService.findByDateOfManufacture(LocalDate.of(2020, Month.NOVEMBER, 18));
 
-        assertEquals(0, foundedRelayList.size());
-    }
+    assertEquals(0, foundedRelayList.size());
+  }
 
-    //
-    // @Disabled
-    // @Test
-    // public void testFindRelayAfterDateOfManufacture() {
-    //
-    // Relay equalsRelay = new Relay();
-    // equalsRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 5));
-    // relayService.save(equalsRelay);
-    //
-    // Relay lessRelay = new Relay();
-    // lessRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
-    // relayService.save(lessRelay);
-    //
-    // Relay moreRelay = new Relay();
-    // moreRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 7));
-    // Relay savedMoreRelay = relayService.save(moreRelay);
-    //
-    // List<Relay> foundedRelayList = relayService
-    // .findByDateOfManufactureAfter(LocalDate.of(2018, Month.JUNE, 6)).getContent();
-    // assertEquals(1, foundedRelayList.size());
-    // assertEquals(savedMoreRelay.getId(), foundedRelayList.get(0).getId());
-    //
-    // }
-    //
-    // @Disabled
-    // @Test
-    // public void testFindRelayBeforeDateOfManufacture() {
-    //
-    // Relay equalsRelay = new Relay();
-    // equalsRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 5));
-    // relayService.save(equalsRelay);
-    //
-    // Relay lessRelay = new Relay();
-    // lessRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
-    // relayService.save(lessRelay);
-    //
-    // Relay moreRelay = new Relay();
-    // moreRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 7));
-    // relayService.save(moreRelay);
-    //
-    // List<Relay> foundedRelayList = relayService
-    // .findByDateOfManufactureBefore(LocalDate.of(2018, Month.JUNE, 6)).getContent();
-    // assertEquals(1, foundedRelayList.size());
-    // assertEquals(equalsRelay.getId(), foundedRelayList.get(0).getId());
-    //
-    // }
-    //
-    @Test
-    void findAll() {
+  //
+  // @Disabled
+  // @Test
+  // public void testFindRelayAfterDateOfManufacture() {
+  //
+  // Relay equalsRelay = new Relay();
+  // equalsRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 5));
+  // relayService.save(equalsRelay);
+  //
+  // Relay lessRelay = new Relay();
+  // lessRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
+  // relayService.save(lessRelay);
+  //
+  // Relay moreRelay = new Relay();
+  // moreRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 7));
+  // Relay savedMoreRelay = relayService.save(moreRelay);
+  //
+  // List<Relay> foundedRelayList = relayService
+  // .findByDateOfManufactureAfter(LocalDate.of(2018, Month.JUNE, 6)).getContent();
+  // assertEquals(1, foundedRelayList.size());
+  // assertEquals(savedMoreRelay.getId(), foundedRelayList.get(0).getId());
+  //
+  // }
+  //
+  // @Disabled
+  // @Test
+  // public void testFindRelayBeforeDateOfManufacture() {
+  //
+  // Relay equalsRelay = new Relay();
+  // equalsRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 5));
+  // relayService.save(equalsRelay);
+  //
+  // Relay lessRelay = new Relay();
+  // lessRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
+  // relayService.save(lessRelay);
+  //
+  // Relay moreRelay = new Relay();
+  // moreRelay.setDateOfManufacture(LocalDate.of(2018, Month.JUNE, 7));
+  // relayService.save(moreRelay);
+  //
+  // List<Relay> foundedRelayList = relayService
+  // .findByDateOfManufactureBefore(LocalDate.of(2018, Month.JUNE, 6)).getContent();
+  // assertEquals(1, foundedRelayList.size());
+  // assertEquals(equalsRelay.getId(), foundedRelayList.get(0).getId());
+  //
+  // }
+  //
+  @Test
+  void findAll() {
 
-        Relay       relay1 = Relay.builder().serialNumber("012345").build();
-        Relay       relay2 = Relay.builder().serialNumber("012345").build();
-        Relay       relay3 = Relay.builder().serialNumber("012345").build();
-        Relay       relay4 = Relay.builder().serialNumber("012345").build();
-        List<Relay> relays = List.of(relay1, relay2, relay3, relay4);
-        when(relayRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(relays));
+    Relay relay1 = Relay.builder().serialNumber("012345").build();
+    Relay relay2 = Relay.builder().serialNumber("012345").build();
+    Relay relay3 = Relay.builder().serialNumber("012345").build();
+    Relay relay4 = Relay.builder().serialNumber("012345").build();
+    List<Relay> relays = List.of(relay1, relay2, relay3, relay4);
+    when(relayRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(relays));
 
-        List<com.relay.web.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
-        assertNotNull(relayList);
-        assertEquals(4, relayList.size());
+    List<com.relay.web.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
+    assertThat(relayList)
+        .isNotNull()
+        .hasSize(4);
+  }
 
-    }
 
+  @Test
+  void findRelayById() {
 
-    @Test
-    void findRelayById() {
+    Relay relay = new Relay();
+    relay.setId(1L);
+    relay.setSerialNumber("12345");
+    OffsetDateTime creationDate =
+        OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
+    relay.setCreatedAt(creationDate);
+    when(relayRepository.findById(anyLong()))
+        .thenReturn(Optional.of(relay));
 
-        Relay relay = new Relay();
-        relay.setId(1L);
-        relay.setSerialNumber("12345");
-        OffsetDateTime creationDate =
-                OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
-        relay.setCreatedAt(creationDate);
-        when(relayRepository.findById(anyLong()))
-                .thenReturn(Optional.of(relay));
-
-        com.relay.web.model.Relay foundedRelay = relayService.findOne(relay.getId());
-
-        assertEquals("12345", foundedRelay.getSerialNumber());
-        assertEquals(creationDate, foundedRelay.getCreatedAt());
-    }
+    com.relay.web.model.Relay foundedRelay = relayService.findOne(relay.getId());
+    assertThat(foundedRelay.getSerialNumber()).isEqualTo("12345");
+    assertThat(foundedRelay.getCreatedAt()).isEqualTo(creationDate);
+  }
 
 }

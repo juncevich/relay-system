@@ -94,6 +94,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:postgresql'
+    testImplementation("org.assertj:assertj-core:3.27.6")
 
     implementation "org.mapstruct:mapstruct:${mapStructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
