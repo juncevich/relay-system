@@ -26,89 +26,89 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DataJpaTest()
 class RelayRepositoryTest extends GenericUnitTest {
 
-    @Autowired
-    private RelayRepository relayRepository;
+  @Autowired
+  private RelayRepository relayRepository;
 
-    private final OffsetDateTime creationDate =
-            OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
+  private final OffsetDateTime creationDate =
+      OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
 
-    private final OffsetDateTime lastCheckDate =
-            OffsetDateTime.of(LocalDateTime.of(2020, 11, 19, 23, 15), ZoneOffset.ofHours(3));
-    private Relay defaultRelay;
+  private final OffsetDateTime lastCheckDate =
+      OffsetDateTime.of(LocalDateTime.of(2020, 11, 19, 23, 15), ZoneOffset.ofHours(3));
+  private Relay defaultRelay;
 
-    @BeforeEach
-    void setUp() {
-        defaultRelay = new Relay();
-        defaultRelay.setCreatedAt(creationDate);
-        defaultRelay.setLastCheckDate(lastCheckDate);
-        relayRepository.save(defaultRelay);
-    }
+  @BeforeEach
+  void setUp() {
+    defaultRelay = new Relay();
+    defaultRelay.setCreatedAt(creationDate);
+    defaultRelay.setLastCheckDate(lastCheckDate);
+    relayRepository.save(defaultRelay);
+  }
 
-    @Test
-    void successRelaySaving() {
-        Relay relay = new Relay();
-        relay.setSerialNumber("12345");
+  @Test
+  void successRelaySaving() {
+    Relay relay = new Relay();
+    relay.setSerialNumber("12345");
 
-        Relay savedRelay = relayRepository.save(relay);
-        assertThat(savedRelay.getSerialNumber()).isEqualTo("12345");
-    }
+    Relay savedRelay = relayRepository.save(relay);
+    assertThat(savedRelay.getSerialNumber()).isEqualTo("12345");
+  }
 
-    @Test
-    void testCorrectFindBySerialNumber() {
+  @Test
+  void testCorrectFindBySerialNumber() {
 
-        Relay relay = new Relay();
-        relay.setSerialNumber("12345");
-        relayRepository.save(relay);
+    Relay relay = new Relay();
+    relay.setSerialNumber("12345");
+    relayRepository.save(relay);
 
-        Relay savedRelay = relayRepository.findBySerialNumber("12345");
-        assertEquals(relay, savedRelay);
-    }
+    Relay savedRelay = relayRepository.findBySerialNumber("12345");
+    assertEquals(relay, savedRelay);
+  }
 
-    @Test
-    void testIncorrectFindBySerialNumber() {
+  @Test
+  void testIncorrectFindBySerialNumber() {
 
-        Relay relay = new Relay();
-        relay.setSerialNumber("12345");
-        relayRepository.save(relay);
+    Relay relay = new Relay();
+    relay.setSerialNumber("12345");
+    relayRepository.save(relay);
 
-        Relay savedRelay = relayRepository.findBySerialNumber("123456");
-        Assertions.assertNull(savedRelay);
-    }
+    Relay savedRelay = relayRepository.findBySerialNumber("123456");
+    Assertions.assertNull(savedRelay);
+  }
 
 
-    @Test
-    void testIncorrectFindByLastCheckDate() {
+  @Test
+  void testIncorrectFindByLastCheckDate() {
 
-        Page<Relay> relayPage = relayRepository.findByLastCheckDate(
-                lastCheckDate.plusDays(1).toLocalDate(), PageRequest.of(0, 1));
-        assertTrue(relayPage.get().findFirst().isEmpty());
-    }
+    Page<Relay> relayPage = relayRepository.findByLastCheckDate(
+        lastCheckDate.plusDays(1).toLocalDate(), PageRequest.of(0, 1));
+    assertTrue(relayPage.get().findFirst().isEmpty());
+  }
 
-    @Test
-    void testNotFindByCreationDate() {
+  @Test
+  void testNotFindByCreationDate() {
 
-        Page<Relay> relayPage = relayRepository
-                .findByCreationDate(creationDate.plusDays(1).toLocalDate(), PageRequest.of(0, 1));
-        assertTrue(relayPage.get().findFirst().isEmpty());
-    }
+    Page<Relay> relayPage = relayRepository
+        .findByCreationDate(creationDate.plusDays(1).toLocalDate(), PageRequest.of(0, 1));
+    assertTrue(relayPage.get().findFirst().isEmpty());
+  }
 
-    @Disabled
-    @Test
-    void testCorrectFindByLastCheckDate() {
+  @Disabled
+  @Test
+  void testCorrectFindByLastCheckDate() {
 
-        Page<Relay> relayPage = relayRepository.findByLastCheckDate(lastCheckDate.toLocalDate(),
-                PageRequest.of(0, 1));
-        assertEquals(1, relayPage.getTotalElements());
-        assertEquals(defaultRelay, relayPage.get().findFirst().orElseThrow());
-    }
+    Page<Relay> relayPage = relayRepository.findByLastCheckDate(lastCheckDate.toLocalDate(),
+        PageRequest.of(0, 1));
+    assertEquals(1, relayPage.getTotalElements());
+    assertEquals(defaultRelay, relayPage.get().findFirst().orElseThrow());
+  }
 
-    @Disabled
-    @Test
-    void testFindByCreationDate() {
+  @Disabled
+  @Test
+  void testFindByCreationDate() {
 
-        Page<Relay> relayPage = relayRepository.findByCreationDate(creationDate.toLocalDate(),
-                PageRequest.of(0, 1));
-        assertEquals(1, relayPage.getTotalElements());
-        assertEquals(defaultRelay, relayPage.get().findFirst().orElseThrow());
-    }
+    Page<Relay> relayPage = relayRepository.findByCreationDate(creationDate.toLocalDate(),
+        PageRequest.of(0, 1));
+    assertEquals(1, relayPage.getTotalElements());
+    assertEquals(defaultRelay, relayPage.get().findFirst().orElseThrow());
+  }
 }

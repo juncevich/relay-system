@@ -34,7 +34,6 @@ class RelayServiceTest {
 
     @BeforeEach
     void setUp() {
-
         relayService = new RelayService(relayRepository, RelayMapper.INSTANCE);
     }
 

@@ -27,47 +27,46 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(RelayController.class)
 class RelayControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
+  @Autowired
+  private MockMvc mvc;
 
-    @MockitoBean
-    private RelayService relayService;
+  @MockitoBean
+  private RelayService relayService;
 
-    @MockitoBean
-    private RelayRepository relayRepository;
+  @MockitoBean
+  private RelayRepository relayRepository;
 
-    @Test
-    void successResponse() throws Exception {
+  @Test
+  void successResponse() throws Exception {
 
+    given(
+        relayService.findAll(PageRequest.of(0, 10))).willReturn(
+        List.of(
+            new Relay(
+                OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
+                OffsetDateTime.of(2023, 7, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
+                "test_serial_number"
+            )
+        )
+    );
 
-        given(
-                relayService.findAll(PageRequest.of(0, 10))).willReturn(
-                List.of(
-                        new Relay(
-                                OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
-                                OffsetDateTime.of(2023, 7, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
-                                "test_serial_number"
-                        )
-                )
-        );
+    mvc.perform(get("/relays"))
+        .andDo(print())
+        .andExpect(content().contentType(APPLICATION_JSON_VALUE))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].serialNumber", is("test_serial_number")))
+        .andExpect(jsonPath("$[0].createdAt", is("2023-01-01T00:00:00+03:00")))
+        .andExpect(jsonPath("$[0].verificationDate", is("2023-07-01T00:00:00+03:00")));
+  }
 
-        mvc.perform(get("/relays"))
-                .andDo(print())
-                .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].serialNumber", is("test_serial_number")))
-                .andExpect(jsonPath("$[0].createdAt", is("2023-01-01T00:00:00+03:00")))
-                .andExpect(jsonPath("$[0].verificationDate", is("2023-07-01T00:00:00+03:00")));
-    }
+  @Test
+  void emptyResponseTest() throws Exception {
+    relayService.findAll(Pageable.unpaged());
 
-    @Test
-    void emptyResponseTest() throws Exception {
-        relayService.findAll(Pageable.unpaged());
-
-        mvc.perform(get("/relays"))
-                .andDo(print())
-                .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", Matchers.empty()));
-    }
+    mvc.perform(get("/relays"))
+        .andDo(print())
+        .andExpect(content().contentType(APPLICATION_JSON_VALUE))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$", Matchers.empty()));
+  }
 }
