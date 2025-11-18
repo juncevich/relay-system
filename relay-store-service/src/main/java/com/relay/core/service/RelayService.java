@@ -6,6 +6,8 @@ import com.relay.web.model.Relay;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,7 @@ public class RelayService {
      *
      * @return list with all {@link Relay}
      */
-    public List<Relay> findAll(Pageable pageable) {
+    public @NonNull List<Relay> findAll(@NonNull Pageable pageable) {
 
         Slice<com.relay.db.entity.items.Relay> relaySlice = relayRepository.findAll(pageable);
         if (relaySlice.hasContent()) {
@@ -90,7 +92,7 @@ public class RelayService {
      * @param date {@link Relay#getVerificationDate()}
      * @return Page of {@link Relay}
      */
-    public Page<Relay> findByVerificationDate(LocalDate date) {
+    public @Nullable Page<Relay> findByVerificationDate(LocalDate date) {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
         // return relayRepository.findByVerificationDate(date, pageable);
