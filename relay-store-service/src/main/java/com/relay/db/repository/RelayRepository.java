@@ -1,6 +1,7 @@
 package com.relay.db.repository;
 
 import com.relay.db.entity.items.Relay;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 
 @Repository
-public interface RelayRepository extends JpaRepository<Relay, Long> {
+public interface RelayRepository extends JpaRepository<@NotNull Relay, @NotNull Long> {
 
 
     /**
@@ -22,7 +23,7 @@ public interface RelayRepository extends JpaRepository<Relay, Long> {
      * @return relay
      */
     @Query(value = "SELECT * FROM Relay WHERE DATE_TRUNC('day', created_at) = :creationDate", nativeQuery = true)
-    Page<Relay> findByCreationDate(@Param("creationDate") LocalDate creationDate, Pageable pageable);
+    Page<@NotNull Relay> findByCreationDate(@Param("creationDate") LocalDate creationDate, Pageable pageable);
 
     /**
      * Find list of relays by last check date
@@ -32,7 +33,7 @@ public interface RelayRepository extends JpaRepository<Relay, Long> {
      * @return relay page
      */
     @Query(value = "SELECT * FROM Relay WHERE DATE_TRUNC('day', last_check_date) = :lastCheckDate", nativeQuery = true)
-    Page<Relay> findByLastCheckDate(@Param("lastCheckDate") LocalDate lastCheckDate, Pageable pageable);
+    Page<@NotNull Relay> findByLastCheckDate(@Param("lastCheckDate") LocalDate lastCheckDate, Pageable pageable);
 
     /**
      * Find relay by serial number

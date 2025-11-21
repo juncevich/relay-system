@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.*;
 import java.util.List;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class RelayServiceTest {
 
-  @Mock
+  @MockitoBean
   private RelayRepository relayRepository;
 
   @Mock
@@ -145,6 +146,7 @@ class RelayServiceTest {
         .thenReturn(Optional.of(relay));
 
     com.relay.web.model.Relay foundedRelay = relayService.findOne(relay.getId());
+    assertEquals(relay.getSerialNumber(), foundedRelay.getSerialNumber());
     assertThat(foundedRelay.getSerialNumber()).isEqualTo("12345");
     assertThat(foundedRelay.getCreatedAt()).isEqualTo(creationDate);
   }

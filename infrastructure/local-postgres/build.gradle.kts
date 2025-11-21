@@ -25,8 +25,8 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:6.0.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("org.testcontainers:postgresql:1.21.3")
-    implementation("org.springframework.boot:spring-boot-devtools:3.5.6")
-    implementation("org.springframework.boot:spring-boot-autoconfigure:3.5.6")
+    implementation("org.springframework.boot:spring-boot-devtools:4.0.0")
+    implementation("org.springframework.boot:spring-boot-autoconfigure:4.0.0")
 }
 
 tasks.test {

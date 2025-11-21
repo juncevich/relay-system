@@ -3,13 +3,14 @@ package com.relay.unit.db;
 import com.relay.db.entity.items.Relay;
 import com.relay.db.repository.RelayRepository;
 import com.relay.unit.GenericUnitTest;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -79,7 +80,7 @@ class RelayRepositoryTest extends GenericUnitTest {
   @Test
   void testIncorrectFindByLastCheckDate() {
 
-    Page<Relay> relayPage = relayRepository.findByLastCheckDate(
+    Page<@NotNull Relay> relayPage = relayRepository.findByLastCheckDate(
         lastCheckDate.plusDays(1).toLocalDate(), PageRequest.of(0, 1));
     assertTrue(relayPage.get().findFirst().isEmpty());
   }
@@ -87,7 +88,7 @@ class RelayRepositoryTest extends GenericUnitTest {
   @Test
   void testNotFindByCreationDate() {
 
-    Page<Relay> relayPage = relayRepository
+    Page<@NotNull Relay> relayPage = relayRepository
         .findByCreationDate(creationDate.plusDays(1).toLocalDate(), PageRequest.of(0, 1));
     assertTrue(relayPage.get().findFirst().isEmpty());
   }
@@ -96,7 +97,7 @@ class RelayRepositoryTest extends GenericUnitTest {
   @Test
   void testCorrectFindByLastCheckDate() {
 
-    Page<Relay> relayPage = relayRepository.findByLastCheckDate(lastCheckDate.toLocalDate(),
+    Page<@NotNull Relay> relayPage = relayRepository.findByLastCheckDate(lastCheckDate.toLocalDate(),
         PageRequest.of(0, 1));
     assertEquals(1, relayPage.getTotalElements());
     assertEquals(defaultRelay, relayPage.get().findFirst().orElseThrow());
@@ -106,7 +107,7 @@ class RelayRepositoryTest extends GenericUnitTest {
   @Test
   void testFindByCreationDate() {
 
-    Page<Relay> relayPage = relayRepository.findByCreationDate(creationDate.toLocalDate(),
+    Page<@NotNull Relay> relayPage = relayRepository.findByCreationDate(creationDate.toLocalDate(),
         PageRequest.of(0, 1));
     assertEquals(1, relayPage.getTotalElements());
     assertEquals(defaultRelay, relayPage.get().findFirst().orElseThrow());

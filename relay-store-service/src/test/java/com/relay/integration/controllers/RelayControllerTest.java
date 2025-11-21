@@ -1,8 +1,7 @@
 package com.relay.integration.controllers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.relay.core.service.RelayService;
 import com.relay.db.entity.items.Relay;
@@ -16,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -43,8 +42,7 @@ class RelayControllerTest {
 
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private JsonMapper objectMapper;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -59,9 +57,10 @@ class RelayControllerTest {
     public void setUp() {
       relayRepository.deleteAll();
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-        objectMapper = new ObjectMapper()
-                .registerModule(new Jdk8Module())
-                .registerModule(new JavaTimeModule());
+
+        objectMapper = JsonMapper.builder()
+            .addModule(new JavaTimeModule())
+            .build();
     }
 
     @AfterEach

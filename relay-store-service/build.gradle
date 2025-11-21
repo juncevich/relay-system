@@ -1,6 +1,6 @@
 plugins {
     id 'com.google.cloud.tools.jib' version '3.4.3'
-    id 'org.springframework.boot' version '3.5.6'
+    id 'org.springframework.boot' version '4.0.0'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'java'
     id "org.sonarqube" version "6.0.1.5171"
@@ -65,7 +65,6 @@ dependencies {
 //    implementation 'ru.relay.infrastructure:id:0.01'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     runtimeOnly 'com.h2database:h2'
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
     implementation("org.flywaydb:flyway-database-postgresql")
 //    implementation("io.springfox:springfox-swagger2:${swaggerVersion}") {
 //        exclude group: 'org.mapstruct', module: 'mapstruct'
@@ -81,6 +80,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     implementation "org.testcontainers:postgresql"
     implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-jackson"
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 //    implementation "io.springfox:springfox-boot-starter:3.0.0"
@@ -91,6 +91,8 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
 //    annotationProcessor "io.dekorate:kubernetes-spring-starter:${dekorateVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
+    testImplementation 'org.springframework.boot:spring-boot-data-jpa-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'org.springframework.boot:spring-boot-devtools'
