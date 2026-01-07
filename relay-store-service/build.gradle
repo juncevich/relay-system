@@ -1,12 +1,12 @@
 plugins {
-    id 'com.google.cloud.tools.jib' version '3.4.3'
-    id 'org.springframework.boot' version '4.0.0'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.google.cloud.tools.jib' version "$jibVersion"
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
     id 'java'
-    id "org.sonarqube" version "6.0.1.5171"
+    id "org.sonarqube" version "$sonarQubeVersion"
 //    id 'nebula.release' version '11.0.0'
     id 'jacoco'
-    id "org.flywaydb.flyway" version "10.19.0"
+    id "org.flywaydb.flyway" version "$flywayVersion"
 //    id "net.ltgt.apt" version "0.21"
 //    id 'pmd'
 }
@@ -46,11 +46,11 @@ repositories {
 
 ext {
 //    set('springCloudVersion', "2022.0.0")
-    set('testcontainersVersion', "1.17.3")
-    set('swaggerVersion', "2.9.2")
+//    set('testcontainersVersion', "1.17.3")
+//    set('swaggerVersion', "2.9.2")
 //    set('dekorateVersion', "2.5.0")
-    set('mapStructVersion', "1.6.3")
-    set('testcontainersVersion', "1.19.0")
+//    set('mapStructVersion', "1.6.3")
+//    set('testcontainersVersion', "1.19.0")
 }
 
 
@@ -100,9 +100,9 @@ dependencies {
     testImplementation 'org.testcontainers:postgresql'
     testImplementation("org.assertj:assertj-core:3.27.6")
 
-    implementation "org.mapstruct:mapstruct:${mapStructVersion}"
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
-    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+    implementation "org.mapstruct:mapstruct:$mapStructVersion"
+    annotationProcessor "org.mapstruct:mapstruct-processor:$mapStructVersion"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:$mapStructVersion"
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.jetbrains:annotations:26.0.2'
@@ -140,7 +140,7 @@ check.dependsOn jacocoTestReport
 
 dependencyManagement {
     imports {
-        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+        mavenBom "org.testcontainers:testcontainers-bom:$testcontainersVersion"
 //        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
