@@ -58,6 +58,7 @@ ext {
 
 dependencies {
 //    compileOnly 'org.jspecify:jspecify-annotations:1.0.0' // Or the latest version
+    implementation("ru.relay.infrastructure:rest:0.0.1")
     implementation("org.jspecify:jspecify:1.0.0")
 //    project 'ru.relay.infrastructure:db'
 //    implementation 'ru.relay.infrastructure:db:0.0.1'

@@ -5,9 +5,10 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import ru.relay.infrastructure.rest.exception.handler.GlobalExceptionHandler;
 
 @ControllerAdvice
-public class CustomizedResponseEntityExceptionHandler {
+public class CustomizedResponseEntityExceptionHandler extends GlobalExceptionHandler {
 
     // @ExceptionHandler(Exception.class)
     // protected ResponseEntity handleAllExceptions(Exception ex, WebRequest request) {
