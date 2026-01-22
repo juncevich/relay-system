@@ -1,21 +1,30 @@
-#FROM openjdk:16.0.1-jdk
-#MAINTAINER a.juncevich@gmail.com
-#VOLUME /tmp
-#COPY build/libs/data-service-0.0.2-SNAPSHOT.jar data-service.jar
-#EXPOSE 8080
-#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/data-service.jar"]
-
-#FROM openjdk:16.0.1-jdk
-#
-#ADD . .
-#
-#ENTRYPOINT java -jar example-0.0.1-SNAPSHOT.jar
-
-FROM eclipse-temurin:23-alpine
+FROM eclipse-temurin:25-alpine AS builder
 
 WORKDIR /app
-ADD BOOT-INF/lib /app/lib
-ADD META-INF /app/META-INF
-ADD BOOT-INF/classes /app
+COPY gradle/ gradle/
+COPY gradlew build.gradle settings.gradle.kts gradle.properties ./
+RUN ./gradlew dependencies --no-daemon || true
 
-ENTRYPOINT java -cp .:./lib/* com.relay.RelaySystemApplication
+COPY src/ src/
+RUN ./gradlew bootJar --no-daemon \
+    && java -Djarmode=tools -jar build/libs/*.jar extract --destination extracted
+
+FROM eclipse-temurin:25-jre-alpine
+
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+WORKDIR /app
+COPY --from=builder /app/extracted/dependencies/ ./
+COPY --from=builder /app/extracted/spring-boot-loader/ ./
+COPY --from=builder /app/extracted/snapshot-dependencies/ ./
+COPY --from=builder /app/extracted/application/ ./
+
+RUN chown -R appuser:appgroup /app
+USER appuser
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+    CMD wget --quiet --tries=1 --spider http://localhost:8080/actuator/health || exit 1
+
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
