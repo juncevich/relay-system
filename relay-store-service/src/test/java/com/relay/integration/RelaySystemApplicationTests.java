@@ -1,16 +1,13 @@
 package com.relay.integration;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@RunWith(SpringRunner.class)
-public class RelaySystemApplicationTests {
+@SpringBootTest
+class RelaySystemApplicationTests {
 
     @Test
-    public void contextLoads() {
-
-        // Empty method
+    void contextLoads() {
     }
 
 }

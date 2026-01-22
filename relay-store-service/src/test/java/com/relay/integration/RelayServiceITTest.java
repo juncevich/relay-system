@@ -1,15 +1,10 @@
 package com.relay.integration;
 
 import com.relay.core.service.RelayService;
-import com.relay.integration.annotation.IntegrationTest;
 import com.relay.web.model.Relay;
-import org.jetbrains.annotations.NotNull;
-import org.junit.Assert;
-import org.junit.ClassRule;
-import org.junit.experimental.categories.Category;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.test.util.TestPropertyValues;
@@ -18,8 +13,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.*;
 import java.util.List;
@@ -27,16 +23,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Disabled
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
+@Testcontainers
 @ComponentScan(basePackages = { "com.relay" })
 @ContextConfiguration(initializers = { RelayServiceITTest.Initializer.class })
-@Category(IntegrationTest.class)
+@Tag("integration")
 class RelayServiceITTest {
 
-    @ClassRule
-    public static PostgreSQLContainer postgreSQLContainer =
-            (PostgreSQLContainer) new PostgreSQLContainer("postgres:10.4")
+    @Container
+    static PostgreSQLContainer<?> postgreSQLContainer =
+            new PostgreSQLContainer<>("postgres:10.4")
                     .withDatabaseName("sampledb").withUsername("sampleuser")
                     .withPassword("samplepwd").withStartupTimeout(Duration.ofSeconds(600));
 
@@ -55,7 +51,7 @@ class RelayServiceITTest {
                 relayService.findByDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
 
 //        assertEquals(relay.getId(), foundedRelayList.get(0).getId());
-        Assert.assertEquals(relay.getCreatedAt(), foundedRelayList.get(0).getCreatedAt());
+        assertEquals(relay.getCreatedAt(), foundedRelayList.get(0).getCreatedAt());
     }
 
     @Test
@@ -78,7 +74,7 @@ class RelayServiceITTest {
 
         List<Relay> foundedRelayList = relayService
                 .findByDateOfManufactureAfter(LocalDate.of(2018, Month.JUNE, 6)).getContent();
-        Assert.assertEquals(1, foundedRelayList.size());
+        assertEquals(1, foundedRelayList.size());
 //        assertEquals(savedMoreRelay.getId(), foundedRelayList.get(0).getId());
 
     }
@@ -103,7 +99,7 @@ class RelayServiceITTest {
 
         List<Relay> foundedRelayList = relayService
                 .findByDateOfManufactureBefore(LocalDate.of(2018, Month.JUNE, 6)).getContent();
-        Assert.assertEquals(1, foundedRelayList.size());
+        assertEquals(1, foundedRelayList.size());
 //        assertEquals(equalsRelay.getId(), foundedRelayList.get(0).getId());
 
     }
@@ -126,10 +122,10 @@ class RelayServiceITTest {
     }
 
     public static class Initializer
-            implements ApplicationContextInitializer<@NotNull ConfigurableApplicationContext> {
+            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
         public void initialize(
-                @NotNull ConfigurableApplicationContext configurableApplicationContext) {
+                ConfigurableApplicationContext configurableApplicationContext) {
 
             TestPropertyValues
                     .of("spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
