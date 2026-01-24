@@ -6,7 +6,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.relay.core.service.RelayService;
 import com.relay.db.entity.items.Relay;
 import com.relay.db.entity.items.RelayType;
+import com.relay.db.entity.location.Station;
+import com.relay.db.entity.storage.Stand;
+import com.relay.db.entity.storage.Storage;
+import com.relay.db.repository.LocationRepository;
 import com.relay.db.repository.RelayRepository;
+import com.relay.db.repository.StandRepository;
 import com.relay.web.dto.CreateRelayRequest;
 import com.relay.web.dto.CreateRelayResponse;
 import org.junit.jupiter.api.AfterEach;
@@ -53,9 +58,30 @@ class RelayControllerTest {
     @Autowired
     private RelayRepository relayRepository;
 
+    @Autowired
+    private LocationRepository locationRepository;
+
+    @Autowired
+    private StandRepository standRepository;
+
+    private Storage defaultStorage;
+
     @BeforeEach
     public void setUp() {
-      relayRepository.deleteAll();
+        relayRepository.deleteAll();
+        standRepository.deleteAll();
+        locationRepository.deleteAll();
+
+        Station station = new Station();
+        station.setName("Test Station");
+        locationRepository.save(station);
+
+        Stand stand = new Stand();
+        stand.setName("Test Stand");
+        stand.setLocation(station);
+        standRepository.save(stand);
+        defaultStorage = stand;
+
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
 
         objectMapper = JsonMapper.builder()
@@ -65,8 +91,9 @@ class RelayControllerTest {
 
     @AfterEach
     public void tearDown() {
-
         relayRepository.deleteAll();
+        standRepository.deleteAll();
+        locationRepository.deleteAll();
     }
 
     @Test
@@ -75,8 +102,8 @@ class RelayControllerTest {
 
         var createRelayRequest = new CreateRelayRequest(
                 "012345",
-                OffsetDateTime.now()
-//                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                defaultStorage.getId()
         );
         MockHttpServletResponse response = this.mockMvc
                 .perform(post("/relay").content(objectMapper.writeValueAsString(createRelayRequest))
@@ -95,16 +122,14 @@ class RelayControllerTest {
     @Test
         //@WithMockUser
     void testRetrieveAllRelays() throws Exception {
-        relayRepository.save(new Relay(
-                        null,
-//                        12345L,
-                        1L,
-                        "test_serial_number",
-                        RelayType.NMSH_400,
-                        OffsetDateTime.MIN,
-                        OffsetDateTime.MAX,
-                        OffsetDateTime.MAX
-                )
+        relayRepository.save(Relay.builder()
+                .serialNumber("test_serial_number")
+                .relayType(RelayType.NMSH_400)
+                .storage(defaultStorage)
+                .createdAt(OffsetDateTime.MIN)
+                .updatedAt(OffsetDateTime.MAX)
+                .lastCheckDate(OffsetDateTime.MAX)
+                .build()
         );
 
       ResultActions response = this.mockMvc.perform(
@@ -171,6 +196,7 @@ class RelayControllerTest {
 
         Relay relay = new Relay();
         relay.setSerialNumber("serial123");
+        relay.setStorage(defaultStorage);
         relayRepository.save(relay);
         Relay createdRelay = relayRepository.findAll().getFirst();
         MockHttpServletResponse response =

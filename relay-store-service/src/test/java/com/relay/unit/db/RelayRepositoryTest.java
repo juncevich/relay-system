@@ -1,7 +1,12 @@
 package com.relay.unit.db;
 
 import com.relay.db.entity.items.Relay;
+import com.relay.db.entity.location.Station;
+import com.relay.db.entity.storage.Stand;
+import com.relay.db.entity.storage.Storage;
+import com.relay.db.repository.LocationRepository;
 import com.relay.db.repository.RelayRepository;
+import com.relay.db.repository.StandRepository;
 import com.relay.unit.GenericUnitTest;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
@@ -30,16 +35,35 @@ class RelayRepositoryTest extends GenericUnitTest {
   @Autowired
   private RelayRepository relayRepository;
 
+  @Autowired
+  private LocationRepository locationRepository;
+
+  @Autowired
+  private StandRepository standRepository;
+
   private final OffsetDateTime creationDate =
       OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
 
   private final OffsetDateTime lastCheckDate =
       OffsetDateTime.of(LocalDateTime.of(2020, 11, 19, 23, 15), ZoneOffset.ofHours(3));
   private Relay defaultRelay;
+  private Storage defaultStorage;
 
   @BeforeEach
   void setUp() {
-    defaultRelay = new Relay();
+    Station station = new Station();
+    station.setName("Test Station");
+    locationRepository.save(station);
+
+    Stand stand = new Stand();
+    stand.setName("Test Stand");
+    stand.setLocation(station);
+    standRepository.save(stand);
+
+    defaultStorage = stand;
+    defaultRelay = Relay.builder()
+            .storage(defaultStorage)
+            .build();
     defaultRelay.setCreatedAt(creationDate);
     defaultRelay.setLastCheckDate(lastCheckDate);
     relayRepository.save(defaultRelay);
@@ -49,6 +73,7 @@ class RelayRepositoryTest extends GenericUnitTest {
   void successRelaySaving() {
     Relay relay = new Relay();
     relay.setSerialNumber("12345");
+    relay.setStorage(defaultStorage);
 
     Relay savedRelay = relayRepository.save(relay);
     assertThat(savedRelay.getSerialNumber()).isEqualTo("12345");
@@ -59,6 +84,7 @@ class RelayRepositoryTest extends GenericUnitTest {
 
     Relay relay = new Relay();
     relay.setSerialNumber("12345");
+    relay.setStorage(defaultStorage);
     relayRepository.save(relay);
 
     Relay savedRelay = relayRepository.findBySerialNumber("12345");
@@ -70,6 +96,7 @@ class RelayRepositoryTest extends GenericUnitTest {
 
     Relay relay = new Relay();
     relay.setSerialNumber("12345");
+    relay.setStorage(defaultStorage);
     relayRepository.save(relay);
 
     Relay savedRelay = relayRepository.findBySerialNumber("123456");

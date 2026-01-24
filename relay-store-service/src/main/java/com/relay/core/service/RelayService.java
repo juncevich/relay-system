@@ -31,7 +31,6 @@ public class RelayService {
      * Relay repository
      */
     private final RelayRepository relayRepository;
-
     private final RelayMapper relayMapper;
 
     /**
@@ -45,7 +44,8 @@ public class RelayService {
         if (relaySlice.hasContent()) {
             return relaySlice.getContent()
                     .stream()
-                    .map(relayMapper::mapEntityToModel).toList();
+                    .map(relayMapper::mapEntityToModel)
+                    .toList();
         } else {
             return emptyList();
         }
@@ -60,6 +60,14 @@ public class RelayService {
     public Relay save(Relay relay) {
 
         com.relay.db.entity.items.Relay entity = relayMapper.mapModelToEntity(relay);
+        com.relay.db.entity.items.Relay savedEntity = relayRepository.save(entity);
+        return relayMapper.mapEntityToModel(savedEntity);
+    }
+
+    public Relay save(Relay relay, com.relay.db.entity.storage.Storage storage) {
+
+        com.relay.db.entity.items.Relay entity = relayMapper.mapModelToEntity(relay);
+        entity.setStorage(storage);
         com.relay.db.entity.items.Relay savedEntity = relayRepository.save(entity);
         return relayMapper.mapEntityToModel(savedEntity);
     }

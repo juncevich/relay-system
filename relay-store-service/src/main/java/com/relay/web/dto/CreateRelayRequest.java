@@ -13,7 +13,8 @@ public record CreateRelayRequest(
                 message = "Serial number should contain at least five characters"
         )
         String serialNumber,
-        OffsetDateTime dateOfManufacture
-//        OffsetDateTime verificationDate
+        OffsetDateTime dateOfManufacture,
+        @NonNull
+        Long storageId
 ) {
 }

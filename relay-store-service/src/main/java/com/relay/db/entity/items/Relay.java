@@ -1,5 +1,7 @@
 package com.relay.db.entity.items;
 
+import com.relay.db.entity.storage.Shelf;
+import com.relay.db.entity.storage.Storage;
 import com.relay.infrastructure.db.annotation.EntityId;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,8 +26,13 @@ public class Relay {
     @Version
     private Long version;
 
-//    @OneToOne
-//    private Container container;
+    @ManyToOne(optional = false)
+    private Storage storage;
+
+    @ManyToOne
+    private Shelf shelf;
+
+    private int placeNumber;
 
     private String serialNumber;
 

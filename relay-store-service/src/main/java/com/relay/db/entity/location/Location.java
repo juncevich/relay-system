@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
-public class Location {
+public abstract class Location {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private LocationType type;
+    private String name;
 }

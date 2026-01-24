@@ -1,6 +1,8 @@
 package com.relay.web.controllers;
 
 import com.relay.core.service.RelayService;
+import com.relay.db.entity.storage.Storage;
+import com.relay.db.repository.StorageRepository;
 import com.relay.web.dto.CreateRelayRequest;
 import com.relay.web.dto.CreateRelayResponse;
 import com.relay.web.model.Relay;
@@ -11,12 +13,7 @@ import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,12 +22,9 @@ import java.util.List;
 @Tag(name = "Relays controller")
 public class RelayController {
 
-    /**
-     * Relay service
-     */
     private final RelayService relayService;
+    private final StorageRepository storageRepository;
 
-    //TODO Should be avoid to get all relays.
     @GetMapping(value = "/relays")
     @Operation(
             description = "Get all relays description",
@@ -40,19 +34,6 @@ public class RelayController {
         return relayService.findAll(PageRequest.of(0, 10));
     }
 
-    //
-    // /**
-    // * Delete current relay
-    // *
-    // * @param id id relay to delete
-    // */
-    // @ResponseStatus(HttpStatus.NO_CONTENT)
-    // @DeleteMapping("/relay/{id}")
-    // public void deleteRelay(@PathVariable BigInteger id) {
-    //
-    // relayService.deleteById(id);
-    // }
-
     /**
      * Create relay
      *
@@ -61,12 +42,15 @@ public class RelayController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/relay")
     public CreateRelayResponse createRelay(@Valid @RequestBody CreateRelayRequest request) {
+        Storage storage = storageRepository.findById(request.storageId())
+                .orElseThrow(() -> new IllegalArgumentException("Storage not found: " + request.storageId()));
+
         var relayToCreate = Relay.builder()
                 .serialNumber(request.serialNumber())
                 .createdAt(request.dateOfManufacture())
                 .build();
 
-        var createdRelay = relayService.save(relayToCreate);
+        var createdRelay = relayService.save(relayToCreate, storage);
         return new CreateRelayResponse(
                 createdRelay.getSerialNumber(),
                 createdRelay.getCreatedAt(),
