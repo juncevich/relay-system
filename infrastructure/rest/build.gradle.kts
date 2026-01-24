@@ -13,7 +13,15 @@ val loggingVersion = "5.1.0"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion = JavaLanguageVersion.of(24)
+    }
+}
+tasks {
+    bootJar {
+        enabled = false
+    }
+    jar {
+        enabled = true
     }
 }
 
