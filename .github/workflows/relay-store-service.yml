@@ -31,14 +31,14 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Check Java
-        run: |
-          which java
-          java -version
-      - name: Check Gradle JVMs
-        run: gradle -q javaToolchains
+      #      - name: Check Java
+      #        run: |
+      #          which java
+      #          java -version
+      #      - name: Check Gradle JVMs
+      #        run: gradle -q javaToolchains
       - name: Build with infrastructure libs
-        run: gradle publishToMavenLocal -p "../infrastructure/" --debug
+        run: gradle publishToMavenLocal -p "../infrastructure/"
       - name: Build with Gradle
         run: gradle build
       - uses: actions/upload-artifact@v4
