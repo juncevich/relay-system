@@ -16,6 +16,10 @@ java {
         languageVersion = JavaLanguageVersion.of(24)
     }
 }
+kotlin {
+    jvmToolchain(24)
+}
+
 tasks {
     bootJar {
         enabled = false
