@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "4.0.0"
+    id("org.springframework.boot") version "4.0.2"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm") version "2.2.20"
     kotlin("plugin.spring") version "2.2.20"
@@ -28,7 +28,7 @@ repositories {
 }
 
 extra["springCloudVersion"] = "2020.0.2"
-extra["testcontainersVersion"] = "1.15.3"
+extra["testcontainersVersion"] = "1.17.6"
 
 sonarqube {
     properties {
@@ -67,12 +67,12 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-//dependencyManagement {
-//    imports {
-//        mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
+dependencyManagement {
+    imports {
+        mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
 //        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-//    }
-//}
+    }
+}
 
 jib {
     from {
