@@ -10,7 +10,7 @@ defaults:
     working-directory: relay-store-service
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
