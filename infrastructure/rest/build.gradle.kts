@@ -9,7 +9,7 @@ group = "ru.relay.infrastructure"
 version = "0.0.1"
 description = "rest"
 
-val loggingVersion = "5.1.0"
+val loggingVersion = "7.0.14"
 
 java {
     toolchain {

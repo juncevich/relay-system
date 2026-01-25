@@ -6,7 +6,13 @@ plugins {
 group = "ru.relay.infrastructure"
 version = "0.0.1"
 
-extra["testcontainersVersion"] = "2.0.1"
+extra["testcontainersVersion"] = "2.0.3"
+
+tasks {
+    jar {
+        enabled = true
+    }
+}
 
 dependencyManagement {
     imports {
@@ -22,11 +28,11 @@ repositories {
 
 dependencies {
 //    implementation("org.springframework.boot:spring-boot-starter")
-    testImplementation(platform("org.junit:junit-bom:6.0.0"))
+    testImplementation(platform("org.junit:junit-bom:6.0.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("org.testcontainers:postgresql:1.21.3")
-    implementation("org.springframework.boot:spring-boot-devtools:4.0.0")
-    implementation("org.springframework.boot:spring-boot-autoconfigure:4.0.0")
+    implementation("org.springframework.boot:spring-boot-devtools:4.0.2")
+    implementation("org.springframework.boot:spring-boot-autoconfigure:4.0.2")
 }
 
 tasks.test {

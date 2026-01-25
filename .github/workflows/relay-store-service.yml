@@ -38,7 +38,7 @@ jobs:
       - name: Check Gradle JVMs
         run: gradle -q javaToolchains
       - name: Build with infrastructure libs
-        run: gradle publishToMavenLocal -p "../infrastructure/" --info
+        run: gradle publishToMavenLocal -p "../infrastructure/" --debug
       - name: Build with Gradle
         run: gradle build
       - uses: actions/upload-artifact@v4
