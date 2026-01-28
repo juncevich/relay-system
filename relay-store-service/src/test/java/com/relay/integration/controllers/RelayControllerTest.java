@@ -106,7 +106,7 @@ class RelayControllerTest {
                 defaultStorage.getId()
         );
         MockHttpServletResponse response = this.mockMvc
-                .perform(post("/relay").content(objectMapper.writeValueAsString(createRelayRequest))
+                .perform(post("/relays").content(objectMapper.writeValueAsString(createRelayRequest))
                         .contentType(MediaType.APPLICATION_JSON).with(csrf()))
                 .andExpect(status().isCreated())
                 .andDo(print())

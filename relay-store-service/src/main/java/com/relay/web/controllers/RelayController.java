@@ -1,20 +1,19 @@
 package com.relay.web.controllers;
 
 import com.relay.core.service.RelayService;
-import com.relay.db.entity.storage.Storage;
-import com.relay.db.repository.StorageRepository;
 import com.relay.web.dto.CreateRelayRequest;
 import com.relay.web.dto.CreateRelayResponse;
+import com.relay.web.dto.UpdateRelayRequest;
 import com.relay.web.model.Relay;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -23,34 +22,55 @@ import java.util.List;
 public class RelayController {
 
     private final RelayService relayService;
-    private final StorageRepository storageRepository;
 
-    @GetMapping(value = "/relays")
-    @Operation(
-            description = "Get all relays description",
-            summary = "Get all relays summary"
-    )
-    public List<Relay> findAllRelays() {
-        return relayService.findAll(PageRequest.of(0, 10));
+    @GetMapping("/relays")
+    @Operation(summary = "Get all relays")
+    public List<Relay> findAllRelays(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return relayService.findAll(PageRequest.of(page, size));
     }
 
-    /**
-     * Create relay
-     *
-     * @param request relay to create
-     */
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/relay")
-    public CreateRelayResponse createRelay(@Valid @RequestBody CreateRelayRequest request) {
-        Storage storage = storageRepository.findById(request.storageId())
-                .orElseThrow(() -> new IllegalArgumentException("Storage not found: " + request.storageId()));
+    @GetMapping("/relays/{id}")
+    @Operation(summary = "Get relay by ID")
+    public Relay findRelayById(@PathVariable Long id) {
+        return relayService.findById(id);
+    }
 
+    @GetMapping("/relays/serial-number/{serialNumber}")
+    @Operation(summary = "Find relay by serial number")
+    public Relay findBySerialNumber(@PathVariable String serialNumber) {
+        return relayService.findBySerialNumber(serialNumber);
+    }
+
+    @GetMapping("/relays/by-creation-date")
+    @Operation(summary = "Find relays by creation date")
+    public List<Relay> findByCreationDate(
+            @RequestParam LocalDate date,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return relayService.findByCreationDate(date, PageRequest.of(page, size));
+    }
+
+    @GetMapping("/relays/by-last-check-date")
+    @Operation(summary = "Find relays by last check date")
+    public List<Relay> findByLastCheckDate(
+            @RequestParam LocalDate date,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return relayService.findByLastCheckDate(date, PageRequest.of(page, size));
+    }
+
+    @PostMapping("/relays")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create a new relay")
+    public CreateRelayResponse createRelay(@Valid @RequestBody CreateRelayRequest request) {
         var relayToCreate = Relay.builder()
                 .serialNumber(request.serialNumber())
                 .createdAt(request.dateOfManufacture())
                 .build();
 
-        var createdRelay = relayService.save(relayToCreate, storage);
+        var createdRelay = relayService.save(relayToCreate, request.storageId());
         return new CreateRelayResponse(
                 createdRelay.getSerialNumber(),
                 createdRelay.getCreatedAt(),
@@ -58,87 +78,22 @@ public class RelayController {
         );
     }
 
-    // /**
-    // * Finding relay by verification date
-    // *
-    // * @param verificationDate {@link Relay#getVerificationDate()}
-    // * @return Page of {@link Relay}
-    // */
-    // @ResponseStatus(HttpStatus.OK)
-    // @PostMapping("/relay/verificationDate")
-    // public Page<Relay> findByVerificationDate(@RequestBody LocalDate verificationDate) {
-    //
-    // return relayService.findByVerificationDate(verificationDate);
-    // }
-    //
+    @PutMapping("/relays/{id}")
+    @Operation(summary = "Update relay")
+    public Relay updateRelay(@PathVariable Long id, @Valid @RequestBody UpdateRelayRequest request) {
+        var relay = Relay.builder()
+                .serialNumber(request.serialNumber())
+                .createdAt(request.dateOfManufacture())
+                .verificationDate(request.verificationDate())
+                .build();
 
-    /**
-     * Find relay by id
-     *
-     * @param id {@link Relay#getSerialNumber()}
-     * @return {@link Relay}
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/relay/{id}")
-    public Relay findRelayById(@PathVariable Long id) {
-
-        return relayService.findOne(id);
+        return relayService.update(id, relay, request.storageId());
     }
-    //
-    // /**
-    // * Finding relay by verification date
-    // *
-    // * @param date {@link Relay#getDateOfManufacture()}
-    // * @return Page of {@link Relay}
-    // */
-    // @ResponseStatus(HttpStatus.OK)
-    // @GetMapping("/relay/dateOfManufacture")
-    // public Page<Relay> findByDateOfManufacture(@PathParam("date") String date) {
-    //
-    // return relayService.findByDateOfManufacture(LocalDate.parse(date));
-    // }
-    //
-    // /**
-    // * Finding relay before date of manufacture
-    // *
-    // * @param before The date before {@link Relay#getDateOfManufacture()}
-    // * @return Page of {@link Relay}
-    // */
-    // @ResponseStatus(HttpStatus.OK)
-    // @GetMapping(value = "/relay/dateOfManufacture",
-    // params = "before")
-    // public Page<Relay> findByDateOfManufactureBefore(@PathParam("before") String before) {
-    //
-    // return relayService.findByDateOfManufactureBefore(LocalDate.parse(before));
-    // }
-    //
 
-    /**
-     * Find relay by serial number
-     *
-     * @param serialNumber {@link Relay#getSerialNumber()}
-     * @return {@link Relay}
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/relay/serialNumber",
-            params = "serialNumber")
-    public Relay findBySerialNumber(@PathParam("serialNumber") String serialNumber) {
-
-        return relayService.findBySerialNumber(serialNumber);
+    @DeleteMapping("/relays/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete relay")
+    public void deleteRelay(@PathVariable Long id) {
+        relayService.deleteById(id);
     }
-    //
-    // /**
-    // * Finding relay after date of manufacture
-    // *
-    // * @param after The date before {@link Relay#getDateOfManufacture()}
-    // * @return Page of {@link Relay}
-    // */
-    // @ResponseStatus(HttpStatus.OK)
-    // @GetMapping(value = "/relay/dateOfManufacture",
-    // params = "after")
-    // public Page<Relay> findByDateOfManufactureAfter(@PathParam("after") String after) {
-    //
-    // return relayService.findByDateOfManufactureAfter(LocalDate.parse(after));
-    // }
-
 }

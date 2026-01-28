@@ -25,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Disabled
 @DataJpaTest
 @Testcontainers
-@ComponentScan(basePackages = { "com.relay" })
-@ContextConfiguration(initializers = { RelayServiceITTest.Initializer.class })
+@ComponentScan(basePackages = {"com.relay"})
+@ContextConfiguration(initializers = {RelayServiceITTest.Initializer.class})
 @Tag("integration")
 class RelayServiceITTest {
 
@@ -40,85 +40,44 @@ class RelayServiceITTest {
     private RelayService relayService;
 
     @Test
-    void findRelayByDate() {
-
+    void findRelayByCreationDate() {
         Relay relay = new Relay();
         relay.setCreatedAt(OffsetDateTime.of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15),
                 ZoneOffset.ofHours(3)));
         relayService.save(relay);
 
         List<Relay> foundedRelayList =
-                relayService.findByDateOfManufacture(LocalDate.of(2018, Month.JUNE, 6));
+                relayService.findByCreationDate(LocalDate.of(2018, Month.JUNE, 6), PageRequest.of(0, 10));
 
-//        assertEquals(relay.getId(), foundedRelayList.get(0).getId());
         assertEquals(relay.getCreatedAt(), foundedRelayList.get(0).getCreatedAt());
     }
 
     @Test
-    void testFindRelayAfterDateOfManufacture() {
+    void findRelayByLastCheckDate() {
+        Relay relay = new Relay();
+        relay.setVerificationDate(OffsetDateTime.of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15),
+                ZoneOffset.ofHours(3)));
+        relayService.save(relay);
 
-        Relay equalsRelay = new Relay();
-        equalsRelay.setCreatedAt(OffsetDateTime
-                .of(LocalDateTime.of(2018, Month.JUNE, 5, 23, 15), ZoneOffset.ofHours(3)));
-        relayService.save(equalsRelay);
+        List<Relay> foundedRelayList =
+                relayService.findByLastCheckDate(LocalDate.of(2018, Month.JUNE, 6), PageRequest.of(0, 10));
 
-        Relay lessRelay = new Relay();
-        lessRelay.setCreatedAt(OffsetDateTime
-                .of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15), ZoneOffset.ofHours(3)));
-        relayService.save(lessRelay);
-
-        Relay moreRelay = new Relay();
-        moreRelay.setCreatedAt(OffsetDateTime
-                .of(LocalDateTime.of(2018, Month.JUNE, 7, 23, 15), ZoneOffset.ofHours(3)));
-        Relay savedMoreRelay = relayService.save(moreRelay);
-
-        List<Relay> foundedRelayList = relayService
-                .findByDateOfManufactureAfter(LocalDate.of(2018, Month.JUNE, 6)).getContent();
-        assertEquals(1, foundedRelayList.size());
-//        assertEquals(savedMoreRelay.getId(), foundedRelayList.get(0).getId());
-
-    }
-
-    @Test
-    void testFindRelayBeforeDateOfManufacture() {
-
-        Relay equalsRelay = new Relay();
-        equalsRelay.setCreatedAt(OffsetDateTime
-                .of(LocalDateTime.of(2018, Month.JUNE, 5, 23, 15), ZoneOffset.ofHours(3)));
-        relayService.save(equalsRelay);
-
-        Relay lessRelay = new Relay();
-        lessRelay.setCreatedAt(OffsetDateTime
-                .of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15), ZoneOffset.ofHours(3)));
-        relayService.save(lessRelay);
-
-        Relay moreRelay = new Relay();
-        moreRelay.setCreatedAt(OffsetDateTime
-                .of(LocalDateTime.of(2018, Month.JUNE, 7, 23, 15), ZoneOffset.ofHours(3)));
-        relayService.save(moreRelay);
-
-        List<Relay> foundedRelayList = relayService
-                .findByDateOfManufactureBefore(LocalDate.of(2018, Month.JUNE, 6)).getContent();
-        assertEquals(1, foundedRelayList.size());
-//        assertEquals(equalsRelay.getId(), foundedRelayList.get(0).getId());
-
+        assertEquals(relay.getVerificationDate(), foundedRelayList.get(0).getVerificationDate());
     }
 
     @Test
     void findAll() {
-
         Relay relay1 = Relay.builder().serialNumber("012345").build();
         relayService.save(relay1);
-        Relay relay2 = Relay.builder().serialNumber("012345").build();
+        Relay relay2 = Relay.builder().serialNumber("012346").build();
         relayService.save(relay2);
-        Relay relay3 = Relay.builder().serialNumber("012345").build();
+        Relay relay3 = Relay.builder().serialNumber("012347").build();
         relayService.save(relay3);
-        Relay relay4 = Relay.builder().serialNumber("012345").build();
+        Relay relay4 = Relay.builder().serialNumber("012348").build();
         relayService.save(relay4);
 
-        List<Relay> relayList = relayService.findAll(PageRequest.of(1, 10));
+        List<Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
         assertEquals(4, relayList.size());
-
     }
 
     public static class Initializer
@@ -134,5 +93,4 @@ class RelayServiceITTest {
                     .applyTo(configurableApplicationContext.getEnvironment());
         }
     }
-
 }

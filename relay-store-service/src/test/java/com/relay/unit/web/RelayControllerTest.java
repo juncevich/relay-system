@@ -2,7 +2,6 @@ package com.relay.unit.web;
 
 import com.relay.core.service.RelayService;
 import com.relay.db.repository.RelayRepository;
-import com.relay.db.repository.StorageRepository;
 import com.relay.web.controllers.RelayController;
 import com.relay.web.model.Relay;
 import org.hamcrest.Matchers;
@@ -37,30 +36,27 @@ class RelayControllerTest {
   @MockitoBean
   private RelayRepository relayRepository;
 
-  @MockitoBean
-  private StorageRepository storageRepository;
-
   @Test
   void successResponse() throws Exception {
 
     given(
-        relayService.findAll(PageRequest.of(0, 10))).willReturn(
-        List.of(
-            new Relay(
-                OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
-                OffsetDateTime.of(2023, 7, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
-                "test_serial_number"
+            relayService.findAll(PageRequest.of(0, 10))).willReturn(
+            List.of(
+                    new Relay(
+                            OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
+                            OffsetDateTime.of(2023, 7, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
+                            "test_serial_number"
+                    )
             )
-        )
     );
 
     mvc.perform(get("/relays"))
-        .andDo(print())
-        .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].serialNumber", is("test_serial_number")))
-        .andExpect(jsonPath("$[0].createdAt", is("2023-01-01T00:00:00+03:00")))
-        .andExpect(jsonPath("$[0].verificationDate", is("2023-07-01T00:00:00+03:00")));
+            .andDo(print())
+            .andExpect(content().contentType(APPLICATION_JSON_VALUE))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].serialNumber", is("test_serial_number")))
+            .andExpect(jsonPath("$[0].createdAt", is("2023-01-01T00:00:00+03:00")))
+            .andExpect(jsonPath("$[0].verificationDate", is("2023-07-01T00:00:00+03:00")));
   }
 
   @Test
@@ -68,9 +64,9 @@ class RelayControllerTest {
     relayService.findAll(Pageable.unpaged());
 
     mvc.perform(get("/relays"))
-        .andDo(print())
-        .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$", Matchers.empty()));
+            .andDo(print())
+            .andExpect(content().contentType(APPLICATION_JSON_VALUE))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", Matchers.empty()));
   }
 }
