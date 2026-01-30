@@ -4,11 +4,8 @@ plugins {
     id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
     id 'java'
     id "org.sonarqube" version "$sonarQubeVersion"
-//    id 'nebula.release' version '11.0.0'
     id 'jacoco'
     id "org.flywaydb.flyway" version "$flywayVersion"
-//    id "net.ltgt.apt" version "0.21"
-//    id 'pmd'
 }
 
 sonarqube {
@@ -37,43 +34,16 @@ java {
 }
 
 repositories {
-//    jcenter()
     mavenCentral()
     mavenLocal()
-//    maven { url 'https://repo.spring.io/snapshot' }
-//    maven { url 'https://repo.spring.io/milestone' }
 }
-
-ext {
-//    set('springCloudVersion', "2022.0.0")
-//    set('testcontainersVersion', "1.17.3")
-//    set('swaggerVersion', "2.9.2")
-//    set('dekorateVersion', "2.5.0")
-//    set('mapStructVersion', "1.6.3")
-//    set('testcontainersVersion', "1.19.0")
-}
-
-
-
 
 dependencies {
-//    compileOnly 'org.jspecify:jspecify-annotations:1.0.0' // Or the latest version
     implementation("ru.relay.infrastructure:rest:0.0.1")
     implementation("org.jspecify:jspecify:1.0.0")
-//    project 'ru.relay.infrastructure:db'
-//    implementation 'ru.relay.infrastructure:db:0.0.1'
-//    implementation 'ru.relay.infrastructure:local-postgres:0.0.1'
-//    implementation 'ru.relay.infrastructure:id:0.01'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     runtimeOnly 'com.h2database:h2'
     implementation("org.flywaydb:flyway-database-postgresql")
-//    implementation("io.springfox:springfox-swagger2:${swaggerVersion}") {
-//        exclude group: 'org.mapstruct', module: 'mapstruct'
-//    }
-//    implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
-//    implementation "org.mapstruct:mapstruct-jdk8:${mapStructVersion}"
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("commons-beanutils:commons-beanutils:1.11.0")
@@ -83,14 +53,10 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-jackson"
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-//    implementation "io.springfox:springfox-boot-starter:3.0.0"
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-//    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
-//    annotationProcessor "io.dekorate:kubernetes-spring-starter:${dekorateVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
     testImplementation 'org.springframework.boot:spring-boot-data-jpa-test'
@@ -110,13 +76,7 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1'
-
-//    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-ribbon', version: '2.2.9.RELEASE'
-//    implementation('org.springframework.cloud:spring-cloud-starter-kubernetes-fabric8-all:3.0.0')
-
 }
 
 jacoco {
@@ -125,16 +85,12 @@ jacoco {
 
 jacocoTestReport {
     reports {
-//        xml.enabled true
-//        html.enabled true
         xml.required.set(true)
         html.required.set(true)
     }
 }
 test {
-    useJUnitPlatform {
-//        includeTags 'unit', 'integration', ''
-    }
+    useJUnitPlatform()
 }
 
 check.dependsOn jacocoTestReport
@@ -142,7 +98,6 @@ check.dependsOn jacocoTestReport
 dependencyManagement {
     imports {
         mavenBom "org.testcontainers:testcontainers-bom:$testcontainersVersion"
-//        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
 
@@ -152,22 +107,9 @@ jib {
     }
     to {
         image = 'alexunc/relay-store-service'
-//        auth {
-//            username = System.getenv('DOCKER_LOGIN')
-//            password = System.getenv('DOCKER_PASS')
-//        }
         tags = [version, 'latest']
     }
     container {
-//        jvmFlags = ['-Dmy.property=example.value', '-Xms512m', '-Xdebug']
-//        mainClass = 'mypackage.MyApp'
-//        args = ['some', 'args']
         ports = ['9090', '8080']
-//        labels = [key1:'value1', key2:'value2']
-//        format = 'OCI'
     }
 }
-
-//tasks.named('test') {
-//    useJUnitPlatform()
-//}

@@ -36,7 +36,7 @@ com.relay
 │   ├── controllers/   # @RestController endpoints
 │   ├── dto/           # Request/response records (CreateRelayRequest, CreateRelayResponse)
 │   ├── model/         # API domain models (Relay, District, Stage, etc.)
-│   └── exeptions/     # @ControllerAdvice exception handler, ProblemDetail responses
+│   └── exceptions/    # @ControllerAdvice exception handler, ProblemDetail responses
 ├── core/
 │   └── service/       # Business logic (@Service, @Transactional)
 ├── db/

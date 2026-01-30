@@ -3,7 +3,6 @@ package com.relay.integration.controllers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.relay.core.service.RelayService;
 import com.relay.db.entity.items.Relay;
 import com.relay.db.entity.items.RelayType;
 import com.relay.db.entity.location.Station;
@@ -53,9 +52,6 @@ class RelayControllerTest {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private RelayService relayService;
-
-    @Autowired
     private RelayRepository relayRepository;
 
     @Autowired
@@ -97,7 +93,6 @@ class RelayControllerTest {
     }
 
     @Test
-        ////@WithMockUser()
     void testCreateRelay() throws Exception {
 
         var createRelayRequest = new CreateRelayRequest(
@@ -116,11 +111,9 @@ class RelayControllerTest {
         var deserializedResponse = objectMapper.readValue(response.getContentAsString(), CreateRelayResponse.class);
         Assertions.assertEquals("012345", deserializedResponse.serialNumber());
         Assertions.assertNotNull(deserializedResponse.dateOfManufacture());
-//        Assertions.assertNotNull(deserializedResponse.verificationDate());
     }
 
     @Test
-        //@WithMockUser
     void testRetrieveAllRelays() throws Exception {
         relayRepository.save(Relay.builder()
                 .serialNumber("test_serial_number")
@@ -152,207 +145,6 @@ class RelayControllerTest {
         Assertions.assertEquals(1, receivedRelayList.size());
     }
 
-    @Test
-    void testDeleteRelay() {
-
-//        relayRepository.save(new Relay());
-//        Relay relay = relayService.findAll().getContent().get(0);
-//
-//        this.mockMvc.perform(delete("/relay/" + relay.getId()).with(csrf()))
-//                .andExpect(status().isNoContent()).andReturn().getResponse();
-//
-//        List<Relay> relayList = relayService.findAll().getContent();
-//        assertTrue(CollectionUtils.isEmpty(relayList));
-    }
-
-    @Test
-        //@WithMockUser
-    void testFindRelayToEqualsVerificationDate() {
-
-//        String date = "[2018,6,25]";
-//        MockHttpServletResponse response = this.mockMvc
-//                .perform(post("/relay/verificationDate").content(date)
-//                        .contentType(MediaType.APPLICATION_JSON).with(csrf()))
-//                .andExpect(status().isOk()).andReturn().getResponse();
-//        String contentAsString = response.getContentAsString();
-//        assertNotNull(contentAsString);
-//
-//        JsonNode jsonNode = objectMapper.readTree(contentAsString);
-//        JsonNode content = jsonNode.get("content");
-//
-//        List<Relay> receivedRelayList =
-//                objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
-//                });
-//        assertNotNull(receivedRelayList);
-//        assertEquals(0, receivedRelayList.size());
-//
-//        receivedRelayList.forEach(
-//                relay -> assertEquals("2018-06-25", relay.getVerificationDate().toString()));
-    }
-
-    //    @Test
-        //@WithMockUser
-    void testFindRelayById() throws Exception {
-
-        Relay relay = new Relay();
-        relay.setSerialNumber("serial123");
-        relay.setStorage(defaultStorage);
-        relayRepository.save(relay);
-        Relay createdRelay = relayRepository.findAll().getFirst();
-        MockHttpServletResponse response =
-                this.mockMvc.perform(get("/relay/" + createdRelay.getId()).with(csrf()))
-                        .andExpect(status().isOk()).andReturn().getResponse();
-
-        String contentAsString = response.getContentAsString();
-        Assertions.assertNotNull(contentAsString);
-
-        com.relay.web.model.Relay receivedRelay = objectMapper.readValue(contentAsString, com.relay.web.model.Relay.class);
-
-        Assertions.assertNotNull(receivedRelay);
-//        Assertions.assertEquals(createdRelay.getId(), receivedRelay.getId());
-
-    }
-
-    @Test
-        //@WithMockUser
-    void testFindRelayToEqualsDateOfManufacture() {
-
-//        String date = "2016-06-10";
-//        MockHttpServletResponse response = this.mockMvc
-//                .perform(get("/relay/dateOfManufacture").param("date", date).with(csrf()))
-//                .andExpect(status().isOk()).andReturn().getResponse();
-//        String contentAsString = response.getContentAsString();
-//        assertNotNull(contentAsString);
-//
-//        JsonNode jsonNode = objectMapper.readTree(contentAsString);
-//        JsonNode content = jsonNode.get("content");
-//
-//        List<Relay> receivedRelayList =
-//                objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
-//                });
-//        assertNotNull(receivedRelayList);
-//        assertEquals(0, receivedRelayList.size());
-//
-//        receivedRelayList.forEach(
-//                relay -> assertEquals("2016-06-10", relay.getDateOfManufacture().toString()));
-    }
-
-    @Test
-        //@WithMockUser
-    void testFindRelayToBeforeDateOfManufactureEqualsDate() {
-
-//        String date = "2016-06-10";
-//        MockHttpServletResponse response = this.mockMvc
-//                .perform(get("/relay/dateOfManufacture").param("before", date).with(csrf()))
-//                .andExpect(status().isOk()).andReturn().getResponse();
-//        String contentAsString = response.getContentAsString();
-//        assertNotNull(contentAsString);
-//
-//        JsonNode jsonNode = objectMapper.readTree(contentAsString);
-//        JsonNode content = jsonNode.get("content");
-//
-//        List<Relay> receivedRelayList =
-//                objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
-//                });
-//        assertNotNull(receivedRelayList);
-//        assertEquals(0, receivedRelayList.size());
-//
-//        receivedRelayList.forEach(
-//                relay -> assertEquals("2016-06-10", relay.getDateOfManufacture().toString()));
-    }
-
-    @Test
-        //@WithMockUser
-    void testFindRelayToBeforeDateOfManufactureWithOlderDate() {
-
-//        String date = "2016-06-11";
-//        MockHttpServletResponse response = this.mockMvc
-//                .perform(get("/relay/dateOfManufacture").param("before", date).with(csrf()))
-//                .andExpect(status().isOk()).andReturn().getResponse();
-//        String contentAsString = response.getContentAsString();
-//        assertNotNull(contentAsString);
-//
-//        JsonNode jsonNode = objectMapper.readTree(contentAsString);
-//        JsonNode content = jsonNode.get("content");
-//
-//        List<Relay> receivedRelayList =
-//                objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
-//                });
-//        assertNotNull(receivedRelayList);
-//        assertEquals(0, receivedRelayList.size());
-//
-//        receivedRelayList.forEach(
-//                relay -> assertEquals("2016-06-10", relay.getDateOfManufacture().toString()));
-    }
-
-    @Test
-        //@WithMockUser
-    void testFindRelayToAfterDateOfManufactureEqualsDate() {
-
-//        String date = "2016-06-10";
-//        MockHttpServletResponse response = this.mockMvc
-//                .perform(get("/relay/dateOfManufacture").param("after", date).with(csrf()))
-//                .andExpect(status().isOk()).andReturn().getResponse();
-//        String contentAsString = response.getContentAsString();
-//        assertNotNull(contentAsString);
-//
-//        JsonNode jsonNode = objectMapper.readTree(contentAsString);
-//        JsonNode content = jsonNode.get("content");
-//
-//        List<Relay> receivedRelayList =
-//                objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
-//                });
-//        assertNotNull(receivedRelayList);
-//        assertEquals(0, receivedRelayList.size());
-//
-//        receivedRelayList.forEach(
-//                relay -> assertEquals("2016-06-10", relay.getDateOfManufacture().toString()));
-    }
-
-    @Test
-        //@WithMockUser
-    void testFindRelayToafterDateOfManufactureWithOlderDate() {
-
-//        String date = "2016-06-09";
-//        MockHttpServletResponse response = this.mockMvc
-//                .perform(get("/relay/dateOfManufacture").param("after", date).with(csrf()))
-//                .andExpect(status().isOk()).andReturn().getResponse();
-//        String contentAsString = response.getContentAsString();
-//        assertNotNull(contentAsString);
-//
-//        JsonNode jsonNode = objectMapper.readTree(contentAsString);
-//        JsonNode content = jsonNode.get("content");
-//
-//        List<Relay> receivedRelayList =
-//                objectMapper.readValue(content.toString(), new TypeReference<List<Relay>>() {
-//                });
-//        assertNotNull(receivedRelayList);
-//        assertEquals(0, receivedRelayList.size());
-//
-//        receivedRelayList.forEach(
-//                relay -> assertEquals("2016-06-10", relay.getDateOfManufacture().toString()));
-    }
-
-    @Test
-        //@WithMockUser
-    void testFindBySerialNumber() {
-
-//        Relay relay = new Relay();
-//        relay.setSerialNumber("serial123");
-//        relayService.save(relay);
-//        Relay createdRelay = relayService.findAll().getContent().get(0);
-//        MockHttpServletResponse response = this.mockMvc
-//                .perform(get("/relay/serialNumber")
-//                        .param("serialNumber", createdRelay.getSerialNumber()).with(csrf()))
-//                .andExpect(status().isOk()).andReturn().getResponse();
-//
-//        String contentAsString = response.getContentAsString();
-//        assertNotNull(contentAsString);
-//
-//        Relay receivedRelay = objectMapper.readValue(contentAsString, Relay.class);
-//        assertEquals(createdRelay.getId(), receivedRelay.getId());
-
-    }
 }
 
 

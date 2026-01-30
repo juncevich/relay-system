@@ -21,22 +21,6 @@ public class SnowflakeIdGenerator {
 
     private Long value;
 
-//    public SnowflakeIdGenerator(Long value) {
-//    }
-
-//    private SnowflakeIdGenerator(long workerId, long datacenterId) {
-//        if (workerId <= 31L && workerId >= 0L) {
-//            if (datacenterId <= 31L && datacenterId >= 0L) {
-//                SnowflakeIdGenerator.workerId = workerId;
-//                SnowflakeIdGenerator.datacenterId = datacenterId;
-//            } else {
-//                throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", 31L));
-//            }
-//        } else {
-//            throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", 31L));
-//        }
-//    }
-
     public static synchronized void initDataCenterAndWorker(int datacenterId, int workerId) {
         if ((long) workerId <= 31L && workerId >= 0) {
             if ((long) datacenterId <= 31L && datacenterId >= 0) {
