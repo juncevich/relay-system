@@ -13,9 +13,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
-import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 
 import java.time.*;
 import java.util.List;
@@ -31,8 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RelayServiceITTest {
 
     @Container
-    static PostgreSQLContainer<?> postgreSQLContainer =
-            new PostgreSQLContainer<>("postgres:10.4")
+    static PostgreSQLContainer postgreSQLContainer =
+            new PostgreSQLContainer("postgres:18-alpine")
                     .withDatabaseName("sampledb").withUsername("sampleuser")
                     .withPassword("samplepwd").withStartupTimeout(Duration.ofSeconds(600));
 
