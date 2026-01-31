@@ -3,7 +3,7 @@ package com.relay.core.model.location;
 import lombok.Builder;
 
 @Builder
-public record StationModel(
+public record Crossing(
         Long id,
         String name
 ) {

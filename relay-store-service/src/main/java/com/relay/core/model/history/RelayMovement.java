@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.time.OffsetDateTime;
 
 @Builder
-public record RelayMovementModel(
+public record RelayMovement(
         Long id,
         Long relayId,
         String relaySerialNumber,

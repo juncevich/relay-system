@@ -1,6 +1,5 @@
 package com.relay.db.mappers;
 
-import com.relay.core.model.history.RelayMovementModel;
 import com.relay.db.entity.history.RelayMovement;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,12 +16,12 @@ public interface RelayMovementMapper {
     @Mapping(target = "relaySerialNumber", source = "relay.serialNumber")
     @Mapping(target = "fromStorageId", source = "fromStorage.id")
     @Mapping(target = "toStorageId", source = "toStorage.id")
-    RelayMovementModel mapEntityToModel(RelayMovement entity);
+    com.relay.core.model.history.RelayMovement mapEntityToModel(RelayMovement entity);
 
-    List<RelayMovementModel> mapEntityToModel(List<RelayMovement> entities);
+    List<com.relay.core.model.history.RelayMovement> mapEntityToModel(List<RelayMovement> entities);
 
     @Mapping(target = "relay", ignore = true)
     @Mapping(target = "fromStorage", ignore = true)
     @Mapping(target = "toStorage", ignore = true)
-    RelayMovement mapModelToEntity(RelayMovementModel model);
+    RelayMovement mapModelToEntity(com.relay.core.model.history.RelayMovement model);
 }

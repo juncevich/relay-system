@@ -1,6 +1,5 @@
 package com.relay.db.mappers;
 
-import com.relay.core.model.storage.ShelfModel;
 import com.relay.db.entity.storage.Shelf;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,10 +13,10 @@ import java.util.List;
 public interface ShelfMapper {
 
     @Mapping(target = "storageId", source = "storage.id")
-    ShelfModel mapEntityToModel(Shelf entity);
+    com.relay.core.model.storage.Shelf mapEntityToModel(Shelf entity);
 
-    List<ShelfModel> mapEntityToModel(List<Shelf> entities);
+    List<com.relay.core.model.storage.Shelf> mapEntityToModel(List<Shelf> entities);
 
     @Mapping(target = "storage", ignore = true)
-    Shelf mapModelToEntity(ShelfModel model);
+    Shelf mapModelToEntity(com.relay.core.model.storage.Shelf model);
 }

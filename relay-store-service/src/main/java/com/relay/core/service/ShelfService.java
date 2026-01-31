@@ -1,8 +1,6 @@
 package com.relay.core.service;
 
-import com.relay.core.model.storage.ShelfModel;
-import com.relay.db.entity.storage.Shelf;
-import com.relay.db.entity.storage.Storage;
+import com.relay.core.model.storage.Shelf;
 import com.relay.db.mappers.ShelfMapper;
 import com.relay.db.repository.ShelfRepository;
 import com.relay.db.repository.StorageRepository;
@@ -26,35 +24,35 @@ public class ShelfService {
     private final StorageRepository storageRepository;
     private final ShelfMapper shelfMapper;
 
-    public @NonNull List<ShelfModel> findAll(@NonNull Pageable pageable) {
+    public @NonNull List<Shelf> findAll(@NonNull Pageable pageable) {
         var slice = shelfRepository.findAll(pageable);
         return slice.hasContent()
                 ? slice.getContent().stream().map(shelfMapper::mapEntityToModel).toList()
                 : List.of();
     }
 
-    public @Nullable ShelfModel findById(@NonNull Long id) {
+    public @Nullable Shelf findById(@NonNull Long id) {
         return shelfRepository.findById(id)
                 .map(shelfMapper::mapEntityToModel)
                 .orElse(null);
     }
 
-    public ShelfModel save(@NonNull ShelfModel model, @NonNull Long storageId) {
-        Storage storage = storageRepository.findById(storageId)
+    public Shelf save(@NonNull Shelf model, @NonNull Long storageId) {
+        com.relay.db.entity.storage.Storage storage = storageRepository.findById(storageId)
                 .orElseThrow(() -> new IllegalArgumentException("Storage not found: " + storageId));
-        Shelf entity = shelfMapper.mapModelToEntity(model);
+        com.relay.db.entity.storage.Shelf entity = shelfMapper.mapModelToEntity(model);
         entity.setStorage(storage);
-        Shelf saved = shelfRepository.save(entity);
+        com.relay.db.entity.storage.Shelf saved = shelfRepository.save(entity);
         return shelfMapper.mapEntityToModel(saved);
     }
 
-    public @Nullable ShelfModel update(@NonNull Long id, @NonNull ShelfModel model) {
+    public @Nullable Shelf update(@NonNull Long id, @NonNull Shelf model) {
         return shelfRepository.findById(id)
                 .map(shelf -> {
                     shelf.setNumber(model.number());
                     shelf.setCapacity(model.capacity());
                     if (model.storageId() != null) {
-                        Storage storage = storageRepository.findById(model.storageId())
+                        com.relay.db.entity.storage.Storage storage = storageRepository.findById(model.storageId())
                                 .orElseThrow(() -> new IllegalArgumentException("Storage not found: " + model.storageId()));
                         shelf.setStorage(storage);
                     }

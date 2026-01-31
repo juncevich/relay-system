@@ -1,15 +1,12 @@
 package com.relay.core.service;
 
-import com.relay.core.model.location.CrossingModel;
-import com.relay.core.model.location.StationModel;
-import com.relay.core.model.location.TrackPointModel;
-import com.relay.core.model.storage.RelayCabinetModel;
-import com.relay.core.model.storage.StandModel;
-import com.relay.core.model.storage.WarehouseModel;
+import com.relay.core.model.location.Crossing;
+import com.relay.core.model.location.Station;
+import com.relay.core.model.location.TrackPoint;
+import com.relay.core.model.storage.RelayCabinet;
+import com.relay.core.model.storage.Stand;
+import com.relay.core.model.storage.Warehouse;
 import com.relay.db.entity.location.Location;
-import com.relay.db.entity.storage.RelayCabinet;
-import com.relay.db.entity.storage.Stand;
-import com.relay.db.entity.storage.Warehouse;
 import com.relay.db.mappers.LocationMapper;
 import com.relay.db.mappers.StorageMapper;
 import com.relay.db.repository.*;
@@ -39,21 +36,21 @@ public class StorageService {
     private final LocationMapper locationMapper;
 
     // Warehouse operations
-    public WarehouseModel saveWarehouse(@NonNull WarehouseModel model, @NonNull Long locationId) {
+    public Warehouse saveWarehouse(@NonNull Warehouse model, @NonNull Long locationId) {
         Location location = findLocationById(locationId);
-        Warehouse entity = storageMapper.mapModelToWarehouseEntity(model);
+        com.relay.db.entity.storage.Warehouse entity = storageMapper.mapModelToWarehouseEntity(model);
         entity.setLocation(location);
-        Warehouse saved = warehouseRepository.save(entity);
+        com.relay.db.entity.storage.Warehouse saved = warehouseRepository.save(entity);
         return storageMapper.mapWarehouseEntityToModel(saved);
     }
 
-    public @Nullable WarehouseModel findWarehouseById(@NonNull Long id) {
+    public @Nullable Warehouse findWarehouseById(@NonNull Long id) {
         return warehouseRepository.findById(id)
                 .map(storageMapper::mapWarehouseEntityToModel)
                 .orElse(null);
     }
 
-    public @Nullable WarehouseModel updateWarehouse(@NonNull Long id, @NonNull WarehouseModel model) {
+    public @Nullable Warehouse updateWarehouse(@NonNull Long id, @NonNull Warehouse model) {
         return warehouseRepository.findById(id)
                 .map(warehouse -> {
                     warehouse.setName(model.name());
@@ -66,7 +63,7 @@ public class StorageService {
                 .orElse(null);
     }
 
-    public @NonNull List<WarehouseModel> findAllWarehouses(@NonNull Pageable pageable) {
+    public @NonNull List<Warehouse> findAllWarehouses(@NonNull Pageable pageable) {
         var slice = warehouseRepository.findAll(pageable);
         return slice.hasContent()
                 ? slice.getContent().stream().map(storageMapper::mapWarehouseEntityToModel).toList()
@@ -78,21 +75,21 @@ public class StorageService {
     }
 
     // Stand operations
-    public StandModel saveStand(@NonNull StandModel model, @NonNull Long locationId) {
+    public Stand saveStand(@NonNull Stand model, @NonNull Long locationId) {
         Location location = findLocationById(locationId);
-        Stand entity = storageMapper.mapModelToStandEntity(model);
+        com.relay.db.entity.storage.Stand entity = storageMapper.mapModelToStandEntity(model);
         entity.setLocation(location);
-        Stand saved = standRepository.save(entity);
+        com.relay.db.entity.storage.Stand saved = standRepository.save(entity);
         return storageMapper.mapStandEntityToModel(saved);
     }
 
-    public @Nullable StandModel findStandById(@NonNull Long id) {
+    public @Nullable Stand findStandById(@NonNull Long id) {
         return standRepository.findById(id)
                 .map(storageMapper::mapStandEntityToModel)
                 .orElse(null);
     }
 
-    public @Nullable StandModel updateStand(@NonNull Long id, @NonNull StandModel model) {
+    public @Nullable Stand updateStand(@NonNull Long id, @NonNull Stand model) {
         return standRepository.findById(id)
                 .map(stand -> {
                     stand.setName(model.name());
@@ -105,7 +102,7 @@ public class StorageService {
                 .orElse(null);
     }
 
-    public @NonNull List<StandModel> findAllStands(@NonNull Pageable pageable) {
+    public @NonNull List<Stand> findAllStands(@NonNull Pageable pageable) {
         var slice = standRepository.findAll(pageable);
         return slice.hasContent()
                 ? slice.getContent().stream().map(storageMapper::mapStandEntityToModel).toList()
@@ -117,21 +114,21 @@ public class StorageService {
     }
 
     // RelayCabinet operations
-    public RelayCabinetModel saveRelayCabinet(@NonNull RelayCabinetModel model, @NonNull Long locationId) {
+    public RelayCabinet saveRelayCabinet(@NonNull RelayCabinet model, @NonNull Long locationId) {
         Location location = findLocationById(locationId);
-        RelayCabinet entity = storageMapper.mapModelToRelayCabinetEntity(model);
+        com.relay.db.entity.storage.RelayCabinet entity = storageMapper.mapModelToRelayCabinetEntity(model);
         entity.setLocation(location);
-        RelayCabinet saved = relayCabinetRepository.save(entity);
+        com.relay.db.entity.storage.RelayCabinet saved = relayCabinetRepository.save(entity);
         return storageMapper.mapRelayCabinetEntityToModel(saved);
     }
 
-    public @Nullable RelayCabinetModel findRelayCabinetById(@NonNull Long id) {
+    public @Nullable RelayCabinet findRelayCabinetById(@NonNull Long id) {
         return relayCabinetRepository.findById(id)
                 .map(storageMapper::mapRelayCabinetEntityToModel)
                 .orElse(null);
     }
 
-    public @Nullable RelayCabinetModel updateRelayCabinet(@NonNull Long id, @NonNull RelayCabinetModel model) {
+    public @Nullable RelayCabinet updateRelayCabinet(@NonNull Long id, @NonNull RelayCabinet model) {
         return relayCabinetRepository.findById(id)
                 .map(cabinet -> {
                     cabinet.setName(model.name());
@@ -144,7 +141,7 @@ public class StorageService {
                 .orElse(null);
     }
 
-    public @NonNull List<RelayCabinetModel> findAllRelayCabinets(@NonNull Pageable pageable) {
+    public @NonNull List<RelayCabinet> findAllRelayCabinets(@NonNull Pageable pageable) {
         var slice = relayCabinetRepository.findAll(pageable);
         return slice.hasContent()
                 ? slice.getContent().stream().map(storageMapper::mapRelayCabinetEntityToModel).toList()
@@ -163,19 +160,19 @@ public class StorageService {
     }
 
     // Location finder methods
-    public @Nullable StationModel findStationById(@NonNull Long id) {
+    public @Nullable Station findStationById(@NonNull Long id) {
         return stationRepository.findById(id)
                 .map(locationMapper::mapStationEntityToModel)
                 .orElse(null);
     }
 
-    public @Nullable TrackPointModel findTrackPointById(@NonNull Long id) {
+    public @Nullable TrackPoint findTrackPointById(@NonNull Long id) {
         return trackPointRepository.findById(id)
                 .map(locationMapper::mapTrackPointEntityToModel)
                 .orElse(null);
     }
 
-    public @Nullable CrossingModel findCrossingById(@NonNull Long id) {
+    public @Nullable Crossing findCrossingById(@NonNull Long id) {
         return crossingRepository.findById(id)
                 .map(locationMapper::mapCrossingEntityToModel)
                 .orElse(null);

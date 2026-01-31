@@ -1,8 +1,5 @@
 package com.relay.db.mappers;
 
-import com.relay.core.model.location.CrossingModel;
-import com.relay.core.model.location.StationModel;
-import com.relay.core.model.location.TrackPointModel;
 import com.relay.db.entity.location.Crossing;
 import com.relay.db.entity.location.Station;
 import com.relay.db.entity.location.TrackPoint;
@@ -16,21 +13,21 @@ import java.util.List;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface LocationMapper {
 
-    StationModel mapStationEntityToModel(Station entity);
+    com.relay.core.model.location.Station mapStationEntityToModel(Station entity);
 
-    List<StationModel> mapStationEntityToModel(List<Station> entities);
+    List<com.relay.core.model.location.Station> mapStationEntityToModel(List<Station> entities);
 
-    Station mapModelToStationEntity(StationModel model);
+    Station mapModelToStationEntity(com.relay.core.model.location.Station model);
 
-    TrackPointModel mapTrackPointEntityToModel(TrackPoint entity);
+    com.relay.core.model.location.TrackPoint mapTrackPointEntityToModel(TrackPoint entity);
 
-    List<TrackPointModel> mapTrackPointEntityToModel(List<TrackPoint> entities);
+    List<com.relay.core.model.location.TrackPoint> mapTrackPointEntityToModel(List<TrackPoint> entities);
 
-    TrackPoint mapModelToTrackPointEntity(TrackPointModel model);
+    TrackPoint mapModelToTrackPointEntity(com.relay.core.model.location.TrackPoint model);
 
-    CrossingModel mapCrossingEntityToModel(Crossing entity);
+    com.relay.core.model.location.Crossing mapCrossingEntityToModel(Crossing entity);
 
-    List<CrossingModel> mapCrossingEntityToModel(List<Crossing> entities);
+    List<com.relay.core.model.location.Crossing> mapCrossingEntityToModel(List<Crossing> entities);
 
-    Crossing mapModelToCrossingEntity(CrossingModel model);
+    Crossing mapModelToCrossingEntity(com.relay.core.model.location.Crossing model);
 }

@@ -1,8 +1,8 @@
 package com.relay.web.controllers;
 
-import com.relay.core.model.storage.RelayCabinetModel;
-import com.relay.core.model.storage.StandModel;
-import com.relay.core.model.storage.WarehouseModel;
+import com.relay.core.model.storage.RelayCabinet;
+import com.relay.core.model.storage.Stand;
+import com.relay.core.model.storage.Warehouse;
 import com.relay.core.service.StorageService;
 import com.relay.web.dto.storage.CreateRelayCabinetRequest;
 import com.relay.web.dto.storage.CreateStandRequest;
@@ -27,7 +27,7 @@ public class StorageController {
     // Warehouse endpoints
     @GetMapping("/warehouses")
     @Operation(summary = "Get all warehouses")
-    public List<WarehouseModel> findAllWarehouses(
+    public List<Warehouse> findAllWarehouses(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return storageService.findAllWarehouses(PageRequest.of(page, size));
@@ -35,15 +35,15 @@ public class StorageController {
 
     @GetMapping("/warehouses/{id}")
     @Operation(summary = "Get warehouse by ID")
-    public WarehouseModel findWarehouseById(@PathVariable Long id) {
+    public Warehouse findWarehouseById(@PathVariable Long id) {
         return storageService.findWarehouseById(id);
     }
 
     @PostMapping("/warehouses")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new warehouse")
-    public WarehouseModel createWarehouse(@Valid @RequestBody CreateWarehouseRequest request) {
-        var model = WarehouseModel.builder()
+    public Warehouse createWarehouse(@Valid @RequestBody CreateWarehouseRequest request) {
+        var model = Warehouse.builder()
                 .name(request.name())
                 .build();
         return storageService.saveWarehouse(model, request.locationId());
@@ -51,8 +51,8 @@ public class StorageController {
 
     @PutMapping("/warehouses/{id}")
     @Operation(summary = "Update warehouse")
-    public WarehouseModel updateWarehouse(@PathVariable Long id, @Valid @RequestBody CreateWarehouseRequest request) {
-        var model = WarehouseModel.builder()
+    public Warehouse updateWarehouse(@PathVariable Long id, @Valid @RequestBody CreateWarehouseRequest request) {
+        var model = Warehouse.builder()
                 .name(request.name())
                 .locationId(request.locationId())
                 .build();
@@ -69,7 +69,7 @@ public class StorageController {
     // Stand endpoints
     @GetMapping("/stands")
     @Operation(summary = "Get all stands")
-    public List<StandModel> findAllStands(
+    public List<Stand> findAllStands(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return storageService.findAllStands(PageRequest.of(page, size));
@@ -77,15 +77,15 @@ public class StorageController {
 
     @GetMapping("/stands/{id}")
     @Operation(summary = "Get stand by ID")
-    public StandModel findStandById(@PathVariable Long id) {
+    public Stand findStandById(@PathVariable Long id) {
         return storageService.findStandById(id);
     }
 
     @PostMapping("/stands")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new stand")
-    public StandModel createStand(@Valid @RequestBody CreateStandRequest request) {
-        var model = StandModel.builder()
+    public Stand createStand(@Valid @RequestBody CreateStandRequest request) {
+        var model = Stand.builder()
                 .name(request.name())
                 .build();
         return storageService.saveStand(model, request.locationId());
@@ -93,8 +93,8 @@ public class StorageController {
 
     @PutMapping("/stands/{id}")
     @Operation(summary = "Update stand")
-    public StandModel updateStand(@PathVariable Long id, @Valid @RequestBody CreateStandRequest request) {
-        var model = StandModel.builder()
+    public Stand updateStand(@PathVariable Long id, @Valid @RequestBody CreateStandRequest request) {
+        var model = Stand.builder()
                 .name(request.name())
                 .locationId(request.locationId())
                 .build();
@@ -111,7 +111,7 @@ public class StorageController {
     // RelayCabinet endpoints
     @GetMapping("/relay-cabinets")
     @Operation(summary = "Get all relay cabinets")
-    public List<RelayCabinetModel> findAllRelayCabinets(
+    public List<RelayCabinet> findAllRelayCabinets(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return storageService.findAllRelayCabinets(PageRequest.of(page, size));
@@ -119,15 +119,15 @@ public class StorageController {
 
     @GetMapping("/relay-cabinets/{id}")
     @Operation(summary = "Get relay cabinet by ID")
-    public RelayCabinetModel findRelayCabinetById(@PathVariable Long id) {
+    public RelayCabinet findRelayCabinetById(@PathVariable Long id) {
         return storageService.findRelayCabinetById(id);
     }
 
     @PostMapping("/relay-cabinets")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new relay cabinet")
-    public RelayCabinetModel createRelayCabinet(@Valid @RequestBody CreateRelayCabinetRequest request) {
-        var model = RelayCabinetModel.builder()
+    public RelayCabinet createRelayCabinet(@Valid @RequestBody CreateRelayCabinetRequest request) {
+        var model = RelayCabinet.builder()
                 .name(request.name())
                 .build();
         return storageService.saveRelayCabinet(model, request.locationId());
@@ -135,8 +135,8 @@ public class StorageController {
 
     @PutMapping("/relay-cabinets/{id}")
     @Operation(summary = "Update relay cabinet")
-    public RelayCabinetModel updateRelayCabinet(@PathVariable Long id, @Valid @RequestBody CreateRelayCabinetRequest request) {
-        var model = RelayCabinetModel.builder()
+    public RelayCabinet updateRelayCabinet(@PathVariable Long id, @Valid @RequestBody CreateRelayCabinetRequest request) {
+        var model = RelayCabinet.builder()
                 .name(request.name())
                 .locationId(request.locationId())
                 .build();

@@ -1,11 +1,8 @@
 package com.relay.core.service;
 
-import com.relay.core.model.location.CrossingModel;
-import com.relay.core.model.location.StationModel;
-import com.relay.core.model.location.TrackPointModel;
-import com.relay.db.entity.location.Crossing;
-import com.relay.db.entity.location.Station;
-import com.relay.db.entity.location.TrackPoint;
+import com.relay.core.model.location.Crossing;
+import com.relay.core.model.location.Station;
+import com.relay.core.model.location.TrackPoint;
 import com.relay.db.mappers.LocationMapper;
 import com.relay.db.repository.CrossingRepository;
 import com.relay.db.repository.StationRepository;
@@ -32,19 +29,19 @@ public class LocationService {
     private final LocationMapper locationMapper;
 
     // Station operations
-    public StationModel saveStation(@NonNull StationModel model) {
-        Station entity = locationMapper.mapModelToStationEntity(model);
-        Station saved = stationRepository.save(entity);
+    public Station saveStation(@NonNull Station model) {
+        com.relay.db.entity.location.Station entity = locationMapper.mapModelToStationEntity(model);
+        com.relay.db.entity.location.Station saved = stationRepository.save(entity);
         return locationMapper.mapStationEntityToModel(saved);
     }
 
-    public @Nullable StationModel findStationById(@NonNull Long id) {
+    public @Nullable Station findStationById(@NonNull Long id) {
         return stationRepository.findById(id)
                 .map(locationMapper::mapStationEntityToModel)
                 .orElse(null);
     }
 
-    public @Nullable StationModel updateStation(@NonNull Long id, @NonNull StationModel model) {
+    public @Nullable Station updateStation(@NonNull Long id, @NonNull Station model) {
         return stationRepository.findById(id)
                 .map(station -> {
                     station.setName(model.name());
@@ -53,7 +50,7 @@ public class LocationService {
                 .orElse(null);
     }
 
-    public @NonNull List<StationModel> findAllStations(@NonNull Pageable pageable) {
+    public @NonNull List<Station> findAllStations(@NonNull Pageable pageable) {
         var slice = stationRepository.findAll(pageable);
         return slice.hasContent()
                 ? slice.getContent().stream().map(locationMapper::mapStationEntityToModel).toList()
@@ -65,19 +62,19 @@ public class LocationService {
     }
 
     // TrackPoint operations
-    public TrackPointModel saveTrackPoint(@NonNull TrackPointModel model) {
-        TrackPoint entity = locationMapper.mapModelToTrackPointEntity(model);
-        TrackPoint saved = trackPointRepository.save(entity);
+    public TrackPoint saveTrackPoint(@NonNull TrackPoint model) {
+        com.relay.db.entity.location.TrackPoint entity = locationMapper.mapModelToTrackPointEntity(model);
+        com.relay.db.entity.location.TrackPoint saved = trackPointRepository.save(entity);
         return locationMapper.mapTrackPointEntityToModel(saved);
     }
 
-    public @Nullable TrackPointModel findTrackPointById(@NonNull Long id) {
+    public @Nullable TrackPoint findTrackPointById(@NonNull Long id) {
         return trackPointRepository.findById(id)
                 .map(locationMapper::mapTrackPointEntityToModel)
                 .orElse(null);
     }
 
-    public @Nullable TrackPointModel updateTrackPoint(@NonNull Long id, @NonNull TrackPointModel model) {
+    public @Nullable TrackPoint updateTrackPoint(@NonNull Long id, @NonNull TrackPoint model) {
         return trackPointRepository.findById(id)
                 .map(trackPoint -> {
                     trackPoint.setName(model.name());
@@ -86,7 +83,7 @@ public class LocationService {
                 .orElse(null);
     }
 
-    public @NonNull List<TrackPointModel> findAllTrackPoints(@NonNull Pageable pageable) {
+    public @NonNull List<TrackPoint> findAllTrackPoints(@NonNull Pageable pageable) {
         var slice = trackPointRepository.findAll(pageable);
         return slice.hasContent()
                 ? slice.getContent().stream().map(locationMapper::mapTrackPointEntityToModel).toList()
@@ -98,19 +95,19 @@ public class LocationService {
     }
 
     // Crossing operations
-    public CrossingModel saveCrossing(@NonNull CrossingModel model) {
-        Crossing entity = locationMapper.mapModelToCrossingEntity(model);
-        Crossing saved = crossingRepository.save(entity);
+    public Crossing saveCrossing(@NonNull Crossing model) {
+        com.relay.db.entity.location.Crossing entity = locationMapper.mapModelToCrossingEntity(model);
+        com.relay.db.entity.location.Crossing saved = crossingRepository.save(entity);
         return locationMapper.mapCrossingEntityToModel(saved);
     }
 
-    public @Nullable CrossingModel findCrossingById(@NonNull Long id) {
+    public @Nullable Crossing findCrossingById(@NonNull Long id) {
         return crossingRepository.findById(id)
                 .map(locationMapper::mapCrossingEntityToModel)
                 .orElse(null);
     }
 
-    public @Nullable CrossingModel updateCrossing(@NonNull Long id, @NonNull CrossingModel model) {
+    public @Nullable Crossing updateCrossing(@NonNull Long id, @NonNull Crossing model) {
         return crossingRepository.findById(id)
                 .map(crossing -> {
                     crossing.setName(model.name());
@@ -119,7 +116,7 @@ public class LocationService {
                 .orElse(null);
     }
 
-    public @NonNull List<CrossingModel> findAllCrossings(@NonNull Pageable pageable) {
+    public @NonNull List<Crossing> findAllCrossings(@NonNull Pageable pageable) {
         var slice = crossingRepository.findAll(pageable);
         return slice.hasContent()
                 ? slice.getContent().stream().map(locationMapper::mapCrossingEntityToModel).toList()

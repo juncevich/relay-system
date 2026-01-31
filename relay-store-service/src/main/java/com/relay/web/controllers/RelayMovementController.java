@@ -1,6 +1,6 @@
 package com.relay.web.controllers;
 
-import com.relay.core.model.history.RelayMovementModel;
+import com.relay.core.model.history.RelayMovement;
 import com.relay.core.service.RelayMovementService;
 import com.relay.web.dto.history.CreateRelayMovementRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +22,7 @@ public class RelayMovementController {
 
     @GetMapping("/relay-movements")
     @Operation(summary = "Get all relay movements")
-    public List<RelayMovementModel> findAllRelayMovements(
+    public List<RelayMovement> findAllRelayMovements(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return relayMovementService.findAll(PageRequest.of(page, size));
@@ -30,13 +30,13 @@ public class RelayMovementController {
 
     @GetMapping("/relay-movements/{id}")
     @Operation(summary = "Get relay movement by ID")
-    public RelayMovementModel findRelayMovementById(@PathVariable Long id) {
+    public RelayMovement findRelayMovementById(@PathVariable Long id) {
         return relayMovementService.findById(id);
     }
 
     @GetMapping("/relay-movements/relay/{relayId}")
     @Operation(summary = "Get relay movements by relay ID")
-    public List<RelayMovementModel> findRelayMovementsByRelayId(
+    public List<RelayMovement> findRelayMovementsByRelayId(
             @PathVariable Long relayId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -46,7 +46,7 @@ public class RelayMovementController {
     @PostMapping("/relay-movements")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Record a relay movement")
-    public RelayMovementModel createRelayMovement(@Valid @RequestBody CreateRelayMovementRequest request) {
+    public RelayMovement createRelayMovement(@Valid @RequestBody CreateRelayMovementRequest request) {
         return relayMovementService.save(
                 request.relayId(),
                 request.fromStorageId(),

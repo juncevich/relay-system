@@ -3,9 +3,10 @@ package com.relay.core.model.storage;
 import lombok.Builder;
 
 @Builder
-public record RelayCabinetModel(
+public record Shelf(
         Long id,
-        String name,
-        Long locationId
+        int number,
+        int capacity,
+        Long storageId
 ) {
 }

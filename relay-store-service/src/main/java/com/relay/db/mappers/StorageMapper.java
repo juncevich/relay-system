@@ -1,8 +1,5 @@
 package com.relay.db.mappers;
 
-import com.relay.core.model.storage.RelayCabinetModel;
-import com.relay.core.model.storage.StandModel;
-import com.relay.core.model.storage.WarehouseModel;
 import com.relay.db.entity.storage.RelayCabinet;
 import com.relay.db.entity.storage.Stand;
 import com.relay.db.entity.storage.Warehouse;
@@ -18,26 +15,26 @@ import java.util.List;
 public interface StorageMapper {
 
     @Mapping(target = "locationId", source = "location.id")
-    WarehouseModel mapWarehouseEntityToModel(Warehouse entity);
+    com.relay.core.model.storage.Warehouse mapWarehouseEntityToModel(Warehouse entity);
 
-    List<WarehouseModel> mapWarehouseEntityToModel(List<Warehouse> entities);
+    List<com.relay.core.model.storage.Warehouse> mapWarehouseEntityToModel(List<Warehouse> entities);
 
     @Mapping(target = "location", ignore = true)
-    Warehouse mapModelToWarehouseEntity(WarehouseModel model);
+    Warehouse mapModelToWarehouseEntity(com.relay.core.model.storage.Warehouse model);
 
     @Mapping(target = "locationId", source = "location.id")
-    StandModel mapStandEntityToModel(Stand entity);
+    com.relay.core.model.storage.Stand mapStandEntityToModel(Stand entity);
 
-    List<StandModel> mapStandEntityToModel(List<Stand> entities);
+    List<com.relay.core.model.storage.Stand> mapStandEntityToModel(List<Stand> entities);
 
     @Mapping(target = "location", ignore = true)
-    Stand mapModelToStandEntity(StandModel model);
+    Stand mapModelToStandEntity(com.relay.core.model.storage.Stand model);
 
     @Mapping(target = "locationId", source = "location.id")
-    RelayCabinetModel mapRelayCabinetEntityToModel(RelayCabinet entity);
+    com.relay.core.model.storage.RelayCabinet mapRelayCabinetEntityToModel(RelayCabinet entity);
 
-    List<RelayCabinetModel> mapRelayCabinetEntityToModel(List<RelayCabinet> entities);
+    List<com.relay.core.model.storage.RelayCabinet> mapRelayCabinetEntityToModel(List<RelayCabinet> entities);
 
     @Mapping(target = "location", ignore = true)
-    RelayCabinet mapModelToRelayCabinetEntity(RelayCabinetModel model);
+    RelayCabinet mapModelToRelayCabinetEntity(com.relay.core.model.storage.RelayCabinet model);
 }

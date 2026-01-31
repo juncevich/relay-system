@@ -1,8 +1,8 @@
 package com.relay.web.controllers;
 
-import com.relay.core.model.location.CrossingModel;
-import com.relay.core.model.location.StationModel;
-import com.relay.core.model.location.TrackPointModel;
+import com.relay.core.model.location.Crossing;
+import com.relay.core.model.location.Station;
+import com.relay.core.model.location.TrackPoint;
 import com.relay.core.service.LocationService;
 import com.relay.web.dto.location.CreateCrossingRequest;
 import com.relay.web.dto.location.CreateStationRequest;
@@ -27,7 +27,7 @@ public class LocationController {
     // Station endpoints
     @GetMapping("/stations")
     @Operation(summary = "Get all stations")
-    public List<StationModel> findAllStations(
+    public List<Station> findAllStations(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return locationService.findAllStations(PageRequest.of(page, size));
@@ -35,15 +35,15 @@ public class LocationController {
 
     @GetMapping("/stations/{id}")
     @Operation(summary = "Get station by ID")
-    public StationModel findStationById(@PathVariable Long id) {
+    public Station findStationById(@PathVariable Long id) {
         return locationService.findStationById(id);
     }
 
     @PostMapping("/stations")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new station")
-    public StationModel createStation(@Valid @RequestBody CreateStationRequest request) {
-        var model = StationModel.builder()
+    public Station createStation(@Valid @RequestBody CreateStationRequest request) {
+        var model = Station.builder()
                 .name(request.name())
                 .build();
         return locationService.saveStation(model);
@@ -51,8 +51,8 @@ public class LocationController {
 
     @PutMapping("/stations/{id}")
     @Operation(summary = "Update station")
-    public StationModel updateStation(@PathVariable Long id, @Valid @RequestBody CreateStationRequest request) {
-        var model = StationModel.builder()
+    public Station updateStation(@PathVariable Long id, @Valid @RequestBody CreateStationRequest request) {
+        var model = Station.builder()
                 .name(request.name())
                 .build();
         return locationService.updateStation(id, model);
@@ -68,7 +68,7 @@ public class LocationController {
     // TrackPoint endpoints
     @GetMapping("/track-points")
     @Operation(summary = "Get all track points")
-    public List<TrackPointModel> findAllTrackPoints(
+    public List<TrackPoint> findAllTrackPoints(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return locationService.findAllTrackPoints(PageRequest.of(page, size));
@@ -76,15 +76,15 @@ public class LocationController {
 
     @GetMapping("/track-points/{id}")
     @Operation(summary = "Get track point by ID")
-    public TrackPointModel findTrackPointById(@PathVariable Long id) {
+    public TrackPoint findTrackPointById(@PathVariable Long id) {
         return locationService.findTrackPointById(id);
     }
 
     @PostMapping("/track-points")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new track point")
-    public TrackPointModel createTrackPoint(@Valid @RequestBody CreateTrackPointRequest request) {
-        var model = TrackPointModel.builder()
+    public TrackPoint createTrackPoint(@Valid @RequestBody CreateTrackPointRequest request) {
+        var model = TrackPoint.builder()
                 .name(request.name())
                 .build();
         return locationService.saveTrackPoint(model);
@@ -92,8 +92,8 @@ public class LocationController {
 
     @PutMapping("/track-points/{id}")
     @Operation(summary = "Update track point")
-    public TrackPointModel updateTrackPoint(@PathVariable Long id, @Valid @RequestBody CreateTrackPointRequest request) {
-        var model = TrackPointModel.builder()
+    public TrackPoint updateTrackPoint(@PathVariable Long id, @Valid @RequestBody CreateTrackPointRequest request) {
+        var model = TrackPoint.builder()
                 .name(request.name())
                 .build();
         return locationService.updateTrackPoint(id, model);
@@ -109,7 +109,7 @@ public class LocationController {
     // Crossing endpoints
     @GetMapping("/crossings")
     @Operation(summary = "Get all crossings")
-    public List<CrossingModel> findAllCrossings(
+    public List<Crossing> findAllCrossings(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return locationService.findAllCrossings(PageRequest.of(page, size));
@@ -117,15 +117,15 @@ public class LocationController {
 
     @GetMapping("/crossings/{id}")
     @Operation(summary = "Get crossing by ID")
-    public CrossingModel findCrossingById(@PathVariable Long id) {
+    public Crossing findCrossingById(@PathVariable Long id) {
         return locationService.findCrossingById(id);
     }
 
     @PostMapping("/crossings")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new crossing")
-    public CrossingModel createCrossing(@Valid @RequestBody CreateCrossingRequest request) {
-        var model = CrossingModel.builder()
+    public Crossing createCrossing(@Valid @RequestBody CreateCrossingRequest request) {
+        var model = Crossing.builder()
                 .name(request.name())
                 .build();
         return locationService.saveCrossing(model);
@@ -133,8 +133,8 @@ public class LocationController {
 
     @PutMapping("/crossings/{id}")
     @Operation(summary = "Update crossing")
-    public CrossingModel updateCrossing(@PathVariable Long id, @Valid @RequestBody CreateCrossingRequest request) {
-        var model = CrossingModel.builder()
+    public Crossing updateCrossing(@PathVariable Long id, @Valid @RequestBody CreateCrossingRequest request) {
+        var model = Crossing.builder()
                 .name(request.name())
                 .build();
         return locationService.updateCrossing(id, model);

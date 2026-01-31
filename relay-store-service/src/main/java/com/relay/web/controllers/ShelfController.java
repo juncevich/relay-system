@@ -1,6 +1,6 @@
 package com.relay.web.controllers;
 
-import com.relay.core.model.storage.ShelfModel;
+import com.relay.core.model.storage.Shelf;
 import com.relay.core.service.ShelfService;
 import com.relay.web.dto.storage.CreateShelfRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +22,7 @@ public class ShelfController {
 
     @GetMapping("/shelves")
     @Operation(summary = "Get all shelves")
-    public List<ShelfModel> findAllShelves(
+    public List<Shelf> findAllShelves(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return shelfService.findAll(PageRequest.of(page, size));
@@ -30,15 +30,15 @@ public class ShelfController {
 
     @GetMapping("/shelves/{id}")
     @Operation(summary = "Get shelf by ID")
-    public ShelfModel findShelfById(@PathVariable Long id) {
+    public Shelf findShelfById(@PathVariable Long id) {
         return shelfService.findById(id);
     }
 
     @PostMapping("/shelves")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new shelf")
-    public ShelfModel createShelf(@Valid @RequestBody CreateShelfRequest request) {
-        var model = ShelfModel.builder()
+    public Shelf createShelf(@Valid @RequestBody CreateShelfRequest request) {
+        var model = Shelf.builder()
                 .number(request.number())
                 .capacity(request.capacity())
                 .build();
@@ -47,8 +47,8 @@ public class ShelfController {
 
     @PutMapping("/shelves/{id}")
     @Operation(summary = "Update shelf")
-    public ShelfModel updateShelf(@PathVariable Long id, @Valid @RequestBody CreateShelfRequest request) {
-        var model = ShelfModel.builder()
+    public Shelf updateShelf(@PathVariable Long id, @Valid @RequestBody CreateShelfRequest request) {
+        var model = Shelf.builder()
                 .number(request.number())
                 .capacity(request.capacity())
                 .storageId(request.storageId())

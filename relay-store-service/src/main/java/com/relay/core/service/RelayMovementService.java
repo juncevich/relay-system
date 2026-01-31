@@ -1,9 +1,6 @@
 package com.relay.core.service;
 
-import com.relay.core.model.history.RelayMovementModel;
-import com.relay.db.entity.history.RelayMovement;
-import com.relay.db.entity.items.Relay;
-import com.relay.db.entity.storage.Storage;
+import com.relay.core.model.history.RelayMovement;
 import com.relay.db.mappers.RelayMovementMapper;
 import com.relay.db.repository.RelayMovementRepository;
 import com.relay.db.repository.RelayRepository;
@@ -30,20 +27,20 @@ public class RelayMovementService {
     private final StorageRepository storageRepository;
     private final RelayMovementMapper relayMovementMapper;
 
-    public @NonNull List<RelayMovementModel> findAll(@NonNull Pageable pageable) {
+    public @NonNull List<RelayMovement> findAll(@NonNull Pageable pageable) {
         var slice = relayMovementRepository.findAll(pageable);
         return slice.hasContent()
                 ? slice.getContent().stream().map(relayMovementMapper::mapEntityToModel).toList()
                 : List.of();
     }
 
-    public @Nullable RelayMovementModel findById(@NonNull Long id) {
+    public @Nullable RelayMovement findById(@NonNull Long id) {
         return relayMovementRepository.findById(id)
                 .map(relayMovementMapper::mapEntityToModel)
                 .orElse(null);
     }
 
-    public @NonNull List<RelayMovementModel> findByRelayId(@NonNull Long relayId, @NonNull Pageable pageable) {
+    public @NonNull List<RelayMovement> findByRelayId(@NonNull Long relayId, @NonNull Pageable pageable) {
         return relayMovementRepository.findByRelayId(relayId, pageable)
                 .getContent()
                 .stream()
@@ -51,17 +48,17 @@ public class RelayMovementService {
                 .toList();
     }
 
-    public RelayMovementModel save(@NonNull Long relayId,
+    public RelayMovement save(@NonNull Long relayId,
                                    @NonNull Long fromStorageId,
                                    @NonNull Long toStorageId) {
-        Relay relay = relayRepository.findById(relayId)
+        com.relay.db.entity.items.Relay relay = relayRepository.findById(relayId)
                 .orElseThrow(() -> new IllegalArgumentException("Relay not found: " + relayId));
-        Storage fromStorage = storageRepository.findById(fromStorageId)
+        com.relay.db.entity.storage.Storage fromStorage = storageRepository.findById(fromStorageId)
                 .orElseThrow(() -> new IllegalArgumentException("From Storage not found: " + fromStorageId));
-        Storage toStorage = storageRepository.findById(toStorageId)
+        com.relay.db.entity.storage.Storage toStorage = storageRepository.findById(toStorageId)
                 .orElseThrow(() -> new IllegalArgumentException("To Storage not found: " + toStorageId));
 
-        RelayMovement entity = new RelayMovement();
+        com.relay.db.entity.history.RelayMovement entity = new com.relay.db.entity.history.RelayMovement();
         entity.setRelay(relay);
         entity.setFromStorage(fromStorage);
         entity.setToStorage(toStorage);
@@ -70,7 +67,7 @@ public class RelayMovementService {
         relay.setStorage(toStorage);
         relayRepository.save(relay);
 
-        RelayMovement saved = relayMovementRepository.save(entity);
+        com.relay.db.entity.history.RelayMovement saved = relayMovementRepository.save(entity);
         return relayMovementMapper.mapEntityToModel(saved);
     }
 
