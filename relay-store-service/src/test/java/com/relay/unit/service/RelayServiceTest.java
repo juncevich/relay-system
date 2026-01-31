@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.*;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -107,9 +108,12 @@ class RelayServiceTest {
                 null
         );
         when(relayRepository.findById(anyLong()))
-                .thenReturn(relay);
+                .thenReturn(Optional.of(relay));
 
-        com.relay.core.model.Relay foundedRelay = relayService.findById(relay.id());
+        var foundedRelayOpt = relayService.findById(relay.id());
+        assertThat(foundedRelayOpt).isPresent();
+
+        com.relay.core.model.Relay foundedRelay = foundedRelayOpt.get();
         assertEquals(relay.serialNumber(), foundedRelay.serialNumber());
         assertThat(foundedRelay.serialNumber()).isEqualTo("12345");
         assertThat(foundedRelay.createdAt()).isEqualTo(creationDate);

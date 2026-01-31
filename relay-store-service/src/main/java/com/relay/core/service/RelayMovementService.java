@@ -41,10 +41,8 @@ public class RelayMovementService {
                                    @NonNull Long fromStorageId,
                                    @NonNull Long toStorageId) {
         // Validate entities exist
-        var relay = relayRepository.findById(relayId);
-        if (relay == null) {
-            throw new IllegalArgumentException("Relay not found: " + relayId);
-        }
+        var relay = relayRepository.findById(relayId)
+                .orElseThrow(() -> new IllegalArgumentException("Relay not found: " + relayId));
         storageRepository.findStorageEntityById(fromStorageId);
         storageRepository.findStorageEntityById(toStorageId);
 

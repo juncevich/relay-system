@@ -13,23 +13,25 @@ import java.time.LocalDate;
 public interface RelayDao extends JpaRepository<@NotNull Relay, @NotNull Long> {
 
     /**
-     * Find relay by born date
+     * Find relay by creation date.
+     * Uses JPQL CAST function for database-agnostic date comparison.
      *
      * @param creationDate {@link Relay#getCreatedAt()}
      * @param pageable     {@link Pageable}
-     * @return relay
+     * @return relay page
      */
-    @Query(value = "SELECT * FROM Relay WHERE DATE_TRUNC('day', created_at) = :creationDate", nativeQuery = true)
+    @Query("SELECT r FROM Relay r WHERE CAST(r.createdAt AS DATE) = :creationDate")
     Page<@NotNull Relay> findByCreationDate(@Param("creationDate") LocalDate creationDate, Pageable pageable);
 
     /**
-     * Find list of relays by last check date
+     * Find list of relays by last check date.
+     * Uses JPQL CAST function for database-agnostic date comparison.
      *
      * @param lastCheckDate {@link Relay#getLastCheckDate()}
-     * @param pageable      * {@link Pageable}
+     * @param pageable      {@link Pageable}
      * @return relay page
      */
-    @Query(value = "SELECT * FROM Relay WHERE DATE_TRUNC('day', last_check_date) = :lastCheckDate", nativeQuery = true)
+    @Query("SELECT r FROM Relay r WHERE CAST(r.lastCheckDate AS DATE) = :lastCheckDate")
     Page<@NotNull Relay> findByLastCheckDate(@Param("lastCheckDate") LocalDate lastCheckDate, Pageable pageable);
 
     /**

@@ -8,13 +8,14 @@ import com.relay.db.dao.StandDao;
 import com.relay.db.dao.WarehouseDao;
 import com.relay.db.entity.storage.Storage;
 import com.relay.db.mappers.StorageMapper;
+import com.relay.web.exceptions.StorageNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -32,10 +33,9 @@ public class StorageRepository {
         return storageMapper.mapWarehouseEntityToModel(saved);
     }
 
-    public @Nullable Warehouse findWarehouseById(@NonNull Long id) {
+    public Optional<Warehouse> findWarehouseById(@NonNull Long id) {
         return warehouseDao.findById(id)
-                .map(storageMapper::mapWarehouseEntityToModel)
-                .orElse(null);
+                .map(storageMapper::mapWarehouseEntityToModel);
     }
 
     public @NonNull List<Warehouse> findAllWarehouses(@NonNull Pageable pageable) {
@@ -57,10 +57,9 @@ public class StorageRepository {
         return storageMapper.mapStandEntityToModel(saved);
     }
 
-    public @Nullable Stand findStandById(@NonNull Long id) {
+    public Optional<Stand> findStandById(@NonNull Long id) {
         return standDao.findById(id)
-                .map(storageMapper::mapStandEntityToModel)
-                .orElse(null);
+                .map(storageMapper::mapStandEntityToModel);
     }
 
     public @NonNull List<Stand> findAllStands(@NonNull Pageable pageable) {
@@ -82,10 +81,9 @@ public class StorageRepository {
         return storageMapper.mapRelayCabinetEntityToModel(saved);
     }
 
-    public @Nullable RelayCabinet findRelayCabinetById(@NonNull Long id) {
+    public Optional<RelayCabinet> findRelayCabinetById(@NonNull Long id) {
         return relayCabinetDao.findById(id)
-                .map(storageMapper::mapRelayCabinetEntityToModel)
-                .orElse(null);
+                .map(storageMapper::mapRelayCabinetEntityToModel);
     }
 
     public @NonNull List<RelayCabinet> findAllRelayCabinets(@NonNull Pageable pageable) {
@@ -100,12 +98,15 @@ public class StorageRepository {
         relayCabinetDao.deleteById(id);
     }
 
-    // Polymorphic finder - returns entity for relationship wiring
+    /**
+     * Polymorphic finder - returns entity for relationship wiring.
+     * Searches across all storage types (Warehouse, Stand, RelayCabinet).
+     * Throws StorageNotFoundException if storage is not found.
+     */
     public com.relay.db.entity.storage.@NonNull Storage findStorageEntityById(@NonNull Long storageId) {
         return warehouseDao.findById(storageId).map(s -> (Storage) s)
                 .or(() -> standDao.findById(storageId).map(s -> (Storage) s))
                 .or(() -> relayCabinetDao.findById(storageId).map(s -> (Storage) s))
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Storage not found: " + storageId));
+                .orElseThrow(() -> new StorageNotFoundException(storageId));
     }
 }

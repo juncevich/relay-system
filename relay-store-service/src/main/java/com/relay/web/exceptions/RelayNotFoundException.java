@@ -1,13 +1,15 @@
 package com.relay.web.exceptions;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+/**
+ * Exception thrown when a relay entity is not found.
+ */
+public class RelayNotFoundException extends EntityNotFoundException {
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class RelayNotFoundException extends RuntimeException {
+    public RelayNotFoundException(Long id) {
+        super("Relay", id);
+    }
 
     public RelayNotFoundException(String message) {
-
         super(message);
     }
 }

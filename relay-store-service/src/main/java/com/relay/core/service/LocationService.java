@@ -4,15 +4,16 @@ import com.relay.core.model.location.Crossing;
 import com.relay.core.model.location.Station;
 import com.relay.core.model.location.TrackPoint;
 import com.relay.core.repository.LocationRepository;
+import com.relay.web.exceptions.LocationNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,15 +28,13 @@ public class LocationService {
         return locationRepository.saveStation(model);
     }
 
-    public @Nullable Station findStationById(@NonNull Long id) {
+    public Optional<Station> findStationById(@NonNull Long id) {
         return locationRepository.findStationById(id);
     }
 
-    public @Nullable Station updateStation(@NonNull Long id, @NonNull Station model) {
-        var existing = locationRepository.findStationById(id);
-        if (existing == null) {
-            return null;
-        }
+    public Station updateStation(@NonNull Long id, @NonNull Station model) {
+        var existing = locationRepository.findStationById(id)
+                .orElseThrow(() -> new LocationNotFoundException(id));
 
         var updated = new Station(id, model.name());
         return locationRepository.saveStation(updated);
@@ -54,15 +53,13 @@ public class LocationService {
         return locationRepository.saveTrackPoint(model);
     }
 
-    public @Nullable TrackPoint findTrackPointById(@NonNull Long id) {
+    public Optional<TrackPoint> findTrackPointById(@NonNull Long id) {
         return locationRepository.findTrackPointById(id);
     }
 
-    public @Nullable TrackPoint updateTrackPoint(@NonNull Long id, @NonNull TrackPoint model) {
-        var existing = locationRepository.findTrackPointById(id);
-        if (existing == null) {
-            return null;
-        }
+    public TrackPoint updateTrackPoint(@NonNull Long id, @NonNull TrackPoint model) {
+        var existing = locationRepository.findTrackPointById(id)
+                .orElseThrow(() -> new LocationNotFoundException(id));
 
         var updated = new TrackPoint(id, model.name());
         return locationRepository.saveTrackPoint(updated);
@@ -81,15 +78,13 @@ public class LocationService {
         return locationRepository.saveCrossing(model);
     }
 
-    public @Nullable Crossing findCrossingById(@NonNull Long id) {
+    public Optional<Crossing> findCrossingById(@NonNull Long id) {
         return locationRepository.findCrossingById(id);
     }
 
-    public @Nullable Crossing updateCrossing(@NonNull Long id, @NonNull Crossing model) {
-        var existing = locationRepository.findCrossingById(id);
-        if (existing == null) {
-            return null;
-        }
+    public Crossing updateCrossing(@NonNull Long id, @NonNull Crossing model) {
+        var existing = locationRepository.findCrossingById(id)
+                .orElseThrow(() -> new LocationNotFoundException(id));
 
         var updated = new Crossing(id, model.name());
         return locationRepository.saveCrossing(updated);

@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,34 +36,35 @@ public class LocationController {
 
     @GetMapping("/stations/{id}")
     @Operation(summary = "Get station by ID")
-    public Station findStationById(@PathVariable Long id) {
-        return locationService.findStationById(id);
+    public ResponseEntity<Station> findStationById(@PathVariable Long id) {
+        return locationService.findStationById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/stations")
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new station")
-    public Station createStation(@Valid @RequestBody CreateStationRequest request) {
+    public ResponseEntity<Station> createStation(@Valid @RequestBody CreateStationRequest request) {
         var model = Station.builder()
                 .name(request.name())
                 .build();
-        return locationService.saveStation(model);
+        return ResponseEntity.status(HttpStatus.CREATED).body(locationService.saveStation(model));
     }
 
     @PutMapping("/stations/{id}")
     @Operation(summary = "Update station")
-    public Station updateStation(@PathVariable Long id, @Valid @RequestBody CreateStationRequest request) {
+    public ResponseEntity<Station> updateStation(@PathVariable Long id, @Valid @RequestBody CreateStationRequest request) {
         var model = Station.builder()
                 .name(request.name())
                 .build();
-        return locationService.updateStation(id, model);
+        return ResponseEntity.ok(locationService.updateStation(id, model));
     }
 
     @DeleteMapping("/stations/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete station")
-    public void deleteStation(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStation(@PathVariable Long id) {
         locationService.deleteStationById(id);
+        return ResponseEntity.noContent().build();
     }
 
     // TrackPoint endpoints
@@ -76,34 +78,35 @@ public class LocationController {
 
     @GetMapping("/track-points/{id}")
     @Operation(summary = "Get track point by ID")
-    public TrackPoint findTrackPointById(@PathVariable Long id) {
-        return locationService.findTrackPointById(id);
+    public ResponseEntity<TrackPoint> findTrackPointById(@PathVariable Long id) {
+        return locationService.findTrackPointById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/track-points")
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new track point")
-    public TrackPoint createTrackPoint(@Valid @RequestBody CreateTrackPointRequest request) {
+    public ResponseEntity<TrackPoint> createTrackPoint(@Valid @RequestBody CreateTrackPointRequest request) {
         var model = TrackPoint.builder()
                 .name(request.name())
                 .build();
-        return locationService.saveTrackPoint(model);
+        return ResponseEntity.status(HttpStatus.CREATED).body(locationService.saveTrackPoint(model));
     }
 
     @PutMapping("/track-points/{id}")
     @Operation(summary = "Update track point")
-    public TrackPoint updateTrackPoint(@PathVariable Long id, @Valid @RequestBody CreateTrackPointRequest request) {
+    public ResponseEntity<TrackPoint> updateTrackPoint(@PathVariable Long id, @Valid @RequestBody CreateTrackPointRequest request) {
         var model = TrackPoint.builder()
                 .name(request.name())
                 .build();
-        return locationService.updateTrackPoint(id, model);
+        return ResponseEntity.ok(locationService.updateTrackPoint(id, model));
     }
 
     @DeleteMapping("/track-points/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete track point")
-    public void deleteTrackPoint(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTrackPoint(@PathVariable Long id) {
         locationService.deleteTrackPointById(id);
+        return ResponseEntity.noContent().build();
     }
 
     // Crossing endpoints
@@ -117,33 +120,34 @@ public class LocationController {
 
     @GetMapping("/crossings/{id}")
     @Operation(summary = "Get crossing by ID")
-    public Crossing findCrossingById(@PathVariable Long id) {
-        return locationService.findCrossingById(id);
+    public ResponseEntity<Crossing> findCrossingById(@PathVariable Long id) {
+        return locationService.findCrossingById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/crossings")
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new crossing")
-    public Crossing createCrossing(@Valid @RequestBody CreateCrossingRequest request) {
+    public ResponseEntity<Crossing> createCrossing(@Valid @RequestBody CreateCrossingRequest request) {
         var model = Crossing.builder()
                 .name(request.name())
                 .build();
-        return locationService.saveCrossing(model);
+        return ResponseEntity.status(HttpStatus.CREATED).body(locationService.saveCrossing(model));
     }
 
     @PutMapping("/crossings/{id}")
     @Operation(summary = "Update crossing")
-    public Crossing updateCrossing(@PathVariable Long id, @Valid @RequestBody CreateCrossingRequest request) {
+    public ResponseEntity<Crossing> updateCrossing(@PathVariable Long id, @Valid @RequestBody CreateCrossingRequest request) {
         var model = Crossing.builder()
                 .name(request.name())
                 .build();
-        return locationService.updateCrossing(id, model);
+        return ResponseEntity.ok(locationService.updateCrossing(id, model));
     }
 
     @DeleteMapping("/crossings/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete crossing")
-    public void deleteCrossing(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCrossing(@PathVariable Long id) {
         locationService.deleteCrossingById(id);
+        return ResponseEntity.noContent().build();
     }
 }

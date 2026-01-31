@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -36,16 +37,20 @@ public class RelayController {
 
     @GetMapping("/relays/{id}")
     @Operation(summary = "Get relay by ID")
-    public Relay findRelayById(@PathVariable Long id) {
-        var coreModel = relayService.findById(id);
-        return coreModel != null ? convertToWebModel(coreModel) : null;
+    public ResponseEntity<Relay> findRelayById(@PathVariable Long id) {
+        return relayService.findById(id)
+                .map(this::convertToWebModel)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/relays/serial-number/{serialNumber}")
     @Operation(summary = "Find relay by serial number")
-    public Relay findBySerialNumber(@PathVariable String serialNumber) {
-        var coreModel = relayService.findBySerialNumber(serialNumber);
-        return coreModel != null ? convertToWebModel(coreModel) : null;
+    public ResponseEntity<Relay> findBySerialNumber(@PathVariable String serialNumber) {
+        return relayService.findBySerialNumber(serialNumber)
+                .map(this::convertToWebModel)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/relays/by-creation-date")
@@ -73,9 +78,8 @@ public class RelayController {
     }
 
     @PostMapping("/relays")
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new relay")
-    public CreateRelayResponse createRelay(@Valid @RequestBody CreateRelayRequest request) {
+    public ResponseEntity<CreateRelayResponse> createRelay(@Valid @RequestBody CreateRelayRequest request) {
         // Convert to core model
         var coreModel = new com.relay.core.model.Relay(
                 null,  // id will be generated
@@ -89,16 +93,17 @@ public class RelayController {
         );
 
         var savedModel = relayService.save(coreModel, request.storageId());
-        return new CreateRelayResponse(
+        var response = new CreateRelayResponse(
                 savedModel.serialNumber(),
                 savedModel.createdAt(),
                 savedModel.lastCheckDate()
         );
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/relays/{id}")
     @Operation(summary = "Update relay")
-    public Relay updateRelay(@PathVariable Long id, @Valid @RequestBody UpdateRelayRequest request) {
+    public ResponseEntity<Relay> updateRelay(@PathVariable Long id, @Valid @RequestBody UpdateRelayRequest request) {
         // Convert to core model
         var coreModel = new com.relay.core.model.Relay(
                 id,
@@ -112,14 +117,14 @@ public class RelayController {
         );
 
         var updated = relayService.update(id, coreModel, request.storageId());
-        return updated != null ? convertToWebModel(updated) : null;
+        return ResponseEntity.ok(convertToWebModel(updated));
     }
 
     @DeleteMapping("/relays/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete relay")
-    public void deleteRelay(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRelay(@PathVariable Long id) {
         relayService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     private Relay convertToWebModel(com.relay.core.model.Relay core) {

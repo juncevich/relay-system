@@ -3,14 +3,15 @@ package com.relay.core.repository;
 import com.relay.core.model.Relay;
 import com.relay.db.dao.RelayDao;
 import com.relay.db.mappers.RelayMapper;
+import com.relay.web.exceptions.RelayNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,10 +28,9 @@ public class RelayRepository {
                 : List.of();
     }
 
-    public @Nullable Relay findById(@NonNull Long id) {
+    public Optional<Relay> findById(@NonNull Long id) {
         return relayDao.findById(id)
-                .map(relayMapper::mapEntityToModel)
-                .orElse(null);
+                .map(relayMapper::mapEntityToModel);
     }
 
     public Relay save(@NonNull Relay model) {
@@ -50,9 +50,11 @@ public class RelayRepository {
         relayDao.deleteById(id);
     }
 
-    public @Nullable Relay findBySerialNumber(@NonNull String serialNumber) {
+    public Optional<Relay> findBySerialNumber(@NonNull String serialNumber) {
         var entity = relayDao.findBySerialNumber(serialNumber);
-        return entity != null ? relayMapper.mapEntityToModel(entity) : null;
+        return entity != null
+                ? Optional.of(relayMapper.mapEntityToModel(entity))
+                : Optional.empty();
     }
 
     public @NonNull List<Relay> findByCreationDate(@NonNull LocalDate date,
@@ -67,9 +69,12 @@ public class RelayRepository {
         return relayMapper.mapEntityToModel(page.getContent());
     }
 
-    // Helper method to get entity for relationship wiring
+    /**
+     * Helper method to get entity for relationship wiring.
+     * Throws RelayNotFoundException if relay is not found.
+     */
     public com.relay.db.entity.items.@NonNull Relay findRelayEntityById(@NonNull Long relayId) {
         return relayDao.findById(relayId)
-                .orElseThrow(() -> new IllegalArgumentException("Relay not found: " + relayId));
+                .orElseThrow(() -> new RelayNotFoundException(relayId));
     }
 }

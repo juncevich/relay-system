@@ -3,6 +3,7 @@ package com.relay.core.service;
 import com.relay.core.model.Relay;
 import com.relay.core.repository.RelayRepository;
 import com.relay.core.repository.StorageRepository;
+import com.relay.web.exceptions.RelayNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class RelayService {
         return relayRepository.findAll(pageable);
     }
 
-    public @Nullable Relay findById(@NonNull Long id) {
+    public Optional<Relay> findById(@NonNull Long id) {
         return relayRepository.findById(id);
     }
 
@@ -54,11 +56,9 @@ public class RelayService {
         return relayRepository.save(relayWithStorage);
     }
 
-    public @Nullable Relay update(@NonNull Long id, @NonNull Relay relay, @Nullable Long storageId) {
-        var existing = relayRepository.findById(id);
-        if (existing == null) {
-            return null;
-        }
+    public Relay update(@NonNull Long id, @NonNull Relay relay, @Nullable Long storageId) {
+        var existing = relayRepository.findById(id)
+                .orElseThrow(() -> new RelayNotFoundException(id));
 
         // Build updated relay
         var updated = new Relay(
@@ -79,7 +79,7 @@ public class RelayService {
         relayRepository.deleteById(id);
     }
 
-    public @Nullable Relay findBySerialNumber(@NonNull String serialNumber) {
+    public Optional<Relay> findBySerialNumber(@NonNull String serialNumber) {
         return relayRepository.findBySerialNumber(serialNumber);
     }
 

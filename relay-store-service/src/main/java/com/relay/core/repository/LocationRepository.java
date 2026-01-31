@@ -7,13 +7,14 @@ import com.relay.db.dao.CrossingDao;
 import com.relay.db.dao.StationDao;
 import com.relay.db.dao.TrackPointDao;
 import com.relay.db.mappers.LocationMapper;
+import com.relay.web.exceptions.LocationNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,10 +32,9 @@ public class LocationRepository {
         return locationMapper.mapStationEntityToModel(saved);
     }
 
-    public @Nullable Station findStationById(@NonNull Long id) {
+    public Optional<Station> findStationById(@NonNull Long id) {
         return stationDao.findById(id)
-                .map(locationMapper::mapStationEntityToModel)
-                .orElse(null);
+                .map(locationMapper::mapStationEntityToModel);
     }
 
     public @NonNull List<Station> findAllStations(@NonNull Pageable pageable) {
@@ -56,10 +56,9 @@ public class LocationRepository {
         return locationMapper.mapTrackPointEntityToModel(saved);
     }
 
-    public @Nullable TrackPoint findTrackPointById(@NonNull Long id) {
+    public Optional<TrackPoint> findTrackPointById(@NonNull Long id) {
         return trackPointDao.findById(id)
-                .map(locationMapper::mapTrackPointEntityToModel)
-                .orElse(null);
+                .map(locationMapper::mapTrackPointEntityToModel);
     }
 
     public @NonNull List<TrackPoint> findAllTrackPoints(@NonNull Pageable pageable) {
@@ -81,10 +80,9 @@ public class LocationRepository {
         return locationMapper.mapCrossingEntityToModel(saved);
     }
 
-    public @Nullable Crossing findCrossingById(@NonNull Long id) {
+    public Optional<Crossing> findCrossingById(@NonNull Long id) {
         return crossingDao.findById(id)
-                .map(locationMapper::mapCrossingEntityToModel)
-                .orElse(null);
+                .map(locationMapper::mapCrossingEntityToModel);
     }
 
     public @NonNull List<Crossing> findAllCrossings(@NonNull Pageable pageable) {
@@ -99,11 +97,15 @@ public class LocationRepository {
         crossingDao.deleteById(id);
     }
 
-    // Polymorphic finder - returns entity for relationship wiring
+    /**
+     * Polymorphic finder - returns entity for relationship wiring.
+     * Searches across all location types (Station, TrackPoint, Crossing).
+     * Throws LocationNotFoundException if location is not found.
+     */
     public com.relay.db.entity.location.@NonNull Location findLocationEntityById(@NonNull Long locationId) {
         return stationDao.findById(locationId).map(l -> (com.relay.db.entity.location.Location) l)
                 .or(() -> trackPointDao.findById(locationId).map(l -> (com.relay.db.entity.location.Location) l))
                 .or(() -> crossingDao.findById(locationId).map(l -> (com.relay.db.entity.location.Location) l))
-                .orElseThrow(() -> new IllegalArgumentException("Location not found: " + locationId));
+                .orElseThrow(() -> new LocationNotFoundException(locationId));
     }
 }

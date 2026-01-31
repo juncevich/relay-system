@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,35 +36,36 @@ public class StorageController {
 
     @GetMapping("/warehouses/{id}")
     @Operation(summary = "Get warehouse by ID")
-    public Warehouse findWarehouseById(@PathVariable Long id) {
-        return storageService.findWarehouseById(id);
+    public ResponseEntity<Warehouse> findWarehouseById(@PathVariable Long id) {
+        return storageService.findWarehouseById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/warehouses")
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new warehouse")
-    public Warehouse createWarehouse(@Valid @RequestBody CreateWarehouseRequest request) {
+    public ResponseEntity<Warehouse> createWarehouse(@Valid @RequestBody CreateWarehouseRequest request) {
         var model = Warehouse.builder()
                 .name(request.name())
                 .build();
-        return storageService.saveWarehouse(model, request.locationId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(storageService.saveWarehouse(model, request.locationId()));
     }
 
     @PutMapping("/warehouses/{id}")
     @Operation(summary = "Update warehouse")
-    public Warehouse updateWarehouse(@PathVariable Long id, @Valid @RequestBody CreateWarehouseRequest request) {
+    public ResponseEntity<Warehouse> updateWarehouse(@PathVariable Long id, @Valid @RequestBody CreateWarehouseRequest request) {
         var model = Warehouse.builder()
                 .name(request.name())
                 .locationId(request.locationId())
                 .build();
-        return storageService.updateWarehouse(id, model);
+        return ResponseEntity.ok(storageService.updateWarehouse(id, model));
     }
 
     @DeleteMapping("/warehouses/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete warehouse")
-    public void deleteWarehouse(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteWarehouse(@PathVariable Long id) {
         storageService.deleteWarehouseById(id);
+        return ResponseEntity.noContent().build();
     }
 
     // Stand endpoints
@@ -77,35 +79,36 @@ public class StorageController {
 
     @GetMapping("/stands/{id}")
     @Operation(summary = "Get stand by ID")
-    public Stand findStandById(@PathVariable Long id) {
-        return storageService.findStandById(id);
+    public ResponseEntity<Stand> findStandById(@PathVariable Long id) {
+        return storageService.findStandById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/stands")
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new stand")
-    public Stand createStand(@Valid @RequestBody CreateStandRequest request) {
+    public ResponseEntity<Stand> createStand(@Valid @RequestBody CreateStandRequest request) {
         var model = Stand.builder()
                 .name(request.name())
                 .build();
-        return storageService.saveStand(model, request.locationId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(storageService.saveStand(model, request.locationId()));
     }
 
     @PutMapping("/stands/{id}")
     @Operation(summary = "Update stand")
-    public Stand updateStand(@PathVariable Long id, @Valid @RequestBody CreateStandRequest request) {
+    public ResponseEntity<Stand> updateStand(@PathVariable Long id, @Valid @RequestBody CreateStandRequest request) {
         var model = Stand.builder()
                 .name(request.name())
                 .locationId(request.locationId())
                 .build();
-        return storageService.updateStand(id, model);
+        return ResponseEntity.ok(storageService.updateStand(id, model));
     }
 
     @DeleteMapping("/stands/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete stand")
-    public void deleteStand(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStand(@PathVariable Long id) {
         storageService.deleteStandById(id);
+        return ResponseEntity.noContent().build();
     }
 
     // RelayCabinet endpoints
@@ -119,34 +122,35 @@ public class StorageController {
 
     @GetMapping("/relay-cabinets/{id}")
     @Operation(summary = "Get relay cabinet by ID")
-    public RelayCabinet findRelayCabinetById(@PathVariable Long id) {
-        return storageService.findRelayCabinetById(id);
+    public ResponseEntity<RelayCabinet> findRelayCabinetById(@PathVariable Long id) {
+        return storageService.findRelayCabinetById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/relay-cabinets")
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new relay cabinet")
-    public RelayCabinet createRelayCabinet(@Valid @RequestBody CreateRelayCabinetRequest request) {
+    public ResponseEntity<RelayCabinet> createRelayCabinet(@Valid @RequestBody CreateRelayCabinetRequest request) {
         var model = RelayCabinet.builder()
                 .name(request.name())
                 .build();
-        return storageService.saveRelayCabinet(model, request.locationId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(storageService.saveRelayCabinet(model, request.locationId()));
     }
 
     @PutMapping("/relay-cabinets/{id}")
     @Operation(summary = "Update relay cabinet")
-    public RelayCabinet updateRelayCabinet(@PathVariable Long id, @Valid @RequestBody CreateRelayCabinetRequest request) {
+    public ResponseEntity<RelayCabinet> updateRelayCabinet(@PathVariable Long id, @Valid @RequestBody CreateRelayCabinetRequest request) {
         var model = RelayCabinet.builder()
                 .name(request.name())
                 .locationId(request.locationId())
                 .build();
-        return storageService.updateRelayCabinet(id, model);
+        return ResponseEntity.ok(storageService.updateRelayCabinet(id, model));
     }
 
     @DeleteMapping("/relay-cabinets/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete relay cabinet")
-    public void deleteRelayCabinet(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRelayCabinet(@PathVariable Long id) {
         storageService.deleteRelayCabinetById(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -8,15 +8,16 @@ import com.relay.core.model.storage.Stand;
 import com.relay.core.model.storage.Warehouse;
 import com.relay.core.repository.LocationRepository;
 import com.relay.core.repository.StorageRepository;
+import com.relay.web.exceptions.StorageNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,15 +38,13 @@ public class StorageService {
         return storageRepository.saveWarehouse(warehouse);
     }
 
-    public @Nullable Warehouse findWarehouseById(@NonNull Long id) {
+    public Optional<Warehouse> findWarehouseById(@NonNull Long id) {
         return storageRepository.findWarehouseById(id);
     }
 
-    public @Nullable Warehouse updateWarehouse(@NonNull Long id, @NonNull Warehouse model) {
-        var existing = storageRepository.findWarehouseById(id);
-        if (existing == null) {
-            return null;
-        }
+    public Warehouse updateWarehouse(@NonNull Long id, @NonNull Warehouse model) {
+        var existing = storageRepository.findWarehouseById(id)
+                .orElseThrow(() -> new StorageNotFoundException(id));
 
         Long locationId = model.locationId() != null ? model.locationId() : existing.locationId();
         if (locationId != null) {
@@ -72,15 +71,13 @@ public class StorageService {
         return storageRepository.saveStand(stand);
     }
 
-    public @Nullable Stand findStandById(@NonNull Long id) {
+    public Optional<Stand> findStandById(@NonNull Long id) {
         return storageRepository.findStandById(id);
     }
 
-    public @Nullable Stand updateStand(@NonNull Long id, @NonNull Stand model) {
-        var existing = storageRepository.findStandById(id);
-        if (existing == null) {
-            return null;
-        }
+    public Stand updateStand(@NonNull Long id, @NonNull Stand model) {
+        var existing = storageRepository.findStandById(id)
+                .orElseThrow(() -> new StorageNotFoundException(id));
 
         Long locationId = model.locationId() != null ? model.locationId() : existing.locationId();
         if (locationId != null) {
@@ -107,15 +104,13 @@ public class StorageService {
         return storageRepository.saveRelayCabinet(cabinet);
     }
 
-    public @Nullable RelayCabinet findRelayCabinetById(@NonNull Long id) {
+    public Optional<RelayCabinet> findRelayCabinetById(@NonNull Long id) {
         return storageRepository.findRelayCabinetById(id);
     }
 
-    public @Nullable RelayCabinet updateRelayCabinet(@NonNull Long id, @NonNull RelayCabinet model) {
-        var existing = storageRepository.findRelayCabinetById(id);
-        if (existing == null) {
-            return null;
-        }
+    public RelayCabinet updateRelayCabinet(@NonNull Long id, @NonNull RelayCabinet model) {
+        var existing = storageRepository.findRelayCabinetById(id)
+                .orElseThrow(() -> new StorageNotFoundException(id));
 
         Long locationId = model.locationId() != null ? model.locationId() : existing.locationId();
         if (locationId != null) {
@@ -135,15 +130,15 @@ public class StorageService {
     }
 
     // Location finder methods
-    public @Nullable Station findStationById(@NonNull Long id) {
+    public Optional<Station> findStationById(@NonNull Long id) {
         return locationRepository.findStationById(id);
     }
 
-    public @Nullable TrackPoint findTrackPointById(@NonNull Long id) {
+    public Optional<TrackPoint> findTrackPointById(@NonNull Long id) {
         return locationRepository.findTrackPointById(id);
     }
 
-    public @Nullable Crossing findCrossingById(@NonNull Long id) {
+    public Optional<Crossing> findCrossingById(@NonNull Long id) {
         return locationRepository.findCrossingById(id);
     }
 }
