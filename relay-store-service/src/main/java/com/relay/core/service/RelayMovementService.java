@@ -1,10 +1,9 @@
 package com.relay.core.service;
 
 import com.relay.core.model.history.RelayMovement;
-import com.relay.db.mappers.RelayMovementMapper;
-import com.relay.db.repository.RelayMovementRepository;
-import com.relay.db.repository.RelayRepository;
-import com.relay.db.repository.StorageRepository;
+import com.relay.core.repository.RelayMovementRepository;
+import com.relay.core.repository.RelayRepository;
+import com.relay.core.repository.StorageRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,50 +24,57 @@ public class RelayMovementService {
     private final RelayMovementRepository relayMovementRepository;
     private final RelayRepository relayRepository;
     private final StorageRepository storageRepository;
-    private final RelayMovementMapper relayMovementMapper;
 
     public @NonNull List<RelayMovement> findAll(@NonNull Pageable pageable) {
-        var slice = relayMovementRepository.findAll(pageable);
-        return slice.hasContent()
-                ? slice.getContent().stream().map(relayMovementMapper::mapEntityToModel).toList()
-                : List.of();
+        return relayMovementRepository.findAll(pageable);
     }
 
     public @Nullable RelayMovement findById(@NonNull Long id) {
-        return relayMovementRepository.findById(id)
-                .map(relayMovementMapper::mapEntityToModel)
-                .orElse(null);
+        return relayMovementRepository.findById(id);
     }
 
     public @NonNull List<RelayMovement> findByRelayId(@NonNull Long relayId, @NonNull Pageable pageable) {
-        return relayMovementRepository.findByRelayId(relayId, pageable)
-                .getContent()
-                .stream()
-                .map(relayMovementMapper::mapEntityToModel)
-                .toList();
+        return relayMovementRepository.findByRelayId(relayId, pageable);
     }
 
     public RelayMovement save(@NonNull Long relayId,
                                    @NonNull Long fromStorageId,
                                    @NonNull Long toStorageId) {
-        com.relay.db.entity.items.Relay relay = relayRepository.findById(relayId)
-                .orElseThrow(() -> new IllegalArgumentException("Relay not found: " + relayId));
-        com.relay.db.entity.storage.Storage fromStorage = storageRepository.findById(fromStorageId)
-                .orElseThrow(() -> new IllegalArgumentException("From Storage not found: " + fromStorageId));
-        com.relay.db.entity.storage.Storage toStorage = storageRepository.findById(toStorageId)
-                .orElseThrow(() -> new IllegalArgumentException("To Storage not found: " + toStorageId));
+        // Validate entities exist
+        var relay = relayRepository.findById(relayId);
+        if (relay == null) {
+            throw new IllegalArgumentException("Relay not found: " + relayId);
+        }
+        storageRepository.findStorageEntityById(fromStorageId);
+        storageRepository.findStorageEntityById(toStorageId);
 
-        com.relay.db.entity.history.RelayMovement entity = new com.relay.db.entity.history.RelayMovement();
-        entity.setRelay(relay);
-        entity.setFromStorage(fromStorage);
-        entity.setToStorage(toStorage);
-        entity.setMovedAt(OffsetDateTime.now());
+        // Create movement model
+        var movement = new RelayMovement(
+                null,
+                relayId,
+                relay.serialNumber(),
+                fromStorageId,
+                toStorageId,
+                OffsetDateTime.now()
+        );
 
-        relay.setStorage(toStorage);
-        relayRepository.save(relay);
+        // Save movement
+        var savedMovement = relayMovementRepository.save(movement);
 
-        com.relay.db.entity.history.RelayMovement saved = relayMovementRepository.save(entity);
-        return relayMovementMapper.mapEntityToModel(saved);
+        // Update relay's storage (create updated relay model)
+        var updatedRelay = new com.relay.core.model.Relay(
+                relay.id(),
+                relay.serialNumber(),
+                relay.relayType(),
+                relay.createdAt(),
+                relay.lastCheckDate(),
+                relay.placeNumber(),
+                toStorageId,  // Update to new storage
+                relay.shelfId()
+        );
+        relayRepository.save(updatedRelay);
+
+        return savedMovement;
     }
 
     public void deleteById(@NonNull Long id) {

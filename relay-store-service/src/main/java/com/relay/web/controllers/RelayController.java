@@ -28,19 +28,24 @@ public class RelayController {
     public List<Relay> findAllRelays(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return relayService.findAll(PageRequest.of(page, size));
+        var coreModels = relayService.findAll(PageRequest.of(page, size));
+        return coreModels.stream()
+                .map(this::convertToWebModel)
+                .toList();
     }
 
     @GetMapping("/relays/{id}")
     @Operation(summary = "Get relay by ID")
     public Relay findRelayById(@PathVariable Long id) {
-        return relayService.findById(id);
+        var coreModel = relayService.findById(id);
+        return coreModel != null ? convertToWebModel(coreModel) : null;
     }
 
     @GetMapping("/relays/serial-number/{serialNumber}")
     @Operation(summary = "Find relay by serial number")
     public Relay findBySerialNumber(@PathVariable String serialNumber) {
-        return relayService.findBySerialNumber(serialNumber);
+        var coreModel = relayService.findBySerialNumber(serialNumber);
+        return coreModel != null ? convertToWebModel(coreModel) : null;
     }
 
     @GetMapping("/relays/by-creation-date")
@@ -49,7 +54,10 @@ public class RelayController {
             @RequestParam LocalDate date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return relayService.findByCreationDate(date, PageRequest.of(page, size));
+        var coreModels = relayService.findByCreationDate(date, PageRequest.of(page, size));
+        return coreModels.stream()
+                .map(this::convertToWebModel)
+                .toList();
     }
 
     @GetMapping("/relays/by-last-check-date")
@@ -58,36 +66,53 @@ public class RelayController {
             @RequestParam LocalDate date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return relayService.findByLastCheckDate(date, PageRequest.of(page, size));
+        var coreModels = relayService.findByLastCheckDate(date, PageRequest.of(page, size));
+        return coreModels.stream()
+                .map(this::convertToWebModel)
+                .toList();
     }
 
     @PostMapping("/relays")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new relay")
     public CreateRelayResponse createRelay(@Valid @RequestBody CreateRelayRequest request) {
-        var relayToCreate = Relay.builder()
-                .serialNumber(request.serialNumber())
-                .createdAt(request.dateOfManufacture())
-                .build();
+        // Convert to core model
+        var coreModel = new com.relay.core.model.Relay(
+                null,  // id will be generated
+                request.serialNumber(),
+                null,  // relayType - will be set by service
+                request.dateOfManufacture(),
+                null,  // lastCheckDate
+                0,     // placeNumber
+                request.storageId(),
+                null   // shelfId
+        );
 
-        var createdRelay = relayService.save(relayToCreate, request.storageId());
+        var savedModel = relayService.save(coreModel, request.storageId());
         return new CreateRelayResponse(
-                createdRelay.getSerialNumber(),
-                createdRelay.getCreatedAt(),
-                createdRelay.getVerificationDate()
+                savedModel.serialNumber(),
+                savedModel.createdAt(),
+                savedModel.lastCheckDate()
         );
     }
 
     @PutMapping("/relays/{id}")
     @Operation(summary = "Update relay")
     public Relay updateRelay(@PathVariable Long id, @Valid @RequestBody UpdateRelayRequest request) {
-        var relay = Relay.builder()
-                .serialNumber(request.serialNumber())
-                .createdAt(request.dateOfManufacture())
-                .verificationDate(request.verificationDate())
-                .build();
+        // Convert to core model
+        var coreModel = new com.relay.core.model.Relay(
+                id,
+                request.serialNumber(),
+                null,  // relayType - will be preserved from existing
+                request.dateOfManufacture(),
+                request.verificationDate(),
+                0,     // placeNumber
+                request.storageId(),
+                null   // shelfId
+        );
 
-        return relayService.update(id, relay, request.storageId());
+        var updated = relayService.update(id, coreModel, request.storageId());
+        return updated != null ? convertToWebModel(updated) : null;
     }
 
     @DeleteMapping("/relays/{id}")
@@ -95,5 +120,13 @@ public class RelayController {
     @Operation(summary = "Delete relay")
     public void deleteRelay(@PathVariable Long id) {
         relayService.deleteById(id);
+    }
+
+    private Relay convertToWebModel(com.relay.core.model.Relay core) {
+        return Relay.builder()
+                .serialNumber(core.serialNumber())
+                .createdAt(core.createdAt())
+                .verificationDate(core.lastCheckDate())
+                .build();
     }
 }

@@ -3,10 +3,7 @@ package com.relay.core.service;
 import com.relay.core.model.location.Crossing;
 import com.relay.core.model.location.Station;
 import com.relay.core.model.location.TrackPoint;
-import com.relay.db.mappers.LocationMapper;
-import com.relay.db.repository.CrossingRepository;
-import com.relay.db.repository.StationRepository;
-import com.relay.db.repository.TrackPointRepository;
+import com.relay.core.repository.LocationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,107 +20,86 @@ import java.util.List;
 @Slf4j
 public class LocationService {
 
-    private final StationRepository stationRepository;
-    private final TrackPointRepository trackPointRepository;
-    private final CrossingRepository crossingRepository;
-    private final LocationMapper locationMapper;
+    private final LocationRepository locationRepository;
 
     // Station operations
     public Station saveStation(@NonNull Station model) {
-        com.relay.db.entity.location.Station entity = locationMapper.mapModelToStationEntity(model);
-        com.relay.db.entity.location.Station saved = stationRepository.save(entity);
-        return locationMapper.mapStationEntityToModel(saved);
+        return locationRepository.saveStation(model);
     }
 
     public @Nullable Station findStationById(@NonNull Long id) {
-        return stationRepository.findById(id)
-                .map(locationMapper::mapStationEntityToModel)
-                .orElse(null);
+        return locationRepository.findStationById(id);
     }
 
     public @Nullable Station updateStation(@NonNull Long id, @NonNull Station model) {
-        return stationRepository.findById(id)
-                .map(station -> {
-                    station.setName(model.name());
-                    return locationMapper.mapStationEntityToModel(stationRepository.save(station));
-                })
-                .orElse(null);
+        var existing = locationRepository.findStationById(id);
+        if (existing == null) {
+            return null;
+        }
+
+        var updated = new Station(id, model.name());
+        return locationRepository.saveStation(updated);
     }
 
     public @NonNull List<Station> findAllStations(@NonNull Pageable pageable) {
-        var slice = stationRepository.findAll(pageable);
-        return slice.hasContent()
-                ? slice.getContent().stream().map(locationMapper::mapStationEntityToModel).toList()
-                : List.of();
+        return locationRepository.findAllStations(pageable);
     }
 
     public void deleteStationById(@NonNull Long id) {
-        stationRepository.deleteById(id);
+        locationRepository.deleteStationById(id);
     }
 
     // TrackPoint operations
     public TrackPoint saveTrackPoint(@NonNull TrackPoint model) {
-        com.relay.db.entity.location.TrackPoint entity = locationMapper.mapModelToTrackPointEntity(model);
-        com.relay.db.entity.location.TrackPoint saved = trackPointRepository.save(entity);
-        return locationMapper.mapTrackPointEntityToModel(saved);
+        return locationRepository.saveTrackPoint(model);
     }
 
     public @Nullable TrackPoint findTrackPointById(@NonNull Long id) {
-        return trackPointRepository.findById(id)
-                .map(locationMapper::mapTrackPointEntityToModel)
-                .orElse(null);
+        return locationRepository.findTrackPointById(id);
     }
 
     public @Nullable TrackPoint updateTrackPoint(@NonNull Long id, @NonNull TrackPoint model) {
-        return trackPointRepository.findById(id)
-                .map(trackPoint -> {
-                    trackPoint.setName(model.name());
-                    return locationMapper.mapTrackPointEntityToModel(trackPointRepository.save(trackPoint));
-                })
-                .orElse(null);
+        var existing = locationRepository.findTrackPointById(id);
+        if (existing == null) {
+            return null;
+        }
+
+        var updated = new TrackPoint(id, model.name());
+        return locationRepository.saveTrackPoint(updated);
     }
 
     public @NonNull List<TrackPoint> findAllTrackPoints(@NonNull Pageable pageable) {
-        var slice = trackPointRepository.findAll(pageable);
-        return slice.hasContent()
-                ? slice.getContent().stream().map(locationMapper::mapTrackPointEntityToModel).toList()
-                : List.of();
+        return locationRepository.findAllTrackPoints(pageable);
     }
 
     public void deleteTrackPointById(@NonNull Long id) {
-        trackPointRepository.deleteById(id);
+        locationRepository.deleteTrackPointById(id);
     }
 
     // Crossing operations
     public Crossing saveCrossing(@NonNull Crossing model) {
-        com.relay.db.entity.location.Crossing entity = locationMapper.mapModelToCrossingEntity(model);
-        com.relay.db.entity.location.Crossing saved = crossingRepository.save(entity);
-        return locationMapper.mapCrossingEntityToModel(saved);
+        return locationRepository.saveCrossing(model);
     }
 
     public @Nullable Crossing findCrossingById(@NonNull Long id) {
-        return crossingRepository.findById(id)
-                .map(locationMapper::mapCrossingEntityToModel)
-                .orElse(null);
+        return locationRepository.findCrossingById(id);
     }
 
     public @Nullable Crossing updateCrossing(@NonNull Long id, @NonNull Crossing model) {
-        return crossingRepository.findById(id)
-                .map(crossing -> {
-                    crossing.setName(model.name());
-                    return locationMapper.mapCrossingEntityToModel(crossingRepository.save(crossing));
-                })
-                .orElse(null);
+        var existing = locationRepository.findCrossingById(id);
+        if (existing == null) {
+            return null;
+        }
+
+        var updated = new Crossing(id, model.name());
+        return locationRepository.saveCrossing(updated);
     }
 
     public @NonNull List<Crossing> findAllCrossings(@NonNull Pageable pageable) {
-        var slice = crossingRepository.findAll(pageable);
-        return slice.hasContent()
-                ? slice.getContent().stream().map(locationMapper::mapCrossingEntityToModel).toList()
-                : List.of();
+        return locationRepository.findAllCrossings(pageable);
     }
 
     public void deleteCrossingById(@NonNull Long id) {
-        crossingRepository.deleteById(id);
+        locationRepository.deleteCrossingById(id);
     }
 }
