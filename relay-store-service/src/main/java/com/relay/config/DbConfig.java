@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"com.relay.db.repository"})
+@EnableJpaRepositories(basePackages = {"com.relay.db.dao"})
 @EnableJpaAuditing
 @EntityScan(basePackageClasses = {RelaySystemApplication.class, Jsr310Converters.class})
 public class DbConfig {

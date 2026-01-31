@@ -18,6 +18,7 @@ public class RelayRepository {
 
     private final RelayDao relayDao;
     private final RelayMapper relayMapper;
+    private final StorageRepository storageRepository;
 
     public @NonNull List<Relay> findAll(@NonNull Pageable pageable) {
         var slice = relayDao.findAll(pageable);
@@ -34,6 +35,13 @@ public class RelayRepository {
 
     public Relay save(@NonNull Relay model) {
         var entity = relayMapper.mapModelToEntity(model);
+
+        // Set storage relationship if storageId is provided
+        if (model.storageId() != null) {
+            var storageEntity = storageRepository.findStorageEntityById(model.storageId());
+            entity.setStorage(storageEntity);
+        }
+
         var saved = relayDao.save(entity);
         return relayMapper.mapEntityToModel(saved);
     }

@@ -1,7 +1,6 @@
 package com.relay.integration;
 
 import com.relay.core.service.RelayService;
-import com.relay.web.model.Relay;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -41,42 +40,60 @@ class RelayServiceITTest {
 
     @Test
     void findRelayByCreationDate() {
-        Relay relay = new Relay();
-        relay.setCreatedAt(OffsetDateTime.of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15),
-                ZoneOffset.ofHours(3)));
+        OffsetDateTime creationDate = OffsetDateTime.of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15),
+                ZoneOffset.ofHours(3));
+        com.relay.core.model.Relay relay = new com.relay.core.model.Relay(
+                null,
+                "12345",
+                null,
+                creationDate,
+                null,
+                0,
+                null,
+                null
+        );
         relayService.save(relay);
 
-        List<Relay> foundedRelayList =
+        List<com.relay.core.model.Relay> foundedRelayList =
                 relayService.findByCreationDate(LocalDate.of(2018, Month.JUNE, 6), PageRequest.of(0, 10));
 
-        assertEquals(relay.getCreatedAt(), foundedRelayList.get(0).getCreatedAt());
+        assertEquals(relay.createdAt(), foundedRelayList.get(0).createdAt());
     }
 
     @Test
     void findRelayByLastCheckDate() {
-        Relay relay = new Relay();
-        relay.setVerificationDate(OffsetDateTime.of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15),
-                ZoneOffset.ofHours(3)));
+        OffsetDateTime lastCheckDate = OffsetDateTime.of(LocalDateTime.of(2018, Month.JUNE, 6, 23, 15),
+                ZoneOffset.ofHours(3));
+        com.relay.core.model.Relay relay = new com.relay.core.model.Relay(
+                null,
+                "12345",
+                null,
+                null,
+                lastCheckDate,
+                0,
+                null,
+                null
+        );
         relayService.save(relay);
 
-        List<Relay> foundedRelayList =
+        List<com.relay.core.model.Relay> foundedRelayList =
                 relayService.findByLastCheckDate(LocalDate.of(2018, Month.JUNE, 6), PageRequest.of(0, 10));
 
-        assertEquals(relay.getVerificationDate(), foundedRelayList.get(0).getVerificationDate());
+        assertEquals(relay.lastCheckDate(), foundedRelayList.get(0).lastCheckDate());
     }
 
     @Test
     void findAll() {
-        Relay relay1 = Relay.builder().serialNumber("012345").build();
+        com.relay.core.model.Relay relay1 = new com.relay.core.model.Relay(null, "012345", null, null, null, 0, null, null);
         relayService.save(relay1);
-        Relay relay2 = Relay.builder().serialNumber("012346").build();
+        com.relay.core.model.Relay relay2 = new com.relay.core.model.Relay(null, "012346", null, null, null, 0, null, null);
         relayService.save(relay2);
-        Relay relay3 = Relay.builder().serialNumber("012347").build();
+        com.relay.core.model.Relay relay3 = new com.relay.core.model.Relay(null, "012347", null, null, null, 0, null, null);
         relayService.save(relay3);
-        Relay relay4 = Relay.builder().serialNumber("012348").build();
+        com.relay.core.model.Relay relay4 = new com.relay.core.model.Relay(null, "012348", null, null, null, 0, null, null);
         relayService.save(relay4);
 
-        List<Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
+        List<com.relay.core.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
         assertEquals(4, relayList.size());
     }
 

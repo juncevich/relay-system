@@ -1,9 +1,7 @@
 package com.relay.unit.web;
 
 import com.relay.core.service.RelayService;
-import com.relay.db.repository.RelayRepository;
 import com.relay.web.controllers.RelayController;
-import com.relay.web.model.Relay;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,19 +31,21 @@ class RelayControllerTest {
   @MockitoBean
   private RelayService relayService;
 
-  @MockitoBean
-  private RelayRepository relayRepository;
-
   @Test
   void successResponse() throws Exception {
 
     given(
             relayService.findAll(PageRequest.of(0, 10))).willReturn(
             List.of(
-                    new Relay(
+                    new com.relay.core.model.Relay(
+                            null,
+                            "test_serial_number",
+                            null,
                             OffsetDateTime.of(2023, 1, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
                             OffsetDateTime.of(2023, 7, 1, 0, 0, 0, 0, ZoneOffset.ofHours(3)),
-                            "test_serial_number"
+                            0,
+                            null,
+                            null
                     )
             )
     );

@@ -1,24 +1,19 @@
 package com.relay.unit.service;
 
+import com.relay.core.repository.RelayRepository;
+import com.relay.core.repository.StorageRepository;
 import com.relay.core.service.RelayService;
-import com.relay.db.entity.items.Relay;
-import com.relay.db.mappers.RelayMapper;
-import com.relay.db.repository.RelayCabinetRepository;
-import com.relay.db.repository.RelayRepository;
-import com.relay.db.repository.StandRepository;
-import com.relay.db.repository.WarehouseRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.*;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,59 +22,56 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+@Tag("unit")
 class RelayServiceTest {
 
-    @MockitoBean
+    @Mock
     private RelayRepository relayRepository;
 
-    @MockitoBean
-    private WarehouseRepository warehouseRepository;
-
-    @MockitoBean
-    private StandRepository standRepository;
-
-    @MockitoBean
-    private RelayCabinetRepository relayCabinetRepository;
-
     @Mock
+    private StorageRepository storageRepository;
+
     private RelayService relayService;
 
     @BeforeEach
     void setUp() {
         relayService = new RelayService(
                 relayRepository,
-                warehouseRepository,
-                standRepository,
-                relayCabinetRepository,
-                RelayMapper.INSTANCE
+                storageRepository
         );
     }
 
     @Test
     void findRelayByCreationDate() {
-        Relay relay = new Relay();
-        relay.setId(1L);
-        relay.setSerialNumber("12345");
         OffsetDateTime creationDate =
                 OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
-        relay.setCreatedAt(creationDate);
+        com.relay.core.model.Relay relay = new com.relay.core.model.Relay(
+                1L,
+                "12345",
+                null,
+                creationDate,
+                null,
+                0,
+                null,
+                null
+        );
         when(relayRepository.findByCreationDate(any(), any()))
-                .thenReturn(new PageImpl<>(List.of(relay)));
+                .thenReturn(List.of(relay));
 
-        List<com.relay.web.model.Relay> foundedRelayList =
+        List<com.relay.core.model.Relay> foundedRelayList =
                 relayService.findByCreationDate(LocalDate.of(2020, Month.NOVEMBER, 18), PageRequest.of(0, 10));
 
         assertEquals(1, foundedRelayList.size());
-        assertEquals(relay.getCreatedAt(), foundedRelayList.get(0).getCreatedAt());
+        assertEquals(relay.createdAt(), foundedRelayList.get(0).createdAt());
     }
 
     @Test
     void nonFindRelayByCreationDate() {
         when(relayRepository.findByCreationDate(any(), any()))
-                .thenReturn(new PageImpl<>(emptyList()));
+                .thenReturn(emptyList());
 
-        List<com.relay.web.model.Relay> foundedRelayList =
+        List<com.relay.core.model.Relay> foundedRelayList =
                 relayService.findByCreationDate(LocalDate.of(2020, Month.NOVEMBER, 18), PageRequest.of(0, 10));
 
         assertEquals(0, foundedRelayList.size());
@@ -87,14 +79,14 @@ class RelayServiceTest {
 
     @Test
     void findAll() {
-        Relay relay1 = Relay.builder().serialNumber("012345").build();
-        Relay relay2 = Relay.builder().serialNumber("012345").build();
-        Relay relay3 = Relay.builder().serialNumber("012345").build();
-        Relay relay4 = Relay.builder().serialNumber("012345").build();
-        List<Relay> relays = List.of(relay1, relay2, relay3, relay4);
-        when(relayRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(relays));
+        com.relay.core.model.Relay relay1 = new com.relay.core.model.Relay(null, "012345", null, null, null, 0, null, null);
+        com.relay.core.model.Relay relay2 = new com.relay.core.model.Relay(null, "012346", null, null, null, 0, null, null);
+        com.relay.core.model.Relay relay3 = new com.relay.core.model.Relay(null, "012347", null, null, null, 0, null, null);
+        com.relay.core.model.Relay relay4 = new com.relay.core.model.Relay(null, "012348", null, null, null, 0, null, null);
+        List<com.relay.core.model.Relay> relays = List.of(relay1, relay2, relay3, relay4);
+        when(relayRepository.findAll(any(Pageable.class))).thenReturn(relays);
 
-        List<com.relay.web.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
+        List<com.relay.core.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
         assertThat(relayList)
                 .isNotNull()
                 .hasSize(4);
@@ -102,18 +94,24 @@ class RelayServiceTest {
 
     @Test
     void findRelayById() {
-        Relay relay = new Relay();
-        relay.setId(1L);
-        relay.setSerialNumber("12345");
         OffsetDateTime creationDate =
                 OffsetDateTime.of(LocalDateTime.of(2020, 11, 18, 23, 15), ZoneOffset.ofHours(3));
-        relay.setCreatedAt(creationDate);
+        com.relay.core.model.Relay relay = new com.relay.core.model.Relay(
+                1L,
+                "12345",
+                null,
+                creationDate,
+                null,
+                0,
+                null,
+                null
+        );
         when(relayRepository.findById(anyLong()))
-                .thenReturn(Optional.of(relay));
+                .thenReturn(relay);
 
-        com.relay.web.model.Relay foundedRelay = relayService.findById(relay.getId());
-        assertEquals(relay.getSerialNumber(), foundedRelay.getSerialNumber());
-        assertThat(foundedRelay.getSerialNumber()).isEqualTo("12345");
-        assertThat(foundedRelay.getCreatedAt()).isEqualTo(creationDate);
+        com.relay.core.model.Relay foundedRelay = relayService.findById(relay.id());
+        assertEquals(relay.serialNumber(), foundedRelay.serialNumber());
+        assertThat(foundedRelay.serialNumber()).isEqualTo("12345");
+        assertThat(foundedRelay.createdAt()).isEqualTo(creationDate);
     }
 }

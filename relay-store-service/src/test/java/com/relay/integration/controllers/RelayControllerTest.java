@@ -3,14 +3,14 @@ package com.relay.integration.controllers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.relay.db.dao.LocationDao;
+import com.relay.db.dao.RelayDao;
+import com.relay.db.dao.StandDao;
 import com.relay.db.entity.items.Relay;
 import com.relay.db.entity.items.RelayType;
 import com.relay.db.entity.location.Station;
 import com.relay.db.entity.storage.Stand;
 import com.relay.db.entity.storage.Storage;
-import com.relay.db.repository.LocationRepository;
-import com.relay.db.repository.RelayRepository;
-import com.relay.db.repository.StandRepository;
 import com.relay.web.dto.CreateRelayRequest;
 import com.relay.web.dto.CreateRelayResponse;
 import org.junit.jupiter.api.AfterEach;
@@ -52,13 +52,13 @@ class RelayControllerTest {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private RelayRepository relayRepository;
+    private RelayDao relayRepository;
 
     @Autowired
-    private LocationRepository locationRepository;
+    private LocationDao locationRepository;
 
     @Autowired
-    private StandRepository standRepository;
+    private StandDao standRepository;
 
     private Storage defaultStorage;
 
