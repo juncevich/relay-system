@@ -156,10 +156,39 @@ The application uses Ant Design v6.2.2 with the following key components:
 
 ## Backend Integration
 
-The frontend expects a backend API at `http://localhost:8080/api`. When implementing API calls:
-- Use the configured axios instance from `src/api/http-common.ts`
-- Add service methods to `src/api/RelayService.ts`
-- Ensure data matches the Relay model structure
+The frontend is integrated with the relay-store-service backend at `http://localhost:8082`.
+
+**Backend Services:**
+- `RelayService` (`src/api/RelayService.ts`) - Full CRUD operations for relays
+- `LocationService` (`src/api/LocationService.ts`) - Manage stations, track points, and crossings
+
+**Type Definitions:**
+- All backend DTOs are defined in `src/types/relay.types.ts`
+- Includes Relay, Location, Storage, and RelayMovement types
+- Pagination support with `PaginationParams` interface
+
+**Data Fetching Pattern:**
+```typescript
+// Example from MainTab.tsx
+useEffect(() => {
+    const fetchData = async () => {
+        const [relaysResponse, stationsResponse] = await Promise.all([
+            RelayService.getAll({ page: 0, size: 50 }),
+            LocationService.getAllStations({ page: 0, size: 10 })
+        ]);
+        // Convert and update state
+    };
+    fetchData();
+}, []);
+```
+
+**Important Notes:**
+- MainTab component fetches real data from backend on mount
+- Includes loading states (Spin component) and error handling (Alert component)
+- Legacy Relay model includes `fromBackendRelay()` helper for data conversion
+- Sidebar menu is dynamically populated with stations from backend
+
+See `BACKEND_INTEGRATION.md` for complete integration documentation.
 
 ## Development Notes
 

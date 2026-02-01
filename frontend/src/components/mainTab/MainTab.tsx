@@ -1,49 +1,101 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import {Breadcrumb, Col, Layout, Menu, Row, Space, Tabs} from 'antd';
+import {Breadcrumb, Col, Layout, Menu, Row, Space, Tabs, Spin, Alert} from 'antd';
 import RelayCard from '../relay/RelayCard';
 import Relay from '../../models/Relay';
+import RelayService from '../../api/RelayService';
+import LocationService from '../../api/LocationService';
+import { Relay as BackendRelay, StationResponse } from '../../types/relay.types';
 import './RelayContent.css';
 
 const {Header, Content, Footer, Sider} = Layout;
 
+interface MainTabState {
+    relays: Relay[];
+    stations: StationResponse[];
+    loading: boolean;
+    error: string | null;
+}
+
 function MainTab() {
-    const relayModel = new Relay(
-        'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
-        'НМШ-400',
-        '01.02.2003'
-    );
+    const [state, setState] = useState<MainTabState>({
+        relays: [],
+        stations: [],
+        loading: true,
+        error: null
+    });
+
+    // Fetch data from backend on component mount
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setState(prev => ({ ...prev, loading: true, error: null }));
+
+                // Fetch relays and stations in parallel
+                const [relaysResponse, stationsResponse] = await Promise.all([
+                    RelayService.getAll({ page: 0, size: 50 }),
+                    LocationService.getAllStations({ page: 0, size: 10 })
+                ]);
+
+                // Convert backend relays to legacy Relay model
+                const relays = relaysResponse.data.content.map((backendRelay: BackendRelay) =>
+                    Relay.fromBackendRelay(backendRelay)
+                );
+
+                setState({
+                    relays,
+                    stations: stationsResponse.data.content,
+                    loading: false,
+                    error: null
+                });
+            } catch (error: any) {
+                console.error('Error fetching data:', error);
+                setState(prev => ({
+                    ...prev,
+                    loading: false,
+                    error: error.response?.data?.message || error.message || 'Failed to fetch data from backend'
+                }));
+            }
+        };
+
+        fetchData();
+    }, []);
 
     // Helper function to render a row of relay cards
-    const renderRelayRow = (count: number = 8) => (
-        <Row gutter={[8, 8]}>
-            {Array.from({ length: count }).map((_, index) => (
-                <Col key={index} className="gutter-row" span={3}>
-                    <div><RelayCard relay={relayModel}/></div>
-                </Col>
-            ))}
-        </Row>
-    );
+    const renderRelayRow = (relays: Relay[], startIndex: number, count: number = 8) => {
+        const relaysToShow = relays.slice(startIndex, startIndex + count);
 
-    // Tab 1 content: 3 rows of 8 cards
-    const tab1Content = (
-        <>
-            {renderRelayRow(8)}
-            {renderRelayRow(8)}
-            {renderRelayRow(8)}
-        </>
-    );
+        if (relaysToShow.length === 0) {
+            return null;
+        }
 
-    // Tab 2 content: 1 row of 8 cards
-    const tab2Content = renderRelayRow(8);
+        return (
+            <Row gutter={[8, 8]}>
+                {relaysToShow.map((relay, index) => (
+                    <Col key={startIndex + index} className="gutter-row" span={3}>
+                        <div><RelayCard relay={relay}/></div>
+                    </Col>
+                ))}
+            </Row>
+        );
+    };
 
-    // Tab 3 content: 2 rows of 8 cards
-    const tab3Content = (
-        <>
-            {renderRelayRow(8)}
-            {renderRelayRow(8)}
-        </>
-    );
+    // Generate tab content based on actual relay data
+    const generateTabContent = (relays: Relay[], rowsPerTab: number) => {
+        const rows = [];
+        for (let i = 0; i < rowsPerTab; i++) {
+            const row = renderRelayRow(relays, i * 8, 8);
+            if (row) {
+                rows.push(<React.Fragment key={i}>{row}</React.Fragment>);
+            }
+        }
+        return rows.length > 0 ? <>{rows}</> : <Alert message="Нет реле для отображения" type="info" />;
+    };
+
+    // Tab content
+    const tab1Content = generateTabContent(state.relays.slice(0, 24), 3); // First 24 relays (3 rows)
+    const tab2Content = generateTabContent(state.relays.slice(24, 32), 1); // Next 8 relays (1 row)
+    const tab3Content = generateTabContent(state.relays.slice(32, 48), 2); // Next 16 relays (2 rows)
 
     return (
         <Layout>
@@ -71,48 +123,65 @@ function MainTab() {
                 />
                 <Layout className="site-layout-background" style={{padding: '24px 0'}}>
                     <Sider className="site-layout-background" width={'auto'}>
-                        <Menu
-                            mode="inline"
-                            defaultSelectedKeys={['1']}
-                            defaultOpenKeys={['sub1']}
-                            items={[
-                                {
-                                    key: 'sub1',
-                                    label: 'Свердловский участок',
-                                    children: [
-                                        { key: '1', label: 'Березит' },
-                                        { key: '2', label: 'Кедровка' },
-                                        { key: '3', label: 'Монетная' },
-                                        { key: '4', label: 'Копалуха' },
-                                    ],
-                                },
-                            ]}
-                        />
-                    </Sider>
-                    <Content style={{padding: '0 24px', minHeight: 280, maxWidth: '100%'}}>
-                        <Space>
-                            <Tabs
-                                tabPosition="top"
-                                centered
+                        {state.loading ? (
+                            <div style={{ padding: '20px', textAlign: 'center' }}>
+                                <Spin />
+                            </div>
+                        ) : (
+                            <Menu
+                                mode="inline"
+                                defaultSelectedKeys={state.stations.length > 0 ? [`station-${state.stations[0].id}`] : []}
+                                defaultOpenKeys={['stations']}
                                 items={[
                                     {
-                                        key: '1',
-                                        label: 'Tab 1',
-                                        children: tab1Content,
-                                    },
-                                    {
-                                        key: '2',
-                                        label: 'Tab 2',
-                                        children: tab2Content,
-                                    },
-                                    {
-                                        key: '3',
-                                        label: 'Tab 3',
-                                        children: tab3Content,
+                                        key: 'stations',
+                                        label: 'Станции',
+                                        children: state.stations.map(station => ({
+                                            key: `station-${station.id}`,
+                                            label: station.name
+                                        }))
                                     },
                                 ]}
                             />
-                        </Space>
+                        )}
+                    </Sider>
+                    <Content style={{padding: '0 24px', minHeight: 280, maxWidth: '100%'}}>
+                        {state.loading ? (
+                            <div style={{ textAlign: 'center', padding: '50px' }}>
+                                <Spin size="large" tip="Загрузка реле..." />
+                            </div>
+                        ) : state.error ? (
+                            <Alert
+                                message="Ошибка загрузки данных"
+                                description={state.error}
+                                type="error"
+                                showIcon
+                            />
+                        ) : (
+                            <Space>
+                                <Tabs
+                                    tabPosition="top"
+                                    centered
+                                    items={[
+                                        {
+                                            key: '1',
+                                            label: `Склад 1 (${Math.min(state.relays.length, 24)})`,
+                                            children: tab1Content,
+                                        },
+                                        {
+                                            key: '2',
+                                            label: `Склад 2 (${Math.min(Math.max(0, state.relays.length - 24), 8)})`,
+                                            children: tab2Content,
+                                        },
+                                        {
+                                            key: '3',
+                                            label: `Склад 3 (${Math.min(Math.max(0, state.relays.length - 32), 16)})`,
+                                            children: tab3Content,
+                                        },
+                                    ]}
+                                />
+                            </Space>
+                        )}
                     </Content>
                 </Layout>
             </Content>
