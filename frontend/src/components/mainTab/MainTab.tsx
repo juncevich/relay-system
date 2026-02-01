@@ -27,6 +27,8 @@ function MainTab() {
 
     // Fetch data from backend on component mount
     useEffect(() => {
+        let ignore = false;
+
         const fetchData = async () => {
             try {
                 setState(prev => ({ ...prev, loading: true, error: null }));
@@ -37,28 +39,47 @@ function MainTab() {
                     LocationService.getAllStations({ page: 0, size: 10 })
                 ]);
 
-                // Convert backend relays to legacy Relay model
-                const relays = relaysResponse.data.content.map((backendRelay: BackendRelay) =>
-                    Relay.fromBackendRelay(backendRelay)
-                );
+                // Prevent state updates if component unmounted
+                if (!ignore) {
+                    // Convert backend relays to legacy Relay model
+                    const relays = relaysResponse.data.content.map((backendRelay: BackendRelay) =>
+                        Relay.fromBackendRelay(backendRelay)
+                    );
 
-                setState({
-                    relays,
-                    stations: stationsResponse.data.content,
-                    loading: false,
-                    error: null
-                });
-            } catch (error: any) {
-                console.error('Error fetching data:', error);
-                setState(prev => ({
-                    ...prev,
-                    loading: false,
-                    error: error.response?.data?.message || error.message || 'Failed to fetch data from backend'
-                }));
+                    setState({
+                        relays,
+                        stations: stationsResponse.data.content,
+                        loading: false,
+                        error: null
+                    });
+                }
+            } catch (error: unknown) {
+                if (!ignore) {
+                    const errorMessage = error instanceof Error
+                        ? error.message
+                        : 'Failed to fetch data from backend';
+
+                    const apiError = error as { response?: { data?: { message?: string } } };
+                    const finalErrorMessage = apiError.response?.data?.message || errorMessage;
+
+                    if (process.env.NODE_ENV === 'development') {
+                        console.error('Error fetching data:', error);
+                    }
+
+                    setState(prev => ({
+                        ...prev,
+                        loading: false,
+                        error: finalErrorMessage
+                    }));
+                }
             }
         };
 
         fetchData();
+
+        return () => {
+            ignore = true;
+        };
     }, []);
 
     // Helper function to render a row of relay cards
@@ -71,8 +92,8 @@ function MainTab() {
 
         return (
             <Row gutter={[8, 8]}>
-                {relaysToShow.map((relay, index) => (
-                    <Col key={startIndex + index} className="gutter-row" span={3}>
+                {relaysToShow.map((relay) => (
+                    <Col key={relay.id} className="gutter-row" span={3}>
                         <div><RelayCard relay={relay}/></div>
                     </Col>
                 ))}
@@ -189,224 +210,5 @@ function MainTab() {
         </Layout>
     );
 }
-
-// class MainTab extends React.Component<any, any> {
-//
-//     render() {
-//         // const relays = [<RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>, <RelayCard/>];
-//         const relay = <RelayCard/>;
-//         return (
-//             <Layout>
-//                 <Header className="header">
-//                     <div className="logo"/>
-//                     <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-//                         <Menu.Item key="1">nav 1</Menu.Item>
-//                         <Menu.Item key="2">nav 2</Menu.Item>
-//                         <Menu.Item key="3">nav 3</Menu.Item>
-//                     </Menu>
-//                 </Header>
-//                 <Content style={{padding: '0 50px'}}>
-//                     <Breadcrumb style={{margin: '16px 0'}}>
-//                         <Breadcrumb.Item>Home</Breadcrumb.Item>
-//                         <Breadcrumb.Item>List</Breadcrumb.Item>
-//                         <Breadcrumb.Item>App</Breadcrumb.Item>
-//                     </Breadcrumb>
-//                     <Layout className="site-layout-background" style={{padding: '24px 0'}}>
-//                         <Sider className="site-layout-background" width={'auto'}>
-//                             <Menu
-//                                 mode="inline"
-//                                 defaultSelectedKeys={['1']}
-//                                 defaultOpenKeys={['sub1']}
-//                                 // style={{height: '100%'}}
-//                             >
-//                                 <SubMenu key="sub1" title="Свердловский участок">
-//                                     <Menu.Item key="1">Березит</Menu.Item>
-//                                     <Menu.Item key="2">Кедровка</Menu.Item>
-//                                     <Menu.Item key="3">Монетная</Menu.Item>
-//                                     <Menu.Item key="4">Копалуха</Menu.Item>
-//                                 </SubMenu>
-//                             </Menu>
-//                         </Sider>
-//                         <Content style={{padding: '0 24px', minHeight: 280, maxWidth: '100%'}}>
-//
-//                             <Space>
-//                                 <Tabs tabPosition="top" centered>
-//                                     <TabPane tab="Tab 1" key="1">
-//                                         <Row gutter={[8, 8]}>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                         </Row>
-//
-//                                         <Row gutter={[8, 8]}>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                         </Row>
-//
-//                                         <Row gutter={[8, 8]}>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                         </Row>
-//                                     </TabPane>
-//                                     <TabPane tab="Tab 2" key="2">
-//                                         <Row gutter={[8, 8]}>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                         </Row>
-//                                     </TabPane>
-//                                     <TabPane tab="Tab 3" key="3">
-//                                         <Row gutter={[8, 8]}>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                         </Row>
-//                                         <Row gutter={[8, 8]}>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                             <Col className="gutter-row" span={3}>
-//                                                 <div><RelayCard/></div>
-//                                             </Col>
-//                                         </Row>
-//                                     </TabPane>
-//                                 </Tabs>
-//                             </Space>
-//
-//                         </Content>
-//                     </Layout>
-//                 </Content>
-//                 <Footer style={{textAlign: 'center'}}>Ant Design ©2018 Created by Ant UED</Footer>
-//             </Layout>
-//         );
-//
-//
-//     }
-// }
 
 export default MainTab;
