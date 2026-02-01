@@ -54,9 +54,9 @@ class RelayControllerTest {
             .andDo(print())
             .andExpect(content().contentType(APPLICATION_JSON_VALUE))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].serialNumber", is("test_serial_number")))
-            .andExpect(jsonPath("$[0].createdAt", is("2023-01-01T00:00:00+03:00")))
-            .andExpect(jsonPath("$[0].verificationDate", is("2023-07-01T00:00:00+03:00")));
+            .andExpect(jsonPath("$.relays[0].serialNumber", is("test_serial_number")))
+            .andExpect(jsonPath("$.relays[0].createdAt", is("2023-01-01T00:00:00+03:00")))
+            .andExpect(jsonPath("$.relays[0].verificationDate", is("2023-07-01T00:00:00+03:00")));
   }
 
   @Test
@@ -67,6 +67,6 @@ class RelayControllerTest {
             .andDo(print())
             .andExpect(content().contentType(APPLICATION_JSON_VALUE))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$", Matchers.empty()));
+            .andExpect(jsonPath("$.relays", Matchers.empty()));
   }
 }

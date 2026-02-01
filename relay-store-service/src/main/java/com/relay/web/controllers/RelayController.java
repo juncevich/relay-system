@@ -3,6 +3,7 @@ package com.relay.web.controllers;
 import com.relay.core.service.RelayService;
 import com.relay.web.dto.CreateRelayRequest;
 import com.relay.web.dto.CreateRelayResponse;
+import com.relay.web.dto.GetAllRelaysResponse;
 import com.relay.web.dto.UpdateRelayRequest;
 import com.relay.web.model.Relay;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,13 +26,14 @@ public class RelayController {
 
     @GetMapping("/relays")
     @Operation(summary = "Get all relays")
-    public List<Relay> findAllRelays(
+    public GetAllRelaysResponse findAllRelays(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var coreModels = relayService.findAll(PageRequest.of(page, size));
-        return coreModels.stream()
+        var relays = coreModels.stream()
                 .map(this::convertToWebModel)
                 .toList();
+        return new GetAllRelaysResponse(relays);
     }
 
     @GetMapping("/relays/{id}")
@@ -55,26 +56,28 @@ public class RelayController {
 
     @GetMapping("/relays/by-creation-date")
     @Operation(summary = "Find relays by creation date")
-    public List<Relay> findByCreationDate(
+    public GetAllRelaysResponse findByCreationDate(
             @RequestParam LocalDate date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var coreModels = relayService.findByCreationDate(date, PageRequest.of(page, size));
-        return coreModels.stream()
+        var relays = coreModels.stream()
                 .map(this::convertToWebModel)
                 .toList();
+        return new GetAllRelaysResponse(relays);
     }
 
     @GetMapping("/relays/by-last-check-date")
     @Operation(summary = "Find relays by last check date")
-    public List<Relay> findByLastCheckDate(
+    public GetAllRelaysResponse findByLastCheckDate(
             @RequestParam LocalDate date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var coreModels = relayService.findByLastCheckDate(date, PageRequest.of(page, size));
-        return coreModels.stream()
+        var relays = coreModels.stream()
                 .map(this::convertToWebModel)
                 .toList();
+        return new GetAllRelaysResponse(relays);
     }
 
     @PostMapping("/relays")

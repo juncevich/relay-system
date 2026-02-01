@@ -4,9 +4,11 @@ import com.relay.core.model.location.Crossing;
 import com.relay.core.model.location.Station;
 import com.relay.core.model.location.TrackPoint;
 import com.relay.core.service.LocationService;
-import com.relay.web.dto.location.CreateCrossingRequest;
-import com.relay.web.dto.location.CreateStationRequest;
-import com.relay.web.dto.location.CreateTrackPointRequest;
+import com.relay.web.dto.location.*;
+import com.relay.web.mappers.LocationResponseMapper;
+import com.relay.web.model.location.CrossingResponse;
+import com.relay.web.model.location.StationResponse;
+import com.relay.web.model.location.TrackPointResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -16,48 +18,53 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Location controller")
 public class LocationController {
 
     private final LocationService locationService;
+    private final LocationResponseMapper locationResponseMapper;
 
     // Station endpoints
     @GetMapping("/stations")
     @Operation(summary = "Get all stations")
-    public List<Station> findAllStations(
+    public GetAllStationsResponse findAllStations(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return locationService.findAllStations(PageRequest.of(page, size));
+        var stations = locationService.findAllStations(PageRequest.of(page, size));
+        var stationResponses = locationResponseMapper.mapStationsToResponse(stations);
+        return new GetAllStationsResponse(stationResponses);
     }
 
     @GetMapping("/stations/{id}")
     @Operation(summary = "Get station by ID")
-    public ResponseEntity<Station> findStationById(@PathVariable Long id) {
+    public ResponseEntity<StationResponse> findStationById(@PathVariable Long id) {
         return locationService.findStationById(id)
+                .map(locationResponseMapper::mapStationToResponse)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/stations")
     @Operation(summary = "Create a new station")
-    public ResponseEntity<Station> createStation(@Valid @RequestBody CreateStationRequest request) {
+    public ResponseEntity<StationResponse> createStation(@Valid @RequestBody CreateStationRequest request) {
         var model = Station.builder()
                 .name(request.name())
                 .build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(locationService.saveStation(model));
+        var savedStation = locationService.saveStation(model);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(locationResponseMapper.mapStationToResponse(savedStation));
     }
 
     @PutMapping("/stations/{id}")
     @Operation(summary = "Update station")
-    public ResponseEntity<Station> updateStation(@PathVariable Long id, @Valid @RequestBody CreateStationRequest request) {
+    public ResponseEntity<StationResponse> updateStation(@PathVariable Long id, @Valid @RequestBody CreateStationRequest request) {
         var model = Station.builder()
                 .name(request.name())
                 .build();
-        return ResponseEntity.ok(locationService.updateStation(id, model));
+        var updatedStation = locationService.updateStation(id, model);
+        return ResponseEntity.ok(locationResponseMapper.mapStationToResponse(updatedStation));
     }
 
     @DeleteMapping("/stations/{id}")
@@ -70,36 +77,42 @@ public class LocationController {
     // TrackPoint endpoints
     @GetMapping("/track-points")
     @Operation(summary = "Get all track points")
-    public List<TrackPoint> findAllTrackPoints(
+    public GetAllTrackPointsResponse findAllTrackPoints(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return locationService.findAllTrackPoints(PageRequest.of(page, size));
+        var trackPoints = locationService.findAllTrackPoints(PageRequest.of(page, size));
+        var trackPointResponses = locationResponseMapper.mapTrackPointsToResponse(trackPoints);
+        return new GetAllTrackPointsResponse(trackPointResponses);
     }
 
     @GetMapping("/track-points/{id}")
     @Operation(summary = "Get track point by ID")
-    public ResponseEntity<TrackPoint> findTrackPointById(@PathVariable Long id) {
+    public ResponseEntity<TrackPointResponse> findTrackPointById(@PathVariable Long id) {
         return locationService.findTrackPointById(id)
+                .map(locationResponseMapper::mapTrackPointToResponse)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/track-points")
     @Operation(summary = "Create a new track point")
-    public ResponseEntity<TrackPoint> createTrackPoint(@Valid @RequestBody CreateTrackPointRequest request) {
+    public ResponseEntity<TrackPointResponse> createTrackPoint(@Valid @RequestBody CreateTrackPointRequest request) {
         var model = TrackPoint.builder()
                 .name(request.name())
                 .build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(locationService.saveTrackPoint(model));
+        var savedTrackPoint = locationService.saveTrackPoint(model);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(locationResponseMapper.mapTrackPointToResponse(savedTrackPoint));
     }
 
     @PutMapping("/track-points/{id}")
     @Operation(summary = "Update track point")
-    public ResponseEntity<TrackPoint> updateTrackPoint(@PathVariable Long id, @Valid @RequestBody CreateTrackPointRequest request) {
+    public ResponseEntity<TrackPointResponse> updateTrackPoint(@PathVariable Long id, @Valid @RequestBody CreateTrackPointRequest request) {
         var model = TrackPoint.builder()
                 .name(request.name())
                 .build();
-        return ResponseEntity.ok(locationService.updateTrackPoint(id, model));
+        var updatedTrackPoint = locationService.updateTrackPoint(id, model);
+        return ResponseEntity.ok(locationResponseMapper.mapTrackPointToResponse(updatedTrackPoint));
     }
 
     @DeleteMapping("/track-points/{id}")
@@ -112,36 +125,42 @@ public class LocationController {
     // Crossing endpoints
     @GetMapping("/crossings")
     @Operation(summary = "Get all crossings")
-    public List<Crossing> findAllCrossings(
+    public GetAllCrossingsResponse findAllCrossings(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return locationService.findAllCrossings(PageRequest.of(page, size));
+        var crossings = locationService.findAllCrossings(PageRequest.of(page, size));
+        var crossingResponses = locationResponseMapper.mapCrossingsToResponse(crossings);
+        return new GetAllCrossingsResponse(crossingResponses);
     }
 
     @GetMapping("/crossings/{id}")
     @Operation(summary = "Get crossing by ID")
-    public ResponseEntity<Crossing> findCrossingById(@PathVariable Long id) {
+    public ResponseEntity<CrossingResponse> findCrossingById(@PathVariable Long id) {
         return locationService.findCrossingById(id)
+                .map(locationResponseMapper::mapCrossingToResponse)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/crossings")
     @Operation(summary = "Create a new crossing")
-    public ResponseEntity<Crossing> createCrossing(@Valid @RequestBody CreateCrossingRequest request) {
+    public ResponseEntity<CrossingResponse> createCrossing(@Valid @RequestBody CreateCrossingRequest request) {
         var model = Crossing.builder()
                 .name(request.name())
                 .build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(locationService.saveCrossing(model));
+        var savedCrossing = locationService.saveCrossing(model);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(locationResponseMapper.mapCrossingToResponse(savedCrossing));
     }
 
     @PutMapping("/crossings/{id}")
     @Operation(summary = "Update crossing")
-    public ResponseEntity<Crossing> updateCrossing(@PathVariable Long id, @Valid @RequestBody CreateCrossingRequest request) {
+    public ResponseEntity<CrossingResponse> updateCrossing(@PathVariable Long id, @Valid @RequestBody CreateCrossingRequest request) {
         var model = Crossing.builder()
                 .name(request.name())
                 .build();
-        return ResponseEntity.ok(locationService.updateCrossing(id, model));
+        var updatedCrossing = locationService.updateCrossing(id, model);
+        return ResponseEntity.ok(locationResponseMapper.mapCrossingToResponse(updatedCrossing));
     }
 
     @DeleteMapping("/crossings/{id}")

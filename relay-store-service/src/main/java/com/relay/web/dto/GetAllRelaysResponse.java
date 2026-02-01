@@ -1,4 +1,8 @@
 package com.relay.web.dto;
 
-public record GetAllRelaysResponse() {
+import com.relay.web.model.Relay;
+
+import java.util.List;
+
+public record GetAllRelaysResponse(List<Relay> relays) {
 }

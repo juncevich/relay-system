@@ -3,6 +3,9 @@ package com.relay.web.controllers;
 import com.relay.core.model.storage.Shelf;
 import com.relay.core.service.ShelfService;
 import com.relay.web.dto.storage.CreateShelfRequest;
+import com.relay.web.dto.storage.GetAllShelvesResponse;
+import com.relay.web.mappers.StorageResponseMapper;
+import com.relay.web.model.storage.ShelfResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -11,49 +14,53 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Shelf controller")
 public class ShelfController {
 
     private final ShelfService shelfService;
+    private final StorageResponseMapper storageResponseMapper;
 
     @GetMapping("/shelves")
     @Operation(summary = "Get all shelves")
-    public List<Shelf> findAllShelves(
+    public GetAllShelvesResponse findAllShelves(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        return shelfService.findAll(PageRequest.of(page, size));
+        var shelves = shelfService.findAll(PageRequest.of(page, size));
+        var shelfResponses = storageResponseMapper.mapShelvesToResponse(shelves);
+        return new GetAllShelvesResponse(shelfResponses);
     }
 
     @GetMapping("/shelves/{id}")
     @Operation(summary = "Get shelf by ID")
-    public Shelf findShelfById(@PathVariable Long id) {
-        return shelfService.findById(id);
+    public ShelfResponse findShelfById(@PathVariable Long id) {
+        var shelf = shelfService.findById(id);
+        return storageResponseMapper.mapShelfToResponse(shelf);
     }
 
     @PostMapping("/shelves")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new shelf")
-    public Shelf createShelf(@Valid @RequestBody CreateShelfRequest request) {
+    public ShelfResponse createShelf(@Valid @RequestBody CreateShelfRequest request) {
         var model = Shelf.builder()
                 .number(request.number())
                 .capacity(request.capacity())
                 .build();
-        return shelfService.save(model, request.storageId());
+        var savedShelf = shelfService.save(model, request.storageId());
+        return storageResponseMapper.mapShelfToResponse(savedShelf);
     }
 
     @PutMapping("/shelves/{id}")
     @Operation(summary = "Update shelf")
-    public Shelf updateShelf(@PathVariable Long id, @Valid @RequestBody CreateShelfRequest request) {
+    public ShelfResponse updateShelf(@PathVariable Long id, @Valid @RequestBody CreateShelfRequest request) {
         var model = Shelf.builder()
                 .number(request.number())
                 .capacity(request.capacity())
                 .storageId(request.storageId())
                 .build();
-        return shelfService.update(id, model);
+        var updatedShelf = shelfService.update(id, model);
+        return storageResponseMapper.mapShelfToResponse(updatedShelf);
     }
 
     @DeleteMapping("/shelves/{id}")

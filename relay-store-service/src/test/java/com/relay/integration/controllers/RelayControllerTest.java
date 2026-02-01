@@ -1,6 +1,5 @@
 package com.relay.integration.controllers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.relay.db.dao.LocationDao;
@@ -13,6 +12,7 @@ import com.relay.db.entity.storage.Stand;
 import com.relay.db.entity.storage.Storage;
 import com.relay.web.dto.CreateRelayRequest;
 import com.relay.web.dto.CreateRelayResponse;
+import com.relay.web.dto.GetAllRelaysResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -132,17 +131,17 @@ class RelayControllerTest {
           .andExpect(status().isOk())
           .andDo(print())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-          .andExpect(jsonPath("$.length()").value(1))
-          .andExpect(jsonPath("$[0].serialNumber").value("test_serial_number"))
-          .andExpect(jsonPath("$[0].createdAt").value("-999999999-01-01T00:00:00+18:00"));
+              .andExpect(jsonPath("$.relays.length()").value(1))
+              .andExpect(jsonPath("$.relays[0].serialNumber").value("test_serial_number"))
+              .andExpect(jsonPath("$.relays[0].createdAt").value("-999999999-01-01T00:00:00+18:00"));
       String contentAsString = response.andReturn().getResponse().getContentAsString();
         Assertions.assertNotNull(contentAsString);
 
-        List<com.relay.web.model.Relay> receivedRelayList =
-                objectMapper.readValue(contentAsString, new TypeReference<>() {
-                });
-        Assertions.assertNotNull(receivedRelayList);
-        Assertions.assertEquals(1, receivedRelayList.size());
+        GetAllRelaysResponse receivedResponse =
+                objectMapper.readValue(contentAsString, GetAllRelaysResponse.class);
+        Assertions.assertNotNull(receivedResponse);
+        Assertions.assertNotNull(receivedResponse.relays());
+        Assertions.assertEquals(1, receivedResponse.relays().size());
     }
 
 }
