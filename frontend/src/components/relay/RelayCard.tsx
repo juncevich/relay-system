@@ -1,9 +1,10 @@
 import React from 'react';
 import {Card} from 'antd';
 import {CloseCircleFilled, EditOutlined, EllipsisOutlined, SettingOutlined} from '@ant-design/icons';
-import Meta from 'antd/es/card/Meta';
 import './RelayCard.css';
 import Relay from '../../models/Relay';
+
+const { Meta } = Card;
 
 const RelayCard: React.FC<{ relay?: Relay }> = (props) => {
 
