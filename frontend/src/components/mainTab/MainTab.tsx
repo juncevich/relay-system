@@ -31,8 +31,6 @@ function MainTab() {
 
         const fetchData = async () => {
             try {
-                setState(prev => ({ ...prev, loading: true, error: null }));
-
                 // Fetch relays and stations in parallel
                 const [relaysResponse, stationsResponse] = await Promise.all([
                     RelayService.getAll({ page: 0, size: 50 }),
@@ -168,9 +166,9 @@ function MainTab() {
                     </Sider>
                     <Content style={{padding: '0 24px', minHeight: 280, maxWidth: '100%'}}>
                         {state.loading ? (
-                            <div style={{ textAlign: 'center', padding: '50px' }}>
-                                <Spin size="large" tip="Загрузка реле..." />
-                            </div>
+                            <Spin tip="Загрузка реле..." size="large">
+                                <div style={{ minHeight: 200 }} />
+                            </Spin>
                         ) : state.error ? (
                             <Alert
                                 message="Ошибка загрузки данных"

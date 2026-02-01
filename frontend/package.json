@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@rc-component/picker": "^1.9.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
@@ -42,6 +43,18 @@
     ]
   },
   "devDependencies": {
+    "identity-obj-proxy": "^3.0.0",
     "typestyle": "^2.4.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      "^@rc-component/picker/locale/(.*)$": "<rootDir>/node_modules/@rc-component/picker/lib/locale/$1",
+      "^@rc-component/picker/generate/(.*)$": "<rootDir>/node_modules/@rc-component/picker/lib/generate/$1",
+      "^@rc-component/picker$": "<rootDir>/node_modules/@rc-component/picker/lib/index.js"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@rc-component|rc-picker|antd)/)"
+    ]
   }
 }
