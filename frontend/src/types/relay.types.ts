@@ -201,3 +201,39 @@ export interface PaginationParams {
     page?: number;
     size?: number;
 }
+
+// API Error type for type-safe error handling
+export interface ApiError {
+    response?: {
+        data?: {
+            message?: string;
+            error?: string;
+            status?: number;
+        };
+        status?: number;
+    };
+    message?: string;
+}
+
+// Type guard for API errors
+export function isApiError(error: unknown): error is ApiError {
+    return (
+        typeof error === 'object' &&
+        error !== null &&
+        ('response' in error || 'message' in error)
+    );
+}
+
+// Helper to extract error message from API error
+export function getApiErrorMessage(error: unknown, defaultMessage = 'An error occurred'): string {
+    if (isApiError(error)) {
+        return error.response?.data?.message ||
+               error.response?.data?.error ||
+               error.message ||
+               defaultMessage;
+    }
+    if (error instanceof Error) {
+        return error.message;
+    }
+    return defaultMessage;
+}

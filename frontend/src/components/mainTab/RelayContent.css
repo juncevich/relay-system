@@ -1,5 +1,32 @@
+/* MainTab Layout Styles */
 
-/*.relay-space {*/
-/*    display: flex;*/
-/*}*/
+.main-content {
+    padding: 0 50px;
+}
 
+.main-breadcrumb {
+    margin: 16px 0;
+}
+
+.site-layout-background {
+    padding: 24px 0;
+}
+
+.sider-loading {
+    padding: 20px;
+    text-align: center;
+}
+
+.main-inner-content {
+    padding: 0 24px;
+    min-height: 280px;
+    max-width: 100%;
+}
+
+.loading-container {
+    min-height: 200px;
+}
+
+.main-footer {
+    text-align: center;
+}
