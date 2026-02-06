@@ -1,0 +1,124 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "serialNumber": "REL-001",
+      "relayType": "НШ-12",
+      "createdAt": "2024-01-15T10:00:00Z",
+      "lastCheckDate": "2024-06-01T10:00:00Z",
+      "placeNumber": 1,
+      "storageId": 1,
+      "shelfId": 1
+    },
+    {
+      "id": 2,
+      "serialNumber": "REL-002",
+      "relayType": "НШ-13",
+      "createdAt": "2024-01-16T10:00:00Z",
+      "lastCheckDate": "2024-05-20T10:00:00Z",
+      "placeNumber": 2,
+      "storageId": 1,
+      "shelfId": 1
+    },
+    {
+      "id": 3,
+      "serialNumber": "REL-003",
+      "relayType": "НШ-14",
+      "createdAt": "2024-01-17T10:00:00Z",
+      "placeNumber": 3,
+      "storageId": 2,
+      "shelfId": 2
+    },
+    {
+      "id": 4,
+      "serialNumber": "REL-004",
+      "relayType": "НМШ-1",
+      "createdAt": "2024-02-01T10:00:00Z",
+      "lastCheckDate": "2024-07-15T10:00:00Z",
+      "placeNumber": 4,
+      "storageId": 1,
+      "shelfId": 2
+    },
+    {
+      "id": 5,
+      "serialNumber": "REL-005",
+      "relayType": "НМШ-2",
+      "createdAt": "2024-02-10T10:00:00Z",
+      "lastCheckDate": "2024-08-01T10:00:00Z",
+      "placeNumber": 5,
+      "storageId": 2,
+      "shelfId": 3
+    },
+    {
+      "id": 6,
+      "serialNumber": "REL-006",
+      "relayType": "АНШ-2",
+      "createdAt": "2024-03-05T10:00:00Z",
+      "placeNumber": 6,
+      "storageId": 3,
+      "shelfId": 4
+    },
+    {
+      "id": 7,
+      "serialNumber": "REL-007",
+      "relayType": "АНШМ-1",
+      "createdAt": "2024-03-12T10:00:00Z",
+      "lastCheckDate": "2024-09-10T10:00:00Z",
+      "placeNumber": 7,
+      "storageId": 1,
+      "shelfId": 3
+    },
+    {
+      "id": 8,
+      "serialNumber": "REL-008",
+      "relayType": "ОМШ-46",
+      "createdAt": "2024-04-01T10:00:00Z",
+      "lastCheckDate": "2024-10-01T10:00:00Z",
+      "placeNumber": 8,
+      "storageId": 2,
+      "shelfId": 4
+    },
+    {
+      "id": 9,
+      "serialNumber": "REL-009",
+      "relayType": "РЭЛ-1",
+      "createdAt": "2024-04-15T10:00:00Z",
+      "placeNumber": 9,
+      "storageId": 3,
+      "shelfId": 5
+    },
+    {
+      "id": 10,
+      "serialNumber": "REL-010",
+      "relayType": "НШ-12",
+      "createdAt": "2024-05-01T10:00:00Z",
+      "lastCheckDate": "2024-11-01T10:00:00Z",
+      "placeNumber": 10,
+      "storageId": 1,
+      "shelfId": 5
+    },
+    {
+      "id": 11,
+      "serialNumber": "REL-011",
+      "relayType": "НМШ-1",
+      "createdAt": "2024-05-20T10:00:00Z",
+      "lastCheckDate": "2024-11-15T10:00:00Z",
+      "placeNumber": 11,
+      "storageId": 2,
+      "shelfId": 1
+    },
+    {
+      "id": 12,
+      "serialNumber": "REL-012",
+      "relayType": "АНШ-2",
+      "createdAt": "2024-06-01T10:00:00Z",
+      "placeNumber": 12,
+      "storageId": 3,
+      "shelfId": 2
+    }
+  ],
+  "totalElements": 12,
+  "totalPages": 1,
+  "size": 50,
+  "number": 0
+}
