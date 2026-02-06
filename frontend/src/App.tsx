@@ -1,14 +1,13 @@
-import './App.css';
+import {App as AntApp, ConfigProvider} from 'antd';
 import MainPage from './pages/MainPage';
-import React from 'react';
 
 function App() {
     return (
-        <div className="App">
-            <MainPage/>
-        </div>
-
-
+        <ConfigProvider theme={{token: {colorPrimary: '#1677ff'}}}>
+            <AntApp>
+                <MainPage/>
+            </AntApp>
+        </ConfigProvider>
     );
 }
 

@@ -1,5 +1,5 @@
-import React, { Component, ReactNode } from 'react';
-import { Alert, Button } from 'antd';
+import {Component, ErrorInfo, ReactNode} from 'react';
+import {Alert, Button} from 'antd';
 
 interface ErrorBoundaryProps {
     children: ReactNode;
@@ -27,9 +27,9 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
         return { hasError: true, error };
     }
 
-    componentDidCatch(error: Error, info: React.ErrorInfo): void {
+    componentDidCatch(error: Error, info: ErrorInfo): void {
         // Log error to console in development
-        if (process.env.NODE_ENV === 'development') {
+        if (import.meta.env.DEV) {
             console.error('ErrorBoundary caught an error:', error);
             console.error('Component stack:', info.componentStack);
         }

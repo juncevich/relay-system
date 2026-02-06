@@ -6,7 +6,7 @@ import MockRelayService from '../mock-data/MockRelayService';
 import MockLocationService from '../mock-data/MockLocationService';
 import {getApiErrorMessage, Relay as BackendRelay, StationResponse} from '../types/relay.types';
 
-const useMockData = process.env.REACT_APP_USE_MOCK_DATA === 'true';
+const useMockData = import.meta.env.VITE_USE_MOCK_DATA === 'true';
 const RelayService = useMockData ? MockRelayService : RealRelayService;
 const LocationService = useMockData ? MockLocationService : RealLocationService;
 
@@ -26,7 +26,7 @@ interface UseRelayDataOptions {
  * Custom hook for fetching relay and station data from backend.
  * Follows React 19 best practices with race condition prevention.
  *
- * Set REACT_APP_USE_MOCK_DATA=true to use local JSON mock data instead of the backend API.
+ * Set VITE_USE_MOCK_DATA=true to use local JSON mock data instead of the backend API.
  */
 export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState {
     const { relayPageSize = 50, stationPageSize = 10 } = options;
@@ -67,7 +67,7 @@ export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState 
                 if (!ignore) {
                     const errorMessage = getApiErrorMessage(error, 'Failed to fetch data from backend');
 
-                    if (process.env.NODE_ENV === 'development') {
+                    if (import.meta.env.DEV) {
                         console.error('Error fetching data:', error);
                     }
 

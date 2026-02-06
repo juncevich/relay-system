@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import {Fragment, useMemo} from 'react';
 
-import { Breadcrumb, Col, Layout, Menu, Row, Space, Tabs, Spin, Alert } from 'antd';
+import {Alert, Breadcrumb, Col, Layout, Menu, Row, Space, Spin, Tabs} from 'antd';
 import RelayCard from '../relay/RelayCard';
 import Relay from '../../models/Relay';
 import useRelayData from '../../hooks/useRelayData';
@@ -34,7 +34,7 @@ const generateTabContent = (relays: Relay[], rowsPerTab: number) => {
     for (let i = 0; i < rowsPerTab; i++) {
         const row = renderRelayRow(relays, i * 8, 8);
         if (row) {
-            rows.push(<React.Fragment key={i}>{row}</React.Fragment>);
+            rows.push(<Fragment key={i}>{row}</Fragment>);
         }
     }
     return rows.length > 0 ? <>{rows}</> : <Alert message="Нет реле для отображения" type="info" />;

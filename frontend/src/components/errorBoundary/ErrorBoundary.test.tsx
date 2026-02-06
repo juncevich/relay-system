@@ -1,6 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import {fireEvent, render, screen} from '@testing-library/react';
 import ErrorBoundary from './ErrorBoundary';
-import { useState } from 'react';
 
 // Component that conditionally throws
 const ProblematicComponent = ({ shouldThrow }: { shouldThrow: boolean }) => {
@@ -13,7 +12,7 @@ const ProblematicComponent = ({ shouldThrow }: { shouldThrow: boolean }) => {
 // Suppress console.error for cleaner test output
 const originalError = console.error;
 beforeAll(() => {
-    console.error = jest.fn();
+    console.error = vi.fn();
 });
 afterAll(() => {
     console.error = originalError;

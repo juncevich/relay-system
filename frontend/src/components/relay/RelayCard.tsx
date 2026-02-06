@@ -1,4 +1,3 @@
-import React from 'react';
 import {Card} from 'antd';
 import {CloseCircleFilled, EditOutlined, EllipsisOutlined, SettingOutlined} from '@ant-design/icons';
 import './RelayCard.css';
@@ -10,7 +9,7 @@ interface RelayCardProps {
     relay?: Relay;
 }
 
-const RelayCard: React.FC<RelayCardProps> = ({ relay }) => {
+function RelayCard({relay}: RelayCardProps) {
     return (
         <div className="relay-card-container">
             <Card
@@ -41,6 +40,6 @@ const RelayCard: React.FC<RelayCardProps> = ({ relay }) => {
             </Card>
         </div>
     );
-};
+}
 
 export default RelayCard;

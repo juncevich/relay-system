@@ -1,7 +1,6 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import RelayCard from './RelayCard';
-import { mockLegacyRelay } from '../../test-utils/mockData';
+import {mockLegacyRelay} from '../../test-utils/mockData';
 
 describe('RelayCard Component', () => {
     it('should render relay card with all data', () => {

@@ -1,24 +1,25 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import type {Mocked} from 'vitest';
+import {renderHook, waitFor} from '@testing-library/react';
 import useRelayData from './useRelayData';
 import RelayService from '../api/RelayService';
 import LocationService from '../api/LocationService';
 import {
     mockBackendRelay,
-    mockStation,
     mockGetAllRelaysResponse,
-    mockGetAllStationsResponse
+    mockGetAllStationsResponse,
+    mockStation
 } from '../test-utils/mockData';
 
 // Mock the services
-jest.mock('../api/RelayService');
-jest.mock('../api/LocationService');
+vi.mock('../api/RelayService');
+vi.mock('../api/LocationService');
 
-const mockRelayService = RelayService as jest.Mocked<typeof RelayService>;
-const mockLocationService = LocationService as jest.Mocked<typeof LocationService>;
+const mockRelayService = RelayService as Mocked<typeof RelayService>;
+const mockLocationService = LocationService as Mocked<typeof LocationService>;
 
 describe('useRelayData', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     it('should start with loading state', () => {

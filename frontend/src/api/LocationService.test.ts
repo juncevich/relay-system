@@ -1,13 +1,14 @@
+import type {Mocked} from 'vitest';
 import LocationService from './LocationService';
 import {relayStoreHttp} from './http-common';
 
-jest.mock('./http-common');
+vi.mock('./http-common');
 
-const mockHttp = relayStoreHttp as jest.Mocked<typeof relayStoreHttp>;
+const mockHttp = relayStoreHttp as Mocked<typeof relayStoreHttp>;
 
 describe('LocationService', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     // ========== Stations ==========

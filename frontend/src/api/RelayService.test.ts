@@ -1,13 +1,14 @@
+import type {Mocked} from 'vitest';
 import RelayService from './RelayService';
 import {relayStoreHttp} from './http-common';
 
-jest.mock('./http-common');
+vi.mock('./http-common');
 
-const mockHttp = relayStoreHttp as jest.Mocked<typeof relayStoreHttp>;
+const mockHttp = relayStoreHttp as Mocked<typeof relayStoreHttp>;
 
 describe('RelayService', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     describe('getAll', () => {
