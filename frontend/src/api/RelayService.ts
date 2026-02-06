@@ -1,21 +1,23 @@
-import http from './http-common';
+import {relayStoreHttp} from './http-common';
 import {
-    Relay,
-    GetAllRelaysResponse,
     CreateRelayRequest,
     CreateRelayResponse,
-    UpdateRelayRequest,
-    PaginationParams
+    GetAllRelaysResponse,
+    PaginationParams,
+    Relay,
+    UpdateRelayRequest
 } from '../types/relay.types';
 
 class RelayService {
+    // private readonly client = relayStoreHttp;
+
     /**
      * Get all relays with pagination
      * @param params - Pagination parameters (page, size)
      * @returns Promise with paginated relay data
      */
     getAll(params?: PaginationParams) {
-        return http.get<GetAllRelaysResponse>('/relays', {
+        return relayStoreHttp.get<GetAllRelaysResponse>('/relays', {
             params: {
                 page: params?.page ?? 0,
                 size: params?.size ?? 10
@@ -29,7 +31,7 @@ class RelayService {
      * @returns Promise with relay data
      */
     getById(id: number) {
-        return http.get<Relay>(`/relays/${id}`);
+        return relayStoreHttp.get<Relay>(`/relays/${id}`);
     }
 
     /**
@@ -38,7 +40,7 @@ class RelayService {
      * @returns Promise with relay data
      */
     getBySerialNumber(serialNumber: string) {
-        return http.get<Relay>(`/relays/serial-number/${serialNumber}`);
+        return relayStoreHttp.get<Relay>(`/relays/serial-number/${serialNumber}`);
     }
 
     /**
@@ -48,7 +50,7 @@ class RelayService {
      * @returns Promise with paginated relay data
      */
     getByCreationDate(date: string, params?: PaginationParams) {
-        return http.get<GetAllRelaysResponse>('/relays/by-creation-date', {
+        return relayStoreHttp.get<GetAllRelaysResponse>('/relays/by-creation-date', {
             params: {
                 date,
                 page: params?.page ?? 0,
@@ -64,7 +66,7 @@ class RelayService {
      * @returns Promise with paginated relay data
      */
     getByLastCheckDate(date: string, params?: PaginationParams) {
-        return http.get<GetAllRelaysResponse>('/relays/by-last-check-date', {
+        return relayStoreHttp.get<GetAllRelaysResponse>('/relays/by-last-check-date', {
             params: {
                 date,
                 page: params?.page ?? 0,
@@ -79,7 +81,7 @@ class RelayService {
      * @returns Promise with created relay response
      */
     create(data: CreateRelayRequest) {
-        return http.post<CreateRelayResponse>('/relays', data);
+        return relayStoreHttp.post<CreateRelayResponse>('/relays', data);
     }
 
     /**
@@ -89,7 +91,7 @@ class RelayService {
      * @returns Promise with updated relay
      */
     update(id: number, data: UpdateRelayRequest) {
-        return http.put<Relay>(`/relays/${id}`, data);
+        return relayStoreHttp.put<Relay>(`/relays/${id}`, data);
     }
 
     /**
@@ -98,9 +100,11 @@ class RelayService {
      * @returns Promise
      */
     delete(id: number) {
-        return http.delete(`/relays/${id}`);
+        return relayStoreHttp.delete(`/relays/${id}`);
     }
 }
+
+export {RelayService};
 
 const relayServiceInstance = new RelayService();
 export default relayServiceInstance;

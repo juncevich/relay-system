@@ -1,12 +1,12 @@
-import http from './http-common';
+import {relayStoreHttp} from './http-common';
 import {
+    CrossingResponse,
+    GetAllCrossingsResponse,
     GetAllStationsResponse,
     GetAllTrackPointsResponse,
-    GetAllCrossingsResponse,
+    PaginationParams,
     StationResponse,
-    TrackPointResponse,
-    CrossingResponse,
-    PaginationParams
+    TrackPointResponse
 } from '../types/relay.types';
 
 class LocationService {
@@ -18,7 +18,7 @@ class LocationService {
      * @returns Promise with paginated station data
      */
     getAllStations(params?: PaginationParams) {
-        return http.get<GetAllStationsResponse>('/stations', {
+        return relayStoreHttp.get<GetAllStationsResponse>('/stations', {
             params: {
                 page: params?.page ?? 0,
                 size: params?.size ?? 10
@@ -32,7 +32,7 @@ class LocationService {
      * @returns Promise with station data
      */
     getStationById(id: number) {
-        return http.get<StationResponse>(`/stations/${id}`);
+        return relayStoreHttp.get<StationResponse>(`/stations/${id}`);
     }
 
     /**
@@ -41,7 +41,7 @@ class LocationService {
      * @returns Promise with created station
      */
     createStation(name: string) {
-        return http.post<StationResponse>('/stations', { name });
+        return relayStoreHttp.post<StationResponse>('/stations', {name});
     }
 
     /**
@@ -51,7 +51,7 @@ class LocationService {
      * @returns Promise with updated station
      */
     updateStation(id: number, name: string) {
-        return http.put<StationResponse>(`/stations/${id}`, { name });
+        return relayStoreHttp.put<StationResponse>(`/stations/${id}`, {name});
     }
 
     /**
@@ -60,7 +60,7 @@ class LocationService {
      * @returns Promise
      */
     deleteStation(id: number) {
-        return http.delete(`/stations/${id}`);
+        return relayStoreHttp.delete(`/stations/${id}`);
     }
 
     // ========== Track Points ==========
@@ -71,7 +71,7 @@ class LocationService {
      * @returns Promise with paginated track point data
      */
     getAllTrackPoints(params?: PaginationParams) {
-        return http.get<GetAllTrackPointsResponse>('/track-points', {
+        return relayStoreHttp.get<GetAllTrackPointsResponse>('/track-points', {
             params: {
                 page: params?.page ?? 0,
                 size: params?.size ?? 10
@@ -85,7 +85,7 @@ class LocationService {
      * @returns Promise with track point data
      */
     getTrackPointById(id: number) {
-        return http.get<TrackPointResponse>(`/track-points/${id}`);
+        return relayStoreHttp.get<TrackPointResponse>(`/track-points/${id}`);
     }
 
     /**
@@ -94,7 +94,7 @@ class LocationService {
      * @returns Promise with created track point
      */
     createTrackPoint(name: string) {
-        return http.post<TrackPointResponse>('/track-points', { name });
+        return relayStoreHttp.post<TrackPointResponse>('/track-points', {name});
     }
 
     /**
@@ -104,7 +104,7 @@ class LocationService {
      * @returns Promise with updated track point
      */
     updateTrackPoint(id: number, name: string) {
-        return http.put<TrackPointResponse>(`/track-points/${id}`, { name });
+        return relayStoreHttp.put<TrackPointResponse>(`/track-points/${id}`, {name});
     }
 
     /**
@@ -113,7 +113,7 @@ class LocationService {
      * @returns Promise
      */
     deleteTrackPoint(id: number) {
-        return http.delete(`/track-points/${id}`);
+        return relayStoreHttp.delete(`/track-points/${id}`);
     }
 
     // ========== Crossings ==========
@@ -124,7 +124,7 @@ class LocationService {
      * @returns Promise with paginated crossing data
      */
     getAllCrossings(params?: PaginationParams) {
-        return http.get<GetAllCrossingsResponse>('/crossings', {
+        return relayStoreHttp.get<GetAllCrossingsResponse>('/crossings', {
             params: {
                 page: params?.page ?? 0,
                 size: params?.size ?? 10
@@ -138,7 +138,7 @@ class LocationService {
      * @returns Promise with crossing data
      */
     getCrossingById(id: number) {
-        return http.get<CrossingResponse>(`/crossings/${id}`);
+        return relayStoreHttp.get<CrossingResponse>(`/crossings/${id}`);
     }
 
     /**
@@ -147,7 +147,7 @@ class LocationService {
      * @returns Promise with created crossing
      */
     createCrossing(name: string) {
-        return http.post<CrossingResponse>('/crossings', { name });
+        return relayStoreHttp.post<CrossingResponse>('/crossings', {name});
     }
 
     /**
@@ -157,7 +157,7 @@ class LocationService {
      * @returns Promise with updated crossing
      */
     updateCrossing(id: number, name: string) {
-        return http.put<CrossingResponse>(`/crossings/${id}`, { name });
+        return relayStoreHttp.put<CrossingResponse>(`/crossings/${id}`, {name});
     }
 
     /**
@@ -166,9 +166,11 @@ class LocationService {
      * @returns Promise
      */
     deleteCrossing(id: number) {
-        return http.delete(`/crossings/${id}`);
+        return relayStoreHttp.delete(`/crossings/${id}`);
     }
 }
+
+export {LocationService};
 
 const locationServiceInstance = new LocationService();
 export default locationServiceInstance;

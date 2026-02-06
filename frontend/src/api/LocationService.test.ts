@@ -1,9 +1,9 @@
 import LocationService from './LocationService';
-import http from './http-common';
+import {relayStoreHttp} from './http-common';
 
 jest.mock('./http-common');
 
-const mockHttp = http as jest.Mocked<typeof http>;
+const mockHttp = relayStoreHttp as jest.Mocked<typeof relayStoreHttp>;
 
 describe('LocationService', () => {
     beforeEach(() => {
