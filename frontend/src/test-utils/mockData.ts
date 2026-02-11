@@ -79,3 +79,10 @@ export const createMockRelays = (count: number): Relay[] => {
         new Date(2024, 1, i + 1).toLocaleDateString('ru-RU')
     ));
 };
+
+export const createMockStations = (count: number): StationResponse[] => {
+    return Array.from({ length: count }, (_, i) => ({
+        id: i + 1,
+        name: `Станция ${i + 1}`
+    }));
+};

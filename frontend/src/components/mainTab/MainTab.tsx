@@ -4,10 +4,9 @@ import {Alert, Breadcrumb, Col, Layout, Menu, Row, Space, Spin, Tabs} from 'antd
 import RelayCard from '../relay/RelayCard';
 import Relay from '../../models/Relay';
 import useRelayData from '../../hooks/useRelayData';
-import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 import './RelayContent.css';
 
-const { Header, Content, Footer, Sider } = Layout;
+const {Content, Sider} = Layout;
 
 // Helper function to render a row of relay cards
 const renderRelayRow = (relays: Relay[], startIndex: number, count: number = 8) => {
@@ -89,72 +88,54 @@ function MainTab() {
     ], [relays.length, tab1Content, tab2Content, tab3Content]);
 
     return (
-        <ErrorBoundary>
-            <Layout>
-                <Header className="header">
-                    <div className="logo" />
-                    <Menu
-                        theme="dark"
-                        mode="horizontal"
-                        defaultSelectedKeys={['2']}
-                        items={[
-                            { key: '1', label: 'nav 1' },
-                            { key: '2', label: 'nav 2' },
-                            { key: '3', label: 'nav 3' },
-                        ]}
-                    />
-                </Header>
-                <Content className="main-content">
-                    <Breadcrumb
-                        className="main-breadcrumb"
-                        items={[
-                            { title: 'Home' },
-                            { title: 'List' },
-                            { title: 'App' },
-                        ]}
-                    />
-                    <Layout className="site-layout-background">
-                        <Sider className="site-layout-background" width={'auto'}>
-                            {loading ? (
-                                <div className="sider-loading">
-                                    <Spin />
-                                </div>
-                            ) : (
-                                <Menu
-                                    mode="inline"
-                                    defaultSelectedKeys={stations.length > 0 ? [`station-${stations[0].id}`] : []}
-                                    defaultOpenKeys={['stations']}
-                                    items={sideMenuItems}
-                                />
-                            )}
-                        </Sider>
-                        <Content className="main-inner-content">
-                            {loading ? (
-                                <Spin tip="Загрузка реле..." size="large">
-                                    <div className="loading-container" />
-                                </Spin>
-                            ) : error ? (
-                                <Alert
-                                    message="Ошибка загрузки данных"
-                                    description={error}
-                                    type="error"
-                                    showIcon
-                                />
-                            ) : (
-                                <Space>
-                                    <Tabs
-                                        tabPosition="top"
-                                        centered
-                                        items={tabItems}
-                                    />
-                                </Space>
-                            )}
-                        </Content>
-                    </Layout>
+        <Content className="main-content">
+            <Breadcrumb
+                className="main-breadcrumb"
+                items={[
+                    {title: 'Home'},
+                    {title: 'List'},
+                    {title: 'App'},
+                ]}
+            />
+            <Layout className="site-layout-background">
+                <Sider className="site-layout-background" width={'auto'}>
+                    {loading ? (
+                        <div className="sider-loading">
+                            <Spin/>
+                        </div>
+                    ) : (
+                        <Menu
+                            mode="inline"
+                            defaultSelectedKeys={stations.length > 0 ? [`station-${stations[0].id}`] : []}
+                            defaultOpenKeys={['stations']}
+                            items={sideMenuItems}
+                        />
+                    )}
+                </Sider>
+                <Content className="main-inner-content">
+                    {loading ? (
+                        <Spin tip="Загрузка реле..." size="large">
+                            <div className="loading-container"/>
+                        </Spin>
+                    ) : error ? (
+                        <Alert
+                            message="Ошибка загрузки данных"
+                            description={error}
+                            type="error"
+                            showIcon
+                        />
+                    ) : (
+                        <Space>
+                            <Tabs
+                                tabPosition="top"
+                                centered
+                                items={tabItems}
+                            />
+                        </Space>
+                    )}
                 </Content>
-                <Footer className="main-footer">Ant Design ©2018 Created by Ant UED</Footer>
             </Layout>
-        </ErrorBoundary>
+        </Content>
     );
 }
 
