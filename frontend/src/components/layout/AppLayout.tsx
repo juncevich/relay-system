@@ -1,5 +1,5 @@
 import {Layout, Menu} from 'antd';
-import {Outlet, useLocation, useNavigate} from 'react-router-dom';
+import {Outlet, useLocation, useNavigate} from 'react-router';
 import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 import '../mainTab/RelayContent.css';
 

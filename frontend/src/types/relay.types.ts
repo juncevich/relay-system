@@ -40,21 +40,6 @@ export interface GetAllRelaysResponse {
 
 // Location Types
 
-export interface Station {
-    id: number;
-    name: string;
-}
-
-export interface TrackPoint {
-    id: number;
-    name: string;
-}
-
-export interface Crossing {
-    id: number;
-    name: string;
-}
-
 export interface StationResponse {
     id: number;
     name: string;
@@ -69,6 +54,10 @@ export interface CrossingResponse {
     id: number;
     name: string;
 }
+
+export type Station = StationResponse;
+export type TrackPoint = TrackPointResponse;
+export type Crossing = CrossingResponse;
 
 export interface GetAllStationsResponse {
     content: StationResponse[];
@@ -89,31 +78,6 @@ export interface GetAllCrossingsResponse {
 }
 
 // Storage Types
-
-export interface Warehouse {
-    id: number;
-    name: string;
-    locationId: number;
-}
-
-export interface Stand {
-    id: number;
-    name: string;
-    locationId: number;
-}
-
-export interface RelayCabinet {
-    id: number;
-    name: string;
-    locationId: number;
-}
-
-export interface Shelf {
-    id: number;
-    number: number;
-    capacity: number;
-    storageId: number;
-}
 
 export interface WarehouseResponse {
     id: number;
@@ -139,6 +103,11 @@ export interface ShelfResponse {
     capacity: number;
     storageId: number;
 }
+
+export type Warehouse = WarehouseResponse;
+export type Stand = StandResponse;
+export type RelayCabinet = RelayCabinetResponse;
+export type Shelf = ShelfResponse;
 
 export interface GetAllWarehousesResponse {
     content: WarehouseResponse[];
@@ -166,21 +135,6 @@ export interface GetAllShelvesResponse {
 
 // Relay Movement Types
 
-export interface RelayMovement {
-    id: number;
-    relayId: number;
-    relaySerialNumber: string;
-    fromStorageId: number;
-    toStorageId: number;
-    movedAt: string;
-}
-
-export interface CreateRelayMovementRequest {
-    relayId: number;
-    fromStorageId: number;
-    toStorageId: number;
-}
-
 export interface RelayMovementResponse {
     id: number;
     relayId: number;
@@ -188,6 +142,14 @@ export interface RelayMovementResponse {
     fromStorageId: number;
     toStorageId: number;
     movedAt: string;
+}
+
+export type RelayMovement = RelayMovementResponse;
+
+export interface CreateRelayMovementRequest {
+    relayId: number;
+    fromStorageId: number;
+    toStorageId: number;
 }
 
 export interface GetAllRelayMovementsResponse {

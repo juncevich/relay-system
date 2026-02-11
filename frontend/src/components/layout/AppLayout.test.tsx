@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react';
 const mockNavigate = vi.fn();
 let mockPathname = '/';
 
-vi.mock('react-router-dom', () => ({
+vi.mock('react-router', () => ({
     useNavigate: () => mockNavigate,
     useLocation: () => ({pathname: mockPathname}),
     Outlet: () => <div data-testid="outlet">Outlet Content</div>,

@@ -11,8 +11,5 @@ export default defineConfig({
         environment: 'jsdom',
         setupFiles: './src/setupTests.ts',
         css: {modules: {classNameStrategy: 'non-scoped'}},
-        moduleNameMapper: {
-            '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-        },
     },
 });

@@ -10,11 +10,12 @@ location-based navigation.
 
 **Current Versions (as of February 2026):**
 - React: 19.2.4
-- Ant Design: 6.2.2
+- Ant Design: 6.3.0
 - TypeScript: Strict mode with React 19 JSX transform
-- Vite: 6.x
-- Vitest: 3.x (test runner)
-- Axios: 1.13.4
+- Vite: 7.x
+- Vitest: 4.x (test runner)
+- Axios: 1.13.5
+- react-router: 7.x (routing)
 
 ## Development Commands
 
@@ -84,7 +85,7 @@ tilt up
 This will:
 - Deploy to the `relay-system-dev` namespace
 - Build and run the Docker image `alexunc/rs-frontend`
-- Enable live updates (syncs changes to `/app` and reinstalls on package.json/yarn.lock changes)
+- Enable live updates (syncs changes to `/app` and reinstalls on package.json changes)
 - Forward port 3000 for local access
 
 ## Architecture
@@ -100,6 +101,7 @@ src/
 │   └── LocationService.ts # Location API service (stations, track points, crossings)
 ├── components/       # React components
 │   ├── errorBoundary/   # Error boundary component
+│   ├── layout/          # AppLayout with routing and top-level navigation
 │   ├── mainTab/         # Main tabbed layout component
 │   └── relay/           # Relay card component
 ├── hooks/            # Custom React hooks
@@ -108,7 +110,9 @@ src/
 ├── models/           # TypeScript data models
 │   └── Relay.ts         # Relay model class
 ├── pages/            # Page-level components
-│   └── MainPage.tsx     # Main application page
+│   ├── HomePage.tsx     # Home/landing page
+│   ├── MainPage.tsx     # Main relay management page
+│   └── StationsPage.tsx # Stations management page
 ├── test-utils/       # Test utilities and mock data
 ├── types/            # TypeScript type definitions
 │   └── relay.types.ts   # Backend DTO types
@@ -119,7 +123,10 @@ src/
 
 ### Component Hierarchy
 
-- **App.tsx**: Root component with Ant Design `ConfigProvider` and `App` wrapper for theme tokens
+- **App.tsx**: Root component with Ant Design `ConfigProvider`, `App` wrapper, and `BrowserRouter`
+- **AppLayout.tsx**: Top-level layout with header navigation and `<Outlet/>` for routed pages
+- **HomePage.tsx**: Home/landing page
+- **StationsPage.tsx**: Stations management page
 - **MainPage.tsx**: Wrapper component that renders MainTab
 - **MainTab.tsx**: Primary layout component with:
   - Header with navigation menu
@@ -139,7 +146,7 @@ src/
 
 The API client is configured in `src/api/http-common.ts`:
 
-- Base URL: `http://localhost:8082` (relay-store-service)
+- Base URL: `http://localhost:8082` (relay-store-service), configurable via `VITE_API_BASE_URL`
 - Uses Axios for HTTP requests
 - JSON content type headers
 
@@ -163,7 +170,7 @@ Access via `import.meta.env.VITE_*` (not `process.env`).
 
 ### UI Framework
 
-The application uses Ant Design v6.2.2 with the following key components:
+The application uses Ant Design v6.3.0 with the following key components:
 - Layout (Header, Content, Footer, Sider)
 - Menu and Breadcrumb for navigation (using `items` prop pattern)
 - Tabs for content organization (using `items` prop pattern)
@@ -184,7 +191,7 @@ The application uses Ant Design v6.2.2 with the following key components:
 - Module: ESNext with bundler resolution
 - Strict mode enabled
 - JSX: react-jsx (React 19 automatic JSX transform)
-- Types: vite/client
+- Types: vite/client, vitest/globals
 - All source files in `src/` directory
 
 ## React 19 Patterns
@@ -196,14 +203,22 @@ The application uses Ant Design v6.2.2 with the following key components:
 - Use named imports: `import { useState, useEffect } from 'react'`
 - Use plain function signatures instead of `React.FC<Props>`
 
+## Routing
+
+- Uses `react-router` v7 (import from `react-router`, not `react-router-dom`)
+- `BrowserRouter` wraps the app in `App.tsx`
+- `AppLayout` uses `<Routes>` and `<Outlet/>` for nested page routing
+- Pages: `/` (HomePage), `/main` (MainPage), `/stations` (StationsPage)
+
 ## Testing
 
-- Test runner: **Vitest** (not Jest)
+- Test runner: **Vitest** (not Jest) — 73 tests across 11 test files
 - Use `vi.mock()`, `vi.fn()`, `vi.clearAllMocks()` etc.
 - Test environment: jsdom
 - Setup file: `src/setupTests.ts`
 - Mocks Ant Design rc-component warnings in setup
 - Test utilities and mock data in `src/test-utils/`
+- Mock services (`MockRelayService`, `MockLocationService`) provide full CRUD stubs
 
 ## Backend Integration
 

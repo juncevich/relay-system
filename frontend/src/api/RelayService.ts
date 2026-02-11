@@ -9,8 +9,6 @@ import {
 } from '../types/relay.types';
 
 class RelayService {
-    // private readonly client = relayStoreHttp;
-
     /**
      * Get all relays with pagination
      * @param params - Pagination parameters (page, size)

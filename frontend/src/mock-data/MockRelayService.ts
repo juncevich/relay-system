@@ -1,4 +1,11 @@
-import {GetAllRelaysResponse, PaginationParams} from '../types/relay.types';
+import {
+    CreateRelayRequest,
+    CreateRelayResponse,
+    GetAllRelaysResponse,
+    PaginationParams,
+    Relay,
+    UpdateRelayRequest
+} from '../types/relay.types';
 import relaysData from './data/relays.json';
 
 class MockRelayService {
@@ -18,6 +25,34 @@ class MockRelayService {
         };
 
         return Promise.resolve({data: response});
+    }
+
+    getById(id: number) {
+        const relay = relaysData.content.find(r => r.id === id);
+        if (relay) {
+            return Promise.resolve({data: relay as Relay});
+        }
+        return Promise.reject(new Error(`Relay with id ${id} not found`));
+    }
+
+    create(data: CreateRelayRequest) {
+        const response: CreateRelayResponse = {
+            serialNumber: data.serialNumber,
+            dateOfManufacture: data.dateOfManufacture,
+        };
+        return Promise.resolve({data: response});
+    }
+
+    update(id: number, data: UpdateRelayRequest) {
+        const relay = relaysData.content.find(r => r.id === id);
+        if (relay) {
+            return Promise.resolve({data: {...relay, ...data} as Relay});
+        }
+        return Promise.reject(new Error(`Relay with id ${id} not found`));
+    }
+
+    delete(id: number) {
+        return Promise.resolve({data: null});
     }
 }
 

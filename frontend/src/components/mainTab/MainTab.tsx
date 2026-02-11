@@ -1,6 +1,6 @@
 import {Fragment, useMemo} from 'react';
 
-import {Alert, Breadcrumb, Col, Layout, Menu, Row, Space, Spin, Tabs} from 'antd';
+import {Alert, Breadcrumb, Col, Layout, Menu, Row, Spin, Tabs} from 'antd';
 import RelayCard from '../relay/RelayCard';
 import Relay from '../../models/Relay';
 import useRelayData from '../../hooks/useRelayData';
@@ -125,13 +125,11 @@ function MainTab() {
                             showIcon
                         />
                     ) : (
-                        <Space>
-                            <Tabs
-                                tabPosition="top"
-                                centered
-                                items={tabItems}
-                            />
-                        </Space>
+                        <Tabs
+                            tabPosition="top"
+                            centered
+                            items={tabItems}
+                        />
                     )}
                 </Content>
             </Layout>
