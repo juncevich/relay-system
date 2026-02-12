@@ -1,8 +1,8 @@
 package com.relay.core.service;
 
 import com.relay.core.model.storage.Shelf;
-import com.relay.core.repository.ShelfRepository;
-import com.relay.core.repository.StorageRepository;
+import com.relay.db.repository.ShelfRepository;
+import com.relay.db.repository.StorageRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

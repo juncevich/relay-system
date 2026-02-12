@@ -1,29 +1,26 @@
 package com.relay.unit.db;
 
+import com.relay.db.dao.LocationDao;
 import com.relay.db.entity.location.Crossing;
 import com.relay.db.entity.location.Location;
 import com.relay.db.entity.location.Station;
 import com.relay.db.entity.location.TrackPoint;
-import com.relay.db.repository.LocationRepository;
 import com.relay.unit.GenericUnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
 class LocationRepositoryTest extends GenericUnitTest {
 
     @Autowired
-    private LocationRepository locationRepository;
+    private LocationDao locationRepository;
 
     @BeforeEach
     void setUp() {

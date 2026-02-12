@@ -1,25 +1,24 @@
 plugins {
-    id 'com.google.cloud.tools.jib' version "$jibVersion"
-    id 'org.springframework.boot' version "$springBootVersion"
-    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
-    id 'java'
+    id "com.google.cloud.tools.jib" version "$jibVersion"
+    id "org.springframework.boot" version "$springBootVersion"
+    id "java"
     id "org.sonarqube" version "$sonarQubeVersion"
-    id 'jacoco'
+    id "jacoco"
     id "org.flywaydb.flyway" version "$flywayVersion"
 }
 
 sonarqube {
     properties {
-        property 'sonar.login', System.getenv('SONAR_DATA_SERVICE_TOKEN')
-        property 'sonar.host.url', 'https://sonarcloud.io'
-        property 'sonar.organization', 'relay-service'
-        property 'sonar.projectKey', 'relay-data-service'
-        property 'sonar.jacoco.reportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
+        property "sonar.login", System.getenv("SONAR_DATA_SERVICE_TOKEN")
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.organization", "relay-service"
+        property "sonar.projectKey", "relay-data-service"
+        property "sonar.jacoco.reportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
     }
 }
 
-group = 'com.relay'
-version = '0.0.2-SNAPSHOT'
+group = "com.relay"
+version = "0.0.2-SNAPSHOT"
 
 configurations {
     compileOnly {
@@ -39,44 +38,50 @@ repositories {
 }
 
 dependencies {
-    implementation("ru.relay.infrastructure:rest:0.0.1")
-    implementation("org.jspecify:jspecify:1.0.0")
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-    runtimeOnly 'com.h2database:h2'
-    implementation("org.flywaydb:flyway-database-postgresql")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("commons-beanutils:commons-beanutils:1.11.0")
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-    implementation "org.testcontainers:testcontainers-postgresql"
+    def springBootBom = platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+    def testcontainersBom = platform("org.testcontainers:testcontainers-bom:$testcontainersVersion")
+
+    implementation springBootBom
+    annotationProcessor springBootBom
+    compileOnly springBootBom
+    developmentOnly springBootBom
+    runtimeOnly springBootBom
+    testImplementation springBootBom
+    testAnnotationProcessor springBootBom
+    testImplementation testcontainersBom
+
+    implementation "ru.relay.infrastructure:rest:0.0.1"
+    implementation "org.jspecify:jspecify:1.0.0"
+    developmentOnly "org.springframework.boot:spring-boot-docker-compose"
+    runtimeOnly "com.h2database:h2"
+    implementation "org.flywaydb:flyway-database-postgresql"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "commons-beanutils:commons-beanutils:1.11.0"
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-jackson"
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    runtimeOnly 'org.postgresql:postgresql'
-    annotationProcessor 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
-    testImplementation 'org.springframework.boot:spring-boot-data-jpa-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-    testImplementation 'org.springframework.boot:spring-boot-devtools'
-    testImplementation 'org.testcontainers:testcontainers-junit-jupiter'
-    testImplementation 'org.testcontainers:testcontainers-postgresql'
-    testImplementation("org.assertj:assertj-core:3.27.7")
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    runtimeOnly "org.postgresql:postgresql"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.flywaydb:flyway-core"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1"
+    runtimeOnly "io.micrometer:micrometer-registry-prometheus"
 
     implementation "org.mapstruct:mapstruct:$mapStructVersion"
     annotationProcessor "org.mapstruct:mapstruct-processor:$mapStructVersion"
+
+    testAnnotationProcessor "org.projectlombok:lombok"
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:$mapStructVersion"
-
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.jetbrains:annotations:26.0.2-1'
-    implementation 'org.flywaydb:flyway-core'
-
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.springframework.boot:spring-boot-webmvc-test"
+    testImplementation "org.springframework.boot:spring-boot-data-jpa-test"
+    testImplementation "org.springframework.security:spring-security-test"
+    testImplementation "org.springframework.boot:spring-boot-testcontainers"
+    testImplementation "org.springframework.boot:spring-boot-devtools"
+    testImplementation "org.testcontainers:testcontainers-junit-jupiter"
+    testImplementation "org.testcontainers:testcontainers-postgresql"
+    testImplementation "org.assertj:assertj-core:3.27.7"
 }
 
 jacoco {
@@ -89,27 +94,22 @@ jacocoTestReport {
         html.required.set(true)
     }
 }
+
 test {
     useJUnitPlatform()
 }
 
 check.dependsOn jacocoTestReport
 
-dependencyManagement {
-    imports {
-        mavenBom "org.testcontainers:testcontainers-bom:$testcontainersVersion"
-    }
-}
-
 jib {
     from {
-        image = 'eclipse-temurin:25-alpine'
+        image = "eclipse-temurin:25-alpine"
     }
     to {
-        image = 'alexunc/relay-store-service'
-        tags = [version, 'latest']
+        image = "alexunc/relay-store-service"
+        tags = [version, "latest"]
     }
     container {
-        ports = ['9090', '8080']
+        ports = ["9090", "8080"]
     }
 }

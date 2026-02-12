@@ -3,7 +3,7 @@ package com.relay.core.service;
 import com.relay.core.model.location.Crossing;
 import com.relay.core.model.location.Station;
 import com.relay.core.model.location.TrackPoint;
-import com.relay.core.repository.LocationRepository;
+import com.relay.db.repository.LocationRepository;
 import com.relay.web.exceptions.LocationNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

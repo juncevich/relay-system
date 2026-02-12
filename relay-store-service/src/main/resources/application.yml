@@ -34,7 +34,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: metrics, prometheus, health, info
   endpoint:
     health:
       show-details: always
@@ -49,4 +49,4 @@ custom:
 
 springdoc:
   swagger-ui:
-    path=/swagger-ui.html
+    path: /swagger-ui.html

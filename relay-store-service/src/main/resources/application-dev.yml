@@ -15,9 +15,6 @@ spring:
       hibernate:
         format_sql: true
   #    database-platform:
-  zipkin:
-    baseUrl:
-      'http://localhost:9411'
   flyway:
     sql-migration-prefix: V
     repeatable-sql-migration-prefix: R
@@ -45,7 +42,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: metrics,prometheus, health, info
+        include: '*'
   endpoint:
     health:
 #      enabled: true
@@ -67,6 +64,3 @@ management:
     metrics:
       export:
         enabled: true
-feign:
-  hystrix:
-    enabled: true

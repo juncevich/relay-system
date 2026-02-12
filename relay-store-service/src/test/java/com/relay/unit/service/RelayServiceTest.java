@@ -1,8 +1,8 @@
 package com.relay.unit.service;
 
-import com.relay.core.repository.RelayRepository;
-import com.relay.core.repository.StorageRepository;
 import com.relay.core.service.RelayService;
+import com.relay.db.repository.RelayRepository;
+import com.relay.db.repository.StorageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

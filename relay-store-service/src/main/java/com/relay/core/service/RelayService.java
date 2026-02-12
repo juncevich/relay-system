@@ -1,16 +1,16 @@
 package com.relay.core.service;
 
 import com.relay.core.model.Relay;
-import com.relay.core.repository.RelayRepository;
-import com.relay.core.repository.StorageRepository;
+import com.relay.db.repository.RelayRepository;
+import com.relay.db.repository.StorageRepository;
 import com.relay.web.exceptions.RelayNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,10 +25,12 @@ public class RelayService {
     private final RelayRepository relayRepository;
     private final StorageRepository storageRepository;
 
+    @Transactional(readOnly = true)
     public @NonNull List<Relay> findAll(@NonNull Pageable pageable) {
         return relayRepository.findAll(pageable);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Relay> findById(@NonNull Long id) {
         return relayRepository.findById(id);
     }
@@ -79,15 +81,18 @@ public class RelayService {
         relayRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Relay> findBySerialNumber(@NonNull String serialNumber) {
         return relayRepository.findBySerialNumber(serialNumber);
     }
 
+    @Transactional(readOnly = true)
     public @NonNull List<Relay> findByCreationDate(@NonNull LocalDate date, @NonNull Pageable pageable) {
         log.info("Finding relays with creation date {}", date);
         return relayRepository.findByCreationDate(date, pageable);
     }
 
+    @Transactional(readOnly = true)
     public @NonNull List<Relay> findByLastCheckDate(@NonNull LocalDate date, @NonNull Pageable pageable) {
         log.info("Finding relays with last check date {}", date);
         return relayRepository.findByLastCheckDate(date, pageable);

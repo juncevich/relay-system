@@ -1,9 +1,9 @@
 package com.relay.core.service;
 
 import com.relay.core.model.history.RelayMovement;
-import com.relay.core.repository.RelayMovementRepository;
-import com.relay.core.repository.RelayRepository;
-import com.relay.core.repository.StorageRepository;
+import com.relay.db.repository.RelayMovementRepository;
+import com.relay.db.repository.RelayRepository;
+import com.relay.db.repository.StorageRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

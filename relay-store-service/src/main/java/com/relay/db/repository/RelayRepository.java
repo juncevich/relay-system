@@ -1,47 +1,80 @@
 package com.relay.db.repository;
 
-import com.relay.db.entity.items.Relay;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.data.domain.Page;
+import com.relay.core.model.Relay;
+import com.relay.db.dao.RelayDao;
+import com.relay.db.mappers.RelayMapper;
+import com.relay.web.exceptions.RelayNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface RelayRepository extends JpaRepository<@NotNull Relay, @NotNull Long> {
+@RequiredArgsConstructor
+public class RelayRepository {
 
+    private final RelayDao relayDao;
+    private final RelayMapper relayMapper;
+    private final StorageRepository storageRepository;
+
+    public @NonNull List<Relay> findAll(@NonNull Pageable pageable) {
+        var slice = relayDao.findAll(pageable);
+        return slice.hasContent()
+                ? relayMapper.mapEntityToModel(slice.getContent())
+                : List.of();
+    }
+
+    public Optional<Relay> findById(@NonNull Long id) {
+        return relayDao.findById(id)
+                .map(relayMapper::mapEntityToModel);
+    }
+
+    public Relay save(@NonNull Relay model) {
+        var entity = relayMapper.mapModelToEntity(model);
+
+        // Set storage relationship if storageId is provided
+        if (model.storageId() != null) {
+            var storageEntity = storageRepository.findStorageEntityById(model.storageId());
+            entity.setStorage(storageEntity);
+        }
+
+        var saved = relayDao.save(entity);
+        return relayMapper.mapEntityToModel(saved);
+    }
+
+    public void deleteById(@NonNull Long id) {
+        relayDao.deleteById(id);
+    }
+
+    public Optional<Relay> findBySerialNumber(@NonNull String serialNumber) {
+        var entity = relayDao.findBySerialNumber(serialNumber);
+        return entity != null
+                ? Optional.of(relayMapper.mapEntityToModel(entity))
+                : Optional.empty();
+    }
+
+    public @NonNull List<Relay> findByCreationDate(@NonNull LocalDate date,
+                                                   @NonNull Pageable pageable) {
+        var page = relayDao.findByCreationDate(date, pageable);
+        return relayMapper.mapEntityToModel(page.getContent());
+    }
+
+    public @NonNull List<Relay> findByLastCheckDate(@NonNull LocalDate date,
+                                                    @NonNull Pageable pageable) {
+        var page = relayDao.findByLastCheckDate(date, pageable);
+        return relayMapper.mapEntityToModel(page.getContent());
+    }
 
     /**
-     * Find relay by creation date.
-     * Uses JPQL CAST function for database-agnostic date comparison.
-     *
-     * @param creationDate {@link Relay#getCreatedAt()}
-     * @param pageable     {@link Pageable}
-     * @return relay page
+     * Helper method to get entity for relationship wiring.
+     * Throws RelayNotFoundException if relay is not found.
      */
-    @Query("SELECT r FROM Relay r WHERE CAST(r.createdAt AS DATE) = :creationDate")
-    Page<@NotNull Relay> findByCreationDate(@Param("creationDate") LocalDate creationDate, Pageable pageable);
-
-    /**
-     * Find list of relays by last check date.
-     * Uses JPQL CAST function for database-agnostic date comparison.
-     *
-     * @param lastCheckDate {@link Relay#getLastCheckDate()}
-     * @param pageable      {@link Pageable}
-     * @return relay page
-     */
-    @Query("SELECT r FROM Relay r WHERE CAST(r.lastCheckDate AS DATE) = :lastCheckDate")
-    Page<@NotNull Relay> findByLastCheckDate(@Param("lastCheckDate") LocalDate lastCheckDate, Pageable pageable);
-
-    /**
-     * Find relay by serial number
-     *
-     * @param serialNumber {@link Relay#getSerialNumber()}
-     * @return relay
-     */
-    Relay findBySerialNumber(String serialNumber);
+    public com.relay.db.entity.items.@NonNull Relay findRelayEntityById(@NonNull Long relayId) {
+        return relayDao.findById(relayId)
+                .orElseThrow(() -> new RelayNotFoundException(relayId));
+    }
 }

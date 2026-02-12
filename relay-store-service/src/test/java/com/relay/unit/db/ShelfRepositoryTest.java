@@ -1,37 +1,34 @@
 package com.relay.unit.db;
 
+import com.relay.db.dao.LocationDao;
+import com.relay.db.dao.ShelfDao;
+import com.relay.db.dao.WarehouseDao;
 import com.relay.db.entity.location.Station;
 import com.relay.db.entity.storage.Shelf;
 import com.relay.db.entity.storage.Storage;
 import com.relay.db.entity.storage.Warehouse;
-import com.relay.db.repository.LocationRepository;
-import com.relay.db.repository.ShelfRepository;
-import com.relay.db.repository.WarehouseRepository;
 import com.relay.unit.GenericUnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
 class ShelfRepositoryTest extends GenericUnitTest {
 
     @Autowired
-    private ShelfRepository shelfRepository;
+    private ShelfDao shelfRepository;
 
     @Autowired
-    private WarehouseRepository warehouseRepository;
+    private WarehouseDao warehouseRepository;
 
     @Autowired
-    private LocationRepository locationRepository;
+    private LocationDao locationRepository;
 
     private Storage defaultStorage;
 

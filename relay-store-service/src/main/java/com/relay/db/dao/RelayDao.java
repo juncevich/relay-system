@@ -1,7 +1,7 @@
 package com.relay.db.dao;
 
 import com.relay.db.entity.items.Relay;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 
-public interface RelayDao extends JpaRepository<@NotNull Relay, @NotNull Long> {
+public interface RelayDao extends JpaRepository<@NonNull Relay, @NonNull Long> {
 
     /**
      * Find relay by creation date.
@@ -21,7 +21,7 @@ public interface RelayDao extends JpaRepository<@NotNull Relay, @NotNull Long> {
      * @return relay page
      */
     @Query("SELECT r FROM Relay r WHERE CAST(r.createdAt AS DATE) = :creationDate")
-    Page<@NotNull Relay> findByCreationDate(@Param("creationDate") LocalDate creationDate, Pageable pageable);
+    Page<@NonNull Relay> findByCreationDate(@Param("creationDate") LocalDate creationDate, Pageable pageable);
 
     /**
      * Find list of relays by last check date.
@@ -32,7 +32,7 @@ public interface RelayDao extends JpaRepository<@NotNull Relay, @NotNull Long> {
      * @return relay page
      */
     @Query("SELECT r FROM Relay r WHERE CAST(r.lastCheckDate AS DATE) = :lastCheckDate")
-    Page<@NotNull Relay> findByLastCheckDate(@Param("lastCheckDate") LocalDate lastCheckDate, Pageable pageable);
+    Page<@NonNull Relay> findByLastCheckDate(@Param("lastCheckDate") LocalDate lastCheckDate, Pageable pageable);
 
     /**
      * Find relay by serial number
