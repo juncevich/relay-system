@@ -37,8 +37,8 @@ describe('StationsPage', () => {
         render(<StationsPage/>);
 
         await waitFor(() => {
-            expect(screen.getByText('Свердловский участок')).toBeInTheDocument();
-            expect(screen.getByText('Московский участок')).toBeInTheDocument();
+            expect(screen.getByText('Екатеринбург-Пасс.')).toBeInTheDocument();
+            expect(screen.getByText('Первомайская')).toBeInTheDocument();
         });
     });
 

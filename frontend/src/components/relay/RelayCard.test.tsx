@@ -6,16 +6,16 @@ describe('RelayCard Component', () => {
     it('should render relay card with all data', () => {
         render(<RelayCard relay={mockLegacyRelay} />);
 
-        expect(screen.getByAltText('Реле REL-001')).toBeInTheDocument();
-        expect(screen.getByText('REL-001')).toBeInTheDocument();
+        expect(screen.getByAltText('Реле НМШ-001')).toBeInTheDocument();
+        expect(screen.getByText('НМШ-001')).toBeInTheDocument();
         expect(screen.getByText('Дата проверки')).toBeInTheDocument();
-        expect(screen.getByText('01.02.2024')).toBeInTheDocument();
+        expect(screen.getByText('03.03.2024')).toBeInTheDocument();
     });
 
     it('should render image with correct src', () => {
         render(<RelayCard relay={mockLegacyRelay} />);
 
-        const image = screen.getByAltText('Реле REL-001') as HTMLImageElement;
+        const image = screen.getByAltText('Реле НМШ-001') as HTMLImageElement;
         expect(image.src).toBe(mockLegacyRelay.imgUrl);
     });
 
@@ -55,6 +55,6 @@ describe('RelayCard Component', () => {
         const cells = screen.getAllByRole('cell');
         expect(cells).toHaveLength(2);
         expect(cells[0]).toHaveTextContent('Дата проверки');
-        expect(cells[1]).toHaveTextContent('01.02.2024');
+        expect(cells[1]).toHaveTextContent('03.03.2024');
     });
 });

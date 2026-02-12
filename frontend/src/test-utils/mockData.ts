@@ -2,59 +2,59 @@ import { Relay as BackendRelay, StationResponse, GetAllRelaysResponse, GetAllSta
 import Relay from '../models/Relay';
 
 export const mockBackendRelay: BackendRelay = {
-    id: 1,
-    serialNumber: 'REL-001',
-    relayType: 'НШ-12',
-    createdAt: '2024-01-15T10:00:00Z',
-    lastCheckDate: '2024-02-01T10:00:00Z',
+    id: 301,
+    serialNumber: 'НМШ-001',
+    relayType: 'NMSH_400',
+    createdAt: '2022-03-04T09:07:00+05:00',
+    lastCheckDate: '2024-03-03T09:11:00+05:00',
     placeNumber: 1,
-    storageId: 1,
-    shelfId: 1
+    storageId: 101,
+    shelfId: 201
 };
 
 export const mockBackendRelay2: BackendRelay = {
-    id: 2,
-    serialNumber: 'REL-002',
-    relayType: 'НШ-13',
-    createdAt: '2024-01-16T10:00:00Z',
-    lastCheckDate: '2024-02-02T10:00:00Z',
+    id: 302,
+    serialNumber: 'НМШ-002',
+    relayType: 'NMSH_400',
+    createdAt: '2022-03-07T10:14:00+05:00',
+    lastCheckDate: '2024-03-05T10:22:00+05:00',
     placeNumber: 2,
-    storageId: 1,
-    shelfId: 1
+    storageId: 101,
+    shelfId: 201
 };
 
 export const mockBackendRelayWithoutCheckDate: BackendRelay = {
-    id: 3,
-    serialNumber: 'REL-003',
-    relayType: 'НШ-14',
-    createdAt: '2024-01-17T10:00:00Z',
+    id: 303,
+    serialNumber: 'РЭЛ-003',
+    relayType: 'REL1_1600',
+    createdAt: '2022-03-10T11:21:00+05:00',
     placeNumber: 3,
-    storageId: 2,
-    shelfId: 2
+    storageId: 101,
+    shelfId: 201
 };
 
 export const mockLegacyRelay = new Relay(
-    1,
+    301,
     'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
-    'REL-001',
-    '01.02.2024'
+    'НМШ-001',
+    '03.03.2024'
 );
 
 export const mockLegacyRelay2 = new Relay(
-    2,
+    302,
     'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
-    'REL-002',
-    '02.02.2024'
+    'НМШ-002',
+    '05.03.2024'
 );
 
 export const mockStation: StationResponse = {
     id: 1,
-    name: 'Свердловский участок'
+    name: 'Екатеринбург-Пасс.'
 };
 
 export const mockStation2: StationResponse = {
     id: 2,
-    name: 'Московский участок'
+    name: 'Первомайская'
 };
 
 export const mockGetAllRelaysResponse: GetAllRelaysResponse = {
@@ -73,16 +73,17 @@ export const mockGetAllStationsResponse: GetAllStationsResponse = {
 
 export const createMockRelays = (count: number): Relay[] => {
     return Array.from({ length: count }, (_, i) => new Relay(
-        i + 1,
+        301 + i,
         'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
-        `REL-${String(i + 1).padStart(3, '0')}`,
-        new Date(2024, 1, i + 1).toLocaleDateString('ru-RU')
+        `НМШ-${String(i + 1).padStart(3, '0')}`,
+        new Date(2024, 2, i + 3).toLocaleDateString('ru-RU')
     ));
 };
 
 export const createMockStations = (count: number): StationResponse[] => {
+    const stationNames = ['Екатеринбург-Пасс.', 'Первомайская', 'Монетная', 'Реж', 'Егоршино', 'Алапаевск'];
     return Array.from({ length: count }, (_, i) => ({
         id: i + 1,
-        name: `Станция ${i + 1}`
+        name: stationNames[i % stationNames.length]
     }));
 };

@@ -92,9 +92,9 @@ describe('MainTab', () => {
         render(<MainTab/>);
 
         expect(screen.getByText('Станции')).toBeInTheDocument();
-        expect(screen.getByText('Станция 1')).toBeInTheDocument();
-        expect(screen.getByText('Станция 2')).toBeInTheDocument();
-        expect(screen.getByText('Станция 3')).toBeInTheDocument();
+        expect(screen.getByText('Екатеринбург-Пасс.')).toBeInTheDocument();
+        expect(screen.getByText('Первомайская')).toBeInTheDocument();
+        expect(screen.getByText('Монетная')).toBeInTheDocument();
     });
 
     it('should render relay cards in grid', () => {
@@ -110,9 +110,9 @@ describe('MainTab', () => {
 
         const cards = screen.getAllByTestId('relay-card');
         expect(cards).toHaveLength(3);
-        expect(screen.getByText('REL-001')).toBeInTheDocument();
-        expect(screen.getByText('REL-002')).toBeInTheDocument();
-        expect(screen.getByText('REL-003')).toBeInTheDocument();
+        expect(screen.getByText('НМШ-001')).toBeInTheDocument();
+        expect(screen.getByText('НМШ-002')).toBeInTheDocument();
+        expect(screen.getByText('НМШ-003')).toBeInTheDocument();
     });
 
     it('should show "Нет реле для отображения" when relay list is empty', () => {

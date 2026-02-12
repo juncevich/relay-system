@@ -25,7 +25,7 @@ describe('Relay Model', () => {
             expect(relay.id).toBe(mockBackendRelay.id);
             expect(relay.title).toBe(mockBackendRelay.serialNumber);
             expect(relay.imgUrl).toBe('http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png');
-            expect(relay.checkingDate).toBe('01.02.2024');
+            expect(relay.checkingDate).toBe('03.03.2024');
         });
 
         it('should handle relay without lastCheckDate', () => {
