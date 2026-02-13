@@ -184,6 +184,10 @@ The application uses Ant Design v6.3.0 with the following key components:
 - Breadcrumb uses the `items` prop instead of `Breadcrumb.Item` children
 - All menu items are objects with `key`, `label`, and optional `children` properties
 - App is wrapped with `ConfigProvider` and `App` from antd for proper theme token access
+- `Alert`: use `title` instead of deprecated `message` prop
+- `Spin`: use `description` instead of deprecated `tip` prop
+- `Tabs`: use `tabPlacement` instead of deprecated `tabPosition` prop
+- `List` component is deprecated (replacement `Listy` not yet available); still usable for now
 
 ## TypeScript Configuration
 
@@ -212,7 +216,7 @@ The application uses Ant Design v6.3.0 with the following key components:
 
 ## Testing
 
-- Test runner: **Vitest** (not Jest) — 73 tests across 11 test files
+- Test runner: **Vitest** (not Jest) — 74 tests across 11 test files
 - Use `vi.mock()`, `vi.fn()`, `vi.clearAllMocks()` etc.
 - Test environment: jsdom
 - Setup file: `src/setupTests.ts`

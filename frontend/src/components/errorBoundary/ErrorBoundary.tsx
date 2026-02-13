@@ -52,7 +52,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             // Default fallback UI
             return (
                 <Alert
-                    message="Произошла ошибка"
+                    title="Произошла ошибка"
                     description={
                         <>
                             <p>

@@ -40,7 +40,7 @@ const generateTabContent = (relays: Relay[]) => {
             rows.push(<Fragment key={i}>{row}</Fragment>);
         }
     }
-    return rows.length > 0 ? <>{rows}</> : <Alert message="Нет реле для отображения" type="info" />;
+    return rows.length > 0 ? <>{rows}</> : <Alert title="Нет реле для отображения" type="info" />;
 };
 
 function MainTab() {
@@ -155,19 +155,19 @@ function MainTab() {
                 </Sider>
                 <Content className="main-inner-content">
                     {loading ? (
-                        <Spin tip="Загрузка реле..." size="large">
+                        <Spin description="Загрузка реле..." size="large">
                             <div className="loading-container"/>
                         </Spin>
                     ) : error ? (
                         <Alert
-                            message="Ошибка загрузки данных"
+                            title="Ошибка загрузки данных"
                             description={error}
                             type="error"
                             showIcon
                         />
                     ) : (
                         <Tabs
-                            tabPosition="top"
+                            tabPlacement="top"
                             centered
                             items={tabItems}
                         />
