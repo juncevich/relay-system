@@ -6,7 +6,13 @@ import RealStorageService, {StorageInfo} from '../api/StorageService';
 import MockRelayService from '../mock-data/MockRelayService';
 import MockLocationService from '../mock-data/MockLocationService';
 import MockStorageService from '../mock-data/MockStorageService';
-import {getApiErrorMessage, Relay as BackendRelay, StationResponse} from '../types/relay.types';
+import {
+    getApiErrorMessage,
+    Relay as BackendRelay,
+    StationResponse,
+    TrackPointResponse,
+    CrossingResponse
+} from '../types/relay.types';
 
 const useMockData = import.meta.env.VITE_USE_MOCK_DATA === 'true';
 const RelayService = useMockData ? MockRelayService : RealRelayService;
@@ -16,6 +22,8 @@ const StorageService = useMockData ? MockStorageService : RealStorageService;
 export interface RelayDataState {
     relays: Relay[];
     stations: StationResponse[];
+    trackPoints: TrackPointResponse[];
+    crossings: CrossingResponse[];
     storages: StorageInfo[];
     loading: boolean;
     error: string | null;
@@ -38,6 +46,8 @@ export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState 
     const [state, setState] = useState<RelayDataState>({
         relays: [],
         stations: [],
+        trackPoints: [],
+        crossings: [],
         storages: [],
         loading: true,
         error: null
@@ -48,9 +58,11 @@ export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState 
 
         const fetchData = async () => {
             try {
-                const [relaysResponse, stationsResponse, storages] = await Promise.all([
+                const [relaysResponse, stationsResponse, trackPointsResponse, crossingsResponse, storages] = await Promise.all([
                     RelayService.getAll({ page: 0, size: relayPageSize }),
                     LocationService.getAllStations({ page: 0, size: stationPageSize }),
+                    LocationService.getAllTrackPoints({ page: 0, size: stationPageSize }),
+                    LocationService.getAllCrossings({ page: 0, size: stationPageSize }),
                     StorageService.getAllStorages()
                 ]);
 
@@ -62,6 +74,8 @@ export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState 
                     setState({
                         relays,
                         stations: stationsResponse.data.content,
+                        trackPoints: trackPointsResponse.data.content,
+                        crossings: crossingsResponse.data.content,
                         storages,
                         loading: false,
                         error: null

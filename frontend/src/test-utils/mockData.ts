@@ -1,4 +1,13 @@
-import { Relay as BackendRelay, StationResponse, GetAllRelaysResponse, GetAllStationsResponse } from '../types/relay.types';
+import {
+    Relay as BackendRelay,
+    StationResponse,
+    TrackPointResponse,
+    CrossingResponse,
+    GetAllRelaysResponse,
+    GetAllStationsResponse,
+    GetAllTrackPointsResponse,
+    GetAllCrossingsResponse
+} from '../types/relay.types';
 import {StorageInfo} from '../api/StorageService';
 import Relay from '../models/Relay';
 
@@ -74,6 +83,28 @@ export const mockGetAllStationsResponse: GetAllStationsResponse = {
     totalPages: 1
 };
 
+export const mockTrackPoint: TrackPointResponse = {
+    id: 7,
+    name: 'Шарташ'
+};
+
+export const mockCrossing: CrossingResponse = {
+    id: 11,
+    name: 'Переезд 39 км'
+};
+
+export const mockGetAllTrackPointsResponse: GetAllTrackPointsResponse = {
+    content: [mockTrackPoint],
+    totalElements: 1,
+    totalPages: 1
+};
+
+export const mockGetAllCrossingsResponse: GetAllCrossingsResponse = {
+    content: [mockCrossing],
+    totalElements: 1,
+    totalPages: 1
+};
+
 export const mockStorages: StorageInfo[] = [
     {id: 101, name: 'Склад ШЧ Екатеринбург', locationId: 1},
     {id: 104, name: 'Релейный шкаф ст. Первомайская', locationId: 2},
@@ -94,5 +125,21 @@ export const createMockStations = (count: number): StationResponse[] => {
     return Array.from({ length: count }, (_, i) => ({
         id: i + 1,
         name: stationNames[i % stationNames.length]
+    }));
+};
+
+export const createMockTrackPoints = (count: number): TrackPointResponse[] => {
+    const names = ['Шарташ', 'Березит', 'Адуй', 'Костоусово'];
+    return Array.from({ length: count }, (_, i) => ({
+        id: 7 + i,
+        name: names[i % names.length]
+    }));
+};
+
+export const createMockCrossings = (count: number): CrossingResponse[] => {
+    const names = ['Переезд 39 км', 'Переезд 85 км', 'Переезд 125 км'];
+    return Array.from({ length: count }, (_, i) => ({
+        id: 11 + i,
+        name: names[i % names.length]
     }));
 };

@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {createMockRelays, createMockStations, mockStorages} from '../../test-utils/mockData';
+import {createMockRelays, createMockStations, createMockTrackPoints, createMockCrossings, mockStorages} from '../../test-utils/mockData';
 import type {RelayDataState} from '../../hooks/useRelayData';
 
 const mockUseRelayData = vi.fn<() => RelayDataState>();
@@ -18,6 +18,8 @@ vi.mock('../relay/RelayCard', () => ({
 
 import MainTab from './MainTab';
 
+const emptyLocations = { trackPoints: [], crossings: [] };
+
 describe('MainTab', () => {
     beforeEach(() => {
         vi.clearAllMocks();
@@ -27,6 +29,7 @@ describe('MainTab', () => {
         mockUseRelayData.mockReturnValue({
             relays: [],
             stations: [],
+            ...emptyLocations,
             storages: [],
             loading: true,
             error: null,
@@ -41,6 +44,7 @@ describe('MainTab', () => {
         mockUseRelayData.mockReturnValue({
             relays: [],
             stations: [],
+            ...emptyLocations,
             storages: [],
             loading: false,
             error: 'Network error',
@@ -56,6 +60,7 @@ describe('MainTab', () => {
         mockUseRelayData.mockReturnValue({
             relays: [],
             stations: [],
+            ...emptyLocations,
             storages: [],
             loading: false,
             error: null,
@@ -68,11 +73,15 @@ describe('MainTab', () => {
         expect(screen.getByText('App')).toBeInTheDocument();
     });
 
-    it('should render station menu items in sidebar', () => {
+    it('should render location menu items in sidebar', () => {
         const stations = createMockStations(3);
+        const trackPoints = createMockTrackPoints(2);
+        const crossings = createMockCrossings(1);
         mockUseRelayData.mockReturnValue({
             relays: [],
             stations,
+            trackPoints,
+            crossings,
             storages: [],
             loading: false,
             error: null,
@@ -84,6 +93,10 @@ describe('MainTab', () => {
         expect(screen.getByText('Екатеринбург-Пасс.')).toBeInTheDocument();
         expect(screen.getByText('Первомайская')).toBeInTheDocument();
         expect(screen.getByText('Монетная')).toBeInTheDocument();
+        expect(screen.getByText('Перегоны')).toBeInTheDocument();
+        expect(screen.getByText('Шарташ')).toBeInTheDocument();
+        expect(screen.getByText('Переезды')).toBeInTheDocument();
+        expect(screen.getByText('Переезд 39 км')).toBeInTheDocument();
     });
 
     it('should render relay cards filtered by selected station', () => {
@@ -92,6 +105,7 @@ describe('MainTab', () => {
         mockUseRelayData.mockReturnValue({
             relays,
             stations,
+            ...emptyLocations,
             storages: mockStorages,
             loading: false,
             error: null,
@@ -110,6 +124,7 @@ describe('MainTab', () => {
         mockUseRelayData.mockReturnValue({
             relays,
             stations,
+            ...emptyLocations,
             storages: mockStorages,
             loading: false,
             error: null,
@@ -127,6 +142,7 @@ describe('MainTab', () => {
         mockUseRelayData.mockReturnValue({
             relays,
             stations,
+            ...emptyLocations,
             storages: mockStorages,
             loading: false,
             error: null,
@@ -147,6 +163,7 @@ describe('MainTab', () => {
         mockUseRelayData.mockReturnValue({
             relays: [...relaysStation1, ...relaysStation2],
             stations,
+            ...emptyLocations,
             storages: mockStorages,
             loading: false,
             error: null,

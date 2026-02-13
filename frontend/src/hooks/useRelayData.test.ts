@@ -8,6 +8,8 @@ import {
     mockBackendRelay,
     mockGetAllRelaysResponse,
     mockGetAllStationsResponse,
+    mockGetAllTrackPointsResponse,
+    mockGetAllCrossingsResponse,
     mockStation,
     mockStorages
 } from '../test-utils/mockData';
@@ -29,6 +31,8 @@ describe('useRelayData', () => {
     it('should start with loading state', () => {
         mockRelayService.getAll.mockReturnValue(new Promise(() => {}));
         mockLocationService.getAllStations.mockReturnValue(new Promise(() => {}));
+        mockLocationService.getAllTrackPoints.mockReturnValue(new Promise(() => {}));
+        mockLocationService.getAllCrossings.mockReturnValue(new Promise(() => {}));
         mockStorageService.getAllStorages.mockReturnValue(new Promise(() => {}));
 
         const { result } = renderHook(() => useRelayData());
@@ -37,12 +41,16 @@ describe('useRelayData', () => {
         expect(result.current.error).toBeNull();
         expect(result.current.relays).toEqual([]);
         expect(result.current.stations).toEqual([]);
+        expect(result.current.trackPoints).toEqual([]);
+        expect(result.current.crossings).toEqual([]);
         expect(result.current.storages).toEqual([]);
     });
 
-    it('should fetch and return relays, stations and storages', async () => {
+    it('should fetch and return relays, stations, track points, crossings and storages', async () => {
         mockRelayService.getAll.mockResolvedValue({ data: mockGetAllRelaysResponse } as never);
         mockLocationService.getAllStations.mockResolvedValue({ data: mockGetAllStationsResponse } as never);
+        mockLocationService.getAllTrackPoints.mockResolvedValue({ data: mockGetAllTrackPointsResponse } as never);
+        mockLocationService.getAllCrossings.mockResolvedValue({ data: mockGetAllCrossingsResponse } as never);
         mockStorageService.getAllStorages.mockResolvedValue(mockStorages);
 
         const { result } = renderHook(() => useRelayData());
@@ -56,6 +64,8 @@ describe('useRelayData', () => {
         expect(result.current.relays[0].id).toBe(mockBackendRelay.id);
         expect(result.current.stations).toHaveLength(2);
         expect(result.current.stations[0].name).toBe(mockStation.name);
+        expect(result.current.trackPoints).toHaveLength(1);
+        expect(result.current.crossings).toHaveLength(1);
         expect(result.current.storages).toHaveLength(2);
     });
 
@@ -63,6 +73,8 @@ describe('useRelayData', () => {
         const errorMessage = 'Network error';
         mockRelayService.getAll.mockRejectedValue(new Error(errorMessage));
         mockLocationService.getAllStations.mockRejectedValue(new Error(errorMessage));
+        mockLocationService.getAllTrackPoints.mockRejectedValue(new Error(errorMessage));
+        mockLocationService.getAllCrossings.mockRejectedValue(new Error(errorMessage));
         mockStorageService.getAllStorages.mockRejectedValue(new Error(errorMessage));
 
         const { result } = renderHook(() => useRelayData());
@@ -85,6 +97,8 @@ describe('useRelayData', () => {
         };
         mockRelayService.getAll.mockRejectedValue(apiError);
         mockLocationService.getAllStations.mockRejectedValue(apiError);
+        mockLocationService.getAllTrackPoints.mockRejectedValue(apiError);
+        mockLocationService.getAllCrossings.mockRejectedValue(apiError);
         mockStorageService.getAllStorages.mockRejectedValue(apiError);
 
         const { result } = renderHook(() => useRelayData());
@@ -99,6 +113,8 @@ describe('useRelayData', () => {
     it('should use custom pagination options', async () => {
         mockRelayService.getAll.mockResolvedValue({ data: mockGetAllRelaysResponse } as never);
         mockLocationService.getAllStations.mockResolvedValue({ data: mockGetAllStationsResponse } as never);
+        mockLocationService.getAllTrackPoints.mockResolvedValue({ data: mockGetAllTrackPointsResponse } as never);
+        mockLocationService.getAllCrossings.mockResolvedValue({ data: mockGetAllCrossingsResponse } as never);
         mockStorageService.getAllStorages.mockResolvedValue(mockStorages);
 
         renderHook(() => useRelayData({ relayPageSize: 100, stationPageSize: 20 }));
@@ -106,6 +122,8 @@ describe('useRelayData', () => {
         await waitFor(() => {
             expect(mockRelayService.getAll).toHaveBeenCalledWith({ page: 0, size: 100 });
             expect(mockLocationService.getAllStations).toHaveBeenCalledWith({ page: 0, size: 20 });
+            expect(mockLocationService.getAllTrackPoints).toHaveBeenCalledWith({ page: 0, size: 20 });
+            expect(mockLocationService.getAllCrossings).toHaveBeenCalledWith({ page: 0, size: 20 });
         });
     });
 });

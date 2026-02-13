@@ -44,11 +44,11 @@ const generateTabContent = (relays: Relay[]) => {
 };
 
 function MainTab() {
-    const { relays, stations, storages, loading, error } = useRelayData({
+    const { relays, stations, trackPoints, crossings, storages, loading, error } = useRelayData({
         relayPageSize: 300,
         stationPageSize: 50
     });
-    const [selectedStationId, setSelectedStationId] = useState<number | null>(null);
+    const [selectedLocationId, setSelectedLocationId] = useState<number | null>(null);
 
     // Build storageId → locationId map
     const storageToLocationMap = useMemo(() => {
@@ -68,46 +68,74 @@ function MainTab() {
         return map;
     }, [storages]);
 
-    // Auto-select first station when data loads
-    const activeStationId = selectedStationId ?? (stations.length > 0 ? stations[0].id : null);
+    // Auto-select first location when data loads
+    const allLocations = useMemo(() => [
+        ...stations, ...trackPoints, ...crossings
+    ], [stations, trackPoints, crossings]);
 
-    // Get storageIds that belong to the selected station
-    const stationStorageIds = useMemo(() => {
-        if (activeStationId === null) return new Set<number>();
-        const stationStorages = locationToStoragesMap.get(activeStationId) ?? [];
-        return new Set(stationStorages.map(s => s.id));
-    }, [activeStationId, locationToStoragesMap]);
+    const activeLocationId = selectedLocationId ?? (allLocations.length > 0 ? allLocations[0].id : null);
 
-    // Filter relays by selected station
+    // Get storageIds that belong to the selected location
+    const locationStorageIds = useMemo(() => {
+        if (activeLocationId === null) return new Set<number>();
+        const locStorages = locationToStoragesMap.get(activeLocationId) ?? [];
+        return new Set(locStorages.map(s => s.id));
+    }, [activeLocationId, locationToStoragesMap]);
+
+    // Filter relays by selected location
     const filteredRelays = useMemo(() => {
-        if (activeStationId === null) return relays;
-        return relays.filter(r => r.storageId !== undefined && stationStorageIds.has(r.storageId));
-    }, [relays, activeStationId, stationStorageIds]);
+        if (activeLocationId === null) return relays;
+        return relays.filter(r => r.storageId !== undefined && locationStorageIds.has(r.storageId));
+    }, [relays, activeLocationId, locationStorageIds]);
 
-    const handleStationSelect = useCallback((info: { key: string }) => {
-        const match = info.key.match(/^station-(\d+)$/);
+    const handleLocationSelect = useCallback((info: { key: string }) => {
+        const match = info.key.match(/^location-(\d+)$/);
         if (match) {
-            setSelectedStationId(Number(match[1]));
+            setSelectedLocationId(Number(match[1]));
         }
     }, []);
 
     // Memoize menu items
-    const sideMenuItems = useMemo(() => [
-        {
-            key: 'stations',
-            label: 'Станции',
-            children: stations.map(station => ({
-                key: `station-${station.id}`,
-                label: station.name
-            }))
-        },
-    ], [stations]);
+    const sideMenuItems = useMemo(() => {
+        const items = [];
+        if (stations.length > 0) {
+            items.push({
+                key: 'stations',
+                label: 'Станции',
+                children: stations.map(s => ({
+                    key: `location-${s.id}`,
+                    label: s.name
+                }))
+            });
+        }
+        if (trackPoints.length > 0) {
+            items.push({
+                key: 'trackPoints',
+                label: 'Перегоны',
+                children: trackPoints.map(tp => ({
+                    key: `location-${tp.id}`,
+                    label: tp.name
+                }))
+            });
+        }
+        if (crossings.length > 0) {
+            items.push({
+                key: 'crossings',
+                label: 'Переезды',
+                children: crossings.map(c => ({
+                    key: `location-${c.id}`,
+                    label: c.name
+                }))
+            });
+        }
+        return items;
+    }, [stations, trackPoints, crossings]);
 
-    // Build tabs grouped by storage at the selected station
+    // Build tabs grouped by storage at the selected location
     const tabItems = useMemo(() => {
-        if (activeStationId === null) return [];
+        if (activeLocationId === null) return [];
 
-        const stationStorages = locationToStoragesMap.get(activeStationId) ?? [];
+        const stationStorages = locationToStoragesMap.get(activeLocationId) ?? [];
 
         if (stationStorages.length === 0) {
             return [{
@@ -125,7 +153,7 @@ function MainTab() {
                 children: generateTabContent(storageRelays)
             };
         });
-    }, [activeStationId, locationToStoragesMap, filteredRelays]);
+    }, [activeLocationId, locationToStoragesMap, filteredRelays]);
 
     return (
         <Content className="main-content">
@@ -146,10 +174,10 @@ function MainTab() {
                     ) : (
                         <Menu
                             mode="inline"
-                            selectedKeys={activeStationId !== null ? [`station-${activeStationId}`] : []}
-                            defaultOpenKeys={['stations']}
+                            selectedKeys={activeLocationId !== null ? [`location-${activeLocationId}`] : []}
+                            defaultOpenKeys={['stations', 'trackPoints', 'crossings']}
                             items={sideMenuItems}
-                            onClick={handleStationSelect}
+                            onClick={handleLocationSelect}
                         />
                     )}
                 </Sider>
