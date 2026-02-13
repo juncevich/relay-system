@@ -98,7 +98,8 @@ src/
 │   ├── api-urls.ts      # Base URL constants
 │   ├── http-common.ts   # Axios instance for relay-store backend
 │   ├── RelayService.ts  # Relay CRUD API service
-│   └── LocationService.ts # Location API service (stations, track points, crossings)
+│   ├── LocationService.ts # Location API service (stations, track points, crossings)
+│   └── StorageService.ts # Storage API service (warehouses, stands, relay cabinets)
 ├── components/       # React components
 │   ├── errorBoundary/   # Error boundary component
 │   ├── layout/          # AppLayout with routing and top-level navigation
@@ -231,11 +232,12 @@ The frontend is integrated with the relay-store-service backend at `http://local
 **Backend Services:**
 - `RelayService` (`src/api/RelayService.ts`) - Full CRUD operations for relays
 - `LocationService` (`src/api/LocationService.ts`) - Manage stations, track points, and crossings
+- `StorageService` (`src/api/StorageService.ts`) - Manage warehouses, stands, and relay cabinets
 
 **Data Fetching Pattern:**
 ```typescript
 // Custom hook in src/hooks/useRelayData.ts
-const {relays, stations, loading, error} = useRelayData();
+const {relays, stations, trackPoints, crossings, storages, loading, error} = useRelayData();
 ```
 
 ## Development Notes

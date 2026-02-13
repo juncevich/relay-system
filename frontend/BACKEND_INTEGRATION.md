@@ -11,6 +11,8 @@ This document describes how the frontend integrates with the relay-store-service
 
 ## API Services
 
+The frontend provides three main API services for interacting with the backend:
+
 ### 1. RelayService (`src/api/RelayService.ts`)
 
 Handles all relay-related API operations.
@@ -101,6 +103,47 @@ LocationService.deleteCrossing(id)
 - `GET /track-points`, `POST /track-points`, `PUT /track-points/{id}`, `DELETE /track-points/{id}`
 - `GET /crossings`, `POST /crossings`, `PUT /crossings/{id}`, `DELETE /crossings/{id}`
 
+### 3. StorageService (`src/api/StorageService.ts`)
+
+Handles storage-related API operations for warehouses, stands, and relay cabinets.
+
+**Available Methods:**
+
+```typescript
+// Get all warehouses
+StorageService.getAllWarehouses({page: 0, size: 10})
+
+// Get all stands
+StorageService.getAllStands({page: 0, size: 10})
+
+// Get all relay cabinets
+StorageService.getAllRelayCabinets({page: 0, size: 10})
+
+// Get all storages (combined)
+const storages = await StorageService.getAllStorages()
+// Returns: Array<{id: number, name: string, locationId: number}>
+```
+
+**Endpoints:**
+
+- `GET /warehouses` - Get all warehouses (paginated)
+- `GET /stands` - Get all stands (paginated)
+- `GET /relay-cabinets` - Get all relay cabinets (paginated)
+
+**Helper Method:**
+The `getAllStorages()` method combines all three storage types into a single unified array with a common `StorageInfo`
+interface:
+
+```typescript
+interface StorageInfo {
+    id: number;
+    name: string;
+    locationId: number;
+}
+```
+
+This is useful for populating dropdowns or lists that need all storage locations regardless of type.
+
 ## TypeScript Types
 
 All backend DTOs are defined in `src/types/relay.types.ts`:
@@ -186,6 +229,31 @@ interface Shelf {
     number: number;
     capacity: number;
     storageId: number;
+}
+
+// Pagination Response Types
+interface GetAllWarehousesResponse {
+    content: Warehouse[];
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+}
+
+interface GetAllStandsResponse {
+    content: Stand[];
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+}
+
+interface GetAllRelayCabinetsResponse {
+    content: RelayCabinet[];
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
 }
 ```
 
@@ -342,12 +410,28 @@ The frontend will connect to the backend and fetch data automatically.
   - Loading spinner shown briefly
   - Error alert with details
 
+## Mock Data Mode
+
+All API services have mock implementations in `src/mock-data/`:
+
+- **MockRelayService** - Mock relay data for development
+- **MockLocationService** - Mock stations, track points, and crossings
+- **MockStorageService** - Mock warehouses, stands, and relay cabinets
+
+To use mock data, start the app with:
+
+```bash
+npm run start:mock
+```
+
+The `useRelayData` hook automatically switches between real and mock services based on the `VITE_USE_MOCK_DATA`
+environment variable.
+
 ## Future Enhancements
 
 Potential improvements to the backend integration:
 
 1. **Create Additional Services:**
-   - `StorageService.ts` for warehouses, stands, relay cabinets
    - `ShelfService.ts` for shelf management
    - `RelayMovementService.ts` for tracking relay movements
 

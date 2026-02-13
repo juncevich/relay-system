@@ -15,33 +15,37 @@ This guide provides testing patterns and best practices for the relay management
 
 ## Testing Stack
 
-The project uses Create React App's built-in testing setup:
+The project uses Vitest for testing with the following tools:
 
-- **Jest**: Test runner and assertion library
+- **Vitest 4**: Test runner and assertion library (replaces Jest)
 - **React Testing Library**: Component testing utilities
 - **@testing-library/user-event**: User interaction simulation
-- **@testing-library/jest-dom**: Custom Jest matchers for DOM assertions
+- **@testing-library/jest-dom**: Custom matchers for DOM assertions (works with Vitest)
+- **jsdom**: DOM environment for testing
+- **@vitest/coverage-v8**: Code coverage reporting
 
-All dependencies are already installed with Create React App.
+All dependencies are already installed and configured with Vite.
 
 ## Running Tests
 
 ```bash
-# Run tests in watch mode (interactive)
+# Run all tests once
 npm test
 
-# Run all tests once
-npm test -- --watchAll=false
+# Run tests in watch mode (interactive)
+npm run test:watch
 
 # Run tests with coverage
-npm test -- --coverage --watchAll=false
+npm test -- --coverage
 
 # Run specific test file
-npm test -- RelayCard.test.tsx
+npm test RelayCard.test.tsx
 
 # Run tests matching a pattern
-npm test -- --testNamePattern="should render"
+npm test -- --grep="should render"
 ```
+
+Current test status: **74 tests across 11 test files, all passing**
 
 ## Testing Patterns
 
@@ -85,6 +89,9 @@ it('should display relay information', () => {
   expect(screen.getByText('2026-01-15')).toBeInTheDocument();
 });
 ```
+
+**Note:** With Vitest, globals like `describe`, `it`, `expect`, and `vi` are available automatically (configured in
+`vite.config.ts` and `tsconfig.json`).
 
 ### Testing Async Operations
 
@@ -139,7 +146,7 @@ describe('RelayCard', () => {
 
   it('should handle settings button click', async () => {
     const user = userEvent.setup();
-    const onSettingsClick = jest.fn();
+      const onSettingsClick = vi.fn();
 
     render(<RelayCard relay={mockRelay} onSettingsClick={onSettingsClick} />);
 
@@ -161,9 +168,9 @@ import { MainTab } from './MainTab';
 import * as RelayService from '../../api/RelayService';
 import * as LocationService from '../../api/LocationService';
 
-// Mock the API services
-jest.mock('../../api/RelayService');
-jest.mock('../../api/LocationService');
+// Mock the API services (Vitest syntax)
+vi.mock('../../api/RelayService');
+vi.mock('../../api/LocationService');
 
 const mockRelays = [
   {
@@ -185,15 +192,20 @@ const mockStations = [
 
 describe('MainTab', () => {
   beforeEach(() => {
-    (RelayService.getAll as jest.Mock).mockResolvedValue({
-      content: mockRelays,
-      totalElements: 1
-    });
+      // Use vi.mocked for type-safe mocking
+      vi.mocked(RelayService.getAll).mockResolvedValue({
+          data: {
+              content: mockRelays,
+              totalElements: 1
+          }
+      } as any);
 
-    (LocationService.getAllStations as jest.Mock).mockResolvedValue({
-      content: mockStations,
-      totalElements: 1
-    });
+      vi.mocked(LocationService.getAllStations).mockResolvedValue({
+          data: {
+              content: mockStations,
+              totalElements: 1
+          }
+      } as any);
   });
 
   it('should show loading spinner initially', () => {
@@ -212,7 +224,7 @@ describe('MainTab', () => {
   });
 
   it('should display error message on API failure', async () => {
-    (RelayService.getAll as jest.Mock).mockRejectedValue(
+      vi.mocked(RelayService.getAll).mockRejectedValue(
       new Error('Network error')
     );
 
@@ -241,63 +253,57 @@ describe('MainTab', () => {
 
 ## API Mocking
 
-### Mocking Axios Requests
-
-```typescript
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
-
-// Create a mock adapter
-const mock = new MockAdapter(axios);
-
-describe('RelayService', () => {
-  afterEach(() => {
-    mock.reset();
-  });
-
-  it('should fetch all relays', async () => {
-    const mockData = {
-      content: [{ id: 1, type: 'РПА-30' }],
-      totalElements: 1
-    };
-
-    mock.onGet('/relays').reply(200, mockData);
-
-    const result = await RelayService.getAll();
-    expect(result.content).toHaveLength(1);
-  });
-});
-```
-
-### Mocking Service Modules
+### Mocking Service Modules with Vitest
 
 ```typescript
 // Mock entire module
-jest.mock('../../api/RelayService', () => ({
-  getAll: jest.fn(),
-  getById: jest.fn(),
-  create: jest.fn(),
-  update: jest.fn(),
-  delete: jest.fn()
+vi.mock('../../api/RelayService', () => ({
+    default: {
+        getAll: vi.fn(),
+        getById: vi.fn(),
+        create: vi.fn(),
+        update: vi.fn(),
+        delete: vi.fn()
+    }
 }));
 
 // Use in tests
-import * as RelayService from '../../api/RelayService';
+import relayService from '../../api/RelayService';
 
-(RelayService.getAll as jest.Mock).mockResolvedValue({
-  content: [],
-  totalElements: 0
-});
+vi.mocked(relayService.getAll).mockResolvedValue({
+    data: {
+        content: [],
+        totalElements: 0
+    }
+} as any);
 ```
 
 ### Partial Mocking
 
 ```typescript
 // Mock only specific methods
-jest.mock('../../api/RelayService', () => ({
-  ...jest.requireActual('../../api/RelayService'),
-  getAll: jest.fn()
-}));
+vi.mock('../../api/RelayService', async () => {
+    const actual = await vi.importActual('../../api/RelayService');
+    return {
+        ...actual,
+        getAll: vi.fn()
+    };
+});
+```
+
+### Type-Safe Mocking
+
+For better type safety with mocked functions, use the `Mocked` type from vitest:
+
+```typescript
+import type {Mocked} from 'vitest';
+import relayService from '../../api/RelayService';
+
+// Type assertion
+const mockRelayService = relayService as Mocked<typeof relayService>;
+
+// Now you get full TypeScript support
+mockRelayService.getAll.mockResolvedValue({...});
 ```
 
 ## Testing Ant Design Components
@@ -434,11 +440,11 @@ await user.keyboard('{Enter}');
 describe('Component', () => {
   beforeEach(() => {
     // Reset mocks before each test
-    jest.clearAllMocks();
+      vi.clearAllMocks();
   });
 
   afterEach(() => {
-    // Cleanup after each test
+      // Cleanup after each test (usually automatic with Vitest)
     cleanup();
   });
 });
@@ -504,7 +510,7 @@ import userEvent from '@testing-library/user-event';
 
 it('should submit form with correct data', async () => {
   const user = userEvent.setup();
-  const onSubmit = jest.fn();
+    const onSubmit = vi.fn();
 
   render(<RelayForm onSubmit={onSubmit} />);
 
@@ -566,39 +572,87 @@ Aim for these coverage targets:
 - **Lines**: 80%+
 
 ```bash
-npm test -- --coverage --watchAll=false
+npm test -- --coverage
 ```
 
-Coverage reports are generated in the `coverage/` directory.
+Coverage reports are generated in the `coverage/` directory using Vitest's V8 coverage provider.
+
+## Vitest-Specific Features
+
+### Global Test APIs
+
+Vitest provides globals (`describe`, `it`, `expect`, `vi`) automatically when configured in `vite.config.ts`:
+
+```typescript
+// vite.config.ts
+test: {
+    globals: true,
+        environment
+:
+    'jsdom',
+        setupFiles
+:
+    './src/setupTests.ts',
+}
+```
+
+No need to import `describe`, `it`, or `expect` in test files.
+
+### Mock Functions
+
+Use `vi` instead of `jest`:
+
+```typescript
+// Create mock function
+const mockFn = vi.fn();
+
+// Mock implementation
+mockFn.mockImplementation(() => 'result');
+
+// Mock return value
+mockFn.mockReturnValue('result');
+
+// Mock resolved value (async)
+mockFn.mockResolvedValue({data: []});
+
+// Clear mocks
+vi.clearAllMocks();
+
+// Reset mocks
+vi.resetAllMocks();
+```
+
+### TypeScript Support
+
+For better TypeScript support with mocks:
+
+```typescript
+import type {Mocked} from 'vitest';
+
+const mockService = service as Mocked<typeof service>;
+```
+
+**Note:** Use `import type { Mocked }` (not `vi.Mocked`).
 
 ## React 19 Testing Considerations
 
 React 19 introduces stricter `act()` behavior that affects testing components with async `useEffect`. When a component triggers async operations in `useEffect`, React 19's `act()` may throw an `AggregateError` if those operations are still pending when `act()` completes.
 
-### Known Limitations
+### Best Practices
 
-Components with complex async data fetching patterns (like `MainTab`) may be difficult to test with unit tests due to this stricter behavior. Consider these alternatives:
-
-1. **E2E Testing**: Use Playwright or Cypress for integration-level testing of components with complex async behavior
-2. **Simplified Tests**: Test individual behaviors rather than full component lifecycle
-3. **Mock Sync Responses**: Use `mockResolvedValueOnce()` with sync-like behavior where possible
-
-### Components Without Unit Tests
-
-The following components are better suited for E2E testing:
-
-- `MainTab` - Complex async data fetching with multiple API calls and state updates
+1. **Mock API calls** to resolve immediately
+2. **Use waitFor** to wait for loading states to complete
+3. **Test individual behaviors** rather than full component lifecycle
+4. **Consider E2E tests** for complex async components (Playwright, Cypress)
 
 ### Workaround for Async useEffect
-
-If you must test a component with async `useEffect`, try this pattern:
 
 ```typescript
 import { waitFor } from '@testing-library/react';
 
 it('should load data', async () => {
     // Mock to resolve immediately
-    mockService.getData.mockResolvedValue({ data: mockData });
+    vi.mocked(mockService.getData).mockResolvedValue({data: mockData});
 
     render(<Component />);
 
@@ -614,8 +668,8 @@ it('should load data', async () => {
 
 ## Additional Resources
 
+- [Vitest Documentation](https://vitest.dev/)
 - [React Testing Library Documentation](https://testing-library.com/react)
-- [Jest Documentation](https://jestjs.io/)
 - [Testing Ant Design Components](https://ant.design/docs/react/testing)
 - [Common Testing Mistakes](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
 - [React 19 Act Testing](https://react.dev/reference/react/act)
