@@ -1,15 +1,18 @@
-import {Fragment, useMemo} from 'react';
+import {Fragment, useCallback, useMemo, useState} from 'react';
 
 import {Alert, Breadcrumb, Col, Layout, Menu, Row, Spin, Tabs} from 'antd';
 import RelayCard from '../relay/RelayCard';
 import Relay from '../../models/Relay';
 import useRelayData from '../../hooks/useRelayData';
+import {StorageInfo} from '../../api/StorageService';
 import './RelayContent.css';
 
 const {Content, Sider} = Layout;
 
+const RELAYS_PER_ROW = 8;
+
 // Helper function to render a row of relay cards
-const renderRelayRow = (relays: Relay[], startIndex: number, count: number = 8) => {
+const renderRelayRow = (relays: Relay[], startIndex: number, count: number = RELAYS_PER_ROW) => {
     const relaysToShow = relays.slice(startIndex, startIndex + count);
 
     if (relaysToShow.length === 0) {
@@ -27,11 +30,12 @@ const renderRelayRow = (relays: Relay[], startIndex: number, count: number = 8) 
     );
 };
 
-// Generate tab content based on actual relay data
-const generateTabContent = (relays: Relay[], rowsPerTab: number) => {
+// Generate tab content for a given array of relays
+const generateTabContent = (relays: Relay[]) => {
+    const rowCount = Math.ceil(relays.length / RELAYS_PER_ROW);
     const rows = [];
-    for (let i = 0; i < rowsPerTab; i++) {
-        const row = renderRelayRow(relays, i * 8, 8);
+    for (let i = 0; i < rowCount; i++) {
+        const row = renderRelayRow(relays, i * RELAYS_PER_ROW, RELAYS_PER_ROW);
         if (row) {
             rows.push(<Fragment key={i}>{row}</Fragment>);
         }
@@ -40,24 +44,54 @@ const generateTabContent = (relays: Relay[], rowsPerTab: number) => {
 };
 
 function MainTab() {
-    // Use custom hook for data fetching (React best practice)
-    const { relays, stations, loading, error } = useRelayData();
+    const { relays, stations, storages, loading, error } = useRelayData({
+        relayPageSize: 300,
+        stationPageSize: 50
+    });
+    const [selectedStationId, setSelectedStationId] = useState<number | null>(null);
 
-    // Memoize tab content to prevent unnecessary recalculations
-    const tab1Content = useMemo(
-        () => generateTabContent(relays.slice(0, 24), 3),
-        [relays]
-    );
-    const tab2Content = useMemo(
-        () => generateTabContent(relays.slice(24, 32), 1),
-        [relays]
-    );
-    const tab3Content = useMemo(
-        () => generateTabContent(relays.slice(32, 48), 2),
-        [relays]
-    );
+    // Build storageId → locationId map
+    const storageToLocationMap = useMemo(() => {
+        const map = new Map<number, number>();
+        storages.forEach((s: StorageInfo) => map.set(s.id, s.locationId));
+        return map;
+    }, [storages]);
 
-    // Memoize menu items to prevent re-creation on each render
+    // Build locationId → storages map for tab names
+    const locationToStoragesMap = useMemo(() => {
+        const map = new Map<number, StorageInfo[]>();
+        storages.forEach((s: StorageInfo) => {
+            const list = map.get(s.locationId) ?? [];
+            list.push(s);
+            map.set(s.locationId, list);
+        });
+        return map;
+    }, [storages]);
+
+    // Auto-select first station when data loads
+    const activeStationId = selectedStationId ?? (stations.length > 0 ? stations[0].id : null);
+
+    // Get storageIds that belong to the selected station
+    const stationStorageIds = useMemo(() => {
+        if (activeStationId === null) return new Set<number>();
+        const stationStorages = locationToStoragesMap.get(activeStationId) ?? [];
+        return new Set(stationStorages.map(s => s.id));
+    }, [activeStationId, locationToStoragesMap]);
+
+    // Filter relays by selected station
+    const filteredRelays = useMemo(() => {
+        if (activeStationId === null) return relays;
+        return relays.filter(r => r.storageId !== undefined && stationStorageIds.has(r.storageId));
+    }, [relays, activeStationId, stationStorageIds]);
+
+    const handleStationSelect = useCallback((info: { key: string }) => {
+        const match = info.key.match(/^station-(\d+)$/);
+        if (match) {
+            setSelectedStationId(Number(match[1]));
+        }
+    }, []);
+
+    // Memoize menu items
     const sideMenuItems = useMemo(() => [
         {
             key: 'stations',
@@ -69,23 +103,29 @@ function MainTab() {
         },
     ], [stations]);
 
-    const tabItems = useMemo(() => [
-        {
-            key: '1',
-            label: `Склад 1 (${Math.min(relays.length, 24)})`,
-            children: tab1Content,
-        },
-        {
-            key: '2',
-            label: `Склад 2 (${Math.min(Math.max(0, relays.length - 24), 8)})`,
-            children: tab2Content,
-        },
-        {
-            key: '3',
-            label: `Склад 3 (${Math.min(Math.max(0, relays.length - 32), 16)})`,
-            children: tab3Content,
-        },
-    ], [relays.length, tab1Content, tab2Content, tab3Content]);
+    // Build tabs grouped by storage at the selected station
+    const tabItems = useMemo(() => {
+        if (activeStationId === null) return [];
+
+        const stationStorages = locationToStoragesMap.get(activeStationId) ?? [];
+
+        if (stationStorages.length === 0) {
+            return [{
+                key: 'all',
+                label: `Все реле (${filteredRelays.length})`,
+                children: generateTabContent(filteredRelays)
+            }];
+        }
+
+        return stationStorages.map(storage => {
+            const storageRelays = filteredRelays.filter(r => r.storageId === storage.id);
+            return {
+                key: `storage-${storage.id}`,
+                label: `${storage.name} (${storageRelays.length})`,
+                children: generateTabContent(storageRelays)
+            };
+        });
+    }, [activeStationId, locationToStoragesMap, filteredRelays]);
 
     return (
         <Content className="main-content">
@@ -106,9 +146,10 @@ function MainTab() {
                     ) : (
                         <Menu
                             mode="inline"
-                            defaultSelectedKeys={stations.length > 0 ? [`station-${stations[0].id}`] : []}
+                            selectedKeys={activeStationId !== null ? [`station-${activeStationId}`] : []}
                             defaultOpenKeys={['stations']}
                             items={sideMenuItems}
+                            onClick={handleStationSelect}
                         />
                     )}
                 </Sider>

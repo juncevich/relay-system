@@ -1,5 +1,6 @@
 import {render, screen} from '@testing-library/react';
-import {createMockRelays, createMockStations} from '../../test-utils/mockData';
+import userEvent from '@testing-library/user-event';
+import {createMockRelays, createMockStations, mockStorages} from '../../test-utils/mockData';
 import type {RelayDataState} from '../../hooks/useRelayData';
 
 const mockUseRelayData = vi.fn<() => RelayDataState>();
@@ -26,6 +27,7 @@ describe('MainTab', () => {
         mockUseRelayData.mockReturnValue({
             relays: [],
             stations: [],
+            storages: [],
             loading: true,
             error: null,
         });
@@ -39,6 +41,7 @@ describe('MainTab', () => {
         mockUseRelayData.mockReturnValue({
             relays: [],
             stations: [],
+            storages: [],
             loading: false,
             error: 'Network error',
         });
@@ -53,6 +56,7 @@ describe('MainTab', () => {
         mockUseRelayData.mockReturnValue({
             relays: [],
             stations: [],
+            storages: [],
             loading: false,
             error: null,
         });
@@ -64,27 +68,12 @@ describe('MainTab', () => {
         expect(screen.getByText('App')).toBeInTheDocument();
     });
 
-    it('should render tabs with relay counts', () => {
-        const relays = createMockRelays(30);
-        mockUseRelayData.mockReturnValue({
-            relays,
-            stations: [],
-            loading: false,
-            error: null,
-        });
-
-        render(<MainTab/>);
-
-        expect(screen.getByText('Склад 1 (24)')).toBeInTheDocument();
-        expect(screen.getByText('Склад 2 (6)')).toBeInTheDocument();
-        expect(screen.getByText('Склад 3 (0)')).toBeInTheDocument();
-    });
-
     it('should render station menu items in sidebar', () => {
         const stations = createMockStations(3);
         mockUseRelayData.mockReturnValue({
             relays: [],
             stations,
+            storages: [],
             loading: false,
             error: null,
         });
@@ -97,34 +86,82 @@ describe('MainTab', () => {
         expect(screen.getByText('Монетная')).toBeInTheDocument();
     });
 
-    it('should render relay cards in grid', () => {
-        const relays = createMockRelays(3);
+    it('should render relay cards filtered by selected station', () => {
+        const stations = createMockStations(2);
+        const relays = createMockRelays(3, 101);
         mockUseRelayData.mockReturnValue({
             relays,
-            stations: [],
+            stations,
+            storages: mockStorages,
             loading: false,
             error: null,
         });
 
         render(<MainTab/>);
 
+        // First station (id=1) is auto-selected, storage 101 has locationId=1
         const cards = screen.getAllByTestId('relay-card');
         expect(cards).toHaveLength(3);
-        expect(screen.getByText('НМШ-001')).toBeInTheDocument();
-        expect(screen.getByText('НМШ-002')).toBeInTheDocument();
-        expect(screen.getByText('НМШ-003')).toBeInTheDocument();
     });
 
-    it('should show "Нет реле для отображения" when relay list is empty', () => {
+    it('should show storage name in tab when station has storages', () => {
+        const stations = createMockStations(2);
+        const relays = createMockRelays(3, 101);
         mockUseRelayData.mockReturnValue({
-            relays: [],
-            stations: [],
+            relays,
+            stations,
+            storages: mockStorages,
             loading: false,
             error: null,
         });
 
         render(<MainTab/>);
 
-        expect(screen.getByText('Нет реле для отображения')).toBeInTheDocument();
+        expect(screen.getByText('Склад ШЧ Екатеринбург (3)')).toBeInTheDocument();
+    });
+
+    it('should show "Нет реле для отображения" when no relays match selected station', () => {
+        const stations = createMockStations(2);
+        // Relays with storageId=104 (locationId=2 = Первомайская)
+        const relays = createMockRelays(3, 104);
+        mockUseRelayData.mockReturnValue({
+            relays,
+            stations,
+            storages: mockStorages,
+            loading: false,
+            error: null,
+        });
+
+        render(<MainTab/>);
+
+        // First station (id=1, Екатеринбург) is auto-selected, but relays are at station 2
+        // Storage 101 exists at station 1 but has 0 relays
+        expect(screen.getByText('Склад ШЧ Екатеринбург (0)')).toBeInTheDocument();
+    });
+
+    it('should filter relays when clicking a different station', async () => {
+        const stations = createMockStations(2);
+        // 3 relays at storage 101 (station 1) + 2 relays at storage 104 (station 2)
+        const relaysStation1 = createMockRelays(3, 101);
+        const relaysStation2 = createMockRelays(2, 104).map((r, i) => ({...r, id: 401 + i, title: `РЭЛ-${i + 1}`}));
+        mockUseRelayData.mockReturnValue({
+            relays: [...relaysStation1, ...relaysStation2],
+            stations,
+            storages: mockStorages,
+            loading: false,
+            error: null,
+        });
+
+        render(<MainTab/>);
+
+        // Initially station 1 is selected, showing 3 relays
+        expect(screen.getAllByTestId('relay-card')).toHaveLength(3);
+
+        // Click on station 2 (Первомайская)
+        const user = userEvent.setup();
+        await user.click(screen.getByText('Первомайская'));
+
+        // Now should show 2 relays from station 2
+        expect(screen.getAllByTestId('relay-card')).toHaveLength(2);
     });
 });

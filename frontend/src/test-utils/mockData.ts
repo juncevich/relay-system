@@ -1,4 +1,5 @@
 import { Relay as BackendRelay, StationResponse, GetAllRelaysResponse, GetAllStationsResponse } from '../types/relay.types';
+import {StorageInfo} from '../api/StorageService';
 import Relay from '../models/Relay';
 
 export const mockBackendRelay: BackendRelay = {
@@ -37,14 +38,16 @@ export const mockLegacyRelay = new Relay(
     301,
     'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
     'НМШ-001',
-    '03.03.2024'
+    '03.03.2024',
+    101
 );
 
 export const mockLegacyRelay2 = new Relay(
     302,
     'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
     'НМШ-002',
-    '05.03.2024'
+    '05.03.2024',
+    101
 );
 
 export const mockStation: StationResponse = {
@@ -71,12 +74,18 @@ export const mockGetAllStationsResponse: GetAllStationsResponse = {
     totalPages: 1
 };
 
-export const createMockRelays = (count: number): Relay[] => {
+export const mockStorages: StorageInfo[] = [
+    {id: 101, name: 'Склад ШЧ Екатеринбург', locationId: 1},
+    {id: 104, name: 'Релейный шкаф ст. Первомайская', locationId: 2},
+];
+
+export const createMockRelays = (count: number, storageId: number = 101): Relay[] => {
     return Array.from({ length: count }, (_, i) => new Relay(
         301 + i,
         'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
         `НМШ-${String(i + 1).padStart(3, '0')}`,
-        new Date(2024, 2, i + 3).toLocaleDateString('ru-RU')
+        new Date(2024, 2, i + 3).toLocaleDateString('ru-RU'),
+        storageId
     ));
 };
 

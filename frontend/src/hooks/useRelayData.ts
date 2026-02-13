@@ -2,17 +2,21 @@ import {useEffect, useState} from 'react';
 import Relay from '../models/Relay';
 import RealRelayService from '../api/RelayService';
 import RealLocationService from '../api/LocationService';
+import RealStorageService, {StorageInfo} from '../api/StorageService';
 import MockRelayService from '../mock-data/MockRelayService';
 import MockLocationService from '../mock-data/MockLocationService';
+import MockStorageService from '../mock-data/MockStorageService';
 import {getApiErrorMessage, Relay as BackendRelay, StationResponse} from '../types/relay.types';
 
 const useMockData = import.meta.env.VITE_USE_MOCK_DATA === 'true';
 const RelayService = useMockData ? MockRelayService : RealRelayService;
 const LocationService = useMockData ? MockLocationService : RealLocationService;
+const StorageService = useMockData ? MockStorageService : RealStorageService;
 
 export interface RelayDataState {
     relays: Relay[];
     stations: StationResponse[];
+    storages: StorageInfo[];
     loading: boolean;
     error: string | null;
 }
@@ -23,7 +27,7 @@ interface UseRelayDataOptions {
 }
 
 /**
- * Custom hook for fetching relay and station data from backend.
+ * Custom hook for fetching relay, station, and storage data from backend.
  * Follows React 19 best practices with race condition prevention.
  *
  * Set VITE_USE_MOCK_DATA=true to use local JSON mock data instead of the backend API.
@@ -34,6 +38,7 @@ export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState 
     const [state, setState] = useState<RelayDataState>({
         relays: [],
         stations: [],
+        storages: [],
         loading: true,
         error: null
     });
@@ -43,15 +48,13 @@ export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState 
 
         const fetchData = async () => {
             try {
-                // Fetch relays and stations in parallel
-                const [relaysResponse, stationsResponse] = await Promise.all([
+                const [relaysResponse, stationsResponse, storages] = await Promise.all([
                     RelayService.getAll({ page: 0, size: relayPageSize }),
-                    LocationService.getAllStations({ page: 0, size: stationPageSize })
+                    LocationService.getAllStations({ page: 0, size: stationPageSize }),
+                    StorageService.getAllStorages()
                 ]);
 
-                // Prevent state updates if component unmounted
                 if (!ignore) {
-                    // Convert backend relays to legacy Relay model
                     const relays = relaysResponse.data.content.map((backendRelay: BackendRelay) =>
                         Relay.fromBackendRelay(backendRelay)
                     );
@@ -59,6 +62,7 @@ export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState 
                     setState({
                         relays,
                         stations: stationsResponse.data.content,
+                        storages,
                         loading: false,
                         error: null
                     });
