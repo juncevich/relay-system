@@ -28,9 +28,10 @@ interface RelayCardProps {
     relay?: Relay;
     onEdit?: (relay: Relay) => void;
     onDelete?: (relay: Relay) => void;
+    onClick?: (relay: Relay) => void;
 }
 
-function RelayCard({relay, onEdit, onDelete}: RelayCardProps) {
+function RelayCard({relay, onEdit, onDelete, onClick}: RelayCardProps) {
     const status = getVerificationStatus(relay?.verificationDate);
     const {label, color} = STATUS[status];
 
@@ -44,7 +45,10 @@ function RelayCard({relay, onEdit, onDelete}: RelayCardProps) {
                 aria-hidden="true"
             />
 
-            <div className="relay-card">
+            <div
+                className={`relay-card${onClick ? ' relay-card--clickable' : ''}`}
+                onClick={() => relay && onClick?.(relay)}
+            >
                 <div className="relay-card__stripe" style={{background: color}}/>
 
                 <div className="relay-card__body">
@@ -58,14 +62,20 @@ function RelayCard({relay, onEdit, onDelete}: RelayCardProps) {
                             <button
                                 className="relay-card__action-btn"
                                 aria-label="Редактировать"
-                                onClick={() => relay && onEdit?.(relay)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    relay && onEdit?.(relay);
+                                }}
                             >
                                 <EditOutlined/>
                             </button>
                             <button
                                 className="relay-card__action-btn relay-card__action-btn--danger"
                                 aria-label="Удалить"
-                                onClick={() => relay && onDelete?.(relay)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    relay && onDelete?.(relay);
+                                }}
                             >
                                 <DeleteOutlined/>
                             </button>

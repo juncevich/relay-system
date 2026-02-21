@@ -16,6 +16,10 @@
     flex-direction: column;
 }
 
+.relay-card--clickable {
+    cursor: pointer;
+}
+
 .relay-card:hover {
     border-color: var(--primary);
     transform: translateY(-2px);

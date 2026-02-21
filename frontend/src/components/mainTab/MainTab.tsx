@@ -4,6 +4,7 @@ import {Alert, App, Breadcrumb, Button, Col, Layout, Menu, Row, Space, Spin, Tab
 import {PlusOutlined} from '@ant-design/icons';
 import RelayCard from '../relay/RelayCard';
 import RelayFormModal, {RelayFormValues} from '../relay/RelayFormModal';
+import RelayInfoModal from '../relay/RelayInfoModal';
 import useRelayData from '../../hooks/useRelayData';
 import {getApiErrorMessage, Relay} from '../../types/relay.types';
 import {RelayService} from '../../services';
@@ -17,6 +18,7 @@ const RELAYS_PER_ROW = 8;
 interface RelayCallbacks {
     onEdit: (relay: Relay) => void;
     onDelete: (relay: Relay) => void;
+    onView: (relay: Relay) => void;
 }
 
 // Helper function to render a row of relay cards
@@ -31,7 +33,8 @@ const renderRelayRow = (relays: Relay[], startIndex: number, callbacks: RelayCal
         <Row gutter={[8, 8]}>
             {relaysToShow.map((relay) => (
                 <Col key={relay.id} className="gutter-row" span={3}>
-                    <div><RelayCard relay={relay} onEdit={callbacks.onEdit} onDelete={callbacks.onDelete}/></div>
+                    <div><RelayCard relay={relay} onEdit={callbacks.onEdit} onDelete={callbacks.onDelete}
+                                    onClick={callbacks.onView}/></div>
                 </Col>
             ))}
         </Row>
@@ -61,6 +64,7 @@ function MainTab() {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalLoading, setModalLoading] = useState(false);
     const [editingRelay, setEditingRelay] = useState<Relay | null>(null);
+    const [viewingRelay, setViewingRelay] = useState<Relay | null>(null);
 
     const handleAdd = useCallback(() => {
         setEditingRelay(null);
@@ -70,6 +74,10 @@ function MainTab() {
     const handleEdit = useCallback((relay: Relay) => {
         setEditingRelay(relay);
         setModalOpen(true);
+    }, []);
+
+    const handleView = useCallback((relay: Relay) => {
+        setViewingRelay(relay);
     }, []);
 
     const handleDelete = useCallback((relay: Relay) => {
@@ -122,7 +130,8 @@ function MainTab() {
     const relayCallbacks: RelayCallbacks = useMemo(() => ({
         onEdit: handleEdit,
         onDelete: handleDelete,
-    }), [handleEdit, handleDelete]);
+        onView: handleView,
+    }), [handleEdit, handleDelete, handleView]);
 
     // Build storageId → locationId map
     const storageToLocationMap = useMemo(() => {
@@ -298,6 +307,11 @@ function MainTab() {
                 relay={editingRelay}
                 storages={storages}
                 confirmLoading={modalLoading}
+            />
+            <RelayInfoModal
+                relay={viewingRelay}
+                storages={storages}
+                onClose={() => setViewingRelay(null)}
             />
         </Content>
     );
