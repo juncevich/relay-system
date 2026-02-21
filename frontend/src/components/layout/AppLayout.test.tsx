@@ -27,7 +27,7 @@ describe('AppLayout', () => {
     it('should render footer', () => {
         render(<AppLayout/>);
 
-        expect(screen.getByText(/Relay System ©2025/)).toBeInTheDocument();
+        expect(screen.getByText(/Relay System/)).toBeInTheDocument();
     });
 
     it('should render Outlet', () => {

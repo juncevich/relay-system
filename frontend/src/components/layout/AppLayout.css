@@ -1,0 +1,138 @@
+/* ─── Header ─────────────────────────────────────────────── */
+.app-header {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 28px 0 24px;
+    height: 54px !important;
+    background: #090c12 !important;
+    border-bottom: 1px solid #1c2a3d;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    flex-shrink: 0;
+}
+
+/* ─── Brand ──────────────────────────────────────────────── */
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    margin-right: 32px;
+    text-decoration: none;
+    user-select: none;
+}
+
+.app-brand__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.app-brand__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    gap: 1px;
+}
+
+.app-brand__name {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    font-weight: 800;
+    color: #00c8d4;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.app-brand__sub {
+    font-family: var(--font-ui);
+    font-size: 8.5px;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+/* ─── Status pill ────────────────────────────────────────── */
+.app-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    margin-left: 16px;
+    background: rgba(74, 222, 128, 0.07);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+
+.app-status__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 6px rgba(74, 222, 128, 0.7);
+    flex-shrink: 0;
+    animation: status-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 6px rgba(74, 222, 128, 0.7);
+    }
+    50% {
+        opacity: 0.55;
+        box-shadow: 0 0 2px rgba(74, 222, 128, 0.3);
+    }
+}
+
+.app-status__label {
+    font-family: var(--font-ui);
+    font-size: 10.5px;
+    font-weight: 500;
+    color: #4ade80;
+    letter-spacing: 0.06em;
+}
+
+/* ─── Nav menu ───────────────────────────────────────────── */
+.app-nav {
+    flex: 1;
+    border-bottom: none !important;
+    background: transparent !important;
+    line-height: 54px !important;
+}
+
+.app-nav .ant-menu-item {
+    font-family: var(--font-ui) !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    padding-inline: 16px !important;
+}
+
+.app-nav .ant-menu-item::after {
+    border-bottom-width: 2px !important;
+    border-bottom-color: #00c8d4 !important;
+}
+
+/* ─── Footer ─────────────────────────────────────────────── */
+.app-footer {
+    background: #090c12 !important;
+    border-top: 1px solid #1c2a3d !important;
+    padding: 12px 28px !important;
+    text-align: center;
+    font-family: var(--font-ui) !important;
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    color: var(--text-muted) !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+}

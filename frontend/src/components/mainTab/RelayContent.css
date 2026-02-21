@@ -1,15 +1,30 @@
-/* MainTab Layout Styles */
+/* ─── MainTab layout ─────────────────────────────────────── */
 
 .main-content {
-    padding: 0 50px;
+    padding: 20px 28px 32px;
 }
 
 .main-breadcrumb {
-    margin: 16px 0;
+    margin: 0 0 14px;
 }
 
 .site-layout-background {
-    padding: 24px 0;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+/* Sider */
+.ant-layout-sider.site-layout-background {
+    border: none;
+    border-right: 1px solid var(--border) !important;
+    border-radius: 0;
+    background: var(--surface) !important;
+    min-width: 200px !important;
+    width: auto !important;
+    max-width: 240px !important;
+    flex: 0 0 auto !important;
 }
 
 .sider-loading {
@@ -17,8 +32,9 @@
     text-align: center;
 }
 
+/* Content */
 .main-inner-content {
-    padding: 0 24px;
+    padding: 16px 20px;
     min-height: 280px;
     max-width: 100%;
 }
@@ -27,6 +43,7 @@
     min-height: 200px;
 }
 
+/* Footer */
 .main-footer {
     text-align: center;
 }
