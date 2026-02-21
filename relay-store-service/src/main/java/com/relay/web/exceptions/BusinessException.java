@@ -1,10 +1,10 @@
 package com.relay.web.exceptions;
 
 /**
- * Base exception class for all business logic exceptions in the application.
- * Provides a consistent exception hierarchy for domain-specific errors.
+ * @deprecated Use {@link com.relay.core.exceptions.BusinessException} instead.
  */
-public abstract class BusinessException extends RuntimeException {
+@Deprecated(forRemoval = true)
+public abstract class BusinessException extends com.relay.core.exceptions.BusinessException {
 
     public BusinessException(String message) {
         super(message);

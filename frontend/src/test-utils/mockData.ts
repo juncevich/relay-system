@@ -1,39 +1,38 @@
 import {
-    Relay as BackendRelay,
-    StationResponse,
-    TrackPointResponse,
     CrossingResponse,
+    GetAllCrossingsResponse,
     GetAllRelaysResponse,
     GetAllStationsResponse,
     GetAllTrackPointsResponse,
-    GetAllCrossingsResponse
+    Relay,
+    StationResponse,
+    TrackPointResponse
 } from '../types/relay.types';
 import {StorageInfo} from '../api/StorageService';
-import Relay from '../models/Relay';
 
-export const mockBackendRelay: BackendRelay = {
+export const mockBackendRelay: Relay = {
     id: 301,
     serialNumber: 'НМШ-001',
     relayType: 'NMSH_400',
     createdAt: '2022-03-04T09:07:00+05:00',
-    lastCheckDate: '2024-03-03T09:11:00+05:00',
+    verificationDate: '2024-03-03T09:11:00+05:00',
     placeNumber: 1,
     storageId: 101,
     shelfId: 201
 };
 
-export const mockBackendRelay2: BackendRelay = {
+export const mockBackendRelay2: Relay = {
     id: 302,
     serialNumber: 'НМШ-002',
     relayType: 'NMSH_400',
     createdAt: '2022-03-07T10:14:00+05:00',
-    lastCheckDate: '2024-03-05T10:22:00+05:00',
+    verificationDate: '2024-03-05T10:22:00+05:00',
     placeNumber: 2,
     storageId: 101,
     shelfId: 201
 };
 
-export const mockBackendRelayWithoutCheckDate: BackendRelay = {
+export const mockBackendRelayWithoutCheckDate: Relay = {
     id: 303,
     serialNumber: 'РЭЛ-003',
     relayType: 'REL1_1600',
@@ -42,22 +41,6 @@ export const mockBackendRelayWithoutCheckDate: BackendRelay = {
     storageId: 101,
     shelfId: 201
 };
-
-export const mockLegacyRelay = new Relay(
-    301,
-    'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
-    'НМШ-001',
-    '03.03.2024',
-    101
-);
-
-export const mockLegacyRelay2 = new Relay(
-    302,
-    'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
-    'НМШ-002',
-    '05.03.2024',
-    101
-);
 
 export const mockStation: StationResponse = {
     id: 1,
@@ -70,7 +53,7 @@ export const mockStation2: StationResponse = {
 };
 
 export const mockGetAllRelaysResponse: GetAllRelaysResponse = {
-    content: [mockBackendRelay, mockBackendRelay2, mockBackendRelayWithoutCheckDate],
+    relays: [mockBackendRelay, mockBackendRelay2, mockBackendRelayWithoutCheckDate],
     totalElements: 3,
     totalPages: 1,
     size: 10,
@@ -78,9 +61,11 @@ export const mockGetAllRelaysResponse: GetAllRelaysResponse = {
 };
 
 export const mockGetAllStationsResponse: GetAllStationsResponse = {
-    content: [mockStation, mockStation2],
+    stations: [mockStation, mockStation2],
     totalElements: 2,
-    totalPages: 1
+    totalPages: 1,
+    size: 10,
+    number: 0
 };
 
 export const mockTrackPoint: TrackPointResponse = {
@@ -94,15 +79,19 @@ export const mockCrossing: CrossingResponse = {
 };
 
 export const mockGetAllTrackPointsResponse: GetAllTrackPointsResponse = {
-    content: [mockTrackPoint],
+    trackPoints: [mockTrackPoint],
     totalElements: 1,
-    totalPages: 1
+    totalPages: 1,
+    size: 10,
+    number: 0
 };
 
 export const mockGetAllCrossingsResponse: GetAllCrossingsResponse = {
-    content: [mockCrossing],
+    crossings: [mockCrossing],
     totalElements: 1,
-    totalPages: 1
+    totalPages: 1,
+    size: 10,
+    number: 0
 };
 
 export const mockStorages: StorageInfo[] = [
@@ -111,13 +100,16 @@ export const mockStorages: StorageInfo[] = [
 ];
 
 export const createMockRelays = (count: number, storageId: number = 101): Relay[] => {
-    return Array.from({ length: count }, (_, i) => new Relay(
-        301 + i,
-        'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png',
-        `НМШ-${String(i + 1).padStart(3, '0')}`,
-        new Date(2024, 2, i + 3).toLocaleDateString('ru-RU'),
-        storageId
-    ));
+    return Array.from({length: count}, (_, i) => ({
+        id: 301 + i,
+        serialNumber: `НМШ-${String(i + 1).padStart(3, '0')}`,
+        relayType: 'NMSH_400',
+        createdAt: '2022-03-04T09:07:00+05:00',
+        verificationDate: new Date(2024, 2, i + 3).toISOString(),
+        placeNumber: i + 1,
+        storageId,
+        shelfId: 201
+    }));
 };
 
 export const createMockStations = (count: number): StationResponse[] => {

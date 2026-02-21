@@ -2,28 +2,25 @@ server:
   port: 8082
 spring:
   application:
-    name: relay-service
+    name: relay-store-service
   datasource:
     url: jdbc:postgresql://localhost:5432/relay-service
-#    url: jdbc:postgresql://postgresql:5432/postgresql
-    username: sample_user
-    password: example
+    username: ${DB_USERNAME:sample_user}
+    password: ${DB_PASSWORD:example}
   jpa:
     database: postgresql
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-  #    database-platform:
   flyway:
     sql-migration-prefix: V
     repeatable-sql-migration-prefix: R
     sql-migration-separator: __
     sql-migration-suffixes: .sql
     enabled: true
-    user: postgres
-    password: Qwerty12345
-#    url: jdbc:postgresql://postgresql:5432/postgresql
+    user: ${FLYWAY_USER:postgres}
+    password: ${FLYWAY_PASSWORD:Qwerty12345}
     url: jdbc:postgresql://localhost:5432/relay-service
     baseline-on-migrate: true
   threads:
@@ -42,23 +39,19 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: metrics, prometheus, health, info, flyway
   endpoint:
     health:
-#      enabled: true
       show-components: always
       show-details: always
       probes:
         enabled: true
       access: read_only
     info:
-#      enabled: true
       access: read_only
     metrics:
-#      enabled: true
       access: read_only
     prometheus:
-#      enabled: true
       access: read_only
   prometheus:
     metrics:

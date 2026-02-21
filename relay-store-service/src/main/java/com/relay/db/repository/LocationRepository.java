@@ -1,5 +1,6 @@
 package com.relay.db.repository;
 
+import com.relay.core.exceptions.LocationNotFoundException;
 import com.relay.core.model.location.Crossing;
 import com.relay.core.model.location.Station;
 import com.relay.core.model.location.TrackPoint;
@@ -7,13 +8,12 @@ import com.relay.db.dao.CrossingDao;
 import com.relay.db.dao.StationDao;
 import com.relay.db.dao.TrackPointDao;
 import com.relay.db.mappers.LocationMapper;
-import com.relay.web.exceptions.LocationNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -37,12 +37,9 @@ public class LocationRepository {
                 .map(locationMapper::mapStationEntityToModel);
     }
 
-    public @NonNull List<Station> findAllStations(@NonNull Pageable pageable) {
-        var slice = stationDao.findAll(pageable);
-        return slice.hasContent()
-                ? slice.getContent().stream()
-                .map(locationMapper::mapStationEntityToModel).toList()
-                : List.of();
+    public @NonNull Page<Station> findAllStations(@NonNull Pageable pageable) {
+        return stationDao.findAll(pageable)
+                .map(locationMapper::mapStationEntityToModel);
     }
 
     public void deleteStationById(@NonNull Long id) {
@@ -61,12 +58,9 @@ public class LocationRepository {
                 .map(locationMapper::mapTrackPointEntityToModel);
     }
 
-    public @NonNull List<TrackPoint> findAllTrackPoints(@NonNull Pageable pageable) {
-        var slice = trackPointDao.findAll(pageable);
-        return slice.hasContent()
-                ? slice.getContent().stream()
-                .map(locationMapper::mapTrackPointEntityToModel).toList()
-                : List.of();
+    public @NonNull Page<TrackPoint> findAllTrackPoints(@NonNull Pageable pageable) {
+        return trackPointDao.findAll(pageable)
+                .map(locationMapper::mapTrackPointEntityToModel);
     }
 
     public void deleteTrackPointById(@NonNull Long id) {
@@ -85,12 +79,9 @@ public class LocationRepository {
                 .map(locationMapper::mapCrossingEntityToModel);
     }
 
-    public @NonNull List<Crossing> findAllCrossings(@NonNull Pageable pageable) {
-        var slice = crossingDao.findAll(pageable);
-        return slice.hasContent()
-                ? slice.getContent().stream()
-                .map(locationMapper::mapCrossingEntityToModel).toList()
-                : List.of();
+    public @NonNull Page<Crossing> findAllCrossings(@NonNull Pageable pageable) {
+        return crossingDao.findAll(pageable)
+                .map(locationMapper::mapCrossingEntityToModel);
     }
 
     public void deleteCrossingById(@NonNull Long id) {

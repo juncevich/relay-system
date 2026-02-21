@@ -27,9 +27,10 @@ public class ShelfController {
     public GetAllShelvesResponse findAllShelves(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var shelves = shelfService.findAll(PageRequest.of(page, size));
-        var shelfResponses = storageResponseMapper.mapShelvesToResponse(shelves);
-        return new GetAllShelvesResponse(shelfResponses);
+        var pageResult = shelfService.findAll(PageRequest.of(page, size));
+        var shelfResponses = storageResponseMapper.mapShelvesToResponse(pageResult.getContent());
+        return new GetAllShelvesResponse(shelfResponses, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/shelves/{id}")

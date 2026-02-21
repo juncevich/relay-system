@@ -1,15 +1,15 @@
 package com.relay.db.repository;
 
+import com.relay.core.exceptions.ShelfNotFoundException;
 import com.relay.core.model.storage.Shelf;
 import com.relay.db.dao.ShelfDao;
 import com.relay.db.mappers.ShelfMapper;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,11 +18,9 @@ public class ShelfRepository {
     private final ShelfDao shelfDao;
     private final ShelfMapper shelfMapper;
 
-    public @NonNull List<Shelf> findAll(@NonNull Pageable pageable) {
-        var slice = shelfDao.findAll(pageable);
-        return slice.hasContent()
-                ? shelfMapper.mapEntityToModel(slice.getContent())
-                : List.of();
+    public @NonNull Page<Shelf> findAll(@NonNull Pageable pageable) {
+        return shelfDao.findAll(pageable)
+                .map(shelfMapper::mapEntityToModel);
     }
 
     public @Nullable Shelf findById(@NonNull Long id) {
@@ -44,6 +42,6 @@ public class ShelfRepository {
     // Helper method to get entity for relationship wiring
     public com.relay.db.entity.storage.@NonNull Shelf findShelfEntityById(@NonNull Long shelfId) {
         return shelfDao.findById(shelfId)
-                .orElseThrow(() -> new IllegalArgumentException("Shelf not found: " + shelfId));
+                .orElseThrow(() -> new ShelfNotFoundException(shelfId));
     }
 }

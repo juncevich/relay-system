@@ -32,9 +32,10 @@ public class StorageController {
     public GetAllWarehousesResponse findAllWarehouses(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var warehouses = storageService.findAllWarehouses(PageRequest.of(page, size));
-        var warehouseResponses = storageResponseMapper.mapWarehousesToResponse(warehouses);
-        return new GetAllWarehousesResponse(warehouseResponses);
+        var pageResult = storageService.findAllWarehouses(PageRequest.of(page, size));
+        var warehouseResponses = storageResponseMapper.mapWarehousesToResponse(pageResult.getContent());
+        return new GetAllWarehousesResponse(warehouseResponses, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/warehouses/{id}")
@@ -82,9 +83,10 @@ public class StorageController {
     public GetAllStandsResponse findAllStands(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var stands = storageService.findAllStands(PageRequest.of(page, size));
-        var standResponses = storageResponseMapper.mapStandsToResponse(stands);
-        return new GetAllStandsResponse(standResponses);
+        var pageResult = storageService.findAllStands(PageRequest.of(page, size));
+        var standResponses = storageResponseMapper.mapStandsToResponse(pageResult.getContent());
+        return new GetAllStandsResponse(standResponses, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/stands/{id}")
@@ -132,9 +134,10 @@ public class StorageController {
     public GetAllRelayCabinetsResponse findAllRelayCabinets(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var relayCabinets = storageService.findAllRelayCabinets(PageRequest.of(page, size));
-        var relayCabinetResponses = storageResponseMapper.mapRelayCabinetsToResponse(relayCabinets);
-        return new GetAllRelayCabinetsResponse(relayCabinetResponses);
+        var pageResult = storageService.findAllRelayCabinets(PageRequest.of(page, size));
+        var relayCabinetResponses = storageResponseMapper.mapRelayCabinetsToResponse(pageResult.getContent());
+        return new GetAllRelayCabinetsResponse(relayCabinetResponses, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/relay-cabinets/{id}")

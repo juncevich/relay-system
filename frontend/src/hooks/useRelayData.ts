@@ -1,23 +1,7 @@
 import {useEffect, useState} from 'react';
-import Relay from '../models/Relay';
-import RealRelayService from '../api/RelayService';
-import RealLocationService from '../api/LocationService';
-import RealStorageService, {StorageInfo} from '../api/StorageService';
-import MockRelayService from '../mock-data/MockRelayService';
-import MockLocationService from '../mock-data/MockLocationService';
-import MockStorageService from '../mock-data/MockStorageService';
-import {
-    getApiErrorMessage,
-    Relay as BackendRelay,
-    StationResponse,
-    TrackPointResponse,
-    CrossingResponse
-} from '../types/relay.types';
-
-const useMockData = import.meta.env.VITE_USE_MOCK_DATA === 'true';
-const RelayService = useMockData ? MockRelayService : RealRelayService;
-const LocationService = useMockData ? MockLocationService : RealLocationService;
-const StorageService = useMockData ? MockStorageService : RealStorageService;
+import {LocationService, RelayService, StorageService} from '../services';
+import {StorageInfo} from '../api/StorageService';
+import {CrossingResponse, getApiErrorMessage, Relay, StationResponse, TrackPointResponse} from '../types/relay.types';
 
 export interface RelayDataState {
     relays: Relay[];
@@ -67,15 +51,11 @@ export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState 
                 ]);
 
                 if (!ignore) {
-                    const relays = relaysResponse.data.content.map((backendRelay: BackendRelay) =>
-                        Relay.fromBackendRelay(backendRelay)
-                    );
-
                     setState({
-                        relays,
-                        stations: stationsResponse.data.content,
-                        trackPoints: trackPointsResponse.data.content,
-                        crossings: crossingsResponse.data.content,
+                        relays: relaysResponse.data.relays,
+                        stations: stationsResponse.data.stations,
+                        trackPoints: trackPointsResponse.data.trackPoints,
+                        crossings: crossingsResponse.data.crossings,
                         storages,
                         loading: false,
                         error: null

@@ -1,20 +1,21 @@
 package com.relay.web.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.NonNull;
 
 import java.time.OffsetDateTime;
 
 public record CreateRelayRequest(
-        @NonNull
+        @NotBlank(message = "Serial number must not be blank")
         @Size(
                 min = 5,
                 max = 10,
-                message = "Serial number should contain at least five characters"
+                message = "Serial number must be between 5 and 10 characters"
         )
         String serialNumber,
         OffsetDateTime dateOfManufacture,
-        @NonNull
+        @NotNull
         Long storageId
 ) {
 }

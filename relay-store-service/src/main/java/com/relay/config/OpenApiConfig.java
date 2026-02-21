@@ -11,22 +11,18 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "Open API specification",
+                title = "Relay Store Service API",
                 contact = @Contact(
-                        email = "example@mail.com",
-                        url = "https://localhost.com"
+                        email = "relay-system@relay.ru",
+                        url = "https://relay-system.com"
                 ),
                 version = "1.0.0",
-                description = "Open API for store service"
+                description = "REST API for relay hardware inventory management"
         ),
         servers = {
                 @Server(
-                        description = "Local server",
-                        url = "http://localhost:8080"
-                ),
-                @Server(
-                        description = "Prod server",
-                        url = "http://google.com"
+                        description = "Local development server",
+                        url = "http://localhost:8082"
                 )
         },
         security = {
@@ -40,8 +36,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
         scheme = "bearer",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
-        in = SecuritySchemeIn.COOKIE
-
+        in = SecuritySchemeIn.HEADER
 )
 public record OpenApiConfig() {
 }

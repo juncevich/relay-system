@@ -1,17 +1,16 @@
 package com.relay.core.service;
 
+import com.relay.core.exceptions.ShelfNotFoundException;
 import com.relay.core.model.storage.Shelf;
 import com.relay.db.repository.ShelfRepository;
 import com.relay.db.repository.StorageRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,12 +21,18 @@ public class ShelfService {
     private final ShelfRepository shelfRepository;
     private final StorageRepository storageRepository;
 
-    public @NonNull List<Shelf> findAll(@NonNull Pageable pageable) {
+    @Transactional(readOnly = true)
+    public @NonNull Page<Shelf> findAll(@NonNull Pageable pageable) {
         return shelfRepository.findAll(pageable);
     }
 
-    public @Nullable Shelf findById(@NonNull Long id) {
-        return shelfRepository.findById(id);
+    @Transactional(readOnly = true)
+    public @NonNull Shelf findById(@NonNull Long id) {
+        var shelf = shelfRepository.findById(id);
+        if (shelf == null) {
+            throw new ShelfNotFoundException(id);
+        }
+        return shelf;
     }
 
     public Shelf save(@NonNull Shelf model, @NonNull Long storageId) {
@@ -39,10 +44,10 @@ public class ShelfService {
         return shelfRepository.save(shelf);
     }
 
-    public @Nullable Shelf update(@NonNull Long id, @NonNull Shelf model) {
+    public @NonNull Shelf update(@NonNull Long id, @NonNull Shelf model) {
         var existing = shelfRepository.findById(id);
         if (existing == null) {
-            return null;
+            throw new ShelfNotFoundException(id);
         }
 
         Long storageId = model.storageId() != null ? model.storageId() : existing.storageId();

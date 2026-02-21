@@ -1,5 +1,7 @@
 package com.relay.web.exceptions;
 
+import com.relay.core.exceptions.EntityNotFoundException;
+import com.relay.core.exceptions.InvalidBusinessStateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.validation.FieldError;
@@ -20,10 +22,6 @@ import java.util.Map;
 @ControllerAdvice
 public class CustomizedResponseEntityExceptionHandler extends GlobalExceptionHandler {
 
-    /**
-     * Handles entity not found exceptions.
-     * Returns HTTP 404 with details about which entity was not found.
-     */
     @ExceptionHandler(EntityNotFoundException.class)
     protected ProblemDetail handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
@@ -41,10 +39,6 @@ public class CustomizedResponseEntityExceptionHandler extends GlobalExceptionHan
         return problemDetail;
     }
 
-    /**
-     * Handles validation errors from @Valid annotated request bodies.
-     * Returns HTTP 400 with field-level validation error details.
-     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ProblemDetail handleMethodArgumentNotValid(MethodArgumentNotValidException ex, WebRequest request) {
         Map<String, String> errors = new HashMap<>();
@@ -65,26 +59,6 @@ public class CustomizedResponseEntityExceptionHandler extends GlobalExceptionHan
         return problemDetail;
     }
 
-    /**
-     * Handles illegal argument exceptions from business logic.
-     * Returns HTTP 400 with error details.
-     */
-    @ExceptionHandler(IllegalArgumentException.class)
-    protected ProblemDetail handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.BAD_REQUEST,
-                ex.getMessage()
-        );
-        problemDetail.setTitle("Invalid Argument");
-        problemDetail.setType(URI.create("https://api.relay-system.com/problems/invalid-argument"));
-
-        return problemDetail;
-    }
-
-    /**
-     * Handles invalid business state exceptions.
-     * Returns HTTP 400 with business rule violation details.
-     */
     @ExceptionHandler(InvalidBusinessStateException.class)
     protected ProblemDetail handleInvalidBusinessState(InvalidBusinessStateException ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(

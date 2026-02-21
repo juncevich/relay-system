@@ -1,16 +1,16 @@
 package com.relay.db.repository;
 
+import com.relay.core.exceptions.RelayNotFoundException;
 import com.relay.core.model.Relay;
 import com.relay.db.dao.RelayDao;
 import com.relay.db.mappers.RelayMapper;
-import com.relay.web.exceptions.RelayNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,11 +21,9 @@ public class RelayRepository {
     private final RelayMapper relayMapper;
     private final StorageRepository storageRepository;
 
-    public @NonNull List<Relay> findAll(@NonNull Pageable pageable) {
-        var slice = relayDao.findAll(pageable);
-        return slice.hasContent()
-                ? relayMapper.mapEntityToModel(slice.getContent())
-                : List.of();
+    public @NonNull Page<Relay> findAll(@NonNull Pageable pageable) {
+        return relayDao.findAll(pageable)
+                .map(relayMapper::mapEntityToModel);
     }
 
     public Optional<Relay> findById(@NonNull Long id) {
@@ -57,16 +55,16 @@ public class RelayRepository {
                 : Optional.empty();
     }
 
-    public @NonNull List<Relay> findByCreationDate(@NonNull LocalDate date,
+    public @NonNull Page<Relay> findByCreationDate(@NonNull LocalDate date,
                                                    @NonNull Pageable pageable) {
-        var page = relayDao.findByCreationDate(date, pageable);
-        return relayMapper.mapEntityToModel(page.getContent());
+        return relayDao.findByCreationDate(date, pageable)
+                .map(relayMapper::mapEntityToModel);
     }
 
-    public @NonNull List<Relay> findByLastCheckDate(@NonNull LocalDate date,
+    public @NonNull Page<Relay> findByLastCheckDate(@NonNull LocalDate date,
                                                     @NonNull Pageable pageable) {
-        var page = relayDao.findByLastCheckDate(date, pageable);
-        return relayMapper.mapEntityToModel(page.getContent());
+        return relayDao.findByLastCheckDate(date, pageable)
+                .map(relayMapper::mapEntityToModel);
     }
 
     /**

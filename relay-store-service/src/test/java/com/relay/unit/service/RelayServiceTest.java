@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -58,24 +60,24 @@ class RelayServiceTest {
                 null
         );
         when(relayRepository.findByCreationDate(any(), any()))
-                .thenReturn(List.of(relay));
+                .thenReturn(new PageImpl<>(List.of(relay)));
 
-        List<com.relay.core.model.Relay> foundedRelayList =
+        Page<com.relay.core.model.Relay> foundedRelayPage =
                 relayService.findByCreationDate(LocalDate.of(2020, Month.NOVEMBER, 18), PageRequest.of(0, 10));
 
-        assertEquals(1, foundedRelayList.size());
-        assertEquals(relay.createdAt(), foundedRelayList.get(0).createdAt());
+        assertEquals(1, foundedRelayPage.getTotalElements());
+        assertEquals(relay.createdAt(), foundedRelayPage.getContent().get(0).createdAt());
     }
 
     @Test
     void nonFindRelayByCreationDate() {
         when(relayRepository.findByCreationDate(any(), any()))
-                .thenReturn(emptyList());
+                .thenReturn(new PageImpl<>(emptyList()));
 
-        List<com.relay.core.model.Relay> foundedRelayList =
+        Page<com.relay.core.model.Relay> foundedRelayPage =
                 relayService.findByCreationDate(LocalDate.of(2020, Month.NOVEMBER, 18), PageRequest.of(0, 10));
 
-        assertEquals(0, foundedRelayList.size());
+        assertEquals(0, foundedRelayPage.getTotalElements());
     }
 
     @Test
@@ -85,10 +87,10 @@ class RelayServiceTest {
         com.relay.core.model.Relay relay3 = new com.relay.core.model.Relay(null, "012347", null, null, null, 0, null, null);
         com.relay.core.model.Relay relay4 = new com.relay.core.model.Relay(null, "012348", null, null, null, 0, null, null);
         List<com.relay.core.model.Relay> relays = List.of(relay1, relay2, relay3, relay4);
-        when(relayRepository.findAll(any(Pageable.class))).thenReturn(relays);
+        when(relayRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(relays));
 
-        List<com.relay.core.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
-        assertThat(relayList)
+        Page<com.relay.core.model.Relay> relayPage = relayService.findAll(PageRequest.of(0, 10));
+        assertThat(relayPage.getContent())
                 .isNotNull()
                 .hasSize(4);
     }

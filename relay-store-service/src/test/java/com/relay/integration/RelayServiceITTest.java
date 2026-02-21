@@ -10,6 +10,7 @@ import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.junit.jupiter.Container;
@@ -17,7 +18,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
 import java.time.*;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -54,10 +54,10 @@ class RelayServiceITTest {
         );
         relayService.save(relay);
 
-        List<com.relay.core.model.Relay> foundedRelayList =
+        Page<com.relay.core.model.Relay> foundedRelayPage =
                 relayService.findByCreationDate(LocalDate.of(2018, Month.JUNE, 6), PageRequest.of(0, 10));
 
-        assertEquals(relay.createdAt(), foundedRelayList.get(0).createdAt());
+        assertEquals(relay.createdAt(), foundedRelayPage.getContent().get(0).createdAt());
     }
 
     @Test
@@ -76,10 +76,10 @@ class RelayServiceITTest {
         );
         relayService.save(relay);
 
-        List<com.relay.core.model.Relay> foundedRelayList =
+        Page<com.relay.core.model.Relay> foundedRelayPage =
                 relayService.findByLastCheckDate(LocalDate.of(2018, Month.JUNE, 6), PageRequest.of(0, 10));
 
-        assertEquals(relay.lastCheckDate(), foundedRelayList.get(0).lastCheckDate());
+        assertEquals(relay.lastCheckDate(), foundedRelayPage.getContent().get(0).lastCheckDate());
     }
 
     @Test
@@ -93,8 +93,8 @@ class RelayServiceITTest {
         com.relay.core.model.Relay relay4 = new com.relay.core.model.Relay(null, "012348", null, null, null, 0, null, null);
         relayService.save(relay4);
 
-        List<com.relay.core.model.Relay> relayList = relayService.findAll(PageRequest.of(0, 10));
-        assertEquals(4, relayList.size());
+        Page<com.relay.core.model.Relay> relayPage = relayService.findAll(PageRequest.of(0, 10));
+        assertEquals(4, relayPage.getTotalElements());
     }
 
     public static class Initializer

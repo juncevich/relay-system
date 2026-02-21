@@ -1,10 +1,10 @@
 import {render, screen} from '@testing-library/react';
 import RelayCard from './RelayCard';
-import {mockLegacyRelay} from '../../test-utils/mockData';
+import {mockBackendRelay} from '../../test-utils/mockData';
 
 describe('RelayCard Component', () => {
     it('should render relay card with all data', () => {
-        render(<RelayCard relay={mockLegacyRelay} />);
+        render(<RelayCard relay={mockBackendRelay}/>);
 
         expect(screen.getByAltText('Реле НМШ-001')).toBeInTheDocument();
         expect(screen.getByText('НМШ-001')).toBeInTheDocument();
@@ -12,15 +12,15 @@ describe('RelayCard Component', () => {
         expect(screen.getByText('03.03.2024')).toBeInTheDocument();
     });
 
-    it('should render image with correct src', () => {
-        render(<RelayCard relay={mockLegacyRelay} />);
+    it('should render image with default src', () => {
+        render(<RelayCard relay={mockBackendRelay}/>);
 
         const image = screen.getByAltText('Реле НМШ-001') as HTMLImageElement;
-        expect(image.src).toBe(mockLegacyRelay.imgUrl);
+        expect(image.src).toBe('http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png');
     });
 
     it('should render all action buttons with correct aria-labels', () => {
-        render(<RelayCard relay={mockLegacyRelay} />);
+        render(<RelayCard relay={mockBackendRelay}/>);
 
         expect(screen.getByLabelText('Настройки')).toBeInTheDocument();
         expect(screen.getByLabelText('Редактировать')).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe('RelayCard Component', () => {
     });
 
     it('should render status icon with correct aria-label', () => {
-        render(<RelayCard relay={mockLegacyRelay} />);
+        render(<RelayCard relay={mockBackendRelay}/>);
 
         expect(screen.getByLabelText('Статус реле')).toBeInTheDocument();
     });
@@ -41,13 +41,13 @@ describe('RelayCard Component', () => {
     });
 
     it('should render with correct CSS class', () => {
-        const { container } = render(<RelayCard relay={mockLegacyRelay} />);
+        const {container} = render(<RelayCard relay={mockBackendRelay}/>);
 
         expect(container.querySelector('.relay-card-container')).toBeInTheDocument();
     });
 
     it('should display checking date in table format', () => {
-        render(<RelayCard relay={mockLegacyRelay} />);
+        render(<RelayCard relay={mockBackendRelay}/>);
 
         const table = screen.getByRole('table');
         expect(table).toBeInTheDocument();

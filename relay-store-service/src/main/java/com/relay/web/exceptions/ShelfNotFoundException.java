@@ -1,12 +1,13 @@
 package com.relay.web.exceptions;
 
 /**
- * Exception thrown when a shelf entity is not found.
+ * @deprecated Use {@link com.relay.core.exceptions.ShelfNotFoundException} instead.
  */
-public class ShelfNotFoundException extends EntityNotFoundException {
+@Deprecated(forRemoval = true)
+public class ShelfNotFoundException extends com.relay.core.exceptions.ShelfNotFoundException {
 
     public ShelfNotFoundException(Long id) {
-        super("Shelf", id);
+        super(id);
     }
 
     public ShelfNotFoundException(String message) {

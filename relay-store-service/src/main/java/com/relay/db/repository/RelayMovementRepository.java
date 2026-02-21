@@ -6,6 +6,7 @@ import com.relay.db.mappers.RelayMovementMapper;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -18,11 +19,9 @@ public class RelayMovementRepository {
     private final RelayMovementDao relayMovementDao;
     private final RelayMovementMapper relayMovementMapper;
 
-    public @NonNull List<RelayMovement> findAll(@NonNull Pageable pageable) {
-        var slice = relayMovementDao.findAll(pageable);
-        return slice.hasContent()
-                ? relayMovementMapper.mapEntityToModel(slice.getContent())
-                : List.of();
+    public @NonNull Page<RelayMovement> findAll(@NonNull Pageable pageable) {
+        return relayMovementDao.findAll(pageable)
+                .map(relayMovementMapper::mapEntityToModel);
     }
 
     public @Nullable RelayMovement findById(@NonNull Long id) {
@@ -41,10 +40,10 @@ public class RelayMovementRepository {
         relayMovementDao.deleteById(id);
     }
 
-    public @NonNull List<RelayMovement> findByRelayId(@NonNull Long relayId,
+    public @NonNull Page<RelayMovement> findByRelayId(@NonNull Long relayId,
                                                       @NonNull Pageable pageable) {
-        var page = relayMovementDao.findByRelayId(relayId, pageable);
-        return relayMovementMapper.mapEntityToModel(page.getContent());
+        return relayMovementDao.findByRelayId(relayId, pageable)
+                .map(relayMovementMapper::mapEntityToModel);
     }
 
     public @NonNull List<RelayMovement> findByFromStorageId(@NonNull Long storageId) {

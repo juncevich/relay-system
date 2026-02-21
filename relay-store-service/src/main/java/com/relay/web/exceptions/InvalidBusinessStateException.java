@@ -1,14 +1,10 @@
 package com.relay.web.exceptions;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 /**
- * Exception thrown when a business operation violates business rules or constraints.
- * Returns HTTP 400 status code when thrown from controllers.
+ * @deprecated Use {@link com.relay.core.exceptions.InvalidBusinessStateException} instead.
  */
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class InvalidBusinessStateException extends BusinessException {
+@Deprecated(forRemoval = true)
+public class InvalidBusinessStateException extends com.relay.core.exceptions.InvalidBusinessStateException {
 
     public InvalidBusinessStateException(String message) {
         super(message);

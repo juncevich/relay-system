@@ -1,16 +1,13 @@
 import {useEffect, useState} from 'react';
-import {Button, Input, List, message, Modal, Space, Spin, Typography} from 'antd';
+import {App, Button, Input, List, Modal, Space, Spin, Typography} from 'antd';
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
-import RealLocationService from '../api/LocationService';
-import MockLocationService from '../mock-data/MockLocationService';
-
-const useMockData = import.meta.env.VITE_USE_MOCK_DATA === 'true';
-const locationService = useMockData ? MockLocationService : RealLocationService;
+import {LocationService as locationService} from '../services';
 import {getApiErrorMessage, StationResponse} from '../types/relay.types';
 
 const {Title} = Typography;
 
 function StationsPage() {
+    const {message, modal} = App.useApp();
     const [stations, setStations] = useState<StationResponse[]>([]);
     const [loading, setLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -22,7 +19,7 @@ function StationsPage() {
         setLoading(true);
         try {
             const response = await locationService.getAllStations({size: 100});
-            setStations(response.data.content);
+            setStations(response.data.stations);
         } catch (error) {
             message.error(getApiErrorMessage(error, 'Не удалось загрузить станции'));
         } finally {
@@ -71,7 +68,7 @@ function StationsPage() {
     };
 
     const handleDelete = (station: StationResponse) => {
-        Modal.confirm({
+        modal.confirm({
             title: 'Удалить станцию?',
             content: `Вы уверены, что хотите удалить станцию "${station.name}"?`,
             okText: 'Удалить',

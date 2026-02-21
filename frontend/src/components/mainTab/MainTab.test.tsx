@@ -1,7 +1,14 @@
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {createMockRelays, createMockStations, createMockTrackPoints, createMockCrossings, mockStorages} from '../../test-utils/mockData';
+import {
+    createMockCrossings,
+    createMockRelays,
+    createMockStations,
+    createMockTrackPoints,
+    mockStorages
+} from '../../test-utils/mockData';
 import type {RelayDataState} from '../../hooks/useRelayData';
+import MainTab from './MainTab';
 
 const mockUseRelayData = vi.fn<() => RelayDataState>();
 
@@ -11,12 +18,10 @@ vi.mock('../../hooks/useRelayData', () => ({
 }));
 
 vi.mock('../relay/RelayCard', () => ({
-    default: ({relay}: { relay: { title: string } }) => (
-        <div data-testid="relay-card">{relay.title}</div>
+    default: ({relay}: { relay: { serialNumber: string } }) => (
+        <div data-testid="relay-card">{relay.serialNumber}</div>
     )
 }));
-
-import MainTab from './MainTab';
 
 const emptyLocations = { trackPoints: [], crossings: [] };
 
@@ -159,7 +164,11 @@ describe('MainTab', () => {
         const stations = createMockStations(2);
         // 3 relays at storage 101 (station 1) + 2 relays at storage 104 (station 2)
         const relaysStation1 = createMockRelays(3, 101);
-        const relaysStation2 = createMockRelays(2, 104).map((r, i) => ({...r, id: 401 + i, title: `РЭЛ-${i + 1}`}));
+        const relaysStation2 = createMockRelays(2, 104).map((r, i) => ({
+            ...r,
+            id: 401 + i,
+            serialNumber: `РЭЛ-${i + 1}`
+        }));
         mockUseRelayData.mockReturnValue({
             relays: [...relaysStation1, ...relaysStation2],
             stations,

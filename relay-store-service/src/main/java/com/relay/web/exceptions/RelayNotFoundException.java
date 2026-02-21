@@ -1,12 +1,13 @@
 package com.relay.web.exceptions;
 
 /**
- * Exception thrown when a relay entity is not found.
+ * @deprecated Use {@link com.relay.core.exceptions.RelayNotFoundException} instead.
  */
-public class RelayNotFoundException extends EntityNotFoundException {
+@Deprecated(forRemoval = true)
+public class RelayNotFoundException extends com.relay.core.exceptions.RelayNotFoundException {
 
     public RelayNotFoundException(Long id) {
-        super("Relay", id);
+        super(id);
     }
 
     public RelayNotFoundException(String message) {

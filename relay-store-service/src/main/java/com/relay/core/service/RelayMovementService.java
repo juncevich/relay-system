@@ -1,19 +1,19 @@
 package com.relay.core.service;
 
+import com.relay.core.exceptions.RelayNotFoundException;
 import com.relay.core.model.history.RelayMovement;
 import com.relay.db.repository.RelayMovementRepository;
 import com.relay.db.repository.RelayRepository;
 import com.relay.db.repository.StorageRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,15 +25,22 @@ public class RelayMovementService {
     private final RelayRepository relayRepository;
     private final StorageRepository storageRepository;
 
-    public @NonNull List<RelayMovement> findAll(@NonNull Pageable pageable) {
+    @Transactional(readOnly = true)
+    public @NonNull Page<RelayMovement> findAll(@NonNull Pageable pageable) {
         return relayMovementRepository.findAll(pageable);
     }
 
-    public @Nullable RelayMovement findById(@NonNull Long id) {
-        return relayMovementRepository.findById(id);
+    @Transactional(readOnly = true)
+    public @NonNull RelayMovement findById(@NonNull Long id) {
+        var movement = relayMovementRepository.findById(id);
+        if (movement == null) {
+            throw new com.relay.core.exceptions.EntityNotFoundException("RelayMovement", id);
+        }
+        return movement;
     }
 
-    public @NonNull List<RelayMovement> findByRelayId(@NonNull Long relayId, @NonNull Pageable pageable) {
+    @Transactional(readOnly = true)
+    public @NonNull Page<RelayMovement> findByRelayId(@NonNull Long relayId, @NonNull Pageable pageable) {
         return relayMovementRepository.findByRelayId(relayId, pageable);
     }
 
@@ -42,7 +49,7 @@ public class RelayMovementService {
                                    @NonNull Long toStorageId) {
         // Validate entities exist
         var relay = relayRepository.findById(relayId)
-                .orElseThrow(() -> new IllegalArgumentException("Relay not found: " + relayId));
+                .orElseThrow(() -> new RelayNotFoundException(relayId));
         storageRepository.findStorageEntityById(fromStorageId);
         storageRepository.findStorageEntityById(toStorageId);
 

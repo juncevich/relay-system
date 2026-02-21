@@ -8,16 +8,27 @@ import {
 } from '../types/relay.types';
 import relaysData from './data/relays.json';
 
+// Map mock data lastCheckDate to verificationDate to match backend response
+const allRelays: Relay[] = relaysData.content.map((r: Record<string, unknown>) => ({
+    id: r.id as number,
+    serialNumber: r.serialNumber as string,
+    relayType: r.relayType as string | undefined,
+    createdAt: r.createdAt as string,
+    verificationDate: r.lastCheckDate as string | undefined,
+    placeNumber: r.placeNumber as number | undefined,
+    storageId: r.storageId as number | undefined,
+    shelfId: r.shelfId as number | undefined,
+}));
+
 class MockRelayService {
     getAll(params?: PaginationParams) {
         const page = params?.page ?? 0;
         const size = params?.size ?? 10;
-        const allRelays = relaysData.content;
         const start = page * size;
         const paged = allRelays.slice(start, start + size);
 
         const response: GetAllRelaysResponse = {
-            content: paged,
+            relays: paged,
             totalElements: allRelays.length,
             totalPages: Math.ceil(allRelays.length / size),
             size,
@@ -28,9 +39,9 @@ class MockRelayService {
     }
 
     getById(id: number) {
-        const relay = relaysData.content.find(r => r.id === id);
+        const relay = allRelays.find(r => r.id === id);
         if (relay) {
-            return Promise.resolve({data: relay as Relay});
+            return Promise.resolve({data: relay});
         }
         return Promise.reject(new Error(`Relay with id ${id} not found`));
     }
@@ -44,7 +55,7 @@ class MockRelayService {
     }
 
     update(id: number, data: UpdateRelayRequest) {
-        const relay = relaysData.content.find(r => r.id === id);
+        const relay = allRelays.find(r => r.id === id);
         if (relay) {
             return Promise.resolve({data: {...relay, ...data} as Relay});
         }

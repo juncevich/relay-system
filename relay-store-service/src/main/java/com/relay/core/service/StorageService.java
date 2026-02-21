@@ -1,5 +1,6 @@
 package com.relay.core.service;
 
+import com.relay.core.exceptions.StorageNotFoundException;
 import com.relay.core.model.location.Crossing;
 import com.relay.core.model.location.Station;
 import com.relay.core.model.location.TrackPoint;
@@ -8,15 +9,14 @@ import com.relay.core.model.storage.Stand;
 import com.relay.core.model.storage.Warehouse;
 import com.relay.db.repository.LocationRepository;
 import com.relay.db.repository.StorageRepository;
-import com.relay.web.exceptions.StorageNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,6 +38,7 @@ public class StorageService {
         return storageRepository.saveWarehouse(warehouse);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Warehouse> findWarehouseById(@NonNull Long id) {
         return storageRepository.findWarehouseById(id);
     }
@@ -55,7 +56,8 @@ public class StorageService {
         return storageRepository.saveWarehouse(updated);
     }
 
-    public @NonNull List<Warehouse> findAllWarehouses(@NonNull Pageable pageable) {
+    @Transactional(readOnly = true)
+    public @NonNull Page<Warehouse> findAllWarehouses(@NonNull Pageable pageable) {
         return storageRepository.findAllWarehouses(pageable);
     }
 
@@ -71,6 +73,7 @@ public class StorageService {
         return storageRepository.saveStand(stand);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Stand> findStandById(@NonNull Long id) {
         return storageRepository.findStandById(id);
     }
@@ -88,7 +91,8 @@ public class StorageService {
         return storageRepository.saveStand(updated);
     }
 
-    public @NonNull List<Stand> findAllStands(@NonNull Pageable pageable) {
+    @Transactional(readOnly = true)
+    public @NonNull Page<Stand> findAllStands(@NonNull Pageable pageable) {
         return storageRepository.findAllStands(pageable);
     }
 
@@ -104,6 +108,7 @@ public class StorageService {
         return storageRepository.saveRelayCabinet(cabinet);
     }
 
+    @Transactional(readOnly = true)
     public Optional<RelayCabinet> findRelayCabinetById(@NonNull Long id) {
         return storageRepository.findRelayCabinetById(id);
     }
@@ -121,7 +126,8 @@ public class StorageService {
         return storageRepository.saveRelayCabinet(updated);
     }
 
-    public @NonNull List<RelayCabinet> findAllRelayCabinets(@NonNull Pageable pageable) {
+    @Transactional(readOnly = true)
+    public @NonNull Page<RelayCabinet> findAllRelayCabinets(@NonNull Pageable pageable) {
         return storageRepository.findAllRelayCabinets(pageable);
     }
 
@@ -130,14 +136,17 @@ public class StorageService {
     }
 
     // Location finder methods
+    @Transactional(readOnly = true)
     public Optional<Station> findStationById(@NonNull Long id) {
         return locationRepository.findStationById(id);
     }
 
+    @Transactional(readOnly = true)
     public Optional<TrackPoint> findTrackPointById(@NonNull Long id) {
         return locationRepository.findTrackPointById(id);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Crossing> findCrossingById(@NonNull Long id) {
         return locationRepository.findCrossingById(id);
     }

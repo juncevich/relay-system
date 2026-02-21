@@ -50,7 +50,7 @@ function AppLayout() {
                     />
                 </Header>
                 <Outlet/>
-                <Footer className="main-footer">Ant Design ©2018 Created by Ant UED</Footer>
+                <Footer className="main-footer">Relay System ©2025</Footer>
             </Layout>
         </ErrorBoundary>
     );

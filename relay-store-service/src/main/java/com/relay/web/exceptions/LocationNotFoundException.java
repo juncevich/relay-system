@@ -1,12 +1,13 @@
 package com.relay.web.exceptions;
 
 /**
- * Exception thrown when a location entity (Station, TrackPoint, or Crossing) is not found.
+ * @deprecated Use {@link com.relay.core.exceptions.LocationNotFoundException} instead.
  */
-public class LocationNotFoundException extends EntityNotFoundException {
+@Deprecated(forRemoval = true)
+public class LocationNotFoundException extends com.relay.core.exceptions.LocationNotFoundException {
 
     public LocationNotFoundException(Long id) {
-        super("Location", id);
+        super(id);
     }
 
     public LocationNotFoundException(String message) {

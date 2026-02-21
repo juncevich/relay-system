@@ -1,18 +1,18 @@
 package com.relay.core.service;
 
+import com.relay.core.exceptions.LocationNotFoundException;
 import com.relay.core.model.location.Crossing;
 import com.relay.core.model.location.Station;
 import com.relay.core.model.location.TrackPoint;
 import com.relay.db.repository.LocationRepository;
-import com.relay.web.exceptions.LocationNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +28,7 @@ public class LocationService {
         return locationRepository.saveStation(model);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Station> findStationById(@NonNull Long id) {
         return locationRepository.findStationById(id);
     }
@@ -40,7 +41,8 @@ public class LocationService {
         return locationRepository.saveStation(updated);
     }
 
-    public @NonNull List<Station> findAllStations(@NonNull Pageable pageable) {
+    @Transactional(readOnly = true)
+    public @NonNull Page<Station> findAllStations(@NonNull Pageable pageable) {
         return locationRepository.findAllStations(pageable);
     }
 
@@ -53,6 +55,7 @@ public class LocationService {
         return locationRepository.saveTrackPoint(model);
     }
 
+    @Transactional(readOnly = true)
     public Optional<TrackPoint> findTrackPointById(@NonNull Long id) {
         return locationRepository.findTrackPointById(id);
     }
@@ -65,7 +68,8 @@ public class LocationService {
         return locationRepository.saveTrackPoint(updated);
     }
 
-    public @NonNull List<TrackPoint> findAllTrackPoints(@NonNull Pageable pageable) {
+    @Transactional(readOnly = true)
+    public @NonNull Page<TrackPoint> findAllTrackPoints(@NonNull Pageable pageable) {
         return locationRepository.findAllTrackPoints(pageable);
     }
 
@@ -78,6 +82,7 @@ public class LocationService {
         return locationRepository.saveCrossing(model);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Crossing> findCrossingById(@NonNull Long id) {
         return locationRepository.findCrossingById(id);
     }
@@ -90,7 +95,8 @@ public class LocationService {
         return locationRepository.saveCrossing(updated);
     }
 
-    public @NonNull List<Crossing> findAllCrossings(@NonNull Pageable pageable) {
+    @Transactional(readOnly = true)
+    public @NonNull Page<Crossing> findAllCrossings(@NonNull Pageable pageable) {
         return locationRepository.findAllCrossings(pageable);
     }
 

@@ -5,7 +5,7 @@ export interface Relay {
     serialNumber: string;
     relayType?: string;
     createdAt: string;
-    lastCheckDate?: string;
+    verificationDate?: string;
     placeNumber?: number;
     storageId?: number;
     shelfId?: number;
@@ -31,7 +31,7 @@ export interface CreateRelayResponse {
 }
 
 export interface GetAllRelaysResponse {
-    content: Relay[];
+    relays: Relay[];
     totalElements: number;
     totalPages: number;
     size: number;
@@ -60,21 +60,27 @@ export type TrackPoint = TrackPointResponse;
 export type Crossing = CrossingResponse;
 
 export interface GetAllStationsResponse {
-    content: StationResponse[];
+    stations: StationResponse[];
     totalElements: number;
     totalPages: number;
+    size: number;
+    number: number;
 }
 
 export interface GetAllTrackPointsResponse {
-    content: TrackPointResponse[];
+    trackPoints: TrackPointResponse[];
     totalElements: number;
     totalPages: number;
+    size: number;
+    number: number;
 }
 
 export interface GetAllCrossingsResponse {
-    content: CrossingResponse[];
+    crossings: CrossingResponse[];
     totalElements: number;
     totalPages: number;
+    size: number;
+    number: number;
 }
 
 // Storage Types
@@ -110,27 +116,35 @@ export type RelayCabinet = RelayCabinetResponse;
 export type Shelf = ShelfResponse;
 
 export interface GetAllWarehousesResponse {
-    content: WarehouseResponse[];
+    warehouses: WarehouseResponse[];
     totalElements: number;
     totalPages: number;
+    size: number;
+    number: number;
 }
 
 export interface GetAllStandsResponse {
-    content: StandResponse[];
+    stands: StandResponse[];
     totalElements: number;
     totalPages: number;
+    size: number;
+    number: number;
 }
 
 export interface GetAllRelayCabinetsResponse {
-    content: RelayCabinetResponse[];
+    relayCabinets: RelayCabinetResponse[];
     totalElements: number;
     totalPages: number;
+    size: number;
+    number: number;
 }
 
 export interface GetAllShelvesResponse {
-    content: ShelfResponse[];
+    shelves: ShelfResponse[];
     totalElements: number;
     totalPages: number;
+    size: number;
+    number: number;
 }
 
 // Relay Movement Types
@@ -153,9 +167,11 @@ export interface CreateRelayMovementRequest {
 }
 
 export interface GetAllRelayMovementsResponse {
-    content: RelayMovementResponse[];
+    relayMovements: RelayMovementResponse[];
     totalElements: number;
     totalPages: number;
+    size: number;
+    number: number;
 }
 
 // Pagination params

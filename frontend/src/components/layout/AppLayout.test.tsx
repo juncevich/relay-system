@@ -1,4 +1,5 @@
 import {render, screen} from '@testing-library/react';
+import AppLayout from './AppLayout';
 
 const mockNavigate = vi.fn();
 let mockPathname = '/';
@@ -8,8 +9,6 @@ vi.mock('react-router', () => ({
     useLocation: () => ({pathname: mockPathname}),
     Outlet: () => <div data-testid="outlet">Outlet Content</div>,
 }));
-
-import AppLayout from './AppLayout';
 
 describe('AppLayout', () => {
     beforeEach(() => {
@@ -28,7 +27,7 @@ describe('AppLayout', () => {
     it('should render footer', () => {
         render(<AppLayout/>);
 
-        expect(screen.getByText(/Ant Design ©2018 Created by Ant UED/)).toBeInTheDocument();
+        expect(screen.getByText(/Relay System ©2025/)).toBeInTheDocument();
     });
 
     it('should render Outlet', () => {

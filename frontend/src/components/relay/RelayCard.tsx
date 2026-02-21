@@ -1,9 +1,16 @@
 import {Card} from 'antd';
 import {CloseCircleFilled, EditOutlined, EllipsisOutlined, SettingOutlined} from '@ant-design/icons';
+import {Relay} from '../../types/relay.types';
 import './RelayCard.css';
-import Relay from '../../models/Relay';
 
 const { Meta } = Card;
+
+const DEFAULT_RELAY_IMAGE = 'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png';
+
+function formatVerificationDate(date?: string): string {
+    if (!date) return 'Не проверено';
+    return new Date(date).toLocaleDateString('ru-RU');
+}
 
 interface RelayCardProps {
     relay?: Relay;
@@ -15,8 +22,8 @@ function RelayCard({relay}: RelayCardProps) {
             <Card
                 cover={
                     <img
-                        alt={relay?.title ? `Реле ${relay.title}` : 'Изображение реле'}
-                        src={relay?.imgUrl}
+                        alt={relay?.serialNumber ? `Реле ${relay.serialNumber}` : 'Изображение реле'}
+                        src={DEFAULT_RELAY_IMAGE}
                     />
                 }
                 actions={[
@@ -27,13 +34,13 @@ function RelayCard({relay}: RelayCardProps) {
             >
                 <Meta
                     avatar={<CloseCircleFilled style={{color: '#08c'}} aria-label="Статус реле" />}
-                    title={relay?.title}
+                    title={relay?.serialNumber}
                 />
                 <table>
                     <tbody>
                         <tr>
                             <td>Дата проверки</td>
-                            <td>{relay?.checkingDate}</td>
+                            <td>{relay ? formatVerificationDate(relay.verificationDate) : ''}</td>
                         </tr>
                     </tbody>
                 </table>

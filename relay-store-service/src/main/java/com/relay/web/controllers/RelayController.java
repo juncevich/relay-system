@@ -5,6 +5,7 @@ import com.relay.web.dto.CreateRelayRequest;
 import com.relay.web.dto.CreateRelayResponse;
 import com.relay.web.dto.GetAllRelaysResponse;
 import com.relay.web.dto.UpdateRelayRequest;
+import com.relay.web.mappers.RelayResponseMapper;
 import com.relay.web.model.Relay;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,24 +24,24 @@ import java.time.LocalDate;
 public class RelayController {
 
     private final RelayService relayService;
+    private final RelayResponseMapper relayResponseMapper;
 
     @GetMapping("/relays")
     @Operation(summary = "Get all relays")
     public GetAllRelaysResponse findAllRelays(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var coreModels = relayService.findAll(PageRequest.of(page, size));
-        var relays = coreModels.stream()
-                .map(this::convertToWebModel)
-                .toList();
-        return new GetAllRelaysResponse(relays);
+        var pageResult = relayService.findAll(PageRequest.of(page, size));
+        var relays = relayResponseMapper.mapToResponseList(pageResult.getContent());
+        return new GetAllRelaysResponse(relays, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/relays/{id}")
     @Operation(summary = "Get relay by ID")
     public ResponseEntity<Relay> findRelayById(@PathVariable Long id) {
         return relayService.findById(id)
-                .map(this::convertToWebModel)
+                .map(relayResponseMapper::mapToResponse)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -49,7 +50,7 @@ public class RelayController {
     @Operation(summary = "Find relay by serial number")
     public ResponseEntity<Relay> findBySerialNumber(@PathVariable String serialNumber) {
         return relayService.findBySerialNumber(serialNumber)
-                .map(this::convertToWebModel)
+                .map(relayResponseMapper::mapToResponse)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -60,11 +61,10 @@ public class RelayController {
             @RequestParam LocalDate date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var coreModels = relayService.findByCreationDate(date, PageRequest.of(page, size));
-        var relays = coreModels.stream()
-                .map(this::convertToWebModel)
-                .toList();
-        return new GetAllRelaysResponse(relays);
+        var pageResult = relayService.findByCreationDate(date, PageRequest.of(page, size));
+        var relays = relayResponseMapper.mapToResponseList(pageResult.getContent());
+        return new GetAllRelaysResponse(relays, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/relays/by-last-check-date")
@@ -73,26 +73,24 @@ public class RelayController {
             @RequestParam LocalDate date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var coreModels = relayService.findByLastCheckDate(date, PageRequest.of(page, size));
-        var relays = coreModels.stream()
-                .map(this::convertToWebModel)
-                .toList();
-        return new GetAllRelaysResponse(relays);
+        var pageResult = relayService.findByLastCheckDate(date, PageRequest.of(page, size));
+        var relays = relayResponseMapper.mapToResponseList(pageResult.getContent());
+        return new GetAllRelaysResponse(relays, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @PostMapping("/relays")
     @Operation(summary = "Create a new relay")
     public ResponseEntity<CreateRelayResponse> createRelay(@Valid @RequestBody CreateRelayRequest request) {
-        // Convert to core model
         var coreModel = new com.relay.core.model.Relay(
-                null,  // id will be generated
+                null,
                 request.serialNumber(),
-                null,  // relayType - will be set by service
+                null,
                 request.dateOfManufacture(),
-                null,  // lastCheckDate
-                0,     // placeNumber
+                null,
+                0,
                 request.storageId(),
-                null   // shelfId
+                null
         );
 
         var savedModel = relayService.save(coreModel, request.storageId());
@@ -107,20 +105,19 @@ public class RelayController {
     @PutMapping("/relays/{id}")
     @Operation(summary = "Update relay")
     public ResponseEntity<Relay> updateRelay(@PathVariable Long id, @Valid @RequestBody UpdateRelayRequest request) {
-        // Convert to core model
         var coreModel = new com.relay.core.model.Relay(
                 id,
                 request.serialNumber(),
-                null,  // relayType - will be preserved from existing
+                null,
                 request.dateOfManufacture(),
                 request.verificationDate(),
-                0,     // placeNumber
+                0,
                 request.storageId(),
-                null   // shelfId
+                null
         );
 
         var updated = relayService.update(id, coreModel, request.storageId());
-        return ResponseEntity.ok(convertToWebModel(updated));
+        return ResponseEntity.ok(relayResponseMapper.mapToResponse(updated));
     }
 
     @DeleteMapping("/relays/{id}")
@@ -128,13 +125,5 @@ public class RelayController {
     public ResponseEntity<Void> deleteRelay(@PathVariable Long id) {
         relayService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private Relay convertToWebModel(com.relay.core.model.Relay core) {
-        return Relay.builder()
-                .serialNumber(core.serialNumber())
-                .createdAt(core.createdAt())
-                .verificationDate(core.lastCheckDate())
-                .build();
     }
 }

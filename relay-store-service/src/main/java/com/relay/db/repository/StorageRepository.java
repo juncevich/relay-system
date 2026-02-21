@@ -1,5 +1,6 @@
 package com.relay.db.repository;
 
+import com.relay.core.exceptions.StorageNotFoundException;
 import com.relay.core.model.storage.RelayCabinet;
 import com.relay.core.model.storage.Stand;
 import com.relay.core.model.storage.Warehouse;
@@ -8,13 +9,12 @@ import com.relay.db.dao.StandDao;
 import com.relay.db.dao.WarehouseDao;
 import com.relay.db.entity.storage.Storage;
 import com.relay.db.mappers.StorageMapper;
-import com.relay.web.exceptions.StorageNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -38,12 +38,9 @@ public class StorageRepository {
                 .map(storageMapper::mapWarehouseEntityToModel);
     }
 
-    public @NonNull List<Warehouse> findAllWarehouses(@NonNull Pageable pageable) {
-        var slice = warehouseDao.findAll(pageable);
-        return slice.hasContent()
-                ? slice.getContent().stream()
-                .map(storageMapper::mapWarehouseEntityToModel).toList()
-                : List.of();
+    public @NonNull Page<Warehouse> findAllWarehouses(@NonNull Pageable pageable) {
+        return warehouseDao.findAll(pageable)
+                .map(storageMapper::mapWarehouseEntityToModel);
     }
 
     public void deleteWarehouseById(@NonNull Long id) {
@@ -62,12 +59,9 @@ public class StorageRepository {
                 .map(storageMapper::mapStandEntityToModel);
     }
 
-    public @NonNull List<Stand> findAllStands(@NonNull Pageable pageable) {
-        var slice = standDao.findAll(pageable);
-        return slice.hasContent()
-                ? slice.getContent().stream()
-                .map(storageMapper::mapStandEntityToModel).toList()
-                : List.of();
+    public @NonNull Page<Stand> findAllStands(@NonNull Pageable pageable) {
+        return standDao.findAll(pageable)
+                .map(storageMapper::mapStandEntityToModel);
     }
 
     public void deleteStandById(@NonNull Long id) {
@@ -86,12 +80,9 @@ public class StorageRepository {
                 .map(storageMapper::mapRelayCabinetEntityToModel);
     }
 
-    public @NonNull List<RelayCabinet> findAllRelayCabinets(@NonNull Pageable pageable) {
-        var slice = relayCabinetDao.findAll(pageable);
-        return slice.hasContent()
-                ? slice.getContent().stream()
-                .map(storageMapper::mapRelayCabinetEntityToModel).toList()
-                : List.of();
+    public @NonNull Page<RelayCabinet> findAllRelayCabinets(@NonNull Pageable pageable) {
+        return relayCabinetDao.findAll(pageable)
+                .map(storageMapper::mapRelayCabinetEntityToModel);
     }
 
     public void deleteRelayCabinetById(@NonNull Long id) {

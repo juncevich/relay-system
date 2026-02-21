@@ -2,8 +2,8 @@ import {Fragment, useCallback, useMemo, useState} from 'react';
 
 import {Alert, Breadcrumb, Col, Layout, Menu, Row, Spin, Tabs} from 'antd';
 import RelayCard from '../relay/RelayCard';
-import Relay from '../../models/Relay';
 import useRelayData from '../../hooks/useRelayData';
+import {Relay} from '../../types/relay.types';
 import {StorageInfo} from '../../api/StorageService';
 import './RelayContent.css';
 

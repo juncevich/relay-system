@@ -5,7 +5,7 @@ spring:
     virtual:
       enabled: true
   application:
-    name: data-service
+    name: relay-store-service
   mvc:
     problemdetails:
       enabled: true
@@ -19,17 +19,7 @@ spring:
   jackson:
     serialization:
       indent_output: true
-  #logging.level.org.springframework=debug
-#logging.level.com.relay=debug
-#logging.path=logs
-#logging.file=${logging.path}/backend_service_log.log
-#logging.pattern.file=%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
-#logging.pattern.console=
-#spring.jackson.serialization.write-dates-as-timestamps=false
-#eureka.client.service-url.default-zone=http://localhost:8761/eureka
-#  debug=true
-#  server.undertow.accesslog.enabled=true
-#  server.undertow.accesslog.pattern=%t %a "%r" %s (%D ms)
+
 management:
   endpoints:
     web:
@@ -40,12 +30,6 @@ management:
       show-details: always
       probes:
         enabled: true
-
-custom:
-  sub-config:
-    custom-string: 'custom'
-  custom-number: 100
-
 
 springdoc:
   swagger-ui:

@@ -1,12 +1,13 @@
 package com.relay.web.exceptions;
 
 /**
- * Exception thrown when a storage entity (Warehouse, Stand, or RelayCabinet) is not found.
+ * @deprecated Use {@link com.relay.core.exceptions.StorageNotFoundException} instead.
  */
-public class StorageNotFoundException extends EntityNotFoundException {
+@Deprecated(forRemoval = true)
+public class StorageNotFoundException extends com.relay.core.exceptions.StorageNotFoundException {
 
     public StorageNotFoundException(Long id) {
-        super("Storage", id);
+        super(id);
     }
 
     public StorageNotFoundException(String message) {

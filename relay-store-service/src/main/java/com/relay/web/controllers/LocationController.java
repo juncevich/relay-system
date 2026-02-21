@@ -32,9 +32,10 @@ public class LocationController {
     public GetAllStationsResponse findAllStations(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var stations = locationService.findAllStations(PageRequest.of(page, size));
-        var stationResponses = locationResponseMapper.mapStationsToResponse(stations);
-        return new GetAllStationsResponse(stationResponses);
+        var pageResult = locationService.findAllStations(PageRequest.of(page, size));
+        var stationResponses = locationResponseMapper.mapStationsToResponse(pageResult.getContent());
+        return new GetAllStationsResponse(stationResponses, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/stations/{id}")
@@ -80,9 +81,10 @@ public class LocationController {
     public GetAllTrackPointsResponse findAllTrackPoints(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var trackPoints = locationService.findAllTrackPoints(PageRequest.of(page, size));
-        var trackPointResponses = locationResponseMapper.mapTrackPointsToResponse(trackPoints);
-        return new GetAllTrackPointsResponse(trackPointResponses);
+        var pageResult = locationService.findAllTrackPoints(PageRequest.of(page, size));
+        var trackPointResponses = locationResponseMapper.mapTrackPointsToResponse(pageResult.getContent());
+        return new GetAllTrackPointsResponse(trackPointResponses, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/track-points/{id}")
@@ -128,9 +130,10 @@ public class LocationController {
     public GetAllCrossingsResponse findAllCrossings(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var crossings = locationService.findAllCrossings(PageRequest.of(page, size));
-        var crossingResponses = locationResponseMapper.mapCrossingsToResponse(crossings);
-        return new GetAllCrossingsResponse(crossingResponses);
+        var pageResult = locationService.findAllCrossings(PageRequest.of(page, size));
+        var crossingResponses = locationResponseMapper.mapCrossingsToResponse(pageResult.getContent());
+        return new GetAllCrossingsResponse(crossingResponses, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/crossings/{id}")

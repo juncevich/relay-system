@@ -26,9 +26,10 @@ public class RelayMovementController {
     public GetAllRelayMovementsResponse findAllRelayMovements(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var relayMovements = relayMovementService.findAll(PageRequest.of(page, size));
-        var relayMovementResponses = relayMovementResponseMapper.mapRelayMovementsToResponse(relayMovements);
-        return new GetAllRelayMovementsResponse(relayMovementResponses);
+        var pageResult = relayMovementService.findAll(PageRequest.of(page, size));
+        var relayMovementResponses = relayMovementResponseMapper.mapRelayMovementsToResponse(pageResult.getContent());
+        return new GetAllRelayMovementsResponse(relayMovementResponses, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/relay-movements/{id}")
@@ -44,9 +45,10 @@ public class RelayMovementController {
             @PathVariable Long relayId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        var relayMovements = relayMovementService.findByRelayId(relayId, PageRequest.of(page, size));
-        var relayMovementResponses = relayMovementResponseMapper.mapRelayMovementsToResponse(relayMovements);
-        return new GetAllRelayMovementsResponse(relayMovementResponses);
+        var pageResult = relayMovementService.findByRelayId(relayId, PageRequest.of(page, size));
+        var relayMovementResponses = relayMovementResponseMapper.mapRelayMovementsToResponse(pageResult.getContent());
+        return new GetAllRelayMovementsResponse(relayMovementResponses, pageResult.getTotalElements(),
+                pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @PostMapping("/relay-movements")

@@ -1,19 +1,19 @@
 package com.relay.core.service;
 
+import com.relay.core.exceptions.RelayNotFoundException;
 import com.relay.core.model.Relay;
 import com.relay.db.repository.RelayRepository;
 import com.relay.db.repository.StorageRepository;
-import com.relay.web.exceptions.RelayNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,7 +26,7 @@ public class RelayService {
     private final StorageRepository storageRepository;
 
     @Transactional(readOnly = true)
-    public @NonNull List<Relay> findAll(@NonNull Pageable pageable) {
+    public @NonNull Page<Relay> findAll(@NonNull Pageable pageable) {
         return relayRepository.findAll(pageable);
     }
 
@@ -87,13 +87,13 @@ public class RelayService {
     }
 
     @Transactional(readOnly = true)
-    public @NonNull List<Relay> findByCreationDate(@NonNull LocalDate date, @NonNull Pageable pageable) {
+    public @NonNull Page<Relay> findByCreationDate(@NonNull LocalDate date, @NonNull Pageable pageable) {
         log.info("Finding relays with creation date {}", date);
         return relayRepository.findByCreationDate(date, pageable);
     }
 
     @Transactional(readOnly = true)
-    public @NonNull List<Relay> findByLastCheckDate(@NonNull LocalDate date, @NonNull Pageable pageable) {
+    public @NonNull Page<Relay> findByLastCheckDate(@NonNull LocalDate date, @NonNull Pageable pageable) {
         log.info("Finding relays with last check date {}", date);
         return relayRepository.findByLastCheckDate(date, pageable);
     }

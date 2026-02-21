@@ -1,14 +1,18 @@
 import {render, screen, waitFor} from '@testing-library/react';
+import {App} from 'antd';
 import {mockStation, mockStation2} from '../test-utils/mockData';
+import {LocationService} from '../services';
+import StationsPage from './StationsPage';
 
-vi.mock('../api/LocationService', () => ({
-    default: {
+vi.mock('../services', () => ({
+    LocationService: {
         getAllStations: vi.fn(),
     },
 }));
 
-import locationService from '../api/LocationService';
-import StationsPage from './StationsPage';
+function renderWithApp(ui: React.ReactElement) {
+    return render(<App>{ui}</App>);
+}
 
 describe('StationsPage', () => {
     beforeEach(() => {
@@ -16,25 +20,27 @@ describe('StationsPage', () => {
     });
 
     it('should render "Станции" title', async () => {
-        vi.mocked(locationService.getAllStations).mockResolvedValue({
-            data: {content: [], totalElements: 0, totalPages: 0},
+        vi.mocked(LocationService.getAllStations).mockResolvedValue({
+            data: {stations: [], totalElements: 0, totalPages: 0, size: 100, number: 0},
         } as never);
 
-        render(<StationsPage/>);
+        renderWithApp(<StationsPage/>);
 
         expect(screen.getByText('Станции')).toBeInTheDocument();
     });
 
     it('should load and display station list', async () => {
-        vi.mocked(locationService.getAllStations).mockResolvedValue({
+        vi.mocked(LocationService.getAllStations).mockResolvedValue({
             data: {
-                content: [mockStation, mockStation2],
+                stations: [mockStation, mockStation2],
                 totalElements: 2,
                 totalPages: 1,
+                size: 100,
+                number: 0,
             },
         } as never);
 
-        render(<StationsPage/>);
+        renderWithApp(<StationsPage/>);
 
         await waitFor(() => {
             expect(screen.getByText('Екатеринбург-Пасс.')).toBeInTheDocument();
@@ -43,34 +49,34 @@ describe('StationsPage', () => {
     });
 
     it('should render "Добавить станцию" button', async () => {
-        vi.mocked(locationService.getAllStations).mockResolvedValue({
-            data: {content: [], totalElements: 0, totalPages: 0},
+        vi.mocked(LocationService.getAllStations).mockResolvedValue({
+            data: {stations: [], totalElements: 0, totalPages: 0, size: 100, number: 0},
         } as never);
 
-        render(<StationsPage/>);
+        renderWithApp(<StationsPage/>);
 
         expect(screen.getByText('Добавить станцию')).toBeInTheDocument();
     });
 
     it('should show error message on failed fetch', async () => {
-        vi.mocked(locationService.getAllStations).mockRejectedValue(
+        vi.mocked(LocationService.getAllStations).mockRejectedValue(
             new Error('Network error')
         );
 
-        render(<StationsPage/>);
+        renderWithApp(<StationsPage/>);
 
         await waitFor(() => {
-            expect(locationService.getAllStations).toHaveBeenCalled();
+            expect(LocationService.getAllStations).toHaveBeenCalled();
         });
     });
 
     it('should call getAllStations on mount', () => {
-        vi.mocked(locationService.getAllStations).mockResolvedValue({
-            data: {content: [], totalElements: 0, totalPages: 0},
+        vi.mocked(LocationService.getAllStations).mockResolvedValue({
+            data: {stations: [], totalElements: 0, totalPages: 0, size: 100, number: 0},
         } as never);
 
-        render(<StationsPage/>);
+        renderWithApp(<StationsPage/>);
 
-        expect(locationService.getAllStations).toHaveBeenCalledWith({size: 100});
+        expect(LocationService.getAllStations).toHaveBeenCalledWith({size: 100});
     });
 });
