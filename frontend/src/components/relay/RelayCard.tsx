@@ -1,5 +1,5 @@
 import {Card} from 'antd';
-import {CloseCircleFilled, EditOutlined, EllipsisOutlined, SettingOutlined} from '@ant-design/icons';
+import {CloseCircleFilled, DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {Relay} from '../../types/relay.types';
 
 const { Meta } = Card;
@@ -13,9 +13,11 @@ function formatVerificationDate(date?: string): string {
 
 interface RelayCardProps {
     relay?: Relay;
+    onEdit?: (relay: Relay) => void;
+    onDelete?: (relay: Relay) => void;
 }
 
-function RelayCard({relay}: RelayCardProps) {
+function RelayCard({relay, onEdit, onDelete}: RelayCardProps) {
     return (
         <div className="relay-card-container">
             <Card
@@ -26,9 +28,16 @@ function RelayCard({relay}: RelayCardProps) {
                     />
                 }
                 actions={[
-                    <SettingOutlined key="setting" aria-label="Настройки" />,
-                    <EditOutlined key="edit" aria-label="Редактировать" />,
-                    <EllipsisOutlined key="ellipsis" aria-label="Дополнительные действия" />,
+                    <EditOutlined
+                        key="edit"
+                        aria-label="Редактировать"
+                        onClick={() => relay && onEdit?.(relay)}
+                    />,
+                    <DeleteOutlined
+                        key="delete"
+                        aria-label="Удалить"
+                        onClick={() => relay && onDelete?.(relay)}
+                    />,
                 ]}
             >
                 <Meta

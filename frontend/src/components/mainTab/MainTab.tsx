@@ -1,9 +1,12 @@
 import {Fragment, useCallback, useMemo, useState} from 'react';
 
-import {Alert, Breadcrumb, Col, Layout, Menu, Row, Spin, Tabs} from 'antd';
+import {Alert, App, Breadcrumb, Button, Col, Layout, Menu, Row, Space, Spin, Tabs} from 'antd';
+import {PlusOutlined} from '@ant-design/icons';
 import RelayCard from '../relay/RelayCard';
+import RelayFormModal, {RelayFormValues} from '../relay/RelayFormModal';
 import useRelayData from '../../hooks/useRelayData';
-import {Relay} from '../../types/relay.types';
+import {getApiErrorMessage, Relay} from '../../types/relay.types';
+import {RelayService} from '../../services';
 import {StorageInfo} from '../../api/StorageService';
 import './RelayContent.css';
 
@@ -11,8 +14,13 @@ const {Content, Sider} = Layout;
 
 const RELAYS_PER_ROW = 8;
 
+interface RelayCallbacks {
+    onEdit: (relay: Relay) => void;
+    onDelete: (relay: Relay) => void;
+}
+
 // Helper function to render a row of relay cards
-const renderRelayRow = (relays: Relay[], startIndex: number, count: number = RELAYS_PER_ROW) => {
+const renderRelayRow = (relays: Relay[], startIndex: number, callbacks: RelayCallbacks, count: number = RELAYS_PER_ROW) => {
     const relaysToShow = relays.slice(startIndex, startIndex + count);
 
     if (relaysToShow.length === 0) {
@@ -23,7 +31,7 @@ const renderRelayRow = (relays: Relay[], startIndex: number, count: number = REL
         <Row gutter={[8, 8]}>
             {relaysToShow.map((relay) => (
                 <Col key={relay.id} className="gutter-row" span={3}>
-                    <div><RelayCard relay={relay} /></div>
+                    <div><RelayCard relay={relay} onEdit={callbacks.onEdit} onDelete={callbacks.onDelete}/></div>
                 </Col>
             ))}
         </Row>
@@ -31,11 +39,11 @@ const renderRelayRow = (relays: Relay[], startIndex: number, count: number = REL
 };
 
 // Generate tab content for a given array of relays
-const generateTabContent = (relays: Relay[]) => {
+const generateTabContent = (relays: Relay[], callbacks: RelayCallbacks) => {
     const rowCount = Math.ceil(relays.length / RELAYS_PER_ROW);
     const rows = [];
     for (let i = 0; i < rowCount; i++) {
-        const row = renderRelayRow(relays, i * RELAYS_PER_ROW, RELAYS_PER_ROW);
+        const row = renderRelayRow(relays, i * RELAYS_PER_ROW, callbacks, RELAYS_PER_ROW);
         if (row) {
             rows.push(<Fragment key={i}>{row}</Fragment>);
         }
@@ -44,11 +52,77 @@ const generateTabContent = (relays: Relay[]) => {
 };
 
 function MainTab() {
-    const { relays, stations, trackPoints, crossings, storages, loading, error } = useRelayData({
+    const {message, modal} = App.useApp();
+    const {relays, stations, trackPoints, crossings, storages, loading, error, refetch} = useRelayData({
         relayPageSize: 300,
         stationPageSize: 50
     });
     const [selectedLocationId, setSelectedLocationId] = useState<number | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalLoading, setModalLoading] = useState(false);
+    const [editingRelay, setEditingRelay] = useState<Relay | null>(null);
+
+    const handleAdd = useCallback(() => {
+        setEditingRelay(null);
+        setModalOpen(true);
+    }, []);
+
+    const handleEdit = useCallback((relay: Relay) => {
+        setEditingRelay(relay);
+        setModalOpen(true);
+    }, []);
+
+    const handleDelete = useCallback((relay: Relay) => {
+        modal.confirm({
+            title: 'Удалить реле?',
+            content: `Вы уверены, что хотите удалить реле "${relay.serialNumber}"?`,
+            okText: 'Удалить',
+            okType: 'danger',
+            cancelText: 'Отмена',
+            onOk: async () => {
+                try {
+                    await RelayService.delete(relay.id);
+                    message.success('Реле удалено');
+                    refetch();
+                } catch (err) {
+                    message.error(getApiErrorMessage(err, 'Не удалось удалить реле'));
+                }
+            },
+        });
+    }, [modal, message, refetch]);
+
+    const handleSave = useCallback(async (values: RelayFormValues) => {
+        setModalLoading(true);
+        try {
+            if (editingRelay) {
+                await RelayService.update(editingRelay.id, {
+                    serialNumber: values.serialNumber,
+                    dateOfManufacture: values.dateOfManufacture,
+                    verificationDate: values.verificationDate,
+                    storageId: values.storageId,
+                });
+                message.success('Реле обновлено');
+            } else {
+                await RelayService.create({
+                    serialNumber: values.serialNumber,
+                    dateOfManufacture: values.dateOfManufacture ?? '',
+                    storageId: values.storageId ?? 0,
+                });
+                message.success('Реле добавлено');
+            }
+            setModalOpen(false);
+            refetch();
+        } catch (err) {
+            message.error(getApiErrorMessage(err, 'Не удалось сохранить реле'));
+        } finally {
+            setModalLoading(false);
+        }
+    }, [editingRelay, message, refetch]);
+
+    const relayCallbacks: RelayCallbacks = useMemo(() => ({
+        onEdit: handleEdit,
+        onDelete: handleDelete,
+    }), [handleEdit, handleDelete]);
 
     // Build storageId → locationId map
     const storageToLocationMap = useMemo(() => {
@@ -155,7 +229,7 @@ function MainTab() {
             return [{
                 key: 'all',
                 label: `Все реле (${filteredRelays.length})`,
-                children: generateTabContent(filteredRelays)
+                children: generateTabContent(filteredRelays, relayCallbacks)
             }];
         }
 
@@ -164,17 +238,22 @@ function MainTab() {
             return {
                 key: `storage-${storage.id}`,
                 label: `${storage.name} (${storageRelays.length})`,
-                children: generateTabContent(storageRelays)
+                children: generateTabContent(storageRelays, relayCallbacks)
             };
         });
-    }, [activeLocationId, locationToStoragesMap, filteredRelays]);
+    }, [activeLocationId, locationToStoragesMap, filteredRelays, relayCallbacks]);
 
     return (
         <Content className="main-content">
-            <Breadcrumb
-                className="main-breadcrumb"
-                items={breadcrumbItems}
-            />
+            <Space style={{width: '100%', justifyContent: 'space-between'}}>
+                <Breadcrumb
+                    className="main-breadcrumb"
+                    items={breadcrumbItems}
+                />
+                <Button type="primary" icon={<PlusOutlined/>} onClick={handleAdd}>
+                    Добавить реле
+                </Button>
+            </Space>
             <Layout className="site-layout-background">
                 <Sider className="site-layout-background" width={'auto'}>
                     {loading ? (
@@ -212,6 +291,14 @@ function MainTab() {
                     )}
                 </Content>
             </Layout>
+            <RelayFormModal
+                open={modalOpen}
+                onCancel={() => setModalOpen(false)}
+                onSave={handleSave}
+                relay={editingRelay}
+                storages={storages}
+                confirmLoading={modalLoading}
+            />
         </Content>
     );
 }

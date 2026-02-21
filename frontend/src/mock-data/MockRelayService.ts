@@ -46,6 +46,14 @@ class MockRelayService {
         return Promise.reject(new Error(`Relay with id ${id} not found`));
     }
 
+    getBySerialNumber(serialNumber: string) {
+        const relay = allRelays.find(r => r.serialNumber === serialNumber);
+        if (relay) {
+            return Promise.resolve({data: relay});
+        }
+        return Promise.reject(new Error(`Relay with serial number ${serialNumber} not found`));
+    }
+
     create(data: CreateRelayRequest) {
         const response: CreateRelayResponse = {
             serialNumber: data.serialNumber,

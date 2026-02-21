@@ -22,9 +22,8 @@ describe('RelayCard Component', () => {
     it('should render all action buttons with correct aria-labels', () => {
         render(<RelayCard relay={mockBackendRelay}/>);
 
-        expect(screen.getByLabelText('Настройки')).toBeInTheDocument();
         expect(screen.getByLabelText('Редактировать')).toBeInTheDocument();
-        expect(screen.getByLabelText('Дополнительные действия')).toBeInTheDocument();
+        expect(screen.getByLabelText('Удалить')).toBeInTheDocument();
     });
 
     it('should render status icon with correct aria-label', () => {
