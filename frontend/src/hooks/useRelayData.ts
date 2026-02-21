@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {LocationService, RelayService, StorageService} from '../services';
 import {StorageInfo} from '../api/StorageService';
 import {CrossingResponse, getApiErrorMessage, Relay, StationResponse, TrackPointResponse} from '../types/relay.types';
@@ -24,8 +24,13 @@ interface UseRelayDataOptions {
  *
  * Set VITE_USE_MOCK_DATA=true to use local JSON mock data instead of the backend API.
  */
-export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState {
+export interface UseRelayDataResult extends RelayDataState {
+    refetch: () => void;
+}
+
+export function useRelayData(options: UseRelayDataOptions = {}): UseRelayDataResult {
     const { relayPageSize = 50, stationPageSize = 10 } = options;
+    const [fetchCounter, setFetchCounter] = useState(0);
 
     const [state, setState] = useState<RelayDataState>({
         relays: [],
@@ -83,9 +88,13 @@ export function useRelayData(options: UseRelayDataOptions = {}): RelayDataState 
         return () => {
             ignore = true;
         };
-    }, [relayPageSize, stationPageSize]);
+    }, [relayPageSize, stationPageSize, fetchCounter]);
 
-    return state;
+    const refetch = useCallback(() => {
+        setFetchCounter(c => c + 1);
+    }, []);
+
+    return {...state, refetch};
 }
 
 export default useRelayData;

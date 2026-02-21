@@ -1,5 +1,6 @@
 package com.relay.db.entity.items;
 
+import com.relay.core.model.RelayType;
 import com.relay.db.entity.storage.Shelf;
 import com.relay.db.entity.storage.Storage;
 import com.relay.infrastructure.db.annotation.EntityId;

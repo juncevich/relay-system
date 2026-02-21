@@ -1,6 +1,6 @@
 package com.relay.web.model;
 
-import com.relay.db.entity.items.RelayType;
+import com.relay.core.model.RelayType;
 
 import java.time.OffsetDateTime;
 

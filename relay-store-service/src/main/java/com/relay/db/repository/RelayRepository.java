@@ -49,10 +49,8 @@ public class RelayRepository {
     }
 
     public Optional<Relay> findBySerialNumber(@NonNull String serialNumber) {
-        var entity = relayDao.findBySerialNumber(serialNumber);
-        return entity != null
-                ? Optional.of(relayMapper.mapEntityToModel(entity))
-                : Optional.empty();
+        return relayDao.findBySerialNumber(serialNumber)
+                .map(relayMapper::mapEntityToModel);
     }
 
     public @NonNull Page<Relay> findByCreationDate(@NonNull LocalDate date,

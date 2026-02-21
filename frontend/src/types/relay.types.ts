@@ -1,5 +1,12 @@
 // Relay Types and DTOs
 
+export interface PaginatedResponse {
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+}
+
 export interface Relay {
     id: number;
     serialNumber: string;
@@ -30,12 +37,8 @@ export interface CreateRelayResponse {
     verificationDate?: string;
 }
 
-export interface GetAllRelaysResponse {
+export interface GetAllRelaysResponse extends PaginatedResponse {
     relays: Relay[];
-    totalElements: number;
-    totalPages: number;
-    size: number;
-    number: number;
 }
 
 // Location Types
@@ -59,28 +62,16 @@ export type Station = StationResponse;
 export type TrackPoint = TrackPointResponse;
 export type Crossing = CrossingResponse;
 
-export interface GetAllStationsResponse {
+export interface GetAllStationsResponse extends PaginatedResponse {
     stations: StationResponse[];
-    totalElements: number;
-    totalPages: number;
-    size: number;
-    number: number;
 }
 
-export interface GetAllTrackPointsResponse {
+export interface GetAllTrackPointsResponse extends PaginatedResponse {
     trackPoints: TrackPointResponse[];
-    totalElements: number;
-    totalPages: number;
-    size: number;
-    number: number;
 }
 
-export interface GetAllCrossingsResponse {
+export interface GetAllCrossingsResponse extends PaginatedResponse {
     crossings: CrossingResponse[];
-    totalElements: number;
-    totalPages: number;
-    size: number;
-    number: number;
 }
 
 // Storage Types
@@ -115,36 +106,20 @@ export type Stand = StandResponse;
 export type RelayCabinet = RelayCabinetResponse;
 export type Shelf = ShelfResponse;
 
-export interface GetAllWarehousesResponse {
+export interface GetAllWarehousesResponse extends PaginatedResponse {
     warehouses: WarehouseResponse[];
-    totalElements: number;
-    totalPages: number;
-    size: number;
-    number: number;
 }
 
-export interface GetAllStandsResponse {
+export interface GetAllStandsResponse extends PaginatedResponse {
     stands: StandResponse[];
-    totalElements: number;
-    totalPages: number;
-    size: number;
-    number: number;
 }
 
-export interface GetAllRelayCabinetsResponse {
+export interface GetAllRelayCabinetsResponse extends PaginatedResponse {
     relayCabinets: RelayCabinetResponse[];
-    totalElements: number;
-    totalPages: number;
-    size: number;
-    number: number;
 }
 
-export interface GetAllShelvesResponse {
+export interface GetAllShelvesResponse extends PaginatedResponse {
     shelves: ShelfResponse[];
-    totalElements: number;
-    totalPages: number;
-    size: number;
-    number: number;
 }
 
 // Relay Movement Types
@@ -166,12 +141,8 @@ export interface CreateRelayMovementRequest {
     toStorageId: number;
 }
 
-export interface GetAllRelayMovementsResponse {
+export interface GetAllRelayMovementsResponse extends PaginatedResponse {
     relayMovements: RelayMovementResponse[];
-    totalElements: number;
-    totalPages: number;
-    size: number;
-    number: number;
 }
 
 // Pagination params

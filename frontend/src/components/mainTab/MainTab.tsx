@@ -88,6 +88,20 @@ function MainTab() {
         return relays.filter(r => r.storageId !== undefined && locationStorageIds.has(r.storageId));
     }, [relays, activeLocationId, locationStorageIds]);
 
+    const selectedLocationName = useMemo(() => {
+        if (activeLocationId === null) return null;
+        const location = allLocations.find(l => l.id === activeLocationId);
+        return location?.name ?? null;
+    }, [activeLocationId, allLocations]);
+
+    const breadcrumbItems = useMemo(() => {
+        const items: { title: string }[] = [{title: 'Реле'}];
+        if (selectedLocationName) {
+            items.push({title: selectedLocationName});
+        }
+        return items;
+    }, [selectedLocationName]);
+
     const handleLocationSelect = useCallback((info: { key: string }) => {
         const match = info.key.match(/^location-(\d+)$/);
         if (match) {
@@ -159,11 +173,7 @@ function MainTab() {
         <Content className="main-content">
             <Breadcrumb
                 className="main-breadcrumb"
-                items={[
-                    {title: 'Home'},
-                    {title: 'List'},
-                    {title: 'App'},
-                ]}
+                items={breadcrumbItems}
             />
             <Layout className="site-layout-background">
                 <Sider className="site-layout-background" width={'auto'}>

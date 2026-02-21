@@ -7,10 +7,11 @@ import {
     createMockTrackPoints,
     mockStorages
 } from '../../test-utils/mockData';
-import type {RelayDataState} from '../../hooks/useRelayData';
+import type {UseRelayDataResult} from '../../hooks/useRelayData';
 import MainTab from './MainTab';
 
-const mockUseRelayData = vi.fn<() => RelayDataState>();
+const mockRefetch = vi.fn();
+const mockUseRelayData = vi.fn<() => UseRelayDataResult>();
 
 vi.mock('../../hooks/useRelayData', () => ({
     default: () => mockUseRelayData(),
@@ -38,6 +39,7 @@ describe('MainTab', () => {
             storages: [],
             loading: true,
             error: null,
+            refetch: mockRefetch,
         });
 
         render(<MainTab/>);
@@ -53,6 +55,7 @@ describe('MainTab', () => {
             storages: [],
             loading: false,
             error: 'Network error',
+            refetch: mockRefetch,
         });
 
         render(<MainTab/>);
@@ -62,20 +65,22 @@ describe('MainTab', () => {
     });
 
     it('should render breadcrumb items', () => {
+        const stations = createMockStations(1);
         mockUseRelayData.mockReturnValue({
             relays: [],
-            stations: [],
+            stations,
             ...emptyLocations,
             storages: [],
             loading: false,
             error: null,
+            refetch: mockRefetch,
         });
 
         render(<MainTab/>);
 
-        expect(screen.getByText('Home')).toBeInTheDocument();
-        expect(screen.getByText('List')).toBeInTheDocument();
-        expect(screen.getByText('App')).toBeInTheDocument();
+        expect(screen.getByText('Реле')).toBeInTheDocument();
+        // Station name appears in both breadcrumb and sidebar menu
+        expect(screen.getAllByText('Екатеринбург-Пасс.').length).toBeGreaterThanOrEqual(2);
     });
 
     it('should render location menu items in sidebar', () => {
@@ -90,12 +95,14 @@ describe('MainTab', () => {
             storages: [],
             loading: false,
             error: null,
+            refetch: mockRefetch,
         });
 
         render(<MainTab/>);
 
         expect(screen.getByText('Станции')).toBeInTheDocument();
-        expect(screen.getByText('Екатеринбург-Пасс.')).toBeInTheDocument();
+        // First station appears in both breadcrumb and sidebar menu
+        expect(screen.getAllByText('Екатеринбург-Пасс.').length).toBeGreaterThanOrEqual(1);
         expect(screen.getByText('Первомайская')).toBeInTheDocument();
         expect(screen.getByText('Монетная')).toBeInTheDocument();
         expect(screen.getByText('Перегоны')).toBeInTheDocument();
@@ -114,6 +121,7 @@ describe('MainTab', () => {
             storages: mockStorages,
             loading: false,
             error: null,
+            refetch: mockRefetch,
         });
 
         render(<MainTab/>);
@@ -133,6 +141,7 @@ describe('MainTab', () => {
             storages: mockStorages,
             loading: false,
             error: null,
+            refetch: mockRefetch,
         });
 
         render(<MainTab/>);
@@ -151,6 +160,7 @@ describe('MainTab', () => {
             storages: mockStorages,
             loading: false,
             error: null,
+            refetch: mockRefetch,
         });
 
         render(<MainTab/>);
@@ -176,6 +186,7 @@ describe('MainTab', () => {
             storages: mockStorages,
             loading: false,
             error: null,
+            refetch: mockRefetch,
         });
 
         render(<MainTab/>);

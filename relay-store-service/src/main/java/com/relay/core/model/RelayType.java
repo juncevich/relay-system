@@ -1,4 +1,4 @@
-package com.relay.db.entity.items;
+package com.relay.core.model;
 
 public enum RelayType {
     NMSH_400,

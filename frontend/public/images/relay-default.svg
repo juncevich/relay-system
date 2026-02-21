@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+    <rect width="200" height="200" fill="#f0f2f5"/>
+    <rect x="60" y="30" width="80" height="140" rx="8" fill="#d9d9d9" stroke="#bfbfbf" stroke-width="2"/>
+    <circle cx="100" cy="70" r="15" fill="#bfbfbf"/>
+    <rect x="80" y="100" width="40" height="8" rx="4" fill="#bfbfbf"/>
+    <rect x="80" y="116" width="40" height="8" rx="4" fill="#bfbfbf"/>
+    <rect x="80" y="132" width="40" height="8" rx="4" fill="#bfbfbf"/>
+    <text x="100" y="190" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#8c8c8c">Реле</text>
+</svg>

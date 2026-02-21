@@ -7,3 +7,19 @@ export const relayStoreHttp = axios.create({
         "Content-type": "application/json"
     }
 });
+
+relayStoreHttp.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (import.meta.env.DEV) {
+            console.error(
+                '[API Error]',
+                error.config?.method?.toUpperCase(),
+                error.config?.url,
+                error.response?.status,
+                error.response?.data
+            );
+        }
+        return Promise.reject(error);
+    }
+);

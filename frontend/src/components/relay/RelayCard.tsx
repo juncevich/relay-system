@@ -1,11 +1,10 @@
 import {Card} from 'antd';
 import {CloseCircleFilled, EditOutlined, EllipsisOutlined, SettingOutlined} from '@ant-design/icons';
 import {Relay} from '../../types/relay.types';
-import './RelayCard.css';
 
 const { Meta } = Card;
 
-const DEFAULT_RELAY_IMAGE = 'http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png';
+const DEFAULT_RELAY_IMAGE = '/images/relay-default.svg';
 
 function formatVerificationDate(date?: string): string {
     if (!date) return 'Не проверено';

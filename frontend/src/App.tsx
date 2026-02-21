@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Routes} from 'react-router';
 import AppLayout from './components/layout/AppLayout';
 import HomePage from './pages/HomePage';
 import MainPage from './pages/MainPage';
+import NotFoundPage from './pages/NotFoundPage';
 import StationsPage from './pages/StationsPage';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
                             <Route path="/" element={<HomePage/>}/>
                             <Route path="/relays" element={<MainPage/>}/>
                             <Route path="/stations" element={<StationsPage/>}/>
+                            <Route path="*" element={<NotFoundPage/>}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>

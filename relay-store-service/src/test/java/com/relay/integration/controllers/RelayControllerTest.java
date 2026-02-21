@@ -2,11 +2,11 @@ package com.relay.integration.controllers;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.relay.core.model.RelayType;
 import com.relay.db.dao.LocationDao;
 import com.relay.db.dao.RelayDao;
 import com.relay.db.dao.StandDao;
 import com.relay.db.entity.items.Relay;
-import com.relay.db.entity.items.RelayType;
 import com.relay.db.entity.location.Station;
 import com.relay.db.entity.storage.Stand;
 import com.relay.db.entity.storage.Storage;

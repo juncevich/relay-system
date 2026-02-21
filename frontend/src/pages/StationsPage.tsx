@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {App, Button, Input, List, Modal, Space, Spin, Typography} from 'antd';
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {LocationService as locationService} from '../services';
@@ -15,7 +15,7 @@ function StationsPage() {
     const [editingStation, setEditingStation] = useState<StationResponse | null>(null);
     const [stationName, setStationName] = useState('');
 
-    const fetchStations = async () => {
+    const fetchStations = useCallback(async () => {
         setLoading(true);
         try {
             const response = await locationService.getAllStations({size: 100});
@@ -25,11 +25,11 @@ function StationsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [message]);
 
     useEffect(() => {
         fetchStations();
-    }, []);
+    }, [fetchStations]);
 
     const openAddModal = () => {
         setEditingStation(null);

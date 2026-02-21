@@ -5,6 +5,7 @@ import com.relay.web.dto.CreateRelayRequest;
 import com.relay.web.dto.CreateRelayResponse;
 import com.relay.web.dto.GetAllRelaysResponse;
 import com.relay.web.dto.UpdateRelayRequest;
+import com.relay.web.mappers.RelayRequestMapper;
 import com.relay.web.mappers.RelayResponseMapper;
 import com.relay.web.model.Relay;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 public class RelayController {
 
     private final RelayService relayService;
+    private final RelayRequestMapper relayRequestMapper;
     private final RelayResponseMapper relayResponseMapper;
 
     @GetMapping("/relays")
@@ -82,16 +84,7 @@ public class RelayController {
     @PostMapping("/relays")
     @Operation(summary = "Create a new relay")
     public ResponseEntity<CreateRelayResponse> createRelay(@Valid @RequestBody CreateRelayRequest request) {
-        var coreModel = new com.relay.core.model.Relay(
-                null,
-                request.serialNumber(),
-                null,
-                request.dateOfManufacture(),
-                null,
-                0,
-                request.storageId(),
-                null
-        );
+        var coreModel = relayRequestMapper.mapCreateRequest(request);
 
         var savedModel = relayService.save(coreModel, request.storageId());
         var response = new CreateRelayResponse(
@@ -105,16 +98,7 @@ public class RelayController {
     @PutMapping("/relays/{id}")
     @Operation(summary = "Update relay")
     public ResponseEntity<Relay> updateRelay(@PathVariable Long id, @Valid @RequestBody UpdateRelayRequest request) {
-        var coreModel = new com.relay.core.model.Relay(
-                id,
-                request.serialNumber(),
-                null,
-                request.dateOfManufacture(),
-                request.verificationDate(),
-                0,
-                request.storageId(),
-                null
-        );
+        var coreModel = relayRequestMapper.mapUpdateRequest(request, id);
 
         var updated = relayService.update(id, coreModel, request.storageId());
         return ResponseEntity.ok(relayResponseMapper.mapToResponse(updated));

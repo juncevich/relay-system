@@ -16,7 +16,7 @@ describe('RelayCard Component', () => {
         render(<RelayCard relay={mockBackendRelay}/>);
 
         const image = screen.getByAltText('Реле НМШ-001') as HTMLImageElement;
-        expect(image.src).toBe('http://www.status-scb.ru/upload/iblock/458/458aa8a30c03af897511a2d8c00cdc74.png');
+        expect(image.src).toContain('/images/relay-default.svg');
     });
 
     it('should render all action buttons with correct aria-labels', () => {

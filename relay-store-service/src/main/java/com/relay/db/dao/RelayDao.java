@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface RelayDao extends JpaRepository<@NonNull Relay, @NonNull Long> {
 
@@ -38,7 +39,7 @@ public interface RelayDao extends JpaRepository<@NonNull Relay, @NonNull Long> {
      * Find relay by serial number
      *
      * @param serialNumber {@link Relay#getSerialNumber()}
-     * @return relay
+     * @return relay wrapped in Optional
      */
-    Relay findBySerialNumber(String serialNumber);
+    Optional<Relay> findBySerialNumber(String serialNumber);
 }
