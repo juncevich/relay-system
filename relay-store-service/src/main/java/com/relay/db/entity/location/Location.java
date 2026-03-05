@@ -1,5 +1,6 @@
 package com.relay.db.entity.location;
 
+import com.relay.infrastructure.db.annotation.EntityId;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,8 @@ import lombok.NoArgsConstructor;
 public abstract class Location {
 
     @Id
-    @GeneratedValue
+    @EntityId
+    @GeneratedValue(generator = "snowFlakeId")
     private Long id;
 
     private String name;

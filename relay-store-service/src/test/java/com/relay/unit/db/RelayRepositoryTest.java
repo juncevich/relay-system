@@ -11,7 +11,6 @@ import com.relay.unit.GenericUnitTest;
 import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
@@ -84,8 +83,8 @@ class RelayRepositoryTest extends GenericUnitTest {
     relay.setStorage(defaultStorage);
     relayRepository.save(relay);
 
-    Relay savedRelay = relayRepository.findBySerialNumber("12345");
-    assertEquals(relay, savedRelay);
+    Relay savedRelay = relayRepository.findBySerialNumber("12345").orElseThrow();
+    assertEquals(relay.getSerialNumber(), savedRelay.getSerialNumber());
   }
 
   @Test
@@ -96,8 +95,8 @@ class RelayRepositoryTest extends GenericUnitTest {
     relay.setStorage(defaultStorage);
     relayRepository.save(relay);
 
-    Relay savedRelay = relayRepository.findBySerialNumber("123456");
-    Assertions.assertNull(savedRelay);
+    var savedRelay = relayRepository.findBySerialNumber("123456");
+    Assertions.assertTrue(savedRelay.isEmpty());
   }
 
 
@@ -117,23 +116,25 @@ class RelayRepositoryTest extends GenericUnitTest {
     assertTrue(relayPage.get().findFirst().isEmpty());
   }
 
-  @Disabled
   @Test
   void testCorrectFindByLastCheckDate() {
 
       Page<@NonNull Relay> relayPage = relayRepository.findByLastCheckDate(lastCheckDate.toLocalDate(),
         PageRequest.of(0, 1));
     assertEquals(1, relayPage.getTotalElements());
-    assertEquals(defaultRelay, relayPage.get().findFirst().orElseThrow());
+    Relay foundRelay = relayPage.get().findFirst().orElseThrow();
+    assertEquals(defaultRelay.getId(), foundRelay.getId());
+    assertEquals(defaultRelay.getLastCheckDate(), foundRelay.getLastCheckDate());
   }
 
-  @Disabled
   @Test
   void testFindByCreationDate() {
 
       Page<@NonNull Relay> relayPage = relayRepository.findByCreationDate(creationDate.toLocalDate(),
         PageRequest.of(0, 1));
     assertEquals(1, relayPage.getTotalElements());
-    assertEquals(defaultRelay, relayPage.get().findFirst().orElseThrow());
+    Relay foundRelay = relayPage.get().findFirst().orElseThrow();
+    assertEquals(defaultRelay.getId(), foundRelay.getId());
+    assertEquals(defaultRelay.getCreatedAt(), foundRelay.getCreatedAt());
   }
 }

@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
-import {App, Button, Input, List, Modal, Space, Spin, Typography} from 'antd';
+import {App, Button, Input, List, Modal, Pagination, Space, Spin, Typography} from 'antd';
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {LocationService as locationService} from '../services';
 import {getApiErrorMessage, StationResponse} from '../types/relay.types';
@@ -14,12 +14,21 @@ function StationsPage() {
     const [modalLoading, setModalLoading] = useState(false);
     const [editingStation, setEditingStation] = useState<StationResponse | null>(null);
     const [stationName, setStationName] = useState('');
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(20);
+    const [totalElements, setTotalElements] = useState(0);
 
-    const fetchStations = useCallback(async () => {
+    const fetchStations = useCallback(async (nextPage: number, nextPageSize: number) => {
         setLoading(true);
         try {
-            const response = await locationService.getAllStations({size: 100});
+            const response = await locationService.getAllStations({
+                page: nextPage - 1,
+                size: nextPageSize
+            });
             setStations(response.data.stations);
+            setTotalElements(response.data.totalElements);
+            setPage(response.data.number + 1);
+            setPageSize(response.data.size);
         } catch (error) {
             message.error(getApiErrorMessage(error, 'Не удалось загрузить станции'));
         } finally {
@@ -28,8 +37,8 @@ function StationsPage() {
     }, [message]);
 
     useEffect(() => {
-        fetchStations();
-    }, [fetchStations]);
+        fetchStations(page, pageSize);
+    }, [fetchStations, page, pageSize]);
 
     const openAddModal = () => {
         setEditingStation(null);
@@ -59,7 +68,7 @@ function StationsPage() {
                 message.success('Станция добавлена');
             }
             setModalOpen(false);
-            fetchStations();
+            fetchStations(page, pageSize);
         } catch (error) {
             message.error(getApiErrorMessage(error, 'Не удалось сохранить станцию'));
         } finally {
@@ -78,7 +87,7 @@ function StationsPage() {
                 try {
                     await locationService.deleteStation(station.id);
                     message.success('Станция удалена');
-                    fetchStations();
+                    fetchStations(page, pageSize);
                 } catch (error) {
                     message.error(getApiErrorMessage(error, 'Не удалось удалить станцию'));
                 }
@@ -125,6 +134,17 @@ function StationsPage() {
                             {station.name}
                         </List.Item>
                     )}
+                />
+                <Pagination
+                    style={{marginTop: 16, textAlign: 'right'}}
+                    current={page}
+                    pageSize={pageSize}
+                    total={totalElements}
+                    showSizeChanger
+                    pageSizeOptions={[10, 20, 50, 100]}
+                    onChange={(nextPage, nextPageSize) => {
+                        fetchStations(nextPage, nextPageSize);
+                    }}
                 />
             </Spin>
 

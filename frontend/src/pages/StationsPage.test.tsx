@@ -21,7 +21,7 @@ describe('StationsPage', () => {
 
     it('should render "Станции" title', async () => {
         vi.mocked(LocationService.getAllStations).mockResolvedValue({
-            data: {stations: [], totalElements: 0, totalPages: 0, size: 100, number: 0},
+            data: {stations: [], totalElements: 0, totalPages: 0, size: 20, number: 0},
         } as never);
 
         renderWithApp(<StationsPage/>);
@@ -35,7 +35,7 @@ describe('StationsPage', () => {
                 stations: [mockStation, mockStation2],
                 totalElements: 2,
                 totalPages: 1,
-                size: 100,
+                size: 20,
                 number: 0,
             },
         } as never);
@@ -50,7 +50,7 @@ describe('StationsPage', () => {
 
     it('should render "Добавить станцию" button', async () => {
         vi.mocked(LocationService.getAllStations).mockResolvedValue({
-            data: {stations: [], totalElements: 0, totalPages: 0, size: 100, number: 0},
+            data: {stations: [], totalElements: 0, totalPages: 0, size: 20, number: 0},
         } as never);
 
         renderWithApp(<StationsPage/>);
@@ -72,11 +72,11 @@ describe('StationsPage', () => {
 
     it('should call getAllStations on mount', () => {
         vi.mocked(LocationService.getAllStations).mockResolvedValue({
-            data: {stations: [], totalElements: 0, totalPages: 0, size: 100, number: 0},
+            data: {stations: [], totalElements: 0, totalPages: 0, size: 20, number: 0},
         } as never);
 
         renderWithApp(<StationsPage/>);
 
-        expect(LocationService.getAllStations).toHaveBeenCalledWith({size: 100});
+        expect(LocationService.getAllStations).toHaveBeenCalledWith({page: 0, size: 20});
     });
 });

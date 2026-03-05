@@ -27,6 +27,7 @@ const pathToKey: Record<string, string> = {
 function AppLayout() {
     const navigate = useNavigate();
     const location = useLocation();
+    const currentYear = new Date().getFullYear();
 
     const selectedKey = pathToKey[location.pathname] ?? 'main';
 
@@ -75,7 +76,7 @@ function AppLayout() {
                 <Outlet/>
 
                 <Footer className="app-footer main-footer">
-                    Relay System · ©2025
+                    Relay System · ©{currentYear}
                 </Footer>
             </Layout>
         </ErrorBoundary>

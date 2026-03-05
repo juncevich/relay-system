@@ -2,6 +2,7 @@ package com.relay.unit.web;
 
 import com.relay.core.service.RelayService;
 import com.relay.web.controllers.RelayController;
+import com.relay.web.mappers.RelayRequestMapper;
 import com.relay.web.mappers.RelayResponseMapper;
 import com.relay.web.model.Relay;
 import org.hamcrest.Matchers;
@@ -36,6 +37,9 @@ class RelayControllerTest {
 
     @MockitoBean
     private RelayResponseMapper relayResponseMapper;
+
+    @MockitoBean
+    private RelayRequestMapper relayRequestMapper;
 
   @Test
   void successResponse() throws Exception {

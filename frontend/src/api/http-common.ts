@@ -3,8 +3,10 @@ import {RELAY_STORE_SERVICE_URL} from "./api-urls";
 
 export const relayStoreHttp = axios.create({
     baseURL: RELAY_STORE_SERVICE_URL,
+    timeout: 10_000,
     headers: {
-        "Content-type": "application/json"
+        "Content-type": "application/json",
+        "Accept": "application/json"
     }
 });
 

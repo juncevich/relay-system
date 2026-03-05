@@ -1,42 +1,58 @@
 package com.relay.integration;
 
 import com.relay.core.service.RelayService;
-import org.junit.jupiter.api.Disabled;
+import com.relay.db.dao.LocationDao;
+import com.relay.db.dao.RelayDao;
+import com.relay.db.dao.StandDao;
+import com.relay.db.entity.location.Station;
+import com.relay.db.entity.storage.Stand;
+import com.relay.db.entity.storage.Storage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.ContextConfiguration;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.postgresql.PostgreSQLContainer;
 
 import java.time.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Disabled
-@DataJpaTest
-@Testcontainers
-@ComponentScan(basePackages = {"com.relay"})
-@ContextConfiguration(initializers = {RelayServiceITTest.Initializer.class})
+@SpringBootTest
+@AutoConfigureTestDatabase
 @Tag("integration")
 class RelayServiceITTest {
 
-    @Container
-    static PostgreSQLContainer postgreSQLContainer =
-            new PostgreSQLContainer("postgres:18-alpine")
-                    .withDatabaseName("sampledb").withUsername("sampleuser")
-                    .withPassword("samplepwd").withStartupTimeout(Duration.ofSeconds(600));
-
     @Autowired
     private RelayService relayService;
+    @Autowired
+    private RelayDao relayDao;
+    @Autowired
+    private LocationDao locationDao;
+    @Autowired
+    private StandDao standDao;
+
+    private Storage defaultStorage;
+
+    @BeforeEach
+    void setUp() {
+        relayDao.deleteAll();
+        standDao.deleteAll();
+        locationDao.deleteAll();
+
+        Station station = new Station();
+        station.setName("IT Test Station");
+        locationDao.save(station);
+
+        Stand stand = new Stand();
+        stand.setName("IT Test Stand");
+        stand.setLocation(station);
+        standDao.save(stand);
+
+        defaultStorage = stand;
+    }
 
     @Test
     void findRelayByCreationDate() {
@@ -52,7 +68,7 @@ class RelayServiceITTest {
                 null,
                 null
         );
-        relayService.save(relay);
+        relayService.save(relay, defaultStorage.getId());
 
         Page<com.relay.core.model.Relay> foundedRelayPage =
                 relayService.findByCreationDate(LocalDate.of(2018, Month.JUNE, 6), PageRequest.of(0, 10));
@@ -74,7 +90,7 @@ class RelayServiceITTest {
                 null,
                 null
         );
-        relayService.save(relay);
+        relayService.save(relay, defaultStorage.getId());
 
         Page<com.relay.core.model.Relay> foundedRelayPage =
                 relayService.findByLastCheckDate(LocalDate.of(2018, Month.JUNE, 6), PageRequest.of(0, 10));
@@ -85,29 +101,16 @@ class RelayServiceITTest {
     @Test
     void findAll() {
         com.relay.core.model.Relay relay1 = new com.relay.core.model.Relay(null, "012345", null, null, null, 0, null, null);
-        relayService.save(relay1);
+        relayService.save(relay1, defaultStorage.getId());
         com.relay.core.model.Relay relay2 = new com.relay.core.model.Relay(null, "012346", null, null, null, 0, null, null);
-        relayService.save(relay2);
+        relayService.save(relay2, defaultStorage.getId());
         com.relay.core.model.Relay relay3 = new com.relay.core.model.Relay(null, "012347", null, null, null, 0, null, null);
-        relayService.save(relay3);
+        relayService.save(relay3, defaultStorage.getId());
         com.relay.core.model.Relay relay4 = new com.relay.core.model.Relay(null, "012348", null, null, null, 0, null, null);
-        relayService.save(relay4);
+        relayService.save(relay4, defaultStorage.getId());
 
         Page<com.relay.core.model.Relay> relayPage = relayService.findAll(PageRequest.of(0, 10));
         assertEquals(4, relayPage.getTotalElements());
     }
 
-    public static class Initializer
-            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-
-        public void initialize(
-                ConfigurableApplicationContext configurableApplicationContext) {
-
-            TestPropertyValues
-                    .of("spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
-                            "spring.datasource.username=" + postgreSQLContainer.getUsername(),
-                            "spring.datasource.password=" + postgreSQLContainer.getPassword())
-                    .applyTo(configurableApplicationContext.getEnvironment());
-        }
-    }
 }
