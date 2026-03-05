@@ -85,14 +85,8 @@ public class RelayController {
     @Operation(summary = "Create a new relay")
     public ResponseEntity<CreateRelayResponse> createRelay(@Valid @RequestBody CreateRelayRequest request) {
         var coreModel = relayRequestMapper.mapCreateRequest(request);
-
         var savedModel = relayService.save(coreModel, request.storageId());
-        var response = new CreateRelayResponse(
-                savedModel.serialNumber(),
-                savedModel.createdAt(),
-                savedModel.createdAt(),
-                savedModel.lastCheckDate()
-        );
+        var response = relayResponseMapper.mapToCreateResponse(savedModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -98,4 +98,8 @@ public class StorageRepository {
         return storageDao.findById(storageId)
                 .orElseThrow(() -> new StorageNotFoundException(storageId));
     }
+
+    public void assertStorageExists(@NonNull Long storageId) {
+        findStorageEntityById(storageId);
+    }
 }

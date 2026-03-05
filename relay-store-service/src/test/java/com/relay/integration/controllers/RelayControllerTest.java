@@ -143,5 +143,20 @@ class RelayControllerTest {
         Assertions.assertEquals(1, receivedResponse.relays().size());
     }
 
-}
+    @Test
+    void testCreateRelayWithConflictingDatesShouldFailValidation() throws Exception {
+        var createRelayRequest = new CreateRelayRequest(
+                "012345",
+                OffsetDateTime.parse("2026-01-01T00:00:00Z"),
+                OffsetDateTime.parse("2025-01-01T00:00:00Z"),
+                defaultStorage.getId()
+        );
 
+        this.mockMvc.perform(post("/relays")
+                        .content(objectMapper.writeValueAsString(createRelayRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+}

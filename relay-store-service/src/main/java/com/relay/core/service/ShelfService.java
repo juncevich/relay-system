@@ -34,7 +34,7 @@ public class ShelfService {
 
     public Shelf save(@NonNull Shelf model, @NonNull Long storageId) {
         // Validate storage exists
-        storageRepository.findStorageEntityById(storageId);
+        storageRepository.assertStorageExists(storageId);
 
         // Create shelf with storageId
         var shelf = new Shelf(null, model.number(), model.capacity(), storageId);
@@ -47,7 +47,7 @@ public class ShelfService {
 
         Long storageId = model.storageId() != null ? model.storageId() : existing.storageId();
         if (storageId != null) {
-            storageRepository.findStorageEntityById(storageId);
+            storageRepository.assertStorageExists(storageId);
         }
 
         var updated = new Shelf(id, model.number(), model.capacity(), storageId);

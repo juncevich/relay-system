@@ -41,7 +41,7 @@ public class RelayService {
 
     public Relay save(@NonNull Relay relay, @NonNull Long storageId) {
         // Validate storage exists
-        storageRepository.findStorageEntityById(storageId);
+        storageRepository.assertStorageExists(storageId);
 
         // Create relay model with storageId
         var relayWithStorage = new Relay(
@@ -61,6 +61,9 @@ public class RelayService {
     public Relay update(@NonNull Long id, @NonNull Relay relay, @Nullable Long storageId) {
         var existing = relayRepository.findById(id)
                 .orElseThrow(() -> new RelayNotFoundException(id));
+        if (storageId != null) {
+            storageRepository.assertStorageExists(storageId);
+        }
 
         // Build updated relay
         var updated = new Relay(

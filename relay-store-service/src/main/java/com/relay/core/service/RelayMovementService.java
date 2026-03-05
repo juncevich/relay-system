@@ -1,6 +1,7 @@
 package com.relay.core.service;
 
 import com.relay.core.exceptions.InvalidBusinessStateException;
+import com.relay.core.exceptions.EntityNotFoundException;
 import com.relay.core.exceptions.RelayNotFoundException;
 import com.relay.core.model.history.RelayMovement;
 import com.relay.db.repository.RelayMovementRepository;
@@ -34,7 +35,7 @@ public class RelayMovementService {
     @Transactional(readOnly = true)
     public @NonNull RelayMovement findById(@NonNull Long id) {
         return relayMovementRepository.findById(id)
-                .orElseThrow(() -> new com.relay.core.exceptions.EntityNotFoundException("RelayMovement", id));
+                .orElseThrow(() -> new EntityNotFoundException("RelayMovement", id));
     }
 
     @Transactional(readOnly = true)
@@ -45,18 +46,17 @@ public class RelayMovementService {
     public RelayMovement save(@NonNull Long relayId,
                                    @NonNull Long fromStorageId,
                                    @NonNull Long toStorageId) {
-        // Validate entities exist
-        var relay = relayRepository.findById(relayId)
-                .orElseThrow(() -> new RelayNotFoundException(relayId));
-        storageRepository.findStorageEntityById(fromStorageId);
-        storageRepository.findStorageEntityById(toStorageId);
-
         if (fromStorageId.equals(toStorageId)) {
             throw new InvalidBusinessStateException("From and to storage must be different");
         }
+
+        var relay = relayRepository.findById(relayId)
+                .orElseThrow(() -> new RelayNotFoundException(relayId));
         if (!fromStorageId.equals(relay.storageId())) {
             throw new InvalidBusinessStateException("Relay is not located in source storage");
         }
+        storageRepository.assertStorageExists(fromStorageId);
+        storageRepository.assertStorageExists(toStorageId);
 
         // Create movement model
         var movement = new RelayMovement(

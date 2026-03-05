@@ -2,6 +2,7 @@ package com.relay.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.AssertTrue;
 
 import java.time.OffsetDateTime;
 
@@ -12,4 +13,14 @@ public record UpdateRelayRequest(
         OffsetDateTime verificationDate,
         Long storageId
 ) {
+    @AssertTrue(message = "createdAt and dateOfManufacture must be equal when both are provided")
+    public boolean hasConsistentCreatedAt() {
+        return createdAt == null
+                || dateOfManufacture == null
+                || createdAt.isEqual(dateOfManufacture);
+    }
+
+    public OffsetDateTime effectiveCreatedAt() {
+        return createdAt != null ? createdAt : dateOfManufacture;
+    }
 }

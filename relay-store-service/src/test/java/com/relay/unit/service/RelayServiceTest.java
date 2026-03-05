@@ -1,5 +1,6 @@
 package com.relay.unit.service;
 
+import com.relay.core.exceptions.RelayNotFoundException;
 import com.relay.core.service.RelayService;
 import com.relay.db.repository.RelayRepository;
 import com.relay.db.repository.StorageRepository;
@@ -20,9 +21,11 @@ import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -119,5 +122,38 @@ class RelayServiceTest {
         assertEquals(relay.serialNumber(), foundedRelay.serialNumber());
         assertThat(foundedRelay.serialNumber()).isEqualTo("12345");
         assertThat(foundedRelay.createdAt()).isEqualTo(creationDate);
+    }
+
+    @Test
+    void updateShouldValidateStorageWhenStorageIdProvided() {
+        var relayId = 10L;
+        var oldStorageId = 100L;
+        var newStorageId = 101L;
+        var existing = new com.relay.core.model.Relay(
+                relayId, "12345", null, OffsetDateTime.now(), null, 0, oldStorageId, null
+        );
+        var request = new com.relay.core.model.Relay(
+                relayId, "12345", null, OffsetDateTime.now(), null, 0, oldStorageId, null
+        );
+
+        when(relayRepository.findById(relayId)).thenReturn(Optional.of(existing));
+        when(relayRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        var saved = relayService.update(relayId, request, newStorageId);
+
+        verify(storageRepository).assertStorageExists(newStorageId);
+        assertThat(saved.storageId()).isEqualTo(newStorageId);
+    }
+
+    @Test
+    void updateShouldThrowWhenRelayNotFound() {
+        when(relayRepository.findById(999L)).thenReturn(Optional.empty());
+
+        assertThrows(RelayNotFoundException.class,
+                () -> relayService.update(
+                        999L,
+                        new com.relay.core.model.Relay(999L, "12345", null, null, null, 0, null, null),
+                        null
+                ));
     }
 }

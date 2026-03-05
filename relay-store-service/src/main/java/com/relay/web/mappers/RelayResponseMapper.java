@@ -1,5 +1,6 @@
 package com.relay.web.mappers;
 
+import com.relay.web.dto.CreateRelayResponse;
 import com.relay.web.model.Relay;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -11,6 +12,10 @@ import java.util.List;
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RelayResponseMapper {
+
+    @Mapping(source = "createdAt", target = "dateOfManufacture")
+    @Mapping(source = "lastCheckDate", target = "verificationDate")
+    CreateRelayResponse mapToCreateResponse(com.relay.core.model.Relay model);
 
     @Mapping(source = "lastCheckDate", target = "verificationDate")
     Relay mapToResponse(com.relay.core.model.Relay model);
