@@ -6,10 +6,11 @@ import com.relay.db.dao.ShelfDao;
 import com.relay.db.mappers.ShelfMapper;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,10 +24,9 @@ public class ShelfRepository {
                 .map(shelfMapper::mapEntityToModel);
     }
 
-    public @Nullable Shelf findById(@NonNull Long id) {
+    public Optional<Shelf> findById(@NonNull Long id) {
         return shelfDao.findById(id)
-                .map(shelfMapper::mapEntityToModel)
-                .orElse(null);
+                .map(shelfMapper::mapEntityToModel);
     }
 
     public Shelf save(@NonNull Shelf model) {

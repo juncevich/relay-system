@@ -28,11 +28,8 @@ public class ShelfService {
 
     @Transactional(readOnly = true)
     public @NonNull Shelf findById(@NonNull Long id) {
-        var shelf = shelfRepository.findById(id);
-        if (shelf == null) {
-            throw new ShelfNotFoundException(id);
-        }
-        return shelf;
+        return shelfRepository.findById(id)
+                .orElseThrow(() -> new ShelfNotFoundException(id));
     }
 
     public Shelf save(@NonNull Shelf model, @NonNull Long storageId) {
@@ -45,10 +42,8 @@ public class ShelfService {
     }
 
     public @NonNull Shelf update(@NonNull Long id, @NonNull Shelf model) {
-        var existing = shelfRepository.findById(id);
-        if (existing == null) {
-            throw new ShelfNotFoundException(id);
-        }
+        var existing = shelfRepository.findById(id)
+                .orElseThrow(() -> new ShelfNotFoundException(id));
 
         Long storageId = model.storageId() != null ? model.storageId() : existing.storageId();
         if (storageId != null) {

@@ -20,7 +20,7 @@ spring:
     sql-migration-suffixes: .sql
     enabled: true
     user: ${FLYWAY_USER:postgres}
-    password: ${FLYWAY_PASSWORD:Qwerty12345}
+    password: ${FLYWAY_PASSWORD}
     url: jdbc:postgresql://localhost:5432/relay-service
     baseline-on-migrate: true
   threads:

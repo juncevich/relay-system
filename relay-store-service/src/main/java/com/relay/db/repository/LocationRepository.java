@@ -5,6 +5,7 @@ import com.relay.core.model.location.Crossing;
 import com.relay.core.model.location.Station;
 import com.relay.core.model.location.TrackPoint;
 import com.relay.db.dao.CrossingDao;
+import com.relay.db.dao.LocationDao;
 import com.relay.db.dao.StationDao;
 import com.relay.db.dao.TrackPointDao;
 import com.relay.db.mappers.LocationMapper;
@@ -23,6 +24,7 @@ public class LocationRepository {
     private final StationDao stationDao;
     private final TrackPointDao trackPointDao;
     private final CrossingDao crossingDao;
+    private final LocationDao locationDao;
     private final LocationMapper locationMapper;
 
     // Station operations
@@ -90,13 +92,10 @@ public class LocationRepository {
 
     /**
      * Polymorphic finder - returns entity for relationship wiring.
-     * Searches across all location types (Station, TrackPoint, Crossing).
      * Throws LocationNotFoundException if location is not found.
      */
     public com.relay.db.entity.location.@NonNull Location findLocationEntityById(@NonNull Long locationId) {
-        return stationDao.findById(locationId).map(l -> (com.relay.db.entity.location.Location) l)
-                .or(() -> trackPointDao.findById(locationId).map(l -> (com.relay.db.entity.location.Location) l))
-                .or(() -> crossingDao.findById(locationId).map(l -> (com.relay.db.entity.location.Location) l))
+        return locationDao.findById(locationId)
                 .orElseThrow(() -> new LocationNotFoundException(locationId));
     }
 }

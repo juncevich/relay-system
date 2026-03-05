@@ -90,6 +90,7 @@ public class RelayController {
         var response = new CreateRelayResponse(
                 savedModel.serialNumber(),
                 savedModel.createdAt(),
+                savedModel.createdAt(),
                 savedModel.lastCheckDate()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

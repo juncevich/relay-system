@@ -2,6 +2,7 @@ package com.relay.web.exceptions;
 
 import com.relay.core.exceptions.EntityNotFoundException;
 import com.relay.core.exceptions.InvalidBusinessStateException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.validation.FieldError;
@@ -68,6 +69,17 @@ public class CustomizedResponseEntityExceptionHandler extends GlobalExceptionHan
         problemDetail.setTitle("Business Rule Violation");
         problemDetail.setType(URI.create("https://api.relay-system.com/problems/business-rule-violation"));
 
+        return problemDetail;
+    }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    protected ProblemDetail handleEmptyResultDataAccess(EmptyResultDataAccessException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                "Entity not found"
+        );
+        problemDetail.setTitle("Entity Not Found");
+        problemDetail.setType(URI.create("https://api.relay-system.com/problems/entity-not-found"));
         return problemDetail;
     }
 }

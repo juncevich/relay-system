@@ -6,8 +6,8 @@ import com.relay.core.model.storage.Stand;
 import com.relay.core.model.storage.Warehouse;
 import com.relay.db.dao.RelayCabinetDao;
 import com.relay.db.dao.StandDao;
+import com.relay.db.dao.StorageDao;
 import com.relay.db.dao.WarehouseDao;
-import com.relay.db.entity.storage.Storage;
 import com.relay.db.mappers.StorageMapper;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -24,6 +24,7 @@ public class StorageRepository {
     private final WarehouseDao warehouseDao;
     private final StandDao standDao;
     private final RelayCabinetDao relayCabinetDao;
+    private final StorageDao storageDao;
     private final StorageMapper storageMapper;
 
     // Warehouse operations
@@ -91,13 +92,10 @@ public class StorageRepository {
 
     /**
      * Polymorphic finder - returns entity for relationship wiring.
-     * Searches across all storage types (Warehouse, Stand, RelayCabinet).
      * Throws StorageNotFoundException if storage is not found.
      */
     public com.relay.db.entity.storage.@NonNull Storage findStorageEntityById(@NonNull Long storageId) {
-        return warehouseDao.findById(storageId).map(s -> (Storage) s)
-                .or(() -> standDao.findById(storageId).map(s -> (Storage) s))
-                .or(() -> relayCabinetDao.findById(storageId).map(s -> (Storage) s))
+        return storageDao.findById(storageId)
                 .orElseThrow(() -> new StorageNotFoundException(storageId));
     }
 }

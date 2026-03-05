@@ -93,6 +93,7 @@ class RelayControllerTest {
 
         var createRelayRequest = new CreateRelayRequest(
                 "012345",
+                null,
                 OffsetDateTime.now(),
                 defaultStorage.getId()
         );
@@ -106,6 +107,7 @@ class RelayControllerTest {
 
         var deserializedResponse = objectMapper.readValue(response.getContentAsString(), CreateRelayResponse.class);
         Assertions.assertEquals("012345", deserializedResponse.serialNumber());
+        Assertions.assertNotNull(deserializedResponse.createdAt());
         Assertions.assertNotNull(deserializedResponse.dateOfManufacture());
     }
 
@@ -142,5 +144,4 @@ class RelayControllerTest {
     }
 
 }
-
 

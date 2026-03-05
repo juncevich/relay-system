@@ -7,6 +7,7 @@ import java.time.OffsetDateTime;
 
 public record UpdateRelayRequest(
         @NotBlank @Size(min = 5, max = 10, message = "Serial number must be between 5 and 10 characters") String serialNumber,
+        OffsetDateTime createdAt,
         OffsetDateTime dateOfManufacture,
         OffsetDateTime verificationDate,
         Long storageId

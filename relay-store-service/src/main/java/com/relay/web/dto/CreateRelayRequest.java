@@ -14,6 +14,7 @@ public record CreateRelayRequest(
                 message = "Serial number must be between 5 and 10 characters"
         )
         String serialNumber,
+        OffsetDateTime createdAt,
         OffsetDateTime dateOfManufacture,
         @NotNull
         Long storageId
