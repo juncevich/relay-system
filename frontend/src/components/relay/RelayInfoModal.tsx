@@ -1,6 +1,7 @@
 import {Badge, Descriptions, Modal} from 'antd';
 import {Relay} from '../../types/relay.types';
 import {StorageInfo} from '../../api/StorageService';
+import {getVerificationStatus, VERIFICATION_STATUS} from '../../utils/verificationStatus';
 
 interface RelayInfoModalProps {
     relay: Relay | null;
@@ -8,24 +9,9 @@ interface RelayInfoModalProps {
     onClose: () => void;
 }
 
-function getVerificationStatus(date?: string): 'ok' | 'warning' | 'overdue' | 'unknown' {
-    if (!date) return 'unknown';
-    const diffDays = (Date.now() - new Date(date).getTime()) / 86_400_000;
-    if (diffDays > 365) return 'overdue';
-    if (diffDays > 270) return 'warning';
-    return 'ok';
-}
-
-const STATUS: Record<string, { label: string; color: string }> = {
-    ok: {label: 'Проверено', color: 'green'},
-    warning: {label: 'Скоро проверка', color: 'gold'},
-    overdue: {label: 'Просрочено', color: 'red'},
-    unknown: {label: 'Не проверено', color: 'default'},
-};
-
 function RelayInfoModal({relay, storages, onClose}: RelayInfoModalProps) {
     const status = getVerificationStatus(relay?.verificationDate);
-    const {label, color} = STATUS[status];
+    const {label, color} = VERIFICATION_STATUS[status];
 
     const storageName = relay?.storageId !== undefined
         ? (storages.find(s => s.id === relay.storageId)?.name ?? '—')

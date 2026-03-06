@@ -1,28 +1,14 @@
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {Relay} from '../../types/relay.types';
+import {getVerificationStatus, VERIFICATION_STATUS} from '../../utils/verificationStatus';
 import './RelayCard.css';
 
 const DEFAULT_RELAY_IMAGE = '/images/relay-default.svg';
-
-function getVerificationStatus(date?: string): 'ok' | 'warning' | 'overdue' | 'unknown' {
-    if (!date) return 'unknown';
-    const diffDays = (Date.now() - new Date(date).getTime()) / 86_400_000;
-    if (diffDays > 365) return 'overdue';
-    if (diffDays > 270) return 'warning';
-    return 'ok';
-}
 
 function formatVerificationDate(date?: string): string {
     if (!date) return 'Не проверено';
     return new Date(date).toLocaleDateString('ru-RU');
 }
-
-const STATUS: Record<string, { label: string; color: string }> = {
-    ok: {label: 'Проверено', color: '#4ade80'},
-    warning: {label: 'Скоро проверка', color: '#fbbf24'},
-    overdue: {label: 'Просрочено', color: '#f87171'},
-    unknown: {label: 'Не проверено', color: '#56708a'},
-};
 
 interface RelayCardProps {
     relay?: Relay;
@@ -33,7 +19,7 @@ interface RelayCardProps {
 
 function RelayCard({relay, onEdit, onDelete, onClick}: RelayCardProps) {
     const status = getVerificationStatus(relay?.verificationDate);
-    const {label, color} = STATUS[status];
+    const {label, color} = VERIFICATION_STATUS[status];
 
     return (
         <div className="relay-card-container">
