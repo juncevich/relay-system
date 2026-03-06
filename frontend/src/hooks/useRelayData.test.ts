@@ -1,5 +1,7 @@
 import type {Mocked} from 'vitest';
 import {renderHook, waitFor} from '@testing-library/react';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {createElement, type ReactNode} from 'react';
 import useRelayData from './useRelayData';
 import RelayService from '../api/RelayService';
 import LocationService from '../api/LocationService';
@@ -23,6 +25,19 @@ const mockRelayService = RelayService as Mocked<typeof RelayService>;
 const mockLocationService = LocationService as Mocked<typeof LocationService>;
 const mockStorageService = StorageService as Mocked<typeof StorageService>;
 
+function createWrapper() {
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            }
+        }
+    });
+
+    return ({children}: {children: ReactNode}) =>
+        createElement(QueryClientProvider, {client: queryClient}, children);
+}
+
 describe('useRelayData', () => {
     beforeEach(() => {
         vi.clearAllMocks();
@@ -35,7 +50,7 @@ describe('useRelayData', () => {
         mockLocationService.getAllCrossings.mockReturnValue(new Promise(() => {}));
         mockStorageService.getAllStorages.mockReturnValue(new Promise(() => {}));
 
-        const { result } = renderHook(() => useRelayData());
+        const { result } = renderHook(() => useRelayData(), {wrapper: createWrapper()});
 
         expect(result.current.loading).toBe(true);
         expect(result.current.error).toBeNull();
@@ -53,7 +68,7 @@ describe('useRelayData', () => {
         mockLocationService.getAllCrossings.mockResolvedValue({ data: mockGetAllCrossingsResponse } as never);
         mockStorageService.getAllStorages.mockResolvedValue(mockStorages);
 
-        const { result } = renderHook(() => useRelayData());
+        const { result } = renderHook(() => useRelayData(), {wrapper: createWrapper()});
 
         await waitFor(() => {
             expect(result.current.loading).toBe(false);
@@ -77,7 +92,7 @@ describe('useRelayData', () => {
         mockLocationService.getAllCrossings.mockRejectedValue(new Error(errorMessage));
         mockStorageService.getAllStorages.mockRejectedValue(new Error(errorMessage));
 
-        const { result } = renderHook(() => useRelayData());
+        const { result } = renderHook(() => useRelayData(), {wrapper: createWrapper()});
 
         await waitFor(() => {
             expect(result.current.loading).toBe(false);
@@ -101,7 +116,7 @@ describe('useRelayData', () => {
         mockLocationService.getAllCrossings.mockRejectedValue(apiError);
         mockStorageService.getAllStorages.mockRejectedValue(apiError);
 
-        const { result } = renderHook(() => useRelayData());
+        const { result } = renderHook(() => useRelayData(), {wrapper: createWrapper()});
 
         await waitFor(() => {
             expect(result.current.loading).toBe(false);
@@ -117,7 +132,7 @@ describe('useRelayData', () => {
         mockLocationService.getAllCrossings.mockResolvedValue({ data: mockGetAllCrossingsResponse } as never);
         mockStorageService.getAllStorages.mockResolvedValue(mockStorages);
 
-        renderHook(() => useRelayData({ relayPageSize: 100, stationPageSize: 20 }));
+        renderHook(() => useRelayData({ relayPageSize: 100, stationPageSize: 20 }), {wrapper: createWrapper()});
 
         await waitFor(() => {
             expect(mockRelayService.getAll).toHaveBeenCalledWith({ page: 0, size: 100 });

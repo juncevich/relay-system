@@ -53,7 +53,7 @@ export const mockStation2: StationResponse = {
 };
 
 export const mockGetAllRelaysResponse: GetAllRelaysResponse = {
-    relays: [mockBackendRelay, mockBackendRelay2, mockBackendRelayWithoutCheckDate],
+    items: [mockBackendRelay, mockBackendRelay2, mockBackendRelayWithoutCheckDate],
     totalElements: 3,
     totalPages: 1,
     size: 10,
@@ -61,7 +61,7 @@ export const mockGetAllRelaysResponse: GetAllRelaysResponse = {
 };
 
 export const mockGetAllStationsResponse: GetAllStationsResponse = {
-    stations: [mockStation, mockStation2],
+    items: [mockStation, mockStation2],
     totalElements: 2,
     totalPages: 1,
     size: 10,
@@ -79,7 +79,7 @@ export const mockCrossing: CrossingResponse = {
 };
 
 export const mockGetAllTrackPointsResponse: GetAllTrackPointsResponse = {
-    trackPoints: [mockTrackPoint],
+    items: [mockTrackPoint],
     totalElements: 1,
     totalPages: 1,
     size: 10,
@@ -87,7 +87,7 @@ export const mockGetAllTrackPointsResponse: GetAllTrackPointsResponse = {
 };
 
 export const mockGetAllCrossingsResponse: GetAllCrossingsResponse = {
-    crossings: [mockCrossing],
+    items: [mockCrossing],
     totalElements: 1,
     totalPages: 1,
     size: 10,

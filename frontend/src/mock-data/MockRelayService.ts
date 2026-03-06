@@ -28,7 +28,7 @@ class MockRelayService {
         const paged = allRelays.slice(start, start + size);
 
         const response: GetAllRelaysResponse = {
-            relays: paged,
+            items: paged,
             totalElements: allRelays.length,
             totalPages: Math.ceil(allRelays.length / size),
             size,

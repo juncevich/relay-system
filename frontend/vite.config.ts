@@ -5,11 +5,15 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
     plugins: [react(), tsconfigPaths()],
     server: {port: 3000},
-    build: {outDir: 'build'},
+    build: {
+        outDir: 'build',
+        chunkSizeWarningLimit: 600,
+    },
     test: {
         globals: true,
         environment: 'jsdom',
-        setupFiles: './src/setupTests.ts',
+        setupFiles: ['./test/setup-vitest.ts', './src/setupTests.ts'],
+        exclude: ['e2e/**', 'node_modules/**'],
         css: {modules: {classNameStrategy: 'non-scoped'}},
     },
 });

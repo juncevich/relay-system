@@ -1,6 +1,7 @@
 // Relay Types and DTOs
 
-export interface PaginatedResponse {
+export interface PageResponse<T> {
+    items: T[];
     totalElements: number;
     totalPages: number;
     size: number;
@@ -37,9 +38,7 @@ export interface CreateRelayResponse {
     verificationDate?: string;
 }
 
-export interface GetAllRelaysResponse extends PaginatedResponse {
-    relays: Relay[];
-}
+export type GetAllRelaysResponse = PageResponse<Relay>;
 
 // Location Types
 
@@ -62,17 +61,11 @@ export type Station = StationResponse;
 export type TrackPoint = TrackPointResponse;
 export type Crossing = CrossingResponse;
 
-export interface GetAllStationsResponse extends PaginatedResponse {
-    stations: StationResponse[];
-}
+export type GetAllStationsResponse = PageResponse<StationResponse>;
 
-export interface GetAllTrackPointsResponse extends PaginatedResponse {
-    trackPoints: TrackPointResponse[];
-}
+export type GetAllTrackPointsResponse = PageResponse<TrackPointResponse>;
 
-export interface GetAllCrossingsResponse extends PaginatedResponse {
-    crossings: CrossingResponse[];
-}
+export type GetAllCrossingsResponse = PageResponse<CrossingResponse>;
 
 // Storage Types
 
@@ -106,21 +99,13 @@ export type Stand = StandResponse;
 export type RelayCabinet = RelayCabinetResponse;
 export type Shelf = ShelfResponse;
 
-export interface GetAllWarehousesResponse extends PaginatedResponse {
-    warehouses: WarehouseResponse[];
-}
+export type GetAllWarehousesResponse = PageResponse<WarehouseResponse>;
 
-export interface GetAllStandsResponse extends PaginatedResponse {
-    stands: StandResponse[];
-}
+export type GetAllStandsResponse = PageResponse<StandResponse>;
 
-export interface GetAllRelayCabinetsResponse extends PaginatedResponse {
-    relayCabinets: RelayCabinetResponse[];
-}
+export type GetAllRelayCabinetsResponse = PageResponse<RelayCabinetResponse>;
 
-export interface GetAllShelvesResponse extends PaginatedResponse {
-    shelves: ShelfResponse[];
-}
+export type GetAllShelvesResponse = PageResponse<ShelfResponse>;
 
 // Relay Movement Types
 
@@ -141,9 +126,7 @@ export interface CreateRelayMovementRequest {
     toStorageId: number;
 }
 
-export interface GetAllRelayMovementsResponse extends PaginatedResponse {
-    relayMovements: RelayMovementResponse[];
-}
+export type GetAllRelayMovementsResponse = PageResponse<RelayMovementResponse>;
 
 // Pagination params
 export interface PaginationParams {

@@ -25,7 +25,7 @@ function StationsPage() {
                 page: nextPage - 1,
                 size: nextPageSize
             });
-            setStations(response.data.stations);
+            setStations(response.data.items);
             setTotalElements(response.data.totalElements);
         } catch (error) {
             message.error(getApiErrorMessage(error, 'Не удалось загрузить станции'));

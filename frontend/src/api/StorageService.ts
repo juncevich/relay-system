@@ -51,17 +51,17 @@ class StorageService {
         ]);
 
         return [
-            ...(warehouses.data.warehouses ?? []).map((w: WarehouseResponse) => ({
+            ...(warehouses.data.items ?? []).map((w: WarehouseResponse) => ({
                 id: w.id,
                 name: w.name,
                 locationId: w.locationId
             })),
-            ...(stands.data.stands ?? []).map((s: StandResponse) => ({
+            ...(stands.data.items ?? []).map((s: StandResponse) => ({
                 id: s.id,
                 name: s.name,
                 locationId: s.locationId
             })),
-            ...(cabinets.data.relayCabinets ?? []).map((c: RelayCabinetResponse) => ({
+            ...(cabinets.data.items ?? []).map((c: RelayCabinetResponse) => ({
                 id: c.id,
                 name: c.name,
                 locationId: c.locationId

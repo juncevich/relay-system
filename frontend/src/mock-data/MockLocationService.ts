@@ -37,7 +37,7 @@ class MockLocationService {
         const paged = this.stations.slice(start, start + size);
 
         const response: GetAllStationsResponse = {
-            stations: paged,
+            items: paged,
             totalElements: this.stations.length,
             totalPages: Math.ceil(this.stations.length / size),
             size,
@@ -80,7 +80,7 @@ class MockLocationService {
         const paged = this.trackPoints.slice(start, start + size);
 
         const response: GetAllTrackPointsResponse = {
-            trackPoints: paged,
+            items: paged,
             totalElements: this.trackPoints.length,
             totalPages: Math.ceil(this.trackPoints.length / size),
             size,
@@ -122,7 +122,7 @@ class MockLocationService {
         const paged = this.crossings.slice(start, start + size);
 
         const response: GetAllCrossingsResponse = {
-            crossings: paged,
+            items: paged,
             totalElements: this.crossings.length,
             totalPages: Math.ceil(this.crossings.length / size),
             size,

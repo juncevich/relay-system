@@ -21,7 +21,7 @@ describe('StationsPage', () => {
 
     it('should render "Станции" title', async () => {
         vi.mocked(LocationService.getAllStations).mockResolvedValue({
-            data: {stations: [], totalElements: 0, totalPages: 0, size: 20, number: 0},
+            data: {items: [], totalElements: 0, totalPages: 0, size: 20, number: 0},
         } as never);
 
         renderWithApp(<StationsPage/>);
@@ -32,7 +32,7 @@ describe('StationsPage', () => {
     it('should load and display station list', async () => {
         vi.mocked(LocationService.getAllStations).mockResolvedValue({
             data: {
-                stations: [mockStation, mockStation2],
+                items: [mockStation, mockStation2],
                 totalElements: 2,
                 totalPages: 1,
                 size: 20,
@@ -50,7 +50,7 @@ describe('StationsPage', () => {
 
     it('should render "Добавить станцию" button', async () => {
         vi.mocked(LocationService.getAllStations).mockResolvedValue({
-            data: {stations: [], totalElements: 0, totalPages: 0, size: 20, number: 0},
+            data: {items: [], totalElements: 0, totalPages: 0, size: 20, number: 0},
         } as never);
 
         renderWithApp(<StationsPage/>);
@@ -72,7 +72,7 @@ describe('StationsPage', () => {
 
     it('should call getAllStations on mount', async () => {
         vi.mocked(LocationService.getAllStations).mockResolvedValue({
-            data: {stations: [], totalElements: 0, totalPages: 0, size: 20, number: 0},
+            data: {items: [], totalElements: 0, totalPages: 0, size: 20, number: 0},
         } as never);
 
         renderWithApp(<StationsPage/>);

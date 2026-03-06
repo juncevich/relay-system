@@ -30,8 +30,35 @@ Object.defineProperty(window, 'matchMedia', {
 
 const originalGetComputedStyle = window.getComputedStyle.bind(window);
 window.getComputedStyle = ((element: Element, pseudoElt?: string | null) =>
-        originalGetComputedStyle(element, pseudoElt ? null : undefined)
+  originalGetComputedStyle(element, pseudoElt ? null : undefined)
 ) as typeof window.getComputedStyle;
+
+const originalConsoleError = console.error.bind(console);
+const originalConsoleWarn = console.warn.bind(console);
+
+const isCssParseWarning = (arg: unknown): boolean => {
+  if (typeof arg === 'string') {
+    return arg.includes('Could not parse CSS stylesheet');
+  }
+  if (arg instanceof Error) {
+    return arg.message.includes('Could not parse CSS stylesheet');
+  }
+  return false;
+};
+
+console.error = (...args: unknown[]) => {
+  if (args.some(isCssParseWarning)) {
+    return;
+  }
+  originalConsoleError(...(args as Parameters<typeof console.error>));
+};
+
+console.warn = (...args: unknown[]) => {
+  if (args.some(isCssParseWarning)) {
+    return;
+  }
+  originalConsoleWarn(...(args as Parameters<typeof console.warn>));
+};
 
 // Configure React Testing Library for React 19
 configure({ asyncUtilTimeout: 3000 });

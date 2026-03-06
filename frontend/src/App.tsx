@@ -1,25 +1,36 @@
 import {lazy, Suspense} from 'react';
-import {App as AntApp, ConfigProvider, Spin, theme} from 'antd';
+import {App as AntApp, ConfigProvider, theme} from 'antd';
 import {BrowserRouter, Route, Routes} from 'react-router';
-import AppLayout from './components/layout/AppLayout';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
+const AppLayout = lazy(() => import('./components/layout/AppLayout'));
 const HomePage = lazy(() => import('./pages/HomePage'));
 const MainPage = lazy(() => import('./pages/MainPage'));
 const StationsPage = lazy(() => import('./pages/StationsPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 30_000,
+            refetchOnWindowFocus: false,
+            retry: 1,
+        }
+    }
+});
 
 function RouteFallback() {
     return (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh'}}>
-            <Spin size="large"/>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', color: '#8fa3c0'}}>
+            Загрузка...
         </div>
     );
 }
 
 function App() {
     return (
-        <ConfigProvider
-            theme={{
+        <QueryClientProvider client={queryClient}>
+            <ConfigProvider
+                theme={{
                 algorithm: theme.darkAlgorithm,
                 token: {
                     colorPrimary: '#00c8d4',
@@ -76,11 +87,13 @@ function App() {
                     },
                 },
             }}
-        >
-            <AntApp>
+            >
+                <AntApp>
                 <BrowserRouter>
                     <Routes>
-                        <Route element={<AppLayout/>}>
+                        <Route
+                            element={<Suspense fallback={<RouteFallback/>}><AppLayout/></Suspense>}
+                        >
                             <Route
                                 path="/"
                                 element={<Suspense fallback={<RouteFallback/>}><HomePage/></Suspense>}
@@ -100,8 +113,9 @@ function App() {
                         </Route>
                     </Routes>
                 </BrowserRouter>
-            </AntApp>
-        </ConfigProvider>
+                </AntApp>
+            </ConfigProvider>
+        </QueryClientProvider>
     );
 }
 
