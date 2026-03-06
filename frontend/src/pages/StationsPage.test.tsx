@@ -26,7 +26,7 @@ describe('StationsPage', () => {
 
         renderWithApp(<StationsPage/>);
 
-        expect(screen.getByText('Станции')).toBeInTheDocument();
+        expect(await screen.findByText('Станции')).toBeInTheDocument();
     });
 
     it('should load and display station list', async () => {
@@ -55,7 +55,7 @@ describe('StationsPage', () => {
 
         renderWithApp(<StationsPage/>);
 
-        expect(screen.getByText('Добавить станцию')).toBeInTheDocument();
+        expect(await screen.findByText('Добавить станцию')).toBeInTheDocument();
     });
 
     it('should show error message on failed fetch', async () => {
@@ -70,13 +70,15 @@ describe('StationsPage', () => {
         });
     });
 
-    it('should call getAllStations on mount', () => {
+    it('should call getAllStations on mount', async () => {
         vi.mocked(LocationService.getAllStations).mockResolvedValue({
             data: {stations: [], totalElements: 0, totalPages: 0, size: 20, number: 0},
         } as never);
 
         renderWithApp(<StationsPage/>);
 
-        expect(LocationService.getAllStations).toHaveBeenCalledWith({page: 0, size: 20});
+        await waitFor(() => {
+            expect(LocationService.getAllStations).toHaveBeenCalledWith({page: 0, size: 20});
+        });
     });
 });

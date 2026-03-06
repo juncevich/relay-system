@@ -3,7 +3,6 @@ package com.relay.unit.service;
 import com.relay.core.exceptions.RelayNotFoundException;
 import com.relay.core.service.RelayService;
 import com.relay.db.repository.RelayRepository;
-import com.relay.db.repository.StorageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -21,8 +20,8 @@ import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -35,17 +34,11 @@ class RelayServiceTest {
     @Mock
     private RelayRepository relayRepository;
 
-    @Mock
-    private StorageRepository storageRepository;
-
     private RelayService relayService;
 
     @BeforeEach
     void setUp() {
-        relayService = new RelayService(
-                relayRepository,
-                storageRepository
-        );
+        relayService = new RelayService(relayRepository);
     }
 
     @Test
@@ -125,7 +118,7 @@ class RelayServiceTest {
     }
 
     @Test
-    void updateShouldValidateStorageWhenStorageIdProvided() {
+    void updateShouldApplyProvidedStorageId() {
         var relayId = 10L;
         var oldStorageId = 100L;
         var newStorageId = 101L;
@@ -141,7 +134,7 @@ class RelayServiceTest {
 
         var saved = relayService.update(relayId, request, newStorageId);
 
-        verify(storageRepository).assertStorageExists(newStorageId);
+        verify(relayRepository).save(any());
         assertThat(saved.storageId()).isEqualTo(newStorageId);
     }
 

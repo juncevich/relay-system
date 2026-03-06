@@ -1,4 +1,4 @@
-import {render, screen} from '@testing-library/react';
+import {render, screen, waitFor} from '@testing-library/react';
 import AppLayout from './AppLayout';
 
 const mockNavigate = vi.fn();
@@ -16,47 +16,53 @@ describe('AppLayout', () => {
         mockPathname = '/';
     });
 
-    it('should render navigation menu with 3 items', () => {
+    it('should render navigation menu with 3 items', async () => {
         render(<AppLayout/>);
 
-        expect(screen.getByText('Главная')).toBeInTheDocument();
-        expect(screen.getByText('Реле')).toBeInTheDocument();
-        expect(screen.getByText('Станции')).toBeInTheDocument();
+        expect(await screen.findByText('Главная')).toBeInTheDocument();
+        expect(await screen.findByText('Реле')).toBeInTheDocument();
+        expect(await screen.findByText('Станции')).toBeInTheDocument();
     });
 
-    it('should render footer', () => {
+    it('should render footer', async () => {
         render(<AppLayout/>);
 
-        expect(screen.getByText(/Relay System/)).toBeInTheDocument();
+        expect(await screen.findByText(/Relay System/)).toBeInTheDocument();
     });
 
-    it('should render Outlet', () => {
+    it('should render Outlet', async () => {
         render(<AppLayout/>);
 
-        expect(screen.getByTestId('outlet')).toBeInTheDocument();
+        expect(await screen.findByTestId('outlet')).toBeInTheDocument();
     });
 
-    it('should highlight "Главная" menu item for root path', () => {
+    it('should highlight "Главная" menu item for root path', async () => {
         mockPathname = '/';
         render(<AppLayout/>);
 
-        const menuItem = screen.getByText('Главная').closest('li');
-        expect(menuItem).toHaveClass('ant-menu-item-selected');
+        await waitFor(() => {
+            const menuItem = screen.getByText('Главная').closest('li');
+            expect(menuItem).toHaveClass('ant-menu-item-selected');
+        });
     });
 
-    it('should highlight "Реле" menu item for /relays path', () => {
+    it('should highlight "Реле" menu item for /relays path', async () => {
         mockPathname = '/relays';
         render(<AppLayout/>);
 
-        const menuItem = screen.getByText('Реле').closest('li');
-        expect(menuItem).toHaveClass('ant-menu-item-selected');
+        await waitFor(() => {
+            const menuItem = screen.getByText('Реле').closest('li');
+            expect(menuItem).toHaveClass('ant-menu-item-selected');
+        });
     });
 
-    it('should highlight "Станции" menu item for /stations path', () => {
+    it('should highlight "Станции" menu item for /stations path', async () => {
         mockPathname = '/stations';
         render(<AppLayout/>);
 
-        const menuItem = screen.getByText('Станции').closest('li');
-        expect(menuItem).toHaveClass('ant-menu-item-selected');
+        await waitFor(() => {
+            const menuItem = screen.getByText('Станции').closest('li');
+            expect(menuItem).toHaveClass('ant-menu-item-selected');
+        });
     });
 });

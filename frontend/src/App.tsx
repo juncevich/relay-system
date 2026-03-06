@@ -1,10 +1,20 @@
-import {App as AntApp, ConfigProvider, theme} from 'antd';
+import {lazy, Suspense} from 'react';
+import {App as AntApp, ConfigProvider, Spin, theme} from 'antd';
 import {BrowserRouter, Route, Routes} from 'react-router';
 import AppLayout from './components/layout/AppLayout';
-import HomePage from './pages/HomePage';
-import MainPage from './pages/MainPage';
-import NotFoundPage from './pages/NotFoundPage';
-import StationsPage from './pages/StationsPage';
+
+const HomePage = lazy(() => import('./pages/HomePage'));
+const MainPage = lazy(() => import('./pages/MainPage'));
+const StationsPage = lazy(() => import('./pages/StationsPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+
+function RouteFallback() {
+    return (
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh'}}>
+            <Spin size="large"/>
+        </div>
+    );
+}
 
 function App() {
     return (
@@ -71,10 +81,22 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route element={<AppLayout/>}>
-                            <Route path="/" element={<HomePage/>}/>
-                            <Route path="/relays" element={<MainPage/>}/>
-                            <Route path="/stations" element={<StationsPage/>}/>
-                            <Route path="*" element={<NotFoundPage/>}/>
+                            <Route
+                                path="/"
+                                element={<Suspense fallback={<RouteFallback/>}><HomePage/></Suspense>}
+                            />
+                            <Route
+                                path="/relays"
+                                element={<Suspense fallback={<RouteFallback/>}><MainPage/></Suspense>}
+                            />
+                            <Route
+                                path="/stations"
+                                element={<Suspense fallback={<RouteFallback/>}><StationsPage/></Suspense>}
+                            />
+                            <Route
+                                path="*"
+                                element={<Suspense fallback={<RouteFallback/>}><NotFoundPage/></Suspense>}
+                            />
                         </Route>
                     </Routes>
                 </BrowserRouter>

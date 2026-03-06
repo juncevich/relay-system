@@ -3,7 +3,6 @@ package com.relay.core.service;
 import com.relay.core.exceptions.RelayNotFoundException;
 import com.relay.core.model.Relay;
 import com.relay.db.repository.RelayRepository;
-import com.relay.db.repository.StorageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
@@ -23,7 +22,6 @@ import java.util.Optional;
 public class RelayService {
 
     private final RelayRepository relayRepository;
-    private final StorageRepository storageRepository;
 
     @Transactional(readOnly = true)
     public @NonNull Page<Relay> findAll(@NonNull Pageable pageable) {
@@ -40,10 +38,6 @@ public class RelayService {
     }
 
     public Relay save(@NonNull Relay relay, @NonNull Long storageId) {
-        // Validate storage exists
-        storageRepository.assertStorageExists(storageId);
-
-        // Create relay model with storageId
         var relayWithStorage = new Relay(
                 relay.id(),
                 relay.serialNumber(),
@@ -61,11 +55,7 @@ public class RelayService {
     public Relay update(@NonNull Long id, @NonNull Relay relay, @Nullable Long storageId) {
         var existing = relayRepository.findById(id)
                 .orElseThrow(() -> new RelayNotFoundException(id));
-        if (storageId != null) {
-            storageRepository.assertStorageExists(storageId);
-        }
 
-        // Build updated relay
         var updated = new Relay(
                 id,
                 relay.serialNumber(),

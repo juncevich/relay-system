@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
-import {App, Button, Input, List, Modal, Pagination, Space, Spin, Typography} from 'antd';
+import {App, Button, Input, Modal, Pagination, Space, Spin, Table, Typography} from 'antd';
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {LocationService as locationService} from '../services';
 import {getApiErrorMessage, StationResponse} from '../types/relay.types';
@@ -27,8 +27,6 @@ function StationsPage() {
             });
             setStations(response.data.stations);
             setTotalElements(response.data.totalElements);
-            setPage(response.data.number + 1);
-            setPageSize(response.data.size);
         } catch (error) {
             message.error(getApiErrorMessage(error, 'Не удалось загрузить станции'));
         } finally {
@@ -68,7 +66,7 @@ function StationsPage() {
                 message.success('Станция добавлена');
             }
             setModalOpen(false);
-            fetchStations(page, pageSize);
+            await fetchStations(page, pageSize);
         } catch (error) {
             message.error(getApiErrorMessage(error, 'Не удалось сохранить станцию'));
         } finally {
@@ -87,13 +85,47 @@ function StationsPage() {
                 try {
                     await locationService.deleteStation(station.id);
                     message.success('Станция удалена');
-                    fetchStations(page, pageSize);
+                    await fetchStations(page, pageSize);
                 } catch (error) {
                     message.error(getApiErrorMessage(error, 'Не удалось удалить станцию'));
                 }
             },
         });
     };
+
+    const columns = [
+        {
+            title: 'Станция',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Действия',
+            key: 'actions',
+            width: 180,
+            render: (_: unknown, station: StationResponse) => (
+                <Space size="small">
+                    <Button
+                        key="edit"
+                        type="link"
+                        icon={<EditOutlined/>}
+                        onClick={() => openEditModal(station)}
+                    >
+                        Изменить
+                    </Button>
+                    <Button
+                        key="delete"
+                        type="link"
+                        danger
+                        icon={<DeleteOutlined/>}
+                        onClick={() => handleDelete(station)}
+                    >
+                        Удалить
+                    </Button>
+                </Space>
+            ),
+        },
+    ];
 
     return (
         <div style={{padding: 24, maxWidth: 800}}>
@@ -105,35 +137,13 @@ function StationsPage() {
             </Space>
 
             <Spin spinning={loading}>
-                <List
+                <Table
                     bordered
+                    rowKey="id"
                     dataSource={stations}
+                    columns={columns}
                     locale={{emptyText: 'Нет станций'}}
-                    renderItem={(station) => (
-                        <List.Item
-                            actions={[
-                                <Button
-                                    key="edit"
-                                    type="link"
-                                    icon={<EditOutlined/>}
-                                    onClick={() => openEditModal(station)}
-                                >
-                                    Изменить
-                                </Button>,
-                                <Button
-                                    key="delete"
-                                    type="link"
-                                    danger
-                                    icon={<DeleteOutlined/>}
-                                    onClick={() => handleDelete(station)}
-                                >
-                                    Удалить
-                                </Button>,
-                            ]}
-                        >
-                            {station.name}
-                        </List.Item>
-                    )}
+                    pagination={false}
                 />
                 <Pagination
                     style={{marginTop: 16, textAlign: 'right'}}
@@ -143,7 +153,8 @@ function StationsPage() {
                     showSizeChanger
                     pageSizeOptions={[10, 20, 50, 100]}
                     onChange={(nextPage, nextPageSize) => {
-                        fetchStations(nextPage, nextPageSize);
+                        setPage(nextPage);
+                        setPageSize(nextPageSize);
                     }}
                 />
             </Spin>

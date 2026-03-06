@@ -1,4 +1,4 @@
-import {render, screen} from '@testing-library/react';
+import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
     createMockCrossings,
@@ -31,7 +31,7 @@ describe('MainTab', () => {
         vi.clearAllMocks();
     });
 
-    it('should show loading spinner when loading', () => {
+    it('should show loading spinner when loading', async () => {
         mockUseRelayData.mockReturnValue({
             relays: [],
             stations: [],
@@ -44,10 +44,10 @@ describe('MainTab', () => {
 
         render(<MainTab/>);
 
-        expect(screen.getByText('Загрузка реле...')).toBeInTheDocument();
+        expect(await screen.findByText('Загрузка реле...')).toBeInTheDocument();
     });
 
-    it('should show error alert when error occurs', () => {
+    it('should show error alert when error occurs', async () => {
         mockUseRelayData.mockReturnValue({
             relays: [],
             stations: [],
@@ -60,11 +60,11 @@ describe('MainTab', () => {
 
         render(<MainTab/>);
 
-        expect(screen.getByText('Ошибка загрузки данных')).toBeInTheDocument();
-        expect(screen.getByText('Network error')).toBeInTheDocument();
+        expect(await screen.findByText('Ошибка загрузки данных')).toBeInTheDocument();
+        expect(await screen.findByText('Network error')).toBeInTheDocument();
     });
 
-    it('should render breadcrumb items', () => {
+    it('should render breadcrumb items', async () => {
         const stations = createMockStations(1);
         mockUseRelayData.mockReturnValue({
             relays: [],
@@ -78,12 +78,14 @@ describe('MainTab', () => {
 
         render(<MainTab/>);
 
-        expect(screen.getByText('Реле')).toBeInTheDocument();
+        expect(await screen.findByText('Реле')).toBeInTheDocument();
         // Station name appears in both breadcrumb and sidebar menu
-        expect(screen.getAllByText('Екатеринбург-Пасс.').length).toBeGreaterThanOrEqual(2);
+        await waitFor(() => {
+            expect(screen.getAllByText('Екатеринбург-Пасс.').length).toBeGreaterThanOrEqual(2);
+        });
     });
 
-    it('should render location menu items in sidebar', () => {
+    it('should render location menu items in sidebar', async () => {
         const stations = createMockStations(3);
         const trackPoints = createMockTrackPoints(2);
         const crossings = createMockCrossings(1);
@@ -100,18 +102,20 @@ describe('MainTab', () => {
 
         render(<MainTab/>);
 
-        expect(screen.getByText('Станции')).toBeInTheDocument();
+        expect(await screen.findByText('Станции')).toBeInTheDocument();
         // First station appears in both breadcrumb and sidebar menu
-        expect(screen.getAllByText('Екатеринбург-Пасс.').length).toBeGreaterThanOrEqual(1);
-        expect(screen.getByText('Первомайская')).toBeInTheDocument();
-        expect(screen.getByText('Монетная')).toBeInTheDocument();
-        expect(screen.getByText('Перегоны')).toBeInTheDocument();
-        expect(screen.getByText('Шарташ')).toBeInTheDocument();
-        expect(screen.getByText('Переезды')).toBeInTheDocument();
-        expect(screen.getByText('Переезд 39 км')).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getAllByText('Екатеринбург-Пасс.').length).toBeGreaterThanOrEqual(1);
+            expect(screen.getByText('Первомайская')).toBeInTheDocument();
+            expect(screen.getByText('Монетная')).toBeInTheDocument();
+            expect(screen.getByText('Перегоны')).toBeInTheDocument();
+            expect(screen.getByText('Шарташ')).toBeInTheDocument();
+            expect(screen.getByText('Переезды')).toBeInTheDocument();
+            expect(screen.getByText('Переезд 39 км')).toBeInTheDocument();
+        });
     });
 
-    it('should render relay cards filtered by selected station', () => {
+    it('should render relay cards filtered by selected station', async () => {
         const stations = createMockStations(2);
         const relays = createMockRelays(3, 101);
         mockUseRelayData.mockReturnValue({
@@ -127,11 +131,13 @@ describe('MainTab', () => {
         render(<MainTab/>);
 
         // First station (id=1) is auto-selected, storage 101 has locationId=1
-        const cards = screen.getAllByTestId('relay-card');
-        expect(cards).toHaveLength(3);
+        await waitFor(() => {
+            const cards = screen.getAllByTestId('relay-card');
+            expect(cards).toHaveLength(3);
+        });
     });
 
-    it('should show storage name in tab when station has storages', () => {
+    it('should show storage name in tab when station has storages', async () => {
         const stations = createMockStations(2);
         const relays = createMockRelays(3, 101);
         mockUseRelayData.mockReturnValue({
@@ -146,10 +152,10 @@ describe('MainTab', () => {
 
         render(<MainTab/>);
 
-        expect(screen.getByText('Склад ШЧ Екатеринбург (3)')).toBeInTheDocument();
+        expect(await screen.findByText('Склад ШЧ Екатеринбург (3)')).toBeInTheDocument();
     });
 
-    it('should show "Нет реле для отображения" when no relays match selected station', () => {
+    it('should show "Нет реле для отображения" when no relays match selected station', async () => {
         const stations = createMockStations(2);
         // Relays with storageId=104 (locationId=2 = Первомайская)
         const relays = createMockRelays(3, 104);
@@ -167,7 +173,7 @@ describe('MainTab', () => {
 
         // First station (id=1, Екатеринбург) is auto-selected, but relays are at station 2
         // Storage 101 exists at station 1 but has 0 relays
-        expect(screen.getByText('Склад ШЧ Екатеринбург (0)')).toBeInTheDocument();
+        expect(await screen.findByText('Склад ШЧ Екатеринбург (0)')).toBeInTheDocument();
     });
 
     it('should filter relays when clicking a different station', async () => {
@@ -192,13 +198,17 @@ describe('MainTab', () => {
         render(<MainTab/>);
 
         // Initially station 1 is selected, showing 3 relays
-        expect(screen.getAllByTestId('relay-card')).toHaveLength(3);
+        await waitFor(() => {
+            expect(screen.getAllByTestId('relay-card')).toHaveLength(3);
+        });
 
         // Click on station 2 (Первомайская)
         const user = userEvent.setup();
         await user.click(screen.getByText('Первомайская'));
 
         // Now should show 2 relays from station 2
-        expect(screen.getAllByTestId('relay-card')).toHaveLength(2);
+        await waitFor(() => {
+            expect(screen.getAllByTestId('relay-card')).toHaveLength(2);
+        });
     });
 });

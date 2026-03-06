@@ -2,6 +2,10 @@ import '@testing-library/jest-dom';
 import {configure} from '@testing-library/react';
 import {vi} from 'vitest';
 
+(
+    globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }
+).IS_REACT_ACT_ENVIRONMENT = true;
+
 // Polyfill ResizeObserver for Ant Design components in jsdom
 globalThis.ResizeObserver = class ResizeObserver {
   observe() {}
@@ -23,6 +27,11 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: () => false,
   }),
 });
+
+const originalGetComputedStyle = window.getComputedStyle.bind(window);
+window.getComputedStyle = ((element: Element, pseudoElt?: string | null) =>
+        originalGetComputedStyle(element, pseudoElt ? null : undefined)
+) as typeof window.getComputedStyle;
 
 // Configure React Testing Library for React 19
 configure({ asyncUtilTimeout: 3000 });
