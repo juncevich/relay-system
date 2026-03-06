@@ -2,7 +2,7 @@ package com.relay.web.controllers;
 
 import com.relay.core.service.RelayMovementService;
 import com.relay.web.dto.history.CreateRelayMovementRequest;
-import com.relay.web.dto.history.GetAllRelayMovementsResponse;
+import com.relay.web.dto.PageResponse;
 import com.relay.web.mappers.RelayMovementResponseMapper;
 import com.relay.web.model.history.RelayMovementResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Tag(name = "Relay movement controller")
 public class RelayMovementController {
@@ -23,12 +24,12 @@ public class RelayMovementController {
 
     @GetMapping("/relay-movements")
     @Operation(summary = "Get all relay movements")
-    public GetAllRelayMovementsResponse findAllRelayMovements(
+    public PageResponse<RelayMovementResponse> findAllRelayMovements(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = relayMovementService.findAll(PageRequest.of(page, size));
         var relayMovementResponses = relayMovementResponseMapper.mapRelayMovementsToResponse(pageResult.getContent());
-        return new GetAllRelayMovementsResponse(relayMovementResponses, pageResult.getTotalElements(),
+        return new PageResponse<>(relayMovementResponses, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
@@ -41,13 +42,13 @@ public class RelayMovementController {
 
     @GetMapping("/relay-movements/relay/{relayId}")
     @Operation(summary = "Get relay movements by relay ID")
-    public GetAllRelayMovementsResponse findRelayMovementsByRelayId(
+    public PageResponse<RelayMovementResponse> findRelayMovementsByRelayId(
             @PathVariable Long relayId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = relayMovementService.findByRelayId(relayId, PageRequest.of(page, size));
         var relayMovementResponses = relayMovementResponseMapper.mapRelayMovementsToResponse(pageResult.getContent());
-        return new GetAllRelayMovementsResponse(relayMovementResponses, pageResult.getTotalElements(),
+        return new PageResponse<>(relayMovementResponses, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 

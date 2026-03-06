@@ -20,6 +20,9 @@ spring:
     serialization:
       indent_output: true
 
+app:
+  timezone: Europe/Moscow
+
 management:
   endpoints:
     web:

@@ -4,6 +4,7 @@ import com.relay.core.model.location.Crossing;
 import com.relay.core.model.location.Station;
 import com.relay.core.model.location.TrackPoint;
 import com.relay.core.service.LocationService;
+import com.relay.web.dto.PageResponse;
 import com.relay.web.dto.location.*;
 import com.relay.web.mappers.LocationResponseMapper;
 import com.relay.web.model.location.CrossingResponse;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Tag(name = "Location controller")
 public class LocationController {
@@ -29,12 +31,12 @@ public class LocationController {
     // Station endpoints
     @GetMapping("/stations")
     @Operation(summary = "Get all stations")
-    public GetAllStationsResponse findAllStations(
+    public PageResponse<StationResponse> findAllStations(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = locationService.findAllStations(PageRequest.of(page, size));
         var stationResponses = locationResponseMapper.mapStationsToResponse(pageResult.getContent());
-        return new GetAllStationsResponse(stationResponses, pageResult.getTotalElements(),
+        return new PageResponse<>(stationResponses, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
@@ -78,12 +80,12 @@ public class LocationController {
     // TrackPoint endpoints
     @GetMapping("/track-points")
     @Operation(summary = "Get all track points")
-    public GetAllTrackPointsResponse findAllTrackPoints(
+    public PageResponse<TrackPointResponse> findAllTrackPoints(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = locationService.findAllTrackPoints(PageRequest.of(page, size));
         var trackPointResponses = locationResponseMapper.mapTrackPointsToResponse(pageResult.getContent());
-        return new GetAllTrackPointsResponse(trackPointResponses, pageResult.getTotalElements(),
+        return new PageResponse<>(trackPointResponses, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
@@ -127,12 +129,12 @@ public class LocationController {
     // Crossing endpoints
     @GetMapping("/crossings")
     @Operation(summary = "Get all crossings")
-    public GetAllCrossingsResponse findAllCrossings(
+    public PageResponse<CrossingResponse> findAllCrossings(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = locationService.findAllCrossings(PageRequest.of(page, size));
         var crossingResponses = locationResponseMapper.mapCrossingsToResponse(pageResult.getContent());
-        return new GetAllCrossingsResponse(crossingResponses, pageResult.getTotalElements(),
+        return new PageResponse<>(crossingResponses, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 

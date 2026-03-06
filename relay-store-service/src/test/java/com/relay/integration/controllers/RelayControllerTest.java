@@ -12,7 +12,6 @@ import com.relay.db.entity.storage.Stand;
 import com.relay.db.entity.storage.Storage;
 import com.relay.web.dto.CreateRelayRequest;
 import com.relay.web.dto.CreateRelayResponse;
-import com.relay.web.dto.GetAllRelaysResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -98,7 +97,7 @@ class RelayControllerTest {
                 defaultStorage.getId()
         );
         MockHttpServletResponse response = this.mockMvc
-                .perform(post("/relays").content(objectMapper.writeValueAsString(createRelayRequest))
+                .perform(post("/api/v1/relays").content(objectMapper.writeValueAsString(createRelayRequest))
                         .contentType(MediaType.APPLICATION_JSON).with(csrf()))
                 .andExpect(status().isCreated())
                 .andDo(print())
@@ -124,23 +123,17 @@ class RelayControllerTest {
         );
 
       ResultActions response = this.mockMvc.perform(
-              get("/relays")
+              get("/api/v1/relays")
                   .with(csrf())
           )
           .andExpect(status().isOk())
           .andDo(print())
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-              .andExpect(jsonPath("$.relays.length()").value(1))
-              .andExpect(jsonPath("$.relays[0].serialNumber").value("test_serial_number"))
-              .andExpect(jsonPath("$.relays[0].createdAt").value("-999999999-01-01T00:00:00+18:00"));
+              .andExpect(jsonPath("$.items.length()").value(1))
+              .andExpect(jsonPath("$.items[0].serialNumber").value("test_serial_number"))
+              .andExpect(jsonPath("$.items[0].createdAt").value("-999999999-01-01T00:00:00+18:00"));
       String contentAsString = response.andReturn().getResponse().getContentAsString();
         Assertions.assertNotNull(contentAsString);
-
-        GetAllRelaysResponse receivedResponse =
-                objectMapper.readValue(contentAsString, GetAllRelaysResponse.class);
-        Assertions.assertNotNull(receivedResponse);
-        Assertions.assertNotNull(receivedResponse.relays());
-        Assertions.assertEquals(1, receivedResponse.relays().size());
     }
 
     @Test
@@ -152,11 +145,15 @@ class RelayControllerTest {
                 defaultStorage.getId()
         );
 
-        this.mockMvc.perform(post("/relays")
+        this.mockMvc.perform(post("/api/v1/relays")
                         .content(objectMapper.writeValueAsString(createRelayRequest))
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf()))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/problem+json"))
+                .andExpect(jsonPath("$.title").value("Validation Error"))
+                .andExpect(jsonPath("$.detail").value("Validation failed for one or more fields"))
+                .andExpect(jsonPath("$.errors").exists());
     }
 
 }

@@ -3,7 +3,7 @@ package com.relay.web.controllers;
 import com.relay.core.service.RelayService;
 import com.relay.web.dto.CreateRelayRequest;
 import com.relay.web.dto.CreateRelayResponse;
-import com.relay.web.dto.GetAllRelaysResponse;
+import com.relay.web.dto.PageResponse;
 import com.relay.web.dto.UpdateRelayRequest;
 import com.relay.web.mappers.RelayRequestMapper;
 import com.relay.web.mappers.RelayResponseMapper;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Tag(name = "Relays controller")
 public class RelayController {
@@ -30,12 +31,12 @@ public class RelayController {
 
     @GetMapping("/relays")
     @Operation(summary = "Get all relays")
-    public GetAllRelaysResponse findAllRelays(
+    public PageResponse<Relay> findAllRelays(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = relayService.findAll(PageRequest.of(page, size));
         var relays = relayResponseMapper.mapToResponseList(pageResult.getContent());
-        return new GetAllRelaysResponse(relays, pageResult.getTotalElements(),
+        return new PageResponse<>(relays, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
@@ -59,25 +60,25 @@ public class RelayController {
 
     @GetMapping("/relays/by-creation-date")
     @Operation(summary = "Find relays by creation date")
-    public GetAllRelaysResponse findByCreationDate(
+    public PageResponse<Relay> findByCreationDate(
             @RequestParam LocalDate date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = relayService.findByCreationDate(date, PageRequest.of(page, size));
         var relays = relayResponseMapper.mapToResponseList(pageResult.getContent());
-        return new GetAllRelaysResponse(relays, pageResult.getTotalElements(),
+        return new PageResponse<>(relays, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
     @GetMapping("/relays/by-last-check-date")
     @Operation(summary = "Find relays by last check date")
-    public GetAllRelaysResponse findByLastCheckDate(
+    public PageResponse<Relay> findByLastCheckDate(
             @RequestParam LocalDate date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = relayService.findByLastCheckDate(date, PageRequest.of(page, size));
         var relays = relayResponseMapper.mapToResponseList(pageResult.getContent());
-        return new GetAllRelaysResponse(relays, pageResult.getTotalElements(),
+        return new PageResponse<>(relays, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 

@@ -68,13 +68,13 @@ class RelayControllerTest {
               .willReturn(new PageImpl<>(List.of(coreRelay), PageRequest.of(0, 10), 1));
       given(relayResponseMapper.mapToResponseList(any())).willReturn(List.of(webRelay));
 
-    mvc.perform(get("/relays"))
+    mvc.perform(get("/api/v1/relays"))
             .andDo(print())
             .andExpect(content().contentType(APPLICATION_JSON_VALUE))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.relays[0].serialNumber", is("test_serial_number")))
-            .andExpect(jsonPath("$.relays[0].createdAt", is("2023-01-01T00:00:00+03:00")))
-            .andExpect(jsonPath("$.relays[0].verificationDate", is("2023-07-01T00:00:00+03:00")))
+            .andExpect(jsonPath("$.items[0].serialNumber", is("test_serial_number")))
+            .andExpect(jsonPath("$.items[0].createdAt", is("2023-01-01T00:00:00+03:00")))
+            .andExpect(jsonPath("$.items[0].verificationDate", is("2023-07-01T00:00:00+03:00")))
             .andExpect(jsonPath("$.totalElements", is(1)))
             .andExpect(jsonPath("$.totalPages", is(1)))
             .andExpect(jsonPath("$.size", is(10)))
@@ -87,11 +87,11 @@ class RelayControllerTest {
               .willReturn(new PageImpl<>(List.of(), PageRequest.of(0, 10), 0));
       given(relayResponseMapper.mapToResponseList(any())).willReturn(List.of());
 
-    mvc.perform(get("/relays"))
+    mvc.perform(get("/api/v1/relays"))
             .andDo(print())
             .andExpect(content().contentType(APPLICATION_JSON_VALUE))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.relays", Matchers.empty()))
+            .andExpect(jsonPath("$.items", Matchers.empty()))
             .andExpect(jsonPath("$.totalElements", is(0)));
   }
 }

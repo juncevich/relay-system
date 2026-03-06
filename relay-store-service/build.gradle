@@ -1,6 +1,7 @@
 plugins {
     id "com.google.cloud.tools.jib" version "$jibVersion"
     id "org.springframework.boot" version "$springBootVersion"
+    id "com.github.ben-manes.versions" version "0.53.0"
     id "java"
     id "org.sonarqube" version "$sonarQubeVersion"
     id "jacoco"
@@ -111,5 +112,17 @@ jib {
     }
     container {
         ports = ["9090", "8080"]
+    }
+}
+
+def isNonStable = { String version ->
+    def stableKeyword = ["RELEASE", "FINAL", "GA"].any { version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+
+tasks.named("dependencyUpdates").configure {
+    rejectVersionIf {
+        isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)
     }
 }

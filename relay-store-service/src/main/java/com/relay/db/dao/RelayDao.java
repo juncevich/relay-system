@@ -5,35 +5,37 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 public interface RelayDao extends JpaRepository<@NonNull Relay, @NonNull Long> {
 
-    /**
-     * Find relay by creation date.
-     * Uses JPQL CAST function for database-agnostic date comparison.
-     *
-     * @param creationDate {@link Relay#getCreatedAt()}
-     * @param pageable     {@link Pageable}
-     * @return relay page
-     */
-    @Query("SELECT r FROM Relay r WHERE CAST(r.createdAt AS DATE) = :creationDate")
-    Page<@NonNull Relay> findByCreationDate(@Param("creationDate") LocalDate creationDate, Pageable pageable);
+    default Page<@NonNull Relay> findByCreationDate(@NonNull LocalDate creationDate, Pageable pageable) {
+        var rangeStart = creationDate.atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
+        var rangeEnd = creationDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
+        return findByCreatedAtGreaterThanEqualAndCreatedAtLessThan(rangeStart, rangeEnd, pageable);
+    }
 
-    /**
-     * Find list of relays by last check date.
-     * Uses JPQL CAST function for database-agnostic date comparison.
-     *
-     * @param lastCheckDate {@link Relay#getLastCheckDate()}
-     * @param pageable      {@link Pageable}
-     * @return relay page
-     */
-    @Query("SELECT r FROM Relay r WHERE CAST(r.lastCheckDate AS DATE) = :lastCheckDate")
-    Page<@NonNull Relay> findByLastCheckDate(@Param("lastCheckDate") LocalDate lastCheckDate, Pageable pageable);
+    Page<@NonNull Relay> findByCreatedAtGreaterThanEqualAndCreatedAtLessThan(
+            @NonNull OffsetDateTime rangeStart,
+            @NonNull OffsetDateTime rangeEnd,
+            Pageable pageable
+    );
+
+    default Page<@NonNull Relay> findByLastCheckDate(@NonNull LocalDate lastCheckDate, Pageable pageable) {
+        var rangeStart = lastCheckDate.atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
+        var rangeEnd = lastCheckDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toOffsetDateTime();
+        return findByLastCheckDateGreaterThanEqualAndLastCheckDateLessThan(rangeStart, rangeEnd, pageable);
+    }
+
+    Page<@NonNull Relay> findByLastCheckDateGreaterThanEqualAndLastCheckDateLessThan(
+            @NonNull OffsetDateTime rangeStart,
+            @NonNull OffsetDateTime rangeEnd,
+            Pageable pageable
+    );
 
     /**
      * Find relay by serial number

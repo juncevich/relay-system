@@ -29,6 +29,8 @@ spring:
 logging:
   file:
     name: logs/relay-service.log
+  pattern:
+    level: "%5p [corr:%X{correlationId:-}]"
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
     org.hibernate.SQL: DEBUG

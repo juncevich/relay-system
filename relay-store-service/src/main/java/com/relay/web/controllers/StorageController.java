@@ -4,6 +4,7 @@ import com.relay.core.model.storage.RelayCabinet;
 import com.relay.core.model.storage.Stand;
 import com.relay.core.model.storage.Warehouse;
 import com.relay.core.service.StorageService;
+import com.relay.web.dto.PageResponse;
 import com.relay.web.dto.storage.*;
 import com.relay.web.mappers.StorageResponseMapper;
 import com.relay.web.model.storage.RelayCabinetResponse;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Tag(name = "Storage controller")
 public class StorageController {
@@ -29,12 +31,12 @@ public class StorageController {
     // Warehouse endpoints
     @GetMapping("/warehouses")
     @Operation(summary = "Get all warehouses")
-    public GetAllWarehousesResponse findAllWarehouses(
+    public PageResponse<WarehouseResponse> findAllWarehouses(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = storageService.findAllWarehouses(PageRequest.of(page, size));
         var warehouseResponses = storageResponseMapper.mapWarehousesToResponse(pageResult.getContent());
-        return new GetAllWarehousesResponse(warehouseResponses, pageResult.getTotalElements(),
+        return new PageResponse<>(warehouseResponses, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
@@ -80,12 +82,12 @@ public class StorageController {
     // Stand endpoints
     @GetMapping("/stands")
     @Operation(summary = "Get all stands")
-    public GetAllStandsResponse findAllStands(
+    public PageResponse<StandResponse> findAllStands(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = storageService.findAllStands(PageRequest.of(page, size));
         var standResponses = storageResponseMapper.mapStandsToResponse(pageResult.getContent());
-        return new GetAllStandsResponse(standResponses, pageResult.getTotalElements(),
+        return new PageResponse<>(standResponses, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
@@ -131,12 +133,12 @@ public class StorageController {
     // RelayCabinet endpoints
     @GetMapping("/relay-cabinets")
     @Operation(summary = "Get all relay cabinets")
-    public GetAllRelayCabinetsResponse findAllRelayCabinets(
+    public PageResponse<RelayCabinetResponse> findAllRelayCabinets(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = storageService.findAllRelayCabinets(PageRequest.of(page, size));
         var relayCabinetResponses = storageResponseMapper.mapRelayCabinetsToResponse(pageResult.getContent());
-        return new GetAllRelayCabinetsResponse(relayCabinetResponses, pageResult.getTotalElements(),
+        return new PageResponse<>(relayCabinetResponses, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Optional;
 
 @Repository
@@ -20,6 +21,7 @@ public class RelayRepository {
     private final RelayDao relayDao;
     private final RelayMapper relayMapper;
     private final StorageRepository storageRepository;
+    private final ZoneId applicationZoneId;
 
     public @NonNull Page<Relay> findAll(@NonNull Pageable pageable) {
         return relayDao.findAll(pageable)
@@ -55,13 +57,17 @@ public class RelayRepository {
 
     public @NonNull Page<Relay> findByCreationDate(@NonNull LocalDate date,
                                                    @NonNull Pageable pageable) {
-        return relayDao.findByCreationDate(date, pageable)
+        var rangeStart = date.atStartOfDay(applicationZoneId).toOffsetDateTime();
+        var rangeEnd = date.plusDays(1).atStartOfDay(applicationZoneId).toOffsetDateTime();
+        return relayDao.findByCreatedAtGreaterThanEqualAndCreatedAtLessThan(rangeStart, rangeEnd, pageable)
                 .map(relayMapper::mapEntityToModel);
     }
 
     public @NonNull Page<Relay> findByLastCheckDate(@NonNull LocalDate date,
                                                     @NonNull Pageable pageable) {
-        return relayDao.findByLastCheckDate(date, pageable)
+        var rangeStart = date.atStartOfDay(applicationZoneId).toOffsetDateTime();
+        var rangeEnd = date.plusDays(1).atStartOfDay(applicationZoneId).toOffsetDateTime();
+        return relayDao.findByLastCheckDateGreaterThanEqualAndLastCheckDateLessThan(rangeStart, rangeEnd, pageable)
                 .map(relayMapper::mapEntityToModel);
     }
 

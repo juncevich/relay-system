@@ -2,8 +2,8 @@ package com.relay.web.controllers;
 
 import com.relay.core.model.storage.Shelf;
 import com.relay.core.service.ShelfService;
+import com.relay.web.dto.PageResponse;
 import com.relay.web.dto.storage.CreateShelfRequest;
-import com.relay.web.dto.storage.GetAllShelvesResponse;
 import com.relay.web.mappers.StorageResponseMapper;
 import com.relay.web.model.storage.ShelfResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Tag(name = "Shelf controller")
 public class ShelfController {
@@ -24,12 +25,12 @@ public class ShelfController {
 
     @GetMapping("/shelves")
     @Operation(summary = "Get all shelves")
-    public GetAllShelvesResponse findAllShelves(
+    public PageResponse<ShelfResponse> findAllShelves(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageResult = shelfService.findAll(PageRequest.of(page, size));
         var shelfResponses = storageResponseMapper.mapShelvesToResponse(pageResult.getContent());
-        return new GetAllShelvesResponse(shelfResponses, pageResult.getTotalElements(),
+        return new PageResponse<>(shelfResponses, pageResult.getTotalElements(),
                 pageResult.getTotalPages(), pageResult.getSize(), pageResult.getNumber());
     }
 
