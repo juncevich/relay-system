@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: dev
   threads:
     virtual:
       enabled: true
@@ -16,10 +14,6 @@ spring:
         paths:
           - /etc/secretspot
         enableApi: false
-  jackson:
-    serialization:
-      indent_output: true
-
 app:
   timezone: Europe/Moscow
 

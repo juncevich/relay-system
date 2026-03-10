@@ -143,8 +143,8 @@ IDEs must have annotation processing enabled.
 
 ### Internal library dependency
 
-The project depends on `ru.relay.infrastructure:rest:0.0.1` from Maven Local. This must be installed locally before
-building.
+The project depends on `ru.relay.infrastructure:rest:0.0.1` via Gradle composite build from `../infrastructure`.
+The sibling `infrastructure` workspace must be present when building locally.
 
 ## Testing
 
@@ -160,4 +160,4 @@ building.
 
 GitLab CI pipeline (`.gitlab-ci.yml`): build -> test -> analyze (SonarCloud). Containerization via Google JIB plugin or
 multi-stage Dockerfile (Eclipse Temurin 25, Alpine). Kubernetes deployment config in `k8s/deployment.yaml`.
-Swagger UI available at `/swagger-ui.html` (SpringDoc OpenAPI 3.0.1).
+Swagger UI available at `/swagger-ui.html` (SpringDoc OpenAPI 3.0.2).

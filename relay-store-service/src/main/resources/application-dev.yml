@@ -26,6 +26,9 @@ spring:
   threads:
     virtual:
       enabled: true
+  jackson:
+    serialization:
+      indent_output: true
 logging:
   file:
     name: logs/relay-service.log
