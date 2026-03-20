@@ -13,11 +13,11 @@ val loggingVersion = "7.0.14"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion = JavaLanguageVersion.of(26)
     }
 }
 kotlin {
-    jvmToolchain(25)
+    jvmToolchain(26)
 }
 
 tasks {
@@ -52,7 +52,7 @@ kotlin {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    options.release.set(24)
+    options.release.set(26)
 }
 
 tasks.withType<Test> {

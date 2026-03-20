@@ -13,7 +13,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(24)
+        languageVersion = JavaLanguageVersion.of(26)
     }
 }
 
@@ -76,7 +76,7 @@ dependencyManagement {
 
 jib {
     from {
-        image = "eclipse-temurin:25-alpine"
+        image = "eclipse-temurin:26-alpine"
     }
     to {
         image = "alexunc/relay/comments"

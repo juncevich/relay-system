@@ -31,7 +31,7 @@ configurations {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion = JavaLanguageVersion.of(26)
     }
 }
 
@@ -103,7 +103,7 @@ check.dependsOn jacocoTestReport
 
 jib {
     from {
-        image = "eclipse-temurin:25-alpine"
+        image = "eclipse-temurin:26-alpine"
     }
     to {
         image = "alexunc/relay-store-service"

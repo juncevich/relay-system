@@ -14,7 +14,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(26)
     }
 }
 
@@ -78,7 +78,7 @@ tasks.withType<Test> {
 //}
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(26)
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
