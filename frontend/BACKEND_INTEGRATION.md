@@ -176,7 +176,7 @@ interface UpdateRelayRequest {
 }
 
 interface GetAllRelaysResponse {
-    content: Relay[];
+    items: Relay[];
     totalElements: number;
     totalPages: number;
     size: number;
@@ -233,7 +233,7 @@ interface Shelf {
 
 // Pagination Response Types
 interface GetAllWarehousesResponse {
-    content: Warehouse[];
+    items: Warehouse[];
     totalElements: number;
     totalPages: number;
     size: number;
@@ -241,7 +241,7 @@ interface GetAllWarehousesResponse {
 }
 
 interface GetAllStandsResponse {
-    content: Stand[];
+    items: Stand[];
     totalElements: number;
     totalPages: number;
     size: number;
@@ -249,7 +249,7 @@ interface GetAllStandsResponse {
 }
 
 interface GetAllRelayCabinetsResponse {
-    content: RelayCabinet[];
+    items: RelayCabinet[];
     totalElements: number;
     totalPages: number;
     size: number;
@@ -286,11 +286,11 @@ useEffect(() => {
                 LocationService.getAllStations({ page: 0, size: 10 })
             ]);
 
-            const relays = relaysResponse.data.content.map(backendRelay =>
+            const relays = relaysResponse.data.items.map(backendRelay =>
                 Relay.fromBackendRelay(backendRelay)
             );
 
-            setState({ relays, stations: stationsResponse.data.content, loading: false });
+            setState({relays, stations: stationsResponse.data.items, loading: false});
         } catch (error) {
             setState({ error: error.message, loading: false });
         }

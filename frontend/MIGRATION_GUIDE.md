@@ -1,12 +1,14 @@
 # Dependency Update Migration Guide
 
 > **Note:** This migration has been **completed** as of February 2026. This document is kept for historical reference.
+> Version numbers listed below reflect the state at the time of migration and **may not match the current project**.
+> Check `package.json` for authoritative version information.
 >
-> **Current Stack:**
+> **Stack at time of migration:**
 > - React 19.2.4
 > - Ant Design 6.3.0
-> - Vite 7.3.1
-> - Vitest 4.0.18
+> - Vite 8.0.1
+> - Vitest 4.1.0
 > - TypeScript 5.9.3
 
 ---
@@ -16,21 +18,21 @@ versions as of February 2026.
 
 ## Summary of Updates
 
-| Package | Previous Version | New Version | Breaking Changes |
-|---------|-----------------|-------------|------------------|
-| react | 18.3.1 | 19.2.4 | ✅ Major |
-| react-dom | 18.3.1 | 19.2.4 | ✅ Major |
-| antd | 5.21.4 | 6.2.2 | ✅ Major |
-| axios | 1.7.7 | 1.13.4 | ⚠️ Minor |
-| @types/react | 18.3.11 | 19.2.10 | ✅ Major |
-| @types/react-dom | 18.3.1 | 19.2.3 | ✅ Major |
-| @types/jest | 29.5.13 | 30.0.0 | ✅ Major |
-| @types/node | 22.7.5 | 25.1.0 | ✅ Major |
-| @testing-library/jest-dom | 6.5.0 | 6.9.1 | ⚠️ Patch |
-| @testing-library/react | 16.0.1 | 16.3.2 | ⚠️ Patch |
-| jest | 29.7.0 | 30.2.0 | ✅ Major |
-| webpack | 5.95.0 | 5.104.1 | ⚠️ Patch |
-| core-js | 3.38.1 | 3.48.0 | ⚠️ Minor |
+| Package                   | Previous Version | New Version | Breaking Changes |
+|---------------------------|------------------|-------------|------------------|
+| react                     | 18.3.1           | 19.2.4      | ✅ Major          |
+| react-dom                 | 18.3.1           | 19.2.4      | ✅ Major          |
+| antd                      | 5.21.4           | 6.3.3       | ✅ Major          |
+| axios                     | 1.7.7            | 1.13.4      | ⚠️ Minor         |
+| @types/react              | 18.3.11          | 19.2.10     | ✅ Major          |
+| @types/react-dom          | 18.3.1           | 19.2.3      | ✅ Major          |
+| @types/jest               | 29.5.13          | 30.0.0      | ✅ Major          |
+| @types/node               | 22.7.5           | 25.1.0      | ✅ Major          |
+| @testing-library/jest-dom | 6.5.0            | 6.9.1       | ⚠️ Patch         |
+| @testing-library/react    | 16.0.1           | 16.3.2      | ⚠️ Patch         |
+| jest                      | 29.7.0           | 30.2.0      | ✅ Major          |
+| webpack                   | 5.95.0           | 5.104.1     | ⚠️ Patch         |
+| core-js                   | 3.38.1           | 3.48.0      | ⚠️ Minor         |
 
 ## Installation Steps
 

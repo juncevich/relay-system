@@ -2,13 +2,15 @@ package com.relay.db.entity.location;
 
 import com.relay.infrastructure.db.annotation.EntityId;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public abstract class Location {
 

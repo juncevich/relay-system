@@ -25,7 +25,7 @@ Tests use JUnit 5 with `@Tag("unit")` for unit tests and `@Tag("integration")` f
 
 ## Architecture
 
-This is a Spring Boot 4.0.2 microservice (Java 25) for managing relay hardware inventory. It uses virtual threads (
+This is a Spring Boot 4.0.4 microservice (Java 25) for managing relay hardware inventory. It uses virtual threads (
 `spring.threads.virtual.enabled: true`).
 
 ### Layer structure
@@ -140,6 +140,13 @@ Both Lombok and MapStruct require annotation processors. The build configures:
 - `annotationProcessor "org.mapstruct:mapstruct-processor:$mapStructVersion"`
 
 IDEs must have annotation processing enabled.
+
+### Build configuration
+
+The project uses **Gradle composite builds**. `settings.gradle.kts` includes a composite build configuration that
+substitutes the `ru.relay.infrastructure:rest` dependency with the local `../infrastructure` project. This means the
+sibling `infrastructure` workspace must be present when building locally — Gradle resolves the dependency via project
+substitution rather than from a remote repository.
 
 ### Internal library dependency
 

@@ -12,7 +12,7 @@ location-based navigation.
 - React: 19.2.4
 - Ant Design: 6.3.0
 - TypeScript: Strict mode with React 19 JSX transform
-- Vite: 7.x
+- Vite: 8.x
 - Vitest: 4.x (test runner)
 - Axios: 1.13.5
 - react-router: 7.x (routing)
@@ -213,7 +213,7 @@ The application uses Ant Design v6.3.0 with the following key components:
 - Uses `react-router` v7 (import from `react-router`, not `react-router-dom`)
 - `BrowserRouter` wraps the app in `App.tsx`
 - `AppLayout` uses `<Routes>` and `<Outlet/>` for nested page routing
-- Pages: `/` (HomePage), `/main` (MainPage), `/stations` (StationsPage)
+- Pages: `/` (HomePage), `/relays` (MainPage), `/stations` (StationsPage)
 
 ## Testing
 
@@ -239,6 +239,15 @@ The frontend is integrated with the relay-store-service backend at `http://local
 // Custom hook in src/hooks/useRelayData.ts
 const {relays, stations, trackPoints, crossings, storages, loading, error} = useRelayData();
 ```
+
+## React Query
+
+The app uses `@tanstack/react-query` for server state management.
+
+- `QueryClientProvider` wraps the app in `App.tsx`, configured with `staleTime` and `gcTime` settings
+- Use `useQuery` and `useMutation` hooks inside components or custom hooks for data fetching
+- The `QueryClient` instance is created in `App.tsx` and shared application-wide
+- Prefer React Query over manual `useEffect`-based fetching for API data
 
 ## Development Notes
 

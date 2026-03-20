@@ -1,4 +1,3 @@
-import {useCallback} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {LocationService, RelayService, StorageService} from '../services';
 import {StorageInfo} from '../api/StorageService';
@@ -49,14 +48,10 @@ async function fetchRelayData(relayPageSize: number, stationPageSize: number) {
 
 export function useRelayData(options: UseRelayDataOptions = {}): UseRelayDataResult {
     const {relayPageSize = 50, stationPageSize = 10} = options;
-    const {data, isPending, error, refetch: queryRefetch} = useQuery({
+    const {data, isPending, error, refetch} = useQuery({
         queryKey: ['relay-data', relayPageSize, stationPageSize],
         queryFn: () => fetchRelayData(relayPageSize, stationPageSize),
     });
-
-    const refetch = useCallback(() => {
-        void queryRefetch();
-    }, [queryRefetch]);
 
     return {
         relays: data?.relays ?? [],

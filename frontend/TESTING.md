@@ -527,6 +527,13 @@ it('should submit form with correct data', async () => {
 
 ### Testing Accessibility
 
+> **Note:** Automated accessibility testing via `jest-axe` is **not currently set up** in this project.
+> `jest-axe` is not listed in `package.json` and the import below will not work without installing it first.
+> For now, use manual accessibility checks or Playwright's built-in accessibility snapshot support for E2E tests.
+
+<!--
+Example (requires installing jest-axe and @types/jest-axe):
+
 ```typescript
 import { axe, toHaveNoViolations } from 'jest-axe';
 
@@ -538,6 +545,7 @@ it('should have no accessibility violations', async () => {
   expect(results).toHaveNoViolations();
 });
 ```
+-->
 
 ### Testing TypeScript Types
 
