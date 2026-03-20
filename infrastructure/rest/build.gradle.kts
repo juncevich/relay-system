@@ -51,6 +51,10 @@ kotlin {
     }
 }
 
+tasks.withType<JavaCompile>().configureEach {
+    options.release.set(24)
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
