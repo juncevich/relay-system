@@ -100,8 +100,13 @@ tasks.bootJar {
 
 kotlin {
     compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24)
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.release.set(24)
 }
 
 tasks.withType<Test> {
