@@ -13,11 +13,11 @@ val loggingVersion = "7.0.14"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(26)
+        languageVersion = JavaLanguageVersion.of(24)
     }
 }
 kotlin {
-    jvmToolchain(26)
+    jvmToolchain(24)
 }
 
 tasks {
@@ -47,12 +47,13 @@ dependencies {
 
 kotlin {
     compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24)
         freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
     }
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    options.release.set(26)
+    options.release.set(24)
 }
 
 tasks.withType<Test> {
